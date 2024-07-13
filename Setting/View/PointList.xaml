@@ -7,11 +7,7 @@
              mc:Ignorable="d" 
            Width="1704" Height="104"
              >
-    <UserControl.Resources>
-        
-    </UserControl.Resources>
-    <Grid>
-       
+
         <ListView   ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Hidden" DataContext="{Binding Path=PointList,Source={StaticResource Locator}}" ItemsSource="{Binding ShowPonitList}" BorderBrush="White" >
             <ListView.ItemsPanel>
                 <ItemsPanelTemplate>
@@ -39,7 +35,7 @@
 
                 </DataTemplate>
             </ListView.ItemTemplate>
-        </ListView>            
-    </Grid>
+        </ListView>
+
 </UserControl>
     

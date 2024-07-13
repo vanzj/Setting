@@ -14,6 +14,30 @@
         </Grid.RowDefinitions>
 
         <myview:PointList ></myview:PointList>
-        <Button Width="100" Height="30" Grid.Row="1">导入</Button>
+
+        <StackPanel Grid.Row="1" DataContext="{Binding Path=PointList,Source={StaticResource Locator}}">
+            <Button Width="100" Height="30"   Command="{Binding OpenFileCommand}">导入</Button>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Text="{Binding CurrentFrame}"></TextBlock>
+                <TextBlock >/</TextBlock>
+                <TextBlock Text="{Binding FramesCount}"></TextBlock>
+                <Button Width="100" Height="30"   Command="{Binding LeftFrameCommand}">上一帧
+                </Button>
+                <Button Width="100" Height="30"   Command="{Binding RightframeCommand}">下一帧
+                </Button>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+
+                <Button Width="100" Height="30"   Command="{Binding LeftCommand}">左 </Button>
+                <Button Width="100" Height="30"   Command="{Binding RightCommand}">右</Button>
+                <Button Width="100" Height="30"   Command="{Binding TopCommand}">上</Button>
+                <Button Width="100" Height="30"   Command="{Binding BottomCommand}">下</Button>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Text="{Binding changeColor}"></TextBlock>
+                <Button Width="100" Height="30"   Command="{Binding OpenFileCommand}">下</Button>
+            </StackPanel>
+        </StackPanel>
+
     </Grid>
 </Window>

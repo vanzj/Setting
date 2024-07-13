@@ -1,6 +1,5 @@
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
-using System.Collections.ObjectModel;
 
 namespace Setting.ViewModel
 {
@@ -18,14 +17,15 @@ namespace Setting.ViewModel
     /// </summary>
     public class MainViewModel : ViewModelBase
     {
-        private ObservableCollection<string> name;
+        private string name;
 
-        public ObservableCollection<string> Name
+        public string Name
         {
             get { return name; }
             set
             {
-                Set(ref name, value);
+                name = value;
+                RaisePropertyChanged();
             }
         }
         /// <summary>
@@ -33,13 +33,7 @@ namespace Setting.ViewModel
         /// </summary>
         public MainViewModel()
         {
-            Name = new ObservableCollection<string>()
-            {
-                "zhangsan",
-                "lisi",
-                "wangwu",
-                "zhaoliu"
-            };
+            Name = "beijing";
         }
 
         public RelayCommand startCommand
@@ -48,7 +42,7 @@ namespace Setting.ViewModel
             {
                 return new RelayCommand(() =>
                 {
-                    Name.Add("liba");
+                    Name = "shenzhen";
                 });
             }
         }
