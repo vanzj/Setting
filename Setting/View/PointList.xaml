@@ -1,0 +1,45 @@
+﻿<UserControl x:Class="Setting.View.PointList"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Setting.View"
+             mc:Ignorable="d" 
+           Width="1704" Height="104"
+             >
+    <UserControl.Resources>
+        
+    </UserControl.Resources>
+    <Grid>
+       
+        <ListView   ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Hidden" DataContext="{Binding Path=PointList,Source={StaticResource Locator}}" ItemsSource="{Binding ShowPonitList}" BorderBrush="White" >
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel ></WrapPanel>
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
+            <ListBox.ItemContainerStyle>
+                <Style  TargetType="{x:Type ListBoxItem}">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                <ContentPresenter
+                                                  Content="{TemplateBinding Content}"
+                                                   ContentStringFormat="{TemplateBinding ContentStringFormat}"
+                                                   ContentTemplate="{TemplateBinding ContentTemplate}" />
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ListBox.ItemContainerStyle>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+               
+                        <Rectangle Fill="{Binding Fill}" Width="20" Height="20"  RadiusX="4" RadiusY="4" HorizontalAlignment="Center" VerticalAlignment="Center" Stroke="White" StrokeThickness="0.5" ></Rectangle>
+
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>            
+    </Grid>
+</UserControl>
+    

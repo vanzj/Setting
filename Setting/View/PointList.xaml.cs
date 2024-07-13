@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace Setting.View
 {
     /// <summary>
-    /// Point.xaml 的交互逻辑
+    /// PointList.xaml 的交互逻辑
     /// </summary>
-    public partial class Point : UserControl
+    public partial class PointList : UserControl
     {
-        public Point()
+        public PointList()
         {
             InitializeComponent();
         }

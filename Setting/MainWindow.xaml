@@ -6,14 +6,14 @@
         xmlns:local="clr-namespace:Setting"
         xmlns:myview="clr-namespace:Setting.View"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800"
-        DataContext="{Binding Source={StaticResource Locator},Path=Main}">
+        Title="MainWindow" Height="1000" Width="1920">
     <Grid>
-        <WrapPanel>
-            <TextBox Text="{Binding Name}" Width="100" Height="30" ></TextBox>
-            <Button Content="开局" Command="{Binding startCommand}" Width="100" Height="30"  ></Button>
-            <myview:Point></myview:Point>
-        </WrapPanel>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="112*"/>
+            <RowDefinition Height="211*"/>
+        </Grid.RowDefinitions>
+
+        <myview:PointList ></myview:PointList>
+        <Button Width="100" Height="30" Grid.Row="1">导入</Button>
     </Grid>
 </Window>

@@ -28,9 +28,4 @@ namespace Setting
 
     }
 
-    public class Colorstring
-    {
-        public string Id { get; set; }
-        public string Fill { get; set; }
-    }
 }

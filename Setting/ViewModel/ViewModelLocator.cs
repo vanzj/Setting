@@ -41,10 +41,17 @@ namespace Setting.ViewModel
             ////    // Create run time view services and models
             ////    SimpleIoc.Default.Register<IDataService, DataService>();
             ////}
-            SimpleIoc.Default.Register<PointViewModel>();//TODO  
+            SimpleIoc.Default.Register<PointListViewModel>();//TODO  
             SimpleIoc.Default.Register<MainViewModel>();
         }
-        public PointViewModel point => ServiceLocator.Current.GetInstance<PointViewModel>();
+        public PointListViewModel PointList
+        {
+            get
+            {
+                var a = ServiceLocator.Current.GetInstance<PointListViewModel>();
+                return a;
+            }
+        }
 
         public MainViewModel Main
         {
