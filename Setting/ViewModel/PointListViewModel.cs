@@ -1,7 +1,10 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Messaging;
 using Microsoft.Win32;
+using Newtonsoft.Json;
 using Setting.Helper;
+using Setting.Model;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -9,18 +12,34 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Diagnostics;
 
 
 namespace Setting.ViewModel
 {
     public class PointListViewModel : ViewModelBase
     {
+
+        /// <summary>
+        /// 所有帧数
+        /// </summary>
+        private Visibility changeColorModel;
+        /// <summary>
+        /// 
+        /// </summary>
+        public System.Windows.Visibility ChangeColorModel
+        {
+            get { return changeColorModel; }
+            set { changeColorModel = value; RaisePropertyChanged(); }
+        }
+
         public int xIndex = 85;
         public int yIndex = 5;
-        public Dictionary<int, List<PonitItem>> AllPonitList { get; set; }
+        public Dictionary<int, List<PointItem>> AllPonitList { get; set; }
 
         /// <summary>
         /// 所有帧数
@@ -42,13 +61,27 @@ namespace Setting.ViewModel
             get { return currFrame; }
             set { currFrame = value; RaisePropertyChanged(); }
         }
+        private int currCpu;
 
+        public int CurrCpu
+        {
+            get { return currCpu; }
+            set { currCpu = value; RaisePropertyChanged(); }
+        }
 
-        private ObservableCollection<PonitItem> showPonitList;
+        private SolidColorBrush changeColor;
+
+        public SolidColorBrush ChangeColor
+        {
+            get { return changeColor; }
+            set { changeColor = value; RaisePropertyChanged(); }
+        }
+
+        private ObservableCollection<PointItem> showPonitList;
         /// <summary>
         /// 显示点
         /// </summary>
-        public ObservableCollection<PonitItem> ShowPonitList { get => showPonitList; set => Set(ref showPonitList, value); }
+        public ObservableCollection<PointItem> ShowPonitList { get => showPonitList; set => Set(ref showPonitList, value); }
 
        
 
@@ -126,7 +159,7 @@ namespace Setting.ViewModel
             {
                 return new RelayCommand(() =>
                 {
-                    YMoveCommand(AllPonitList[CurrentFrame], 1);
+                    YMoveCommand(AllPonitList[CurrentFrame], -1);
                     BuildShow(CurrentFrame);
                 });
             }
@@ -143,8 +176,142 @@ namespace Setting.ViewModel
             }
         }
 
+        public RelayCommand ChangeColorModelCommand
+        {
+            get
+            {
+                return new RelayCommand(() =>
+                {
+                    if (ChangeColorModel==Visibility.Hidden)
+                    {
+                        ChangeColorModel = Visibility.Visible;
+                    }
+                    else
+                    {
+                        ChangeColorModel = Visibility.Hidden;
+                    }
+                    
+                });
+            }
+        }
 
 
+        public RelayCommand OutputComand
+        {
+            get
+            {
+                return new RelayCommand(() =>
+                {
+                    var json = JsonConvert.SerializeObject(ShowPonitList.Where(c => c.X <= 2).Select(c => new PointInit(c.Fill.Color) { X = c.X, Y = c.Y}));
+
+                });
+            }
+        }
+
+        public RelayCommand addOneComand
+        {
+            get
+            {
+                return new RelayCommand(() =>
+                {
+                    AllPonitList[CurrentFrame].ForEach(c => c.X +=3);
+                    AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, ABCEnum.one, Const.AbcColor));
+                    XMoveCommand(AllPonitList[CurrentFrame], 1);
+                    AllPonitList[CurrentFrame].ForEach(c => c.X +=3);
+                    AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, ABCEnum.two, Const.AbcColor));
+                    XMoveCommand(AllPonitList[CurrentFrame], 1);
+                    AllPonitList[CurrentFrame].ForEach(c => c.X +=3);
+                    AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, ABCEnum.three, Const.AbcColor));
+                    XMoveCommand(AllPonitList[CurrentFrame], 1);
+                    AllPonitList[CurrentFrame].ForEach(c => c.X +=3);
+                    AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, ABCEnum.four, Const.AbcColor));
+                    XMoveCommand(AllPonitList[CurrentFrame], 1);
+                    AllPonitList[CurrentFrame].ForEach(c => c.X +=3);
+                    AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, ABCEnum.five, Const.AbcColor));
+                    XMoveCommand(AllPonitList[CurrentFrame], 1);
+                    AllPonitList[CurrentFrame].ForEach(c => c.X +=3);
+                    AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, ABCEnum.six, Const.AbcColor));
+                    XMoveCommand(AllPonitList[CurrentFrame], 1);
+                    AllPonitList[CurrentFrame].ForEach(c => c.X +=3);
+                    AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, ABCEnum.seven, Const.AbcColor));
+                    XMoveCommand(AllPonitList[CurrentFrame], 1);
+                    AllPonitList[CurrentFrame].ForEach(c => c.X +=3);
+                    AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, ABCEnum.eight, Const.AbcColor));
+                    XMoveCommand(AllPonitList[CurrentFrame], 1);
+                    AllPonitList[CurrentFrame].ForEach(c => c.X +=3);
+                    AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, ABCEnum.nine, Const.AbcColor));
+                    XMoveCommand(AllPonitList[CurrentFrame], 1);
+                    AllPonitList[CurrentFrame].ForEach(c => c.X +=3);
+                    AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, ABCEnum.zero, Const.AbcColor));
+                    XMoveCommand(AllPonitList[CurrentFrame], 1);
+                    AllPonitList[CurrentFrame].ForEach(c => c.X +=5);
+                    AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, ABCEnum.percent, Const.AbcColor));
+                    XMoveCommand(AllPonitList[CurrentFrame], 1);
+                    AllPonitList[CurrentFrame].ForEach(c => c.X += 5);
+                    AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, ABCEnum.celsius, Const.AbcColor));
+                    XMoveCommand(AllPonitList[CurrentFrame], 1);
+                    AllPonitList[CurrentFrame].ForEach(c => c.X += 5);
+                    AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, ABCEnum.lianjiexian, Const.AbcColor));
+                    BuildShow(CurrentFrame);
+                });
+            }
+        }
+        public RelayCommand CpuInfoComand
+        {
+            get
+            {
+                return new RelayCommand(() =>
+                {
+
+
+                    CPUHelper cPUHelper = new CPUHelper() ;
+                    XMoveCommand(AllPonitList[CurrentFrame], 1);
+                    AllPonitList[CurrentFrame].ForEach(c => c.X += 5);
+                    AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, ABCEnum.celsius, Const.AbcColor));
+                    var cpucelsius = (int)cPUHelper.getCPU();
+      
+                    do
+                    {
+                        int remainder = cpucelsius % 10;
+                        XMoveCommand(AllPonitList[CurrentFrame], 1);
+                        AllPonitList[CurrentFrame].ForEach(c => c.X += 3);
+                        AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0,(ABCEnum)remainder, Const.AbcColor));
+                        cpucelsius = cpucelsius / 10;
+                    } while (cpucelsius >= 1);
+
+                    XMoveCommand(AllPonitList[CurrentFrame], 1);
+                    AllPonitList[CurrentFrame].ForEach(c => c.X += 5);
+                    AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, ABCEnum.lianjiexian, Const.AbcColor));
+                    XMoveCommand(AllPonitList[CurrentFrame], 1);
+                    AllPonitList[CurrentFrame].ForEach(c => c.X += 5);
+                    AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, ABCEnum.percent, Const.AbcColor));
+                    var cpu = (int)cPUHelper.GetCPUUsage();
+                
+                    do
+                    {
+                        int remainder = cpu % 10;
+                        XMoveCommand(AllPonitList[CurrentFrame], 1);
+                        AllPonitList[CurrentFrame].ForEach(c => c.X += 3);
+                        AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, (ABCEnum)remainder, Const.AbcColor));
+                        cpu = cpu / 10;
+                    } while (cpu >= 1);
+                    BuildShow(CurrentFrame);
+                });
+            }
+        }
+
+        public RelayCommand CleanComand
+        {
+            get
+            {
+                return new RelayCommand(() =>
+                {
+                    AllPonitList[currFrame].ForEach(c => c.Fill = new SolidColorBrush(Const.BackGroupColor));
+           
+                    BuildShow(CurrentFrame);
+                });
+            }
+        }
         private void ExecuteOpenFileCommand()
         {
 
@@ -167,7 +334,7 @@ namespace Setting.ViewModel
                 var decoder = new GifBitmapDecoder(stream, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.Default);
                 CurrentFrame = 0;
                 FramesCount = decoder.Frames.Count;
-                AllPonitList = new Dictionary<int, List<PonitItem>>();
+                AllPonitList = new Dictionary<int, List<PointItem>>();
                 for (int frame = 0; frame < FramesCount; frame++)
                 {
 
@@ -180,14 +347,14 @@ namespace Setting.ViewModel
                     var xindexdouble = (double)yIndex;
                     var CurrentImgxIndex = (int)(pw / (ph / xindexdouble));
                     var OneStep = phdouble / yIndex;
-                   var OnFrameAllPonitList = new List<PonitItem>();
+                   var OnFrameAllPonitList = new List<PointItem>();
 
                     for (int y = 0; y < yIndex; y++)
                     {
                         for (int x = 0; x < CurrentImgxIndex; x++)
                         {
 
-                            OnFrameAllPonitList.Add(new PonitItem(x, y, BitmapHelper.GetPixelColor(t, x, y, OneStep)));
+                            OnFrameAllPonitList.Add(new PointItem(x, y, BitmapHelper.GetPixelColor(t, x, y, OneStep)));
                         }
                     }
                     var MaxX = OnFrameAllPonitList.Max(c => c.X);
@@ -203,7 +370,7 @@ namespace Setting.ViewModel
         }
 
       
-        private void XMoveCommand(List<PonitItem> OnFrameAllPonitList, int xMove)
+        private void XMoveCommand(List<PointItem> OnFrameAllPonitList, int xMove)
         {
 
             OnFrameAllPonitList.ForEach(c => c.X = c.X + xMove);
@@ -216,7 +383,7 @@ namespace Setting.ViewModel
                 {
                     for (int y = 0; y < yIndex; y++)
                     {
-                        OnFrameAllPonitList.Add(new PonitItem(x, y));
+                        OnFrameAllPonitList.Add(new PointItem(x, y));
                     }
                 }
             }
@@ -229,12 +396,12 @@ namespace Setting.ViewModel
                 {
                     for (int y = 0; y < yIndex; y++)
                     {
-                        OnFrameAllPonitList.Add(new PonitItem(x, y));
+                        OnFrameAllPonitList.Add(new PointItem(x, y));
                     }
                 }
             }
         }
-        private void YMoveCommand(List<PonitItem> OnFrameAllPonitList, int yMove)
+        private void YMoveCommand(List<PointItem> OnFrameAllPonitList, int yMove)
         {
 
             OnFrameAllPonitList.ForEach(c => c.Y = c.Y + yMove);
@@ -248,25 +415,25 @@ namespace Setting.ViewModel
                 {
                     for (int x = 0; x < xIndex; x++)
                     {
-                        OnFrameAllPonitList.Add(new PonitItem(x, y));
+                        OnFrameAllPonitList.Add(new PointItem(x, y));
                     }
                 }
             }
 
             if (maxY + 1 < yIndex)
-            {//you边加
+            {//
                 for (int y = maxY + 1; y < yIndex; y++)
                 {
-                    for (int x = 0; x < yIndex; x++)
+                    for (int x = 0; x < xIndex; x++)
                     {
-                        OnFrameAllPonitList.Add(new PonitItem(x, y));
+                        OnFrameAllPonitList.Add(new PointItem(x, y));
                     }
                 }
             }
         }
         public void BuildShow(int  frameIndex)
         {
-            ShowPonitList = new ObservableCollection<PonitItem>();
+            ShowPonitList = new ObservableCollection<PointItem>();
            var  OnFrameAllPonitList = AllPonitList[frameIndex];
             OnFrameAllPonitList.Sort();
             foreach (var c in OnFrameAllPonitList)
@@ -283,26 +450,47 @@ namespace Setting.ViewModel
 
         public PointListViewModel()
         {
-            AllPonitList = new Dictionary<int, List<PonitItem>>();
-            var OnFrameAllPonitList = new List<PonitItem>();
-            ShowPonitList = new ObservableCollection<PonitItem>();
+            CurrentFrame = 0;
+            FramesCount = 1;
+            Messenger.Default.Register<PonitClickedEvent>(this, HandlePonitClickedEvent);
+            ChangeColorModel = Visibility.Hidden;
+            ChangeColor = new SolidColorBrush(Const.AbcColor);
+            AllPonitList = new Dictionary<int, List<PointItem>>();
+            var OnFrameAllPonitList = new List<PointItem>();
+            ShowPonitList = new ObservableCollection<PointItem>();
             for (int i = 0; i < xIndex; i++)
             {
                 for (int j = 0; j < yIndex; j++)
                 {
-                    ShowPonitList.Add(new PonitItem(i, j));
-                    OnFrameAllPonitList.Add(new PonitItem(i, j));
+                    OnFrameAllPonitList.Add(new PointItem(i, j));
                 }
+            }
+            AllPonitList.Add(CurrentFrame, OnFrameAllPonitList);
+            BuildShow(CurrentFrame);
+        }
+
+        private void HandlePonitClickedEvent(PonitClickedEvent item)
+        {
+            if (ChangeColorModel == Visibility.Visible)
+            {
+                AllPonitList[CurrentFrame].Find(c => c.Y == item.Y && c.X == item.X).Fill = ChangeColor;
+                BuildShow(CurrentFrame);
             }
         }
     }
 
-    public class PonitItem : IComparable<PonitItem>
+    public class PointItem :ViewModelBase, IComparable<PointItem>
     {
-        /// <summary>
-        /// 唯一Id 
-        /// </summary>
-        public string Id { get; set; }
+        public RelayCommand<PointItem> ChangeColorCommand
+        {
+            get
+            {
+                return new RelayCommand<PointItem>(item =>
+                {
+                    Messenger.Default.Send(new PonitClickedEvent { X = item.X,Y= item.Y});
+                });
+            }
+        }
         /// <summary>
         /// 颜色
         /// </summary>
@@ -317,24 +505,22 @@ namespace Setting.ViewModel
         /// </summary>
         public int Y { get; set; }
 
-        public PonitItem(int x, int y)
+        public PointItem(int x, int y)
         {
          
-            Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#ff0000"));
+            Fill = new SolidColorBrush(Const.BackGroupColor);
             X = x;
             Y = y;
-            Id = new Guid().ToString("D");
         }
-        public PonitItem(int x, int y, Color color )
+        public PointItem(int x, int y, Color color )
         {
           
             Fill = new SolidColorBrush(color);
             X = x;
             Y = y;
-            Id = new Guid().ToString("D");
         }
      
-        public int CompareTo(PonitItem other)
+        public int CompareTo(PointItem other)
         {  // 返回值小于0表示this实例小于other，0表示两者相等，大于0表示this实例大于other。
 
             var tempx = X - other.X;

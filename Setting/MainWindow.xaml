@@ -4,16 +4,18 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Setting"
-        xmlns:myview="clr-namespace:Setting.View"
+        xmlns:myview="clr-namespace:Setting.View" xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         mc:Ignorable="d"
-        Title="MainWindow" Height="1000" Width="1920">
+        Title="MainWindow" Height="1000" Width="1920" DataContext="{Binding Path=PointList,Source={StaticResource Locator}}">
     <Grid>
+        
         <Grid.RowDefinitions>
             <RowDefinition Height="112*"/>
             <RowDefinition Height="211*"/>
         </Grid.RowDefinitions>
 
-        <myview:PointList ></myview:PointList>
+        <myview:PointList >
+        </myview:PointList>
 
         <StackPanel Grid.Row="1" DataContext="{Binding Path=PointList,Source={StaticResource Locator}}">
             <Button Width="100" Height="30"   Command="{Binding OpenFileCommand}">导入</Button>
@@ -34,8 +36,18 @@
                 <Button Width="100" Height="30"   Command="{Binding BottomCommand}">下</Button>
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <TextBlock Text="{Binding changeColor}"></TextBlock>
-                <Button Width="100" Height="30"   Command="{Binding OpenFileCommand}">下</Button>
+                <myview:ColorPicker Width="100" x:Name="colorPicker" Visibility= "{Binding ChangeColorModel }" ></myview:ColorPicker>
+       
+                <Button Width="100" Height="30"   Command="{Binding ChangeColorModelCommand}" CommandParameter="{Binding}">改变设置颜色模式</Button>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Button Width="100" Height="30"   Command="{Binding OutputComand}" CommandParameter="{Binding}">导出Json</Button>
+                <Button Width="100" Height="30"   Command="{Binding addOneComand}" CommandParameter="{Binding}" Content="显示1"/>
+                <Button Width="100" Height="30"   Command="{Binding CleanComand}" CommandParameter="{Binding}" Content="清除"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock  Text="{Binding CurrCpu}"></TextBlock>
+                <Button Width="100" Height="30"   Command="{Binding CpuInfoComand}" CommandParameter="{Binding}">Cpu信息</Button>
             </StackPanel>
         </StackPanel>
 
