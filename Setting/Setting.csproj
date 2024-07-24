@@ -81,6 +81,7 @@
     <Compile Include="Helper\BitmapHelper.cs" />
     <Compile Include="Helper\Const.cs" />
     <Compile Include="Helper\CPUHelper.cs" />
+    <Compile Include="Helper\CpuInfoEvent.cs" />
     <Compile Include="Helper\MouseClickCommandBehavior.cs" />
     <Compile Include="Helper\PonitClickedEvent.cs" />
     <Compile Include="Media\HsbaColor.cs" />

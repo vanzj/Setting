@@ -23,6 +23,7 @@ namespace Setting.ViewModel
 {
     public class PointListViewModel : ViewModelBase
     {
+        public CPUHelper CPUHelper { get; set; }
 
         /// <summary>
         /// 所有帧数
@@ -256,50 +257,33 @@ namespace Setting.ViewModel
                 });
             }
         }
-        public RelayCommand CpuInfoComand
+        public RelayCommand CpuInfoStartComand
         {
             get
             {
                 return new RelayCommand(() =>
                 {
 
+                    CPUHelper = new CPUHelper();
+                    CPUHelper.Start();
 
-                    CPUHelper cPUHelper = new CPUHelper() ;
-                    XMoveCommand(AllPonitList[CurrentFrame], 1);
-                    AllPonitList[CurrentFrame].ForEach(c => c.X += 5);
-                    AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, ABCEnum.celsius, Const.AbcColor));
-                    var cpucelsius = (int)cPUHelper.getCPU();
-      
-                    do
-                    {
-                        int remainder = cpucelsius % 10;
-                        XMoveCommand(AllPonitList[CurrentFrame], 1);
-                        AllPonitList[CurrentFrame].ForEach(c => c.X += 3);
-                        AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0,(ABCEnum)remainder, Const.AbcColor));
-                        cpucelsius = cpucelsius / 10;
-                    } while (cpucelsius >= 1);
 
-                    XMoveCommand(AllPonitList[CurrentFrame], 1);
-                    AllPonitList[CurrentFrame].ForEach(c => c.X += 5);
-                    AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, ABCEnum.lianjiexian, Const.AbcColor));
-                    XMoveCommand(AllPonitList[CurrentFrame], 1);
-                    AllPonitList[CurrentFrame].ForEach(c => c.X += 5);
-                    AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, ABCEnum.percent, Const.AbcColor));
-                    var cpu = (int)cPUHelper.GetCPUUsage();
-                
-                    do
-                    {
-                        int remainder = cpu % 10;
-                        XMoveCommand(AllPonitList[CurrentFrame], 1);
-                        AllPonitList[CurrentFrame].ForEach(c => c.X += 3);
-                        AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, (ABCEnum)remainder, Const.AbcColor));
-                        cpu = cpu / 10;
-                    } while (cpu >= 1);
-                    BuildShow(CurrentFrame);
                 });
             }
         }
+        public RelayCommand CpuInfoEndComand
+        {
+            get
+            {
+                return new RelayCommand(() =>
+                {
+                    CPUHelper = new CPUHelper();
+                    CPUHelper.End();
 
+
+                });
+            }
+        }
         public RelayCommand CleanComand
         {
             get
@@ -453,6 +437,7 @@ namespace Setting.ViewModel
             CurrentFrame = 0;
             FramesCount = 1;
             Messenger.Default.Register<PonitClickedEvent>(this, HandlePonitClickedEvent);
+            Messenger.Default.Register<CpuInfoEvent>(this, HandleCpuInfoEvent);
             ChangeColorModel = Visibility.Hidden;
             ChangeColor = new SolidColorBrush(Const.AbcColor);
             AllPonitList = new Dictionary<int, List<PointItem>>();
@@ -466,6 +451,43 @@ namespace Setting.ViewModel
                 }
             }
             AllPonitList.Add(CurrentFrame, OnFrameAllPonitList);
+            BuildShow(CurrentFrame);
+        }
+
+        private void HandleCpuInfoEvent(CpuInfoEvent obj)
+        {
+            AllPonitList[CurrentFrame] = AllPonitList[currFrame].Where(c => c.X >= 0 && c.X < xIndex && c.Y >= 0 && c.Y < yIndex).ToList();
+            AllPonitList[CurrentFrame].ForEach(c => c.Fill = new SolidColorBrush(Const.BackGroupColor));
+            XMoveCommand(AllPonitList[CurrentFrame], 1);
+            AllPonitList[CurrentFrame].ForEach(c => c.X += 5);
+            AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, ABCEnum.celsius, Const.AbcColor));
+            var cpucelsius = (int)obj.CpuTemp;
+
+            do
+            {
+                int remainder = cpucelsius % 10;
+                XMoveCommand(AllPonitList[CurrentFrame], 1);
+                AllPonitList[CurrentFrame].ForEach(c => c.X += 3);
+                AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, (ABCEnum)remainder, Const.AbcColor));
+                cpucelsius = cpucelsius / 10;
+            } while (cpucelsius >= 1);
+
+            XMoveCommand(AllPonitList[CurrentFrame], 1);
+            AllPonitList[CurrentFrame].ForEach(c => c.X += 5);
+            AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, ABCEnum.lianjiexian, Const.AbcColor));
+            XMoveCommand(AllPonitList[CurrentFrame], 1);
+            AllPonitList[CurrentFrame].ForEach(c => c.X += 5);
+            AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, ABCEnum.percent, Const.AbcColor));
+            var cpu = (int)obj.CpuUse;
+
+            do
+            {
+                int remainder = cpu % 10;
+                XMoveCommand(AllPonitList[CurrentFrame], 1);
+                AllPonitList[CurrentFrame].ForEach(c => c.X += 3);
+                AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, (ABCEnum)remainder, Const.AbcColor));
+                cpu = cpu / 10;
+            } while (cpu >= 1);
             BuildShow(CurrentFrame);
         }
 
