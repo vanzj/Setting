@@ -26,6 +26,20 @@ namespace Setting.ViewModel
         public CPUHelper CPUHelper { get; set; }
 
         /// <summary>
+        /// 文件名
+        /// </summary>
+        private JsonFileInfo jsonFileInfo;
+        /// <summary>
+        /// 文件名
+        /// </summary>
+        public JsonFileInfo JsonFileInfo
+        {
+            get { return jsonFileInfo; }
+            set { jsonFileInfo = value; RaisePropertyChanged(); }
+        }
+
+
+        /// <summary>
         /// 所有帧数
         /// </summary>
         private Visibility changeColorModel;
@@ -84,7 +98,7 @@ namespace Setting.ViewModel
         /// </summary>
         public ObservableCollection<PointItem> ShowPonitList { get => showPonitList; set => Set(ref showPonitList, value); }
 
-       
+
 
         private RelayCommand _openFileCommand;
 
@@ -103,7 +117,7 @@ namespace Setting.ViewModel
             {
                 return new RelayCommand(() =>
                 {
-                XMoveCommand(AllPonitList[CurrentFrame], -1);
+                    XMoveCommand(AllPonitList[CurrentFrame], -1);
                     BuildShow(CurrentFrame);
                 });
             }
@@ -130,7 +144,7 @@ namespace Setting.ViewModel
                     CurrentFrame--;
                     if (CurrentFrame < 0)
                     {
-                        CurrentFrame = framesCount-1;
+                        CurrentFrame = framesCount - 1;
                     }
 
                     BuildShow(CurrentFrame);
@@ -183,7 +197,7 @@ namespace Setting.ViewModel
             {
                 return new RelayCommand(() =>
                 {
-                    if (ChangeColorModel==Visibility.Hidden)
+                    if (ChangeColorModel == Visibility.Hidden)
                     {
                         ChangeColorModel = Visibility.Visible;
                     }
@@ -191,7 +205,7 @@ namespace Setting.ViewModel
                     {
                         ChangeColorModel = Visibility.Hidden;
                     }
-                    
+
                 });
             }
         }
@@ -203,7 +217,7 @@ namespace Setting.ViewModel
             {
                 return new RelayCommand(() =>
                 {
-                    var json = JsonConvert.SerializeObject(ShowPonitList.Where(c => c.X <= 2).Select(c => new PointInit(c.Fill.Color) { X = c.X, Y = c.Y}));
+                    var json = JsonConvert.SerializeObject(ShowPonitList.Where(c => c.X <= 2).Select(c => new PointInit(c.Fill.Color) { X = c.X, Y = c.Y }));
 
                 });
             }
@@ -215,37 +229,37 @@ namespace Setting.ViewModel
             {
                 return new RelayCommand(() =>
                 {
-                    AllPonitList[CurrentFrame].ForEach(c => c.X +=3);
+                    AllPonitList[CurrentFrame].ForEach(c => c.X += 3);
                     AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, ABCEnum.one, Const.AbcColor));
                     XMoveCommand(AllPonitList[CurrentFrame], 1);
-                    AllPonitList[CurrentFrame].ForEach(c => c.X +=3);
+                    AllPonitList[CurrentFrame].ForEach(c => c.X += 3);
                     AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, ABCEnum.two, Const.AbcColor));
                     XMoveCommand(AllPonitList[CurrentFrame], 1);
-                    AllPonitList[CurrentFrame].ForEach(c => c.X +=3);
+                    AllPonitList[CurrentFrame].ForEach(c => c.X += 3);
                     AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, ABCEnum.three, Const.AbcColor));
                     XMoveCommand(AllPonitList[CurrentFrame], 1);
-                    AllPonitList[CurrentFrame].ForEach(c => c.X +=3);
+                    AllPonitList[CurrentFrame].ForEach(c => c.X += 3);
                     AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, ABCEnum.four, Const.AbcColor));
                     XMoveCommand(AllPonitList[CurrentFrame], 1);
-                    AllPonitList[CurrentFrame].ForEach(c => c.X +=3);
+                    AllPonitList[CurrentFrame].ForEach(c => c.X += 3);
                     AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, ABCEnum.five, Const.AbcColor));
                     XMoveCommand(AllPonitList[CurrentFrame], 1);
-                    AllPonitList[CurrentFrame].ForEach(c => c.X +=3);
+                    AllPonitList[CurrentFrame].ForEach(c => c.X += 3);
                     AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, ABCEnum.six, Const.AbcColor));
                     XMoveCommand(AllPonitList[CurrentFrame], 1);
-                    AllPonitList[CurrentFrame].ForEach(c => c.X +=3);
+                    AllPonitList[CurrentFrame].ForEach(c => c.X += 3);
                     AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, ABCEnum.seven, Const.AbcColor));
                     XMoveCommand(AllPonitList[CurrentFrame], 1);
-                    AllPonitList[CurrentFrame].ForEach(c => c.X +=3);
+                    AllPonitList[CurrentFrame].ForEach(c => c.X += 3);
                     AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, ABCEnum.eight, Const.AbcColor));
                     XMoveCommand(AllPonitList[CurrentFrame], 1);
-                    AllPonitList[CurrentFrame].ForEach(c => c.X +=3);
+                    AllPonitList[CurrentFrame].ForEach(c => c.X += 3);
                     AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, ABCEnum.nine, Const.AbcColor));
                     XMoveCommand(AllPonitList[CurrentFrame], 1);
-                    AllPonitList[CurrentFrame].ForEach(c => c.X +=3);
+                    AllPonitList[CurrentFrame].ForEach(c => c.X += 3);
                     AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, ABCEnum.zero, Const.AbcColor));
                     XMoveCommand(AllPonitList[CurrentFrame], 1);
-                    AllPonitList[CurrentFrame].ForEach(c => c.X +=5);
+                    AllPonitList[CurrentFrame].ForEach(c => c.X += 5);
                     AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, ABCEnum.percent, Const.AbcColor));
                     XMoveCommand(AllPonitList[CurrentFrame], 1);
                     AllPonitList[CurrentFrame].ForEach(c => c.X += 5);
@@ -257,6 +271,26 @@ namespace Setting.ViewModel
                 });
             }
         }
+
+        public RelayCommand SaveCommand
+        {
+            get
+            {
+                return new RelayCommand(() =>
+                {
+                    Dictionary<int, List<PointItem>> saveInfo = new Dictionary<int, List<PointItem>>();
+                    foreach (var item in AllPonitList)
+                    {
+                        var templist = item.Value.Where(c => c.X >= 0 && c.X < xIndex && c.Y >= 0 && c.Y < yIndex).ToList();
+                        saveInfo.Add(item.Key, templist);
+                    }
+                    FileHelper.Save(JsonConvert.SerializeObject(saveInfo), JsonFileInfo);              
+                
+                }
+                );
+            }
+        }
+
         public RelayCommand CpuInfoStartComand
         {
             get
@@ -291,7 +325,7 @@ namespace Setting.ViewModel
                 return new RelayCommand(() =>
                 {
                     AllPonitList[currFrame].ForEach(c => c.Fill = new SolidColorBrush(Const.BackGroupColor));
-           
+
                     BuildShow(CurrentFrame);
                 });
             }
@@ -331,7 +365,7 @@ namespace Setting.ViewModel
                     var xindexdouble = (double)yIndex;
                     var CurrentImgxIndex = (int)(pw / (ph / xindexdouble));
                     var OneStep = phdouble / yIndex;
-                   var OnFrameAllPonitList = new List<PointItem>();
+                    var OnFrameAllPonitList = new List<PointItem>();
 
                     for (int y = 0; y < yIndex; y++)
                     {
@@ -344,23 +378,33 @@ namespace Setting.ViewModel
                     var MaxX = OnFrameAllPonitList.Max(c => c.X);
                     var addCount = xIndex - MaxX;
                     var xMove = addCount / 2;
-                    XMoveCommand(OnFrameAllPonitList , xMove);
+                    XMoveCommand(OnFrameAllPonitList, xMove);
                     AllPonitList.Add(frame, OnFrameAllPonitList);
                 }
-           
                 BuildShow(CurrentFrame);
+
+             
+
                 stream.Close();
+                var ThemeName = "新建模板" + DateTime.Now.ToString("YYMMddHHmmssms");
+                var TempJsonFileInfo = new JsonFileInfo()
+                {
+                    Name = ThemeName,
+                    FileName = Guid.NewGuid().ToString()
+                };
+                FileHelper.Save(JsonConvert.SerializeObject(AllPonitList), TempJsonFileInfo);
+                Messenger.Default.Send(new AddNewThemeEvent {JsonFileInfo = TempJsonFileInfo });
             }
         }
 
-      
+
         private void XMoveCommand(List<PointItem> OnFrameAllPonitList, int xMove)
         {
 
             OnFrameAllPonitList.ForEach(c => c.X = c.X + xMove);
             var minx = OnFrameAllPonitList.Min(c => c.X);
             var maxX = OnFrameAllPonitList.Max(c => c.X);
-            if (minx>0)
+            if (minx > 0)
             {
                 //左边 加
                 for (int x = 0; x < minx; x++)
@@ -371,10 +415,10 @@ namespace Setting.ViewModel
                     }
                 }
             }
-              
-            
-            
-            if (maxX+1 < xIndex)
+
+
+
+            if (maxX + 1 < xIndex)
             {//you边加
                 for (int x = maxX + 1; x < xIndex; x++)
                 {
@@ -415,45 +459,43 @@ namespace Setting.ViewModel
                 }
             }
         }
-        public void BuildShow(int  frameIndex)
+        public void BuildShow(int frameIndex)
         {
             ShowPonitList = new ObservableCollection<PointItem>();
-           var  OnFrameAllPonitList = AllPonitList[frameIndex];
+            var OnFrameAllPonitList = AllPonitList[frameIndex];
             OnFrameAllPonitList.Sort();
             foreach (var c in OnFrameAllPonitList)
             {
 
-                if (c.X >= 0 && c.X < xIndex && c.Y>=0&&c.Y<yIndex)
+                if (c.X >= 0 && c.X < xIndex && c.Y >= 0 && c.Y < yIndex)
                 {
                     ShowPonitList.Add(c);
                 }
             }
 
-          
+
         }
 
         public PointListViewModel()
         {
-            CurrentFrame = 0;
-            FramesCount = 1;
             Messenger.Default.Register<PonitClickedEvent>(this, HandlePonitClickedEvent);
             Messenger.Default.Register<CpuInfoEvent>(this, HandleCpuInfoEvent);
+            Messenger.Default.Register<ThemeItemClickedEvent>(this, HandleChangeTheMeEvent);
             ChangeColorModel = Visibility.Hidden;
             ChangeColor = new SolidColorBrush(Const.AbcColor);
-            AllPonitList = new Dictionary<int, List<PointItem>>();
-            var OnFrameAllPonitList = new List<PointItem>();
-            ShowPonitList = new ObservableCollection<PointItem>();
-            for (int i = 0; i < xIndex; i++)
-            {
-                for (int j = 0; j < yIndex; j++)
-                {
-                    OnFrameAllPonitList.Add(new PointItem(i, j));
-                }
-            }
-            AllPonitList.Add(CurrentFrame, OnFrameAllPonitList);
+        }
+        private void HandleChangeTheMeEvent(ThemeItemClickedEvent obj)
+        {
+            CurrentFrame = 0;
+      
+            ChangeColorModel = Visibility.Hidden;
+            ChangeColor = new SolidColorBrush(Const.AbcColor);
+            JsonFileInfo = obj .JsonFileInfo;
+            var json = FileHelper.Open(obj.JsonFileInfo.FileName);
+            AllPonitList = JsonConvert.DeserializeObject<Dictionary<int, List<PointItem>>>(json);
+            FramesCount = AllPonitList.Count;
             BuildShow(CurrentFrame);
         }
-
         private void HandleCpuInfoEvent(CpuInfoEvent obj)
         {
             AllPonitList[CurrentFrame] = AllPonitList[currFrame].Where(c => c.X >= 0 && c.X < xIndex && c.Y >= 0 && c.Y < yIndex).ToList();
@@ -501,15 +543,16 @@ namespace Setting.ViewModel
         }
     }
 
-    public class PointItem :ViewModelBase, IComparable<PointItem>
+    public class PointItem : ViewModelBase, IComparable<PointItem>, IPontBase
     {
+        [JsonIgnore]
         public RelayCommand<PointItem> ChangeColorCommand
         {
             get
             {
                 return new RelayCommand<PointItem>(item =>
                 {
-                    Messenger.Default.Send(new PonitClickedEvent { X = item.X,Y= item.Y});
+                    Messenger.Default.Send(new PonitClickedEvent { X = item.X, Y = item.Y });
                 });
             }
         }
@@ -529,19 +572,22 @@ namespace Setting.ViewModel
 
         public PointItem(int x, int y)
         {
-         
+
             Fill = new SolidColorBrush(Const.BackGroupColor);
             X = x;
             Y = y;
         }
-        public PointItem(int x, int y, Color color )
+        public PointItem(int x, int y, Color color)
         {
-          
+
             Fill = new SolidColorBrush(color);
             X = x;
             Y = y;
         }
-     
+        public PointItem( )
+        {
+        }
+
         public int CompareTo(PointItem other)
         {  // 返回值小于0表示this实例小于other，0表示两者相等，大于0表示this实例大于other。
 
@@ -559,6 +605,21 @@ namespace Setting.ViewModel
         }
     }
 
+    public interface IPontBase
+    {
+        /// <summary>
+        /// 颜色
+        /// </summary>
+        SolidColorBrush Fill { get; set; }
 
+        /// <summary>
+        /// 横坐标
+        /// </summary>
+        int X { get; set; }
+        /// <summary>
+        /// 纵坐标
+        /// </summary>
+        int Y { get; set; }
+    }
 
 }

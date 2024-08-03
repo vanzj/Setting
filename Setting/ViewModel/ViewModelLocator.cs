@@ -43,6 +43,7 @@ namespace Setting.ViewModel
             ////}
             SimpleIoc.Default.Register<PointListViewModel>();//TODO  
             SimpleIoc.Default.Register<MainViewModel>();
+            SimpleIoc.Default.Register<ThemeListViewModel>();
         }
         public PointListViewModel PointList
         {
@@ -52,7 +53,14 @@ namespace Setting.ViewModel
                 return a;
             }
         }
-
+        public ThemeListViewModel ThemeList
+        {
+            get
+            {
+                var a = ServiceLocator.Current.GetInstance<ThemeListViewModel>();
+                return a;
+            }
+        }
         public MainViewModel Main
         {
             get

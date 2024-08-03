@@ -78,26 +78,36 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Helper\ABCHelper.cs" />
+    <Compile Include="Helper\AddNewThemeEvent.cs" />
     <Compile Include="Helper\BitmapHelper.cs" />
     <Compile Include="Helper\Const.cs" />
     <Compile Include="Helper\CPUHelper.cs" />
     <Compile Include="Helper\CpuInfoEvent.cs" />
+    <Compile Include="Helper\FileHelper.cs" />
     <Compile Include="Helper\MouseClickCommandBehavior.cs" />
+    <Compile Include="Helper\HistroyEvent.cs" />
+    <Compile Include="Helper\ThemeClickedEvent.cs" />
     <Compile Include="Helper\PonitClickedEvent.cs" />
     <Compile Include="Media\HsbaColor.cs" />
     <Compile Include="Media\ResObj.cs" />
     <Compile Include="Media\RgbaColor.cs" />
     <Compile Include="Media\StreamObj.cs" />
     <Compile Include="Media\Utility.cs" />
+    <Compile Include="Model\JsonFileInfo.cs" />
     <Compile Include="Model\PointInit.cs" />
+    <Compile Include="ViewModel\HistoryViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\PointListViewModel.cs" />
+    <Compile Include="ViewModel\ThemeViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Compile Include="View\ColorPicker.xaml.cs">
       <DependentUpon>ColorPicker.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\PointList.xaml.cs">
       <DependentUpon>PointList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Theme.xaml.cs">
+      <DependentUpon>Theme.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -116,6 +126,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\PointList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Theme.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -139,6 +153,9 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="Design\projectGuides.guides" />
+    <None Include="Json\Base\1.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -151,6 +168,7 @@
   <ItemGroup>
     <Folder Include="Convert\" />
     <Folder Include="img\" />
+    <Folder Include="Json\Theme\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
