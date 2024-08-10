@@ -4,17 +4,24 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Setting"
-        xmlns:myview="clr-namespace:Setting.View" xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:myview="clr-namespace:Setting.View" xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:local1="clr-namespace:Setting.Convert"
         mc:Ignorable="d"
         Title="MainWindow" Height="1000" Width="1920" DataContext="{Binding Path=PointList,Source={StaticResource Locator}}" >
+    <Window.Resources>
+        <local1:CurrentFrameConventer x:Key="CurrentFrameConventer"/>
+    </Window.Resources>
     <Grid>
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <myview:Theme></myview:Theme>
-        
+        <StackPanel Orientation="Vertical">
+            <Button DataContext="{Binding Path=ThemeList,Source={StaticResource Locator}}" Command="{Binding CreateCommand}">新增</Button>
+            <myview:Theme></myview:Theme>
+
+        </StackPanel>
+
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="100"/>
@@ -23,8 +30,8 @@
             </Grid.RowDefinitions>
             <StackPanel Orientation="Horizontal">
                 <Button Width="100" Height="30"   Command="{Binding OpenFileCommand}">导入</Button>
-
                 <Button Width="100" Height="30"   Command="{Binding SaveCommand}">保存</Button>
+                <Button Width="100" Height="30"   Command="{Binding SendCommand}" Content="应用" />
             </StackPanel>
             <Grid Grid.Row="1">
                 <myview:PointList >
@@ -35,12 +42,16 @@
             <StackPanel Grid.Row="2" DataContext="{Binding Path=PointList,Source={StaticResource Locator}}">
                 
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <TextBlock Text="{Binding CurrentFrame}"></TextBlock>
+                    <TextBlock Text="{Binding CurrentFrame,Converter = {StaticResource CurrentFrameConventer}}" ></TextBlock>
                     <TextBlock >/</TextBlock>
                     <TextBlock Text="{Binding FramesCount}"></TextBlock>
                     <Button Width="100" Height="30"   Command="{Binding LeftFrameCommand}">上一帧
                     </Button>
                     <Button Width="100" Height="30"   Command="{Binding RightframeCommand}">下一帧
+                    </Button>
+                    <Button Width="100" Height="30"   Command="{Binding AddRightFrameCommand}">添加一帧
+                    </Button>
+                    <Button Width="100" Height="30"   Command="{Binding DeleteFrameCommand}">删除一帧
                     </Button>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
@@ -55,15 +66,24 @@
 
                     <Button Width="100" Height="30"   Command="{Binding ChangeColorModelCommand}" CommandParameter="{Binding}">改变设置颜色模式</Button>
                 </StackPanel>
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <Button Width="100" Height="30"   Command="{Binding OutputComand}" CommandParameter="{Binding}">导出Json</Button>
-                    <Button Width="100" Height="30"   Command="{Binding addOneComand}" CommandParameter="{Binding}" Content="显示1"/>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" DataContext="{Binding Path=HistoryList,Source={StaticResource Locator}}" >
+                    <Button Width="100" Height="30"   Command="{Binding CancelHistoryCommand }"  IsEnabled="{Binding CancelIsEnabled}">撤销</Button>
+                    <Button Width="100" Height="30"   Command="{Binding  ReBackHistoryCommand}" CommandParameter="{Binding}"  IsEnabled="{Binding ReBackIsEnabled}" >恢复</Button>
+                    <Button Width="100" Height="30"   Command="{Binding RedoHistoryCommand}" CommandParameter="{Binding}" IsEnabled="{Binding CancelIsEnabled}"  Content="重做"/>
                     <Button Width="100" Height="30"   Command="{Binding CleanComand}" CommandParameter="{Binding}" Content="清除"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                     <TextBlock  Text="{Binding CurrCpu}"></TextBlock>
                     <Button Width="100" Height="30"   Command="{Binding CpuInfoStartComand}" CommandParameter="{Binding}">开始</Button>
                     <Button Width="100" Height="30"   Command="{Binding CpuInfoEndComand}" CommandParameter="{Binding}">停止</Button>
+
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" DataContext="">
+                
+                    <Button Width="100" Height="30"   Command="{Binding CpuInfoStartComand}" CommandParameter="{Binding}">屏幕开</Button>
+                    <Button Width="100" Height="30"   Command="{Binding CpuInfoEndComand}" CommandParameter="{Binding}">屏幕关</Button>
+                    <Slider Width="200"  Maximum="10" Value="1" SmallChange="1"  ></Slider>
+                    <Button Width="100" Height="30"   Command="{Binding CpuInfoEndComand}" CommandParameter="{Binding}">修改亮度</Button>
 
                 </StackPanel>
             </StackPanel>

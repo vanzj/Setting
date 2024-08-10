@@ -32,7 +32,7 @@ namespace Setting.ViewModel
                     ThemeItemList.Add(new ThemeItem(item));
             }
             Messenger.Default.Register<ThemeItemClickedEvent>(this, HandleThemeItemClickedEvent);
-            Messenger.Default.Register<AddNewThemeEvent>(this, HandleAddNewThemeEvent);
+            Messenger.Default.Register<InputNewThemeEvent>(this, HandleAddNewThemeEvent);
             Messenger.Default.Register<CopyThemeEvent>(this, HandleCopyThemeEvent);
             Messenger.Default.Register<RemoveThemeEvent>(this, HandleRemoveThemeEvent);
             Messenger.Default.Register<ChangeThemeNameEvent>(this, HandleChangeThemeNameEvent);
@@ -89,15 +89,41 @@ namespace Setting.ViewModel
             }
         }
 
-        private void HandleAddNewThemeEvent(AddNewThemeEvent obj)
+        private void HandleAddNewThemeEvent(InputNewThemeEvent obj)
         {
 
             var temp = new ThemeItem(obj.JsonFileInfo);
             ThemeItemList.Add(temp) ;
 
         }
+        public RelayCommand CreateCommand
+        {
+            get
+            {
+                return new RelayCommand(() =>
+                {
+                    var JsonFileInfo = new JsonFileInfo()
+                    {
+                        FileName = Guid.NewGuid().ToString(),
+                        Name = "新建模板" + DateTime.Now.ToString("YYMMddHHmmssms")
+                    };
+                    var temp = new ThemeItem(JsonFileInfo);
+                    ThemeItemList.Add(temp);
 
-    
+                    CurrJsonFileInfo = JsonFileInfo;
+                    foreach (var themeItem in ThemeItemList)
+                    {
+                        if (themeItem.JsonFileInfo.FileName != JsonFileInfo.FileName)
+                        {
+                            themeItem.ChangeRead();
+                        }
+                    }
+                    Messenger.Default.Send(new NewThemeEvent { JsonFileInfo = JsonFileInfo });
+
+                });
+            }
+        }
+
     }
 
 
@@ -218,7 +244,7 @@ namespace Setting.ViewModel
                 });
             }
         }
-
+     
         public RelayCommand<ThemeItem> ReMoveCommand
         {
             get

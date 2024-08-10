@@ -1,4 +1,5 @@
 ﻿using Setting.Model;
+using Setting.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,8 +8,19 @@ using System.Threading.Tasks;
 
 namespace Setting.Helper
 {
-   public class HistroyEvent
+   public class HistroyInitEvent
     {
-           public JsonFileInfo JsonFileInfo { get; set; }
+        public HistoryItem HistoryItem { get; set; }
     }
+
+    public class HistroyAddEvent
+    {
+        public HistoryItem HistoryItem { get; set; }
+    }
+    public class InitFromHistroyEvent
+    {
+        public HistoryItem HistoryItem { get; set; }
+    }
+
+
 }

@@ -7,11 +7,15 @@ using System.Threading.Tasks;
 
 namespace Setting.Helper
 {
-   public class AddNewThemeEvent
+   public class InputNewThemeEvent
     {
        public JsonFileInfo JsonFileInfo { get; set; }
     }
     public class CopyThemeEvent
+    {
+        public JsonFileInfo JsonFileInfo { get; set; }
+    }
+    public class NewThemeEvent
     {
         public JsonFileInfo JsonFileInfo { get; set; }
     }

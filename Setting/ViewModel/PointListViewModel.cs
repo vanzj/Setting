@@ -23,8 +23,8 @@ namespace Setting.ViewModel
 {
     public class PointListViewModel : ViewModelBase
     {
-        public CPUHelper CPUHelper { get; set; }
 
+        #region 页面属性
         /// <summary>
         /// 文件名
         /// </summary>
@@ -37,8 +37,6 @@ namespace Setting.ViewModel
             get { return jsonFileInfo; }
             set { jsonFileInfo = value; RaisePropertyChanged(); }
         }
-
-
         /// <summary>
         /// 所有帧数
         /// </summary>
@@ -51,11 +49,6 @@ namespace Setting.ViewModel
             get { return changeColorModel; }
             set { changeColorModel = value; RaisePropertyChanged(); }
         }
-
-        public int xIndex = 85;
-        public int yIndex = 5;
-        public Dictionary<int, List<PointItem>> AllPonitList { get; set; }
-
         /// <summary>
         /// 所有帧数
         /// </summary>
@@ -99,6 +92,15 @@ namespace Setting.ViewModel
         public ObservableCollection<PointItem> ShowPonitList { get => showPonitList; set => Set(ref showPonitList, value); }
 
 
+        #endregion
+
+
+        private CPUHelper CPUHelper { get; set; }
+        public int xIndex = 85;
+        public int yIndex = 5;
+        private Dictionary<int, List<PointItem>> AllPonitList { get; set; }
+
+        
 
         private RelayCommand _openFileCommand;
 
@@ -110,7 +112,160 @@ namespace Setting.ViewModel
             }
         }
 
+        public RelayCommand SendCommand
+{
+            get
+            {
+                return new RelayCommand(() =>
+                {
+                   var msg = MessageHelper.Build(AllPonitList,xIndex,yIndex);
+                });
+            }
+        }
+        private void ExecuteOpenFileCommand()
+        {
 
+            // 创建一个OpenFileDialog实例
+            var openFileDialog = new Microsoft.Win32.OpenFileDialog
+            {
+                // 设置一些基本属性，如过滤器
+                Filter = "Text files | *.gif",
+                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
+            };
+
+            // 显示对话框
+            // 注意：ShowDialog方法将返回一个可空的bool值，当用户选择文件并点击“打开”时为true
+            if (openFileDialog.ShowDialog() == true)
+            {
+                // 获取用户选择的文件路径
+                string file = openFileDialog.FileName;
+
+                var stream = new FileStream(file, FileMode.Open);
+                var decoder = new GifBitmapDecoder(stream, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.Default);
+                CurrentFrame = 0;
+                FramesCount = decoder.Frames.Count;
+                AllPonitList = new Dictionary<int, List<PointItem>>();
+                for (int frame = 0; frame < FramesCount; frame++)
+                {
+
+                    BitmapFrame t = decoder.Frames[frame];
+
+                    var pw = t.PixelWidth;
+                    var ph = t.PixelHeight;
+                    var pwdouble = (double)pw;
+                    var phdouble = (double)ph;
+                    var xindexdouble = (double)yIndex;
+                    var CurrentImgxIndex = (int)(pw / (ph / xindexdouble));
+                    var OneStep = phdouble / yIndex;
+                    var OnFrameAllPonitList = new List<PointItem>();
+
+                    for (int y = 0; y < yIndex; y++)
+                    {
+                        for (int x = 0; x < CurrentImgxIndex; x++)
+                        {
+
+                            OnFrameAllPonitList.Add(new PointItem(x, y, BitmapHelper.GetPixelColor(t, x, y, OneStep)));
+                        }
+                    }
+                    var MaxX = OnFrameAllPonitList.Max(c => c.X);
+                    var addCount = xIndex - MaxX;
+                    var xMove = addCount / 2;
+                    XMoveCommand(OnFrameAllPonitList, xMove);
+                    AllPonitList.Add(frame, OnFrameAllPonitList);
+                }
+                BuildShow(CurrentFrame);
+
+
+
+                stream.Close();
+                var ThemeName = "新建模板" + DateTime.Now.ToString("YYMMddHHmmssms");
+                var TempJsonFileInfo = new JsonFileInfo()
+                {
+                    Name = ThemeName,
+                    FileName = Guid.NewGuid().ToString()
+                };
+                FileHelper.Save(JsonConvert.SerializeObject(AllPonitList), TempJsonFileInfo);
+                Messenger.Default.Send(new InputNewThemeEvent { JsonFileInfo = TempJsonFileInfo });
+            }
+        }
+        private void BuildShow(int frameIndex)
+        {
+            ShowPonitList = new ObservableCollection<PointItem>();
+            if (AllPonitList.Count>0)
+            {
+                var OnFrameAllPonitList = AllPonitList[frameIndex];
+                OnFrameAllPonitList.Sort();
+                foreach (var c in OnFrameAllPonitList)
+                {
+
+                    if (c.X >= 0 && c.X < xIndex && c.Y >= 0 && c.Y < yIndex)
+                    {
+                        ShowPonitList.Add(c);
+                    }
+                }
+                Messenger.Default.Send(new HistroyAddEvent
+                {
+                    HistoryItem = new HistoryItem()
+                    {
+                        FrameCount = this.framesCount,
+                        CurrentFrame = this.CurrentFrame,
+                        PointItems = this.AllPonitList,
+                    }
+                }); ;
+
+            }
+            
+
+        }
+        private void BuildShowInit(int frameIndex)
+        {
+            ShowPonitList = new ObservableCollection<PointItem>();
+            if (AllPonitList.Count > 0)
+            {
+                var OnFrameAllPonitList = AllPonitList[frameIndex];
+                OnFrameAllPonitList.Sort();
+                foreach (var c in OnFrameAllPonitList)
+                {
+
+                    if (c.X >= 0 && c.X < xIndex && c.Y >= 0 && c.Y < yIndex)
+                    {
+                        ShowPonitList.Add(c);
+                    }
+                }
+                Messenger.Default.Send(new HistroyInitEvent
+                {
+                    HistoryItem = new HistoryItem()
+                    {
+                        FrameCount = this.framesCount,
+                        CurrentFrame = this.CurrentFrame,
+                        PointItems = this.AllPonitList,
+                    }
+                }); ;
+            }
+                
+
+        }
+        private void BuildShowWithHistroy(int frameIndex)
+        {
+            ShowPonitList = new ObservableCollection<PointItem>();
+            if (AllPonitList.Count > 0)
+            {
+                var OnFrameAllPonitList = AllPonitList[frameIndex];
+                OnFrameAllPonitList.Sort();
+                foreach (var c in OnFrameAllPonitList)
+                {
+
+                    if (c.X >= 0 && c.X < xIndex && c.Y >= 0 && c.Y < yIndex)
+                    {
+                        ShowPonitList.Add(c);
+                    }
+                }
+            }
+
+
+
+        }
+        #region 上下左右移动
         public RelayCommand LeftCommand
         {
             get
@@ -134,6 +289,92 @@ namespace Setting.ViewModel
             }
         }
 
+        public RelayCommand TopCommand
+        {
+            get
+            {
+                return new RelayCommand(() =>
+                {
+                    YMoveCommand(AllPonitList[CurrentFrame], -1);
+                    BuildShow(CurrentFrame);
+                });
+            }
+        }
+        public RelayCommand BottomCommand
+        {
+            get
+            {
+                return new RelayCommand(() =>
+                {
+                    YMoveCommand(AllPonitList[CurrentFrame], 1);
+                    BuildShow(CurrentFrame);
+                });
+            }
+        }
+        private void XMoveCommand(List<PointItem> OnFrameAllPonitList, int xMove)
+        {
+
+            OnFrameAllPonitList.ForEach(c => c.X = c.X + xMove);
+            var minx = OnFrameAllPonitList.Min(c => c.X);
+            var maxX = OnFrameAllPonitList.Max(c => c.X);
+            if (minx > 0)
+            {
+                //左边 加
+                for (int x = 0; x < minx; x++)
+                {
+                    for (int y = 0; y < yIndex; y++)
+                    {
+                        OnFrameAllPonitList.Add(new PointItem(x, y));
+                    }
+                }
+            }
+
+
+
+            if (maxX + 1 < xIndex)
+            {//you边加
+                for (int x = maxX + 1; x < xIndex; x++)
+                {
+                    for (int y = 0; y < yIndex; y++)
+                    {
+                        OnFrameAllPonitList.Add(new PointItem(x, y));
+                    }
+                }
+            }
+        }
+        private void YMoveCommand(List<PointItem> OnFrameAllPonitList, int yMove)
+        {
+
+            OnFrameAllPonitList.ForEach(c => c.Y = c.Y + yMove);
+            var minY = OnFrameAllPonitList.Min(c => c.Y);
+            var maxY = OnFrameAllPonitList.Max(c => c.Y);
+
+            if (minY > 0)
+            {
+                //上 加
+                for (int y = 0; y < minY; y++)
+                {
+                    for (int x = 0; x < xIndex; x++)
+                    {
+                        OnFrameAllPonitList.Add(new PointItem(x, y));
+                    }
+                }
+            }
+
+            if (maxY + 1 < yIndex)
+            {//
+                for (int y = maxY + 1; y < yIndex; y++)
+                {
+                    for (int x = 0; x < xIndex; x++)
+                    {
+                        OnFrameAllPonitList.Add(new PointItem(x, y));
+                    }
+                }
+            }
+        }
+        #endregion
+
+        #region 上下帧数
 
         public RelayCommand LeftFrameCommand
         {
@@ -167,30 +408,84 @@ namespace Setting.ViewModel
                 });
             }
         }
-
-        public RelayCommand TopCommand
+        public RelayCommand AddRightFrameCommand
         {
             get
             {
                 return new RelayCommand(() =>
                 {
-                    YMoveCommand(AllPonitList[CurrentFrame], -1);
+                   
+                    // 0 1 2 3 4 添加3
+                    // 0 1 2 *3  4 5
+                    for (int i = FramesCount; i >= 0; i--)
+                    {
+
+                        if (i>CurrentFrame+1)
+                        {
+                            var OldList = AllPonitList[i - 1];
+                                var temp = new List<PointItem>();
+                            if (AllPonitList.TryGetValue(i,out temp ))
+                            {
+                                AllPonitList[i] = OldList;
+                            }
+                            else
+                            {
+                                AllPonitList.Add(i, OldList);
+                            }
+                        }
+                        else if (i== CurrentFrame+1)
+                        {
+                            var OnFrameAllPonitList = new List<PointItem>();
+                            for (int x = 0; x < xIndex; x++)
+                            {
+                                for (int y = 0; y < yIndex; y++)
+                                {
+                                    OnFrameAllPonitList.Add(new PointItem(x, y));
+                                }
+                            }
+                            AllPonitList[i] = OnFrameAllPonitList; 
+                        }
+                    }
+                    CurrentFrame++;
+                    FramesCount++;
                     BuildShow(CurrentFrame);
                 });
             }
         }
-        public RelayCommand BottomCommand
+        public RelayCommand DeleteFrameCommand
         {
             get
             {
                 return new RelayCommand(() =>
                 {
-                    YMoveCommand(AllPonitList[CurrentFrame], 1);
+                  
+                    // 0 1   2  3  4 =>删除2
+                    // 0 1  *2 *3
+                    for (int i = 0; i <framesCount-1; i++)
+                    {
+
+                        if (i >= CurrentFrame )
+                        {
+                            var OldList = AllPonitList[i+1];
+                            AllPonitList[i] = OldList;
+                        }
+
+                    }
+
+                    AllPonitList.Remove(framesCount - 1);
+                  if (CurrentFrame >= framesCount)
+                    {
+                        CurrentFrame --;
+                    }
+                    FramesCount--;
                     BuildShow(CurrentFrame);
                 });
             }
         }
 
+        #endregion
+
+        #region 编辑
         public RelayCommand ChangeColorModelCommand
         {
             get
@@ -209,8 +504,10 @@ namespace Setting.ViewModel
                 });
             }
         }
+        #endregion
 
 
+        #region 测试
         public RelayCommand OutputComand
         {
             get
@@ -284,13 +581,28 @@ namespace Setting.ViewModel
                         var templist = item.Value.Where(c => c.X >= 0 && c.X < xIndex && c.Y >= 0 && c.Y < yIndex).ToList();
                         saveInfo.Add(item.Key, templist);
                     }
-                    FileHelper.Save(JsonConvert.SerializeObject(saveInfo), JsonFileInfo);              
-                
+                    FileHelper.Save(JsonConvert.SerializeObject(saveInfo), JsonFileInfo);
+
                 }
                 );
             }
         }
+        public RelayCommand CleanComand
+        {
+            get
+            {
+                return new RelayCommand(() =>
+                {
+                    AllPonitList[currFrame].ForEach(c => c.Fill = new SolidColorBrush(Const.BackGroupColor));
 
+                    BuildShow(CurrentFrame);
+                });
+            }
+        }
+        #endregion
+
+
+        #region Cpu动态
         public RelayCommand CpuInfoStartComand
         {
             get
@@ -318,183 +630,65 @@ namespace Setting.ViewModel
                 });
             }
         }
-        public RelayCommand CleanComand
-        {
-            get
-            {
-                return new RelayCommand(() =>
-                {
-                    AllPonitList[currFrame].ForEach(c => c.Fill = new SolidColorBrush(Const.BackGroupColor));
-
-                    BuildShow(CurrentFrame);
-                });
-            }
-        }
-        private void ExecuteOpenFileCommand()
-        {
-
-            // 创建一个OpenFileDialog实例
-            var openFileDialog = new Microsoft.Win32.OpenFileDialog
-            {
-                // 设置一些基本属性，如过滤器
-                Filter = "Text files | *.gif",
-                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
-            };
-
-            // 显示对话框
-            // 注意：ShowDialog方法将返回一个可空的bool值，当用户选择文件并点击“打开”时为true
-            if (openFileDialog.ShowDialog() == true)
-            {
-                // 获取用户选择的文件路径
-                string file = openFileDialog.FileName;
-
-                var stream = new FileStream(file, FileMode.Open);
-                var decoder = new GifBitmapDecoder(stream, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.Default);
-                CurrentFrame = 0;
-                FramesCount = decoder.Frames.Count;
-                AllPonitList = new Dictionary<int, List<PointItem>>();
-                for (int frame = 0; frame < FramesCount; frame++)
-                {
-
-                    BitmapFrame t = decoder.Frames[frame];
-
-                    var pw = t.PixelWidth;
-                    var ph = t.PixelHeight;
-                    var pwdouble = (double)pw;
-                    var phdouble = (double)ph;
-                    var xindexdouble = (double)yIndex;
-                    var CurrentImgxIndex = (int)(pw / (ph / xindexdouble));
-                    var OneStep = phdouble / yIndex;
-                    var OnFrameAllPonitList = new List<PointItem>();
-
-                    for (int y = 0; y < yIndex; y++)
-                    {
-                        for (int x = 0; x < CurrentImgxIndex; x++)
-                        {
-
-                            OnFrameAllPonitList.Add(new PointItem(x, y, BitmapHelper.GetPixelColor(t, x, y, OneStep)));
-                        }
-                    }
-                    var MaxX = OnFrameAllPonitList.Max(c => c.X);
-                    var addCount = xIndex - MaxX;
-                    var xMove = addCount / 2;
-                    XMoveCommand(OnFrameAllPonitList, xMove);
-                    AllPonitList.Add(frame, OnFrameAllPonitList);
-                }
-                BuildShow(CurrentFrame);
-
-             
-
-                stream.Close();
-                var ThemeName = "新建模板" + DateTime.Now.ToString("YYMMddHHmmssms");
-                var TempJsonFileInfo = new JsonFileInfo()
-                {
-                    Name = ThemeName,
-                    FileName = Guid.NewGuid().ToString()
-                };
-                FileHelper.Save(JsonConvert.SerializeObject(AllPonitList), TempJsonFileInfo);
-                Messenger.Default.Send(new AddNewThemeEvent {JsonFileInfo = TempJsonFileInfo });
-            }
-        }
-
-
-        private void XMoveCommand(List<PointItem> OnFrameAllPonitList, int xMove)
-        {
-
-            OnFrameAllPonitList.ForEach(c => c.X = c.X + xMove);
-            var minx = OnFrameAllPonitList.Min(c => c.X);
-            var maxX = OnFrameAllPonitList.Max(c => c.X);
-            if (minx > 0)
-            {
-                //左边 加
-                for (int x = 0; x < minx; x++)
-                {
-                    for (int y = 0; y < yIndex; y++)
-                    {
-                        OnFrameAllPonitList.Add(new PointItem(x, y));
-                    }
-                }
-            }
+        #endregion
 
 
 
-            if (maxX + 1 < xIndex)
-            {//you边加
-                for (int x = maxX + 1; x < xIndex; x++)
-                {
-                    for (int y = 0; y < yIndex; y++)
-                    {
-                        OnFrameAllPonitList.Add(new PointItem(x, y));
-                    }
-                }
-            }
-        }
-        private void YMoveCommand(List<PointItem> OnFrameAllPonitList, int yMove)
-        {
-
-            OnFrameAllPonitList.ForEach(c => c.Y = c.Y + yMove);
-            var minY = OnFrameAllPonitList.Min(c => c.Y);
-            var maxY = OnFrameAllPonitList.Max(c => c.Y);
-
-            if (minY > 0)
-            {
-                //上 加
-                for (int y = 0; y < minY; y++)
-                {
-                    for (int x = 0; x < xIndex; x++)
-                    {
-                        OnFrameAllPonitList.Add(new PointItem(x, y));
-                    }
-                }
-            }
-
-            if (maxY + 1 < yIndex)
-            {//
-                for (int y = maxY + 1; y < yIndex; y++)
-                {
-                    for (int x = 0; x < xIndex; x++)
-                    {
-                        OnFrameAllPonitList.Add(new PointItem(x, y));
-                    }
-                }
-            }
-        }
-        public void BuildShow(int frameIndex)
-        {
-            ShowPonitList = new ObservableCollection<PointItem>();
-            var OnFrameAllPonitList = AllPonitList[frameIndex];
-            OnFrameAllPonitList.Sort();
-            foreach (var c in OnFrameAllPonitList)
-            {
-
-                if (c.X >= 0 && c.X < xIndex && c.Y >= 0 && c.Y < yIndex)
-                {
-                    ShowPonitList.Add(c);
-                }
-            }
+     
 
 
-        }
+       
 
         public PointListViewModel()
         {
             Messenger.Default.Register<PonitClickedEvent>(this, HandlePonitClickedEvent);
             Messenger.Default.Register<CpuInfoEvent>(this, HandleCpuInfoEvent);
+            
+            Messenger.Default.Register<InitFromHistroyEvent>(this, HanderInitFromHistroyEvent);
             Messenger.Default.Register<ThemeItemClickedEvent>(this, HandleChangeTheMeEvent);
+            Messenger.Default.Register<NewThemeEvent>(this, HandleNewThemeEvent);
+
+
             ChangeColorModel = Visibility.Hidden;
             ChangeColor = new SolidColorBrush(Const.AbcColor);
+        }
+
+        private void HandleNewThemeEvent(NewThemeEvent obj)
+        {
+            CurrentFrame = 0;
+            FramesCount = 1;
+            AllPonitList = new Dictionary<int, List<PointItem>>();
+            var OnFrameAllPonitList = new List<PointItem>();
+            for (int x = 0; x < xIndex; x++)
+            {
+                for (int y = 0; y < yIndex; y++)
+                {
+                    OnFrameAllPonitList.Add(new PointItem(x, y));
+                }
+            }
+            AllPonitList[0] = OnFrameAllPonitList;
+            BuildShow(CurrentFrame);
+            FileHelper.Save(JsonConvert.SerializeObject(AllPonitList), obj.JsonFileInfo);
+        }
+        #region EventHander
+        private void HanderInitFromHistroyEvent(InitFromHistroyEvent obj)
+        {
+            AllPonitList =   JsonConvert.DeserializeObject<Dictionary<int, List<PointItem>>>(JsonConvert.SerializeObject(obj.HistoryItem.PointItems));
+            CurrentFrame = obj.HistoryItem.CurrentFrame;
+            FramesCount = obj.HistoryItem.FrameCount;
+            BuildShowWithHistroy(CurrentFrame);
         }
         private void HandleChangeTheMeEvent(ThemeItemClickedEvent obj)
         {
             CurrentFrame = 0;
-      
+
             ChangeColorModel = Visibility.Hidden;
             ChangeColor = new SolidColorBrush(Const.AbcColor);
-            JsonFileInfo = obj .JsonFileInfo;
+            JsonFileInfo = obj.JsonFileInfo;
             var json = FileHelper.Open(obj.JsonFileInfo.FileName);
             AllPonitList = JsonConvert.DeserializeObject<Dictionary<int, List<PointItem>>>(json);
             FramesCount = AllPonitList.Count;
-            BuildShow(CurrentFrame);
+            BuildShowInit(CurrentFrame);
         }
         private void HandleCpuInfoEvent(CpuInfoEvent obj)
         {
@@ -532,7 +726,6 @@ namespace Setting.ViewModel
             } while (cpu >= 1);
             BuildShow(CurrentFrame);
         }
-
         private void HandlePonitClickedEvent(PonitClickedEvent item)
         {
             if (ChangeColorModel == Visibility.Visible)
@@ -541,6 +734,8 @@ namespace Setting.ViewModel
                 BuildShow(CurrentFrame);
             }
         }
+        #endregion
+
     }
 
     public class PointItem : ViewModelBase, IComparable<PointItem>, IPontBase

@@ -148,10 +148,14 @@ namespace Setting.Helper
         public static string Open(string filename)
         {
             var jsonfile = GetThemDir() + "\\" + filename + Extension;
-            using (StreamReader file = File.OpenText(jsonfile))
+            if (File.Exists(jsonfile))
             {
-                return File.ReadAllText(jsonfile);
+                using (StreamReader file = File.OpenText(jsonfile))
+                {
+                    return File.ReadAllText(jsonfile);
+                }
             }
+            return "";
            
 
         }

@@ -77,6 +77,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Convert\CurrentFrameConventer.cs" />
     <Compile Include="Helper\ABCHelper.cs" />
     <Compile Include="Helper\AddNewThemeEvent.cs" />
     <Compile Include="Helper\BitmapHelper.cs" />
@@ -84,8 +85,10 @@
     <Compile Include="Helper\CPUHelper.cs" />
     <Compile Include="Helper\CpuInfoEvent.cs" />
     <Compile Include="Helper\FileHelper.cs" />
+    <Compile Include="Helper\MessageHelper.cs" />
     <Compile Include="Helper\MouseClickCommandBehavior.cs" />
     <Compile Include="Helper\HistroyEvent.cs" />
+    <Compile Include="Helper\SerialPortHelper.cs" />
     <Compile Include="Helper\ThemeClickedEvent.cs" />
     <Compile Include="Helper\PonitClickedEvent.cs" />
     <Compile Include="Media\HsbaColor.cs" />
@@ -98,6 +101,7 @@
     <Compile Include="ViewModel\HistoryViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\PointListViewModel.cs" />
+    <Compile Include="ViewModel\ScreenInfoViewModel.cs" />
     <Compile Include="ViewModel\ThemeViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Compile Include="View\ColorPicker.xaml.cs">
@@ -166,7 +170,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Convert\" />
     <Folder Include="img\" />
     <Folder Include="Json\Theme\" />
   </ItemGroup>
