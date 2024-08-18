@@ -4,11 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Setting.Helper
+namespace Setting.Enum
 {
-    public class CpuInfoEvent
+    public enum CursorEnum
     {
-       public int CpuUse { get; set; }
-       public int CpuTemp { get; set; }
+        MOVE,
+        ERASE,
+        Magic
     }
 }

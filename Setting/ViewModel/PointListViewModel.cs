@@ -17,7 +17,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Diagnostics;
-
+using Setting.Enum;
 
 namespace Setting.ViewModel
 {
@@ -37,18 +37,10 @@ namespace Setting.ViewModel
             get { return jsonFileInfo; }
             set { jsonFileInfo = value; RaisePropertyChanged(); }
         }
-        /// <summary>
-        /// 所有帧数
-        /// </summary>
-        private Visibility changeColorModel;
-        /// <summary>
-        /// 
-        /// </summary>
-        public System.Windows.Visibility ChangeColorModel
-        {
-            get { return changeColorModel; }
-            set { changeColorModel = value; RaisePropertyChanged(); }
-        }
+
+        private CursorEnum CursorEnum { get; set; }
+       
+     
         /// <summary>
         /// 所有帧数
         /// </summary>
@@ -486,21 +478,14 @@ namespace Setting.ViewModel
         #endregion
 
         #region 编辑
-        public RelayCommand ChangeColorModelCommand
+        public RelayCommand<CursorEnum> ChangeCursorCommand
         {
             get
             {
-                return new RelayCommand(() =>
+                return new RelayCommand<CursorEnum>(a =>
                 {
-                    if (ChangeColorModel == Visibility.Hidden)
-                    {
-                        ChangeColorModel = Visibility.Visible;
-                    }
-                    else
-                    {
-                        ChangeColorModel = Visibility.Hidden;
-                    }
-
+                    CursorEnum = a;
+                    Messenger.Default.Send(new CursorModelChangeEvent {model = a });
                 });
             }
         }
@@ -649,7 +634,7 @@ namespace Setting.ViewModel
             Messenger.Default.Register<NewThemeEvent>(this, HandleNewThemeEvent);
 
 
-            ChangeColorModel = Visibility.Hidden;
+            CursorEnum = CursorEnum.MOVE;
             ChangeColor = new SolidColorBrush(Const.AbcColor);
         }
 
@@ -682,7 +667,7 @@ namespace Setting.ViewModel
         {
             CurrentFrame = 0;
 
-            ChangeColorModel = Visibility.Hidden;
+            CursorEnum = CursorEnum.MOVE;
             ChangeColor = new SolidColorBrush(Const.AbcColor);
             JsonFileInfo = obj.JsonFileInfo;
             var json = FileHelper.Open(obj.JsonFileInfo.FileName);
@@ -728,9 +713,14 @@ namespace Setting.ViewModel
         }
         private void HandlePonitClickedEvent(PonitClickedEvent item)
         {
-            if (ChangeColorModel == Visibility.Visible)
+            if (CursorEnum == CursorEnum.Magic)
             {
                 AllPonitList[CurrentFrame].Find(c => c.Y == item.Y && c.X == item.X).Fill = ChangeColor;
+                BuildShow(CurrentFrame);
+            }
+            else if (CursorEnum == CursorEnum.ERASE)
+            {
+                AllPonitList[CurrentFrame].Find(c => c.Y == item.Y && c.X == item.X).Fill  = new SolidColorBrush( Const.BackGroupColor);
                 BuildShow(CurrentFrame);
             }
         }

@@ -4,91 +4,226 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Setting"
-        xmlns:myview="clr-namespace:Setting.View" xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:local1="clr-namespace:Setting.Convert"
+        xmlns:myview="clr-namespace:Setting.View" xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:local1="clr-namespace:Setting.Convert" xmlns:enum="clr-namespace:Setting.Enum"
         mc:Ignorable="d"
         Title="MainWindow" Height="1000" Width="1920" DataContext="{Binding Path=PointList,Source={StaticResource Locator}}" >
     <Window.Resources>
+
         <local1:CurrentFrameConventer x:Key="CurrentFrameConventer"/>
+        <Style x:Key="FocusVisual">
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Rectangle Margin="2" SnapsToDevicePixels="true" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" StrokeThickness="1" StrokeDashArray="1 2"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <SolidColorBrush x:Key="Button.Static.Background" Color="#FFDDDDDD"/>
+        <SolidColorBrush x:Key="Button.Static.Border" Color="#FF707070"/>
+        <SolidColorBrush x:Key="Button.MouseOver.Background" Color="#FFBEE6FD"/>
+        <SolidColorBrush x:Key="Button.MouseOver.Border" Color="#FF3C7FB1"/>
+        <SolidColorBrush x:Key="Button.Pressed.Background" Color="#FFC4E5F6"/>
+        <SolidColorBrush x:Key="Button.Pressed.Border" Color="#FF2C628B"/>
+        <SolidColorBrush x:Key="Button.Disabled.Background" Color="#FFF4F4F4"/>
+        <SolidColorBrush x:Key="Button.Disabled.Border" Color="#7FFFFFFF"/>
+        <SolidColorBrush x:Key="Button.Disabled.Foreground" Color="#7FFFFFFF"/>
+        <Style x:Key="ButtonStyle1" TargetType="{x:Type Button}">
+            <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
+            <Setter Property="Background" Value="#02DDDDDD"/>
+            <Setter Property="BorderBrush" Value="White"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" CornerRadius="10" SnapsToDevicePixels="true">
+                            <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsDefaulted" Value="true">
+                                <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="BorderThickness" Value="3"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter Property="BorderThickness" Value="3"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Pressed.Border}"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="BorderThickness" Value="2"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Disabled.Border}"/>
+                                <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.Disabled.Foreground}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Window.Resources>
     <Grid>
+        <Grid.Background>
+
+            <LinearGradientBrush>
+
+                <GradientStop Color="#673ab7" Offset="0"/>
+                <GradientStop Color="#f48fb1" Offset="0.3"/>
+                <GradientStop Color="#aed581" Offset="0.7"/>
+                <GradientStop Color="#FF3F51B5" Offset="1"/>
+            </LinearGradientBrush>
+
+        </Grid.Background>
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <StackPanel Orientation="Vertical">
-            <Button DataContext="{Binding Path=ThemeList,Source={StaticResource Locator}}" Command="{Binding CreateCommand}">新增</Button>
-            <myview:Theme></myview:Theme>
+        <Grid >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="60"/>
+                <RowDefinition Height="*"/>
+          
+            </Grid.RowDefinitions>
+            <StackPanel Orientation="Horizontal">
+                <Button Width="100" Height="30" DataContext="{Binding Path=ThemeList,Source={StaticResource Locator}}" Command="{Binding CreateCommand}"   Style="{DynamicResource ButtonStyle1}">新增</Button>
+                <Button Width="100" Height="30"   Command="{Binding OpenFileCommand}" Style="{DynamicResource ButtonStyle1}" >导入</Button>
+            </StackPanel>
 
-        </StackPanel>
+            <myview:Theme  Grid.Row="1"></myview:Theme>
+
+        </Grid>
 
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
-                <RowDefinition Height="100"/>
+                <RowDefinition Height="60"/>
+                <RowDefinition Height="300"/>
                 <RowDefinition Height="112*"/>
-                <RowDefinition Height="211*"/>
+                <RowDefinition Height="60"/>
             </Grid.RowDefinitions>
-            <StackPanel Orientation="Horizontal">
-                <Button Width="100" Height="30"   Command="{Binding OpenFileCommand}">导入</Button>
-                <Button Width="100" Height="30"   Command="{Binding SaveCommand}">保存</Button>
-                <Button Width="100" Height="30"   Command="{Binding SendCommand}" Content="应用" />
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" DataContext="{Binding Path=HistoryList,Source={StaticResource Locator}}" >
+
+                    <Button Width="100" Height="30"   Command="{Binding CancelHistoryCommand }"  IsEnabled="{Binding CancelIsEnabled}"   Style="{DynamicResource ButtonStyle1}">撤销</Button>
+                    <Button Width="100" Height="30"   Command="{Binding  ReBackHistoryCommand}" CommandParameter="{Binding}"  IsEnabled="{Binding ReBackIsEnabled}"    Style="{DynamicResource ButtonStyle1}">恢复</Button>
+                    <Button Width="100" Height="30"   Command="{Binding RedoHistoryCommand}" CommandParameter="{Binding}" IsEnabled="{Binding CancelIsEnabled}"  Content="重做"   Style="{DynamicResource ButtonStyle1}"/>
+                    <Button Width="100" Height="30"   Command="{Binding CleanComand}" CommandParameter="{Binding}" Content="清除"   Style="{DynamicResource ButtonStyle1}"/>
+    
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center"  DataContext="{Binding Path=PointList,Source={StaticResource Locator}}">
+                        <Button Width="100" Height="30"   Command="{Binding ChangeCursorCommand }"   CommandParameter="{x:Static enum:CursorEnum.MOVE}" Style="{DynamicResource ButtonStyle1}">
+                            <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+                                <Image Source="img/移动_move-one.png" Height="15"></Image>
+                                <TextBlock>正常</TextBlock>
+                            </StackPanel>
+                        </Button>
+                        <myview:ColorPicker Width="30" x:Name="colorPicker" ></myview:ColorPicker>
+                        <Button Width="100" Height="30"   Command="{Binding ChangeCursorCommand }"   CommandParameter="{x:Static enum:CursorEnum.Magic}" Style="{DynamicResource ButtonStyle1}">
+                            <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+                                <Image Source="img/魔法棒_magic.png" Height="15"></Image>
+                                <TextBlock>修改颜色</TextBlock>
+                            </StackPanel>
+                        </Button>
+                        <Button Width="100" Height="30"  Command="{Binding ChangeCursorCommand }"   CommandParameter="{x:Static enum:CursorEnum.ERASE}"  Style="{DynamicResource ButtonStyle1}">
+
+                            <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+                                <Image Source="img/擦除_erase.png" Height="15"></Image>
+                                <TextBlock>擦除颜色</TextBlock>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center"  Grid.Column="1" >
+
+                    <Button Width="100" Height="30" Style="{DynamicResource ButtonStyle1}">WIFI</Button>
+                    <Button  Width="100" Height="30" Style="{DynamicResource ButtonStyle1}">
+                        <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+                            <Image Source="img/TypeC_usb-type-c.png" Height="15"></Image>
+                            <TextBlock>USB</TextBlock>
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </Grid>
+           
+            <StackPanel Orientation="Horizontal" Grid.Row="3
+                        " HorizontalAlignment="Right">
+      
+                <Button Width="100" Height="30"   Command="{Binding SaveCommand}"  Style="{DynamicResource ButtonStyle1}" >保存</Button>
+                <Button Width="100" Height="30"   Command="{Binding SendCommand}" Content="应用"   Style="{DynamicResource ButtonStyle1}"/>
             </StackPanel>
-            <Grid Grid.Row="1">
+            <Grid Grid.Row="1" >
                 <myview:PointList >
                 </myview:PointList>
 
-             
+
             </Grid>
-            <StackPanel Grid.Row="2" DataContext="{Binding Path=PointList,Source={StaticResource Locator}}">
+            <StackPanel Grid.Row="2" DataContext="{Binding Path=PointList,Source={StaticResource Locator}}" HorizontalAlignment="Left">
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                    <TextBlock  Foreground="White" VerticalAlignment="Center" >帧数调节：</TextBlock>
+                    <TextBlock Text="{Binding CurrentFrame,Converter = {StaticResource CurrentFrameConventer}}" Foreground="White" VerticalAlignment="Center" ></TextBlock>
+                    <TextBlock  Foreground="White" VerticalAlignment="Center" >/</TextBlock>
+                    <TextBlock Text="{Binding FramesCount}"  Foreground="White" VerticalAlignment="Center" ></TextBlock>
+                    <Button Width="100" Height="30"   Command="{Binding LeftFrameCommand}" Style="{DynamicResource ButtonStyle1}">上一帧
+                    </Button>
+                    <Button Width="100" Height="30"   Command="{Binding RightframeCommand}" Style="{DynamicResource ButtonStyle1}">下一帧
+                    </Button>
+                    <Button Width="100" Height="30"   Command="{Binding AddRightFrameCommand}" Style="{DynamicResource ButtonStyle1}">添加一帧
+                    </Button>
+                    <Button Width="100" Height="30"   Command="{Binding DeleteFrameCommand}" Style="{DynamicResource ButtonStyle1}">删除一帧
+                    </Button>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                    <TextBlock  Foreground="White" VerticalAlignment="Center" >画面调节：</TextBlock>
+                    <Button Width="100" Height="30"   Command="{Binding LeftCommand}" Style="{DynamicResource ButtonStyle1}">
+                        <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+                            <Image Source="img/箭头左_arrow-left (1).png" Height="15"></Image>
+                            <TextBlock>左</TextBlock>
+                        </StackPanel>
+                    </Button>
+                    <Button Width="100" Height="30"   Command="{Binding RightCommand}" Style="{DynamicResource ButtonStyle1}">
+                        <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+                            <Image Source="img/箭头右_arrow-right.png" Height="15"></Image>
+                            <TextBlock>右</TextBlock>
+                        </StackPanel>
+                    </Button>
+                    <Button Width="100" Height="30"   Command="{Binding TopCommand}"   Style="{DynamicResource ButtonStyle1}">
+                        <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+                            <Image Source="img/箭头上_arrow-up.png" Height="15"></Image>
+                            <TextBlock>上</TextBlock>
+                        </StackPanel>
+                    </Button>
+                    <Button Width="100" Height="30"   Command="{Binding BottomCommand}"   Style="{DynamicResource ButtonStyle1}">
+                        <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+                            <Image Source="img/箭头下_arrow-down.png" Height="15"></Image>
+                            <TextBlock>下</TextBlock>
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
                 
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <TextBlock Text="{Binding CurrentFrame,Converter = {StaticResource CurrentFrameConventer}}" ></TextBlock>
-                    <TextBlock >/</TextBlock>
-                    <TextBlock Text="{Binding FramesCount}"></TextBlock>
-                    <Button Width="100" Height="30"   Command="{Binding LeftFrameCommand}">上一帧
-                    </Button>
-                    <Button Width="100" Height="30"   Command="{Binding RightframeCommand}">下一帧
-                    </Button>
-                    <Button Width="100" Height="30"   Command="{Binding AddRightFrameCommand}">添加一帧
-                    </Button>
-                    <Button Width="100" Height="30"   Command="{Binding DeleteFrameCommand}">删除一帧
-                    </Button>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-
-                    <Button Width="100" Height="30"   Command="{Binding LeftCommand}">左</Button>
-                    <Button Width="100" Height="30"   Command="{Binding RightCommand}">右</Button>
-                    <Button Width="100" Height="30"   Command="{Binding TopCommand}">上</Button>
-                    <Button Width="100" Height="30"   Command="{Binding BottomCommand}">下</Button>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <myview:ColorPicker Width="100" x:Name="colorPicker" Visibility= "{Binding ChangeColorModel }" ></myview:ColorPicker>
-
-                    <Button Width="100" Height="30"   Command="{Binding ChangeColorModelCommand}" CommandParameter="{Binding}">改变设置颜色模式</Button>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" DataContext="{Binding Path=HistoryList,Source={StaticResource Locator}}" >
-                    <Button Width="100" Height="30"   Command="{Binding CancelHistoryCommand }"  IsEnabled="{Binding CancelIsEnabled}">撤销</Button>
-                    <Button Width="100" Height="30"   Command="{Binding  ReBackHistoryCommand}" CommandParameter="{Binding}"  IsEnabled="{Binding ReBackIsEnabled}" >恢复</Button>
-                    <Button Width="100" Height="30"   Command="{Binding RedoHistoryCommand}" CommandParameter="{Binding}" IsEnabled="{Binding CancelIsEnabled}"  Content="重做"/>
-                    <Button Width="100" Height="30"   Command="{Binding CleanComand}" CommandParameter="{Binding}" Content="清除"/>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <TextBlock  Text="{Binding CurrCpu}"></TextBlock>
-                    <Button Width="100" Height="30"   Command="{Binding CpuInfoStartComand}" CommandParameter="{Binding}">开始</Button>
-                    <Button Width="100" Height="30"   Command="{Binding CpuInfoEndComand}" CommandParameter="{Binding}">停止</Button>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed">
+                    <Button Width="100" Height="30"   Command="{Binding CpuInfoStartComand}" CommandParameter="{Binding}"   Style="{DynamicResource ButtonStyle1}">开始</Button>
+                    <Button Width="100" Height="30"   Command="{Binding CpuInfoEndComand}" CommandParameter="{Binding}"   Style="{DynamicResource ButtonStyle1}">停止</Button>
 
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" DataContext="">
-                
-                    <Button Width="100" Height="30"   Command="{Binding CpuInfoStartComand}" CommandParameter="{Binding}">屏幕开</Button>
-                    <Button Width="100" Height="30"   Command="{Binding CpuInfoEndComand}" CommandParameter="{Binding}">屏幕关</Button>
-                    <Slider Width="200"  Maximum="10" Value="1" SmallChange="1"  ></Slider>
-                    <Button Width="100" Height="30"   Command="{Binding CpuInfoEndComand}" CommandParameter="{Binding}">修改亮度</Button>
+                    <TextBlock  Foreground="White" VerticalAlignment="Center" >屏幕控制：</TextBlock>
+                    <Button Width="100" Height="30"   Command="{Binding CpuInfoStartComand}" CommandParameter="{Binding}"   Style="{DynamicResource ButtonStyle1}">屏幕开</Button>
+                    <Button Width="100" Height="30"   Command="{Binding CpuInfoEndComand}" CommandParameter="{Binding}"   Style="{DynamicResource ButtonStyle1}">屏幕关</Button>
+                    <Slider Width="200"  Maximum="10" Value="1" SmallChange="1"  />
+                    <Button Width="100" Height="30"   Command="{Binding CpuInfoEndComand}" CommandParameter="{Binding}"   Style="{DynamicResource ButtonStyle1}">修改亮度</Button>
 
                 </StackPanel>
             </StackPanel>
 
         </Grid>
-       
+
     </Grid>
 </Window>

@@ -27,9 +27,9 @@
         <SolidColorBrush x:Key="Button.Disabled.Foreground" Color="#FF838383"/>
         <Style x:Key="ButtonStyle1" TargetType="{x:Type Button}">
             <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
-            <Setter Property="Background" Value="{StaticResource Button.Static.Background}"/>
-            <Setter Property="BorderBrush" Value="{StaticResource Button.Static.Border}"/>
-            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+            <Setter Property="Background" Value="#02FFFFFF"/>
+            <Setter Property="BorderBrush" Value="White"/>
+            <Setter Property="Foreground" Value="White"/>
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="HorizontalContentAlignment" Value="Center"/>
             <Setter Property="VerticalContentAlignment" Value="Center"/>
@@ -40,14 +40,18 @@
                         <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" CornerRadius="4" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="true">
                             <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                         </Border>
-
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="BorderThickness" Value="3"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
     </UserControl.Resources>
 
-    <ListView   ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Hidden"  ItemsSource="{Binding ThemeItemList}"  >
+    <ListView   ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Hidden"  ItemsSource="{Binding ThemeItemList}" Background="#02FFFFFF" BorderBrush="White"  >
         <ListView.ItemsPanel>
             <ItemsPanelTemplate>
                 <WrapPanel ></WrapPanel>
@@ -75,10 +79,10 @@
                     <TextBox  Width="160" Height="60"  Text="{Binding JsonFileInfo.Name }" Visibility="{Binding ReName}">
                     </TextBox>
                     <StackPanel Orientation="Vertical">
-                        <Button Width="40"  Height="20" Command="{Binding CopyCommand}" CommandParameter="{Binding}"  >拷贝</Button>
-                        <Button Width="40" Height="20" Command="{Binding ReMoveCommand}"  CommandParameter="{Binding}"  >删除</Button>
-                        <Button Width="40" Height="20"  Command="{Binding BeginRenameCommand}" Visibility="{Binding  Read}" CommandParameter="{Binding}" >重命名</Button>
-                        <Button Width="40" Height="20" Command="{Binding EndRenameCommand}" Visibility="{Binding ReName}" CommandParameter="{Binding}" >保存</Button>
+                        <Button Width="40"  Height="20" Command="{Binding CopyCommand}" CommandParameter="{Binding}"   Style="{DynamicResource ButtonStyle1}">拷贝</Button>
+                        <Button Width="40" Height="20" Command="{Binding ReMoveCommand}"  CommandParameter="{Binding}"   Style="{DynamicResource ButtonStyle1}">删除</Button>
+                        <Button Width="40" Height="20"  Command="{Binding BeginRenameCommand}" Visibility="{Binding  Read}" CommandParameter="{Binding}"  Style="{DynamicResource ButtonStyle1}">重命名</Button>
+                        <Button Width="40" Height="20" Command="{Binding EndRenameCommand}" Visibility="{Binding ReName}" CommandParameter="{Binding}" Style="{DynamicResource ButtonStyle1}" >保存</Button>
                     </StackPanel>
                 </StackPanel>
           

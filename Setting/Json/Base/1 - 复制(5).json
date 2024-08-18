@@ -1,0 +1,77 @@
+[
+  {
+    "X": 0,
+    "Y": 0,
+    "HasColor": false
+  },
+  {
+    "X": 1,
+    "Y": 0,
+    "HasColor": true
+  },
+  {
+    "X": 2,
+    "Y": 0,
+    "HasColor": false
+  },
+  {
+    "X": 0,
+    "Y": 1,
+    "HasColor": true
+  },
+  {
+    "X": 1,
+    "Y": 1,
+    "HasColor": true
+  },
+  {
+    "X": 2,
+    "Y": 1,
+    "HasColor": false
+  },
+  {
+    "X": 0,
+    "Y": 2,
+    "HasColor": false
+  },
+  {
+    "X": 1,
+    "Y": 2,
+    "HasColor": true
+  },
+  {
+    "X": 2,
+    "Y": 2,
+    "HasColor": false
+  },
+  {
+    "X": 0,
+    "Y": 3,
+    "HasColor": false
+  },
+  {
+    "X": 1,
+    "Y": 3,
+    "HasColor": true
+  },
+  {
+    "X": 2,
+    "Y": 3,
+    "HasColor": false
+  },
+  {
+    "X": 0,
+    "Y": 4,
+    "HasColor": true
+  },
+  {
+    "X": 1,
+    "Y": 4,
+    "HasColor": true
+  },
+  {
+    "X": 2,
+    "Y": 4,
+    "HasColor": true
+  }
+]

@@ -78,12 +78,15 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Convert\CurrentFrameConventer.cs" />
+    <Compile Include="Enum\CursorEnum.cs" />
     <Compile Include="Helper\ABCHelper.cs" />
     <Compile Include="Helper\AddNewThemeEvent.cs" />
     <Compile Include="Helper\BitmapHelper.cs" />
     <Compile Include="Helper\Const.cs" />
     <Compile Include="Helper\CPUHelper.cs" />
     <Compile Include="Helper\CpuInfoEvent.cs" />
+    <Compile Include="Helper\CursorModelChangeEvent.cs" />
+    <Compile Include="Helper\CursorSafeHandle.cs" />
     <Compile Include="Helper\FileHelper.cs" />
     <Compile Include="Helper\MessageHelper.cs" />
     <Compile Include="Helper\MouseClickCommandBehavior.cs" />
@@ -157,6 +160,51 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="Design\projectGuides.guides" />
+    <None Include="Json\Base\1 - 复制%2810%29.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Json\Base\1 - 复制%2811%29.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Json\Base\1 - 复制%2812%29.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Json\Base\1 - 复制%2813%29.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Json\Base\1 - 复制%2814%29.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Json\Base\1 - 复制%2815%29.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Json\Base\1 - 复制%282%29.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Json\Base\1 - 复制%283%29.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Json\Base\1 - 复制%284%29.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Json\Base\1 - 复制%285%29.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Json\Base\1 - 复制%286%29.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Json\Base\1 - 复制%287%29.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Json\Base\4.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Json\Base\3.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Json\Base\2.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Json\Base\1.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -170,8 +218,30 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="img\" />
     <Folder Include="Json\Theme\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="img\擦除_erase-cursor.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\移动_move-one-cursor.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Resource Include="img\魔法棒_magic.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="img\TypeC_usb-type-c.png" />
+    <Resource Include="img\擦除_erase.png" />
+    <Resource Include="img\箭头上_arrow-up.png" />
+    <Resource Include="img\箭头下_arrow-down.png" />
+    <Resource Include="img\箭头右_arrow-right.png" />
+    <Resource Include="img\箭头左_arrow-left %281%29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="img\移动_move-one.png" />
+    <Content Include="img\魔法棒_magic-cursor.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

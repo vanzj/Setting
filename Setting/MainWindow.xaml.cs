@@ -26,11 +26,27 @@ namespace Setting
         public MainWindow()
         {
             InitializeComponent();
-     
+            this.Cursor = CursorHelper.MOVE();
+            Messenger.Default.Register<CursorModelChangeEvent>(this, HandleCursorModelChangeEvent);
         }
 
-
-      
+        private void HandleCursorModelChangeEvent(CursorModelChangeEvent obj)
+        {
+            switch (obj.model)
+            {
+                case Enum.CursorEnum.MOVE:
+                    this.Cursor = CursorHelper.MOVE();
+                    break;
+                case Enum.CursorEnum.ERASE:
+                    this.Cursor = CursorHelper.ERASE();
+                    break;
+                case Enum.CursorEnum.Magic:
+                    this.Cursor = CursorHelper.MAGIC();
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 
 }

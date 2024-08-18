@@ -41,14 +41,18 @@
                         <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" CornerRadius="4" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="true">
                             <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                         </Border>
-                      
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="BorderThickness" Value="5"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
     </UserControl.Resources>
 
-    <ListView   ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Hidden"  ItemsSource="{Binding ShowPonitList}" BorderBrush="Black" >
+    <ListView   ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Hidden"  ItemsSource="{Binding ShowPonitList}" BorderBrush="White" Background="#02FFFFFF"  >
         <ListView.ItemsPanel>
             <ItemsPanelTemplate>
                 <WrapPanel ></WrapPanel>
@@ -70,7 +74,7 @@
         </ListBox.ItemContainerStyle>
         <ListView.ItemTemplate>
             <DataTemplate>
-                <Button Style="{DynamicResource ButtonStyle1}" Background="{Binding Fill}" Width="20" Height="20" BorderBrush="Black" BorderThickness="0.5" Command="{Binding ChangeColorCommand}" CommandParameter="{Binding}">
+                <Button Style="{DynamicResource ButtonStyle1}" Background="{Binding Fill}" Width="20" Height="20" BorderBrush="#cccccc" Command="{Binding ChangeColorCommand}" CommandParameter="{Binding}">
 
    
 
