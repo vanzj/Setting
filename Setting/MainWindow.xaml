@@ -143,20 +143,25 @@
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center"  Grid.Column="1" >
 
                     <Button Width="100" Height="30" Style="{DynamicResource ButtonStyle1}">WIFI</Button>
-                    <Button  Width="100" Height="30" Style="{DynamicResource ButtonStyle1}">
+                    <TextBox Width="100" Text="{Binding ComName}" Background="#02FFFFFF" Foreground="White" BorderBrush="White"></TextBox>
+                    <Button  Width="100" Height="30" Style="{DynamicResource ButtonStyle1}" Command="{Binding InitCOMCommand}">
                         <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
                             <Image Source="img/TypeC_usb-type-c.png" Height="15"></Image>
-                            <TextBlock>USB</TextBlock>
+                            <TextBlock>USB连接</TextBlock>
                         </StackPanel>
                     </Button>
+               
                 </StackPanel>
             </Grid>
            
             <StackPanel Orientation="Horizontal" Grid.Row="3
                         " HorizontalAlignment="Right">
-      
-                <Button Width="100" Height="30"   Command="{Binding SaveCommand}"  Style="{DynamicResource ButtonStyle1}" >保存</Button>
+
+                <Button Width="100" Height="30"   Command="{Binding CleanDebugInfoCommand}"   >清理调试输出</Button>
+                <Button Width="100" Height="30"   Command="{Binding LiveShowStartComand}"  Style="{DynamicResource ButtonStyle1}" >预览</Button>
+                <Button Width="100" Height="30"   Command="{Binding LiveShowEndComand}"  Style="{DynamicResource ButtonStyle1}" >停止预览</Button>
                 <Button Width="100" Height="30"   Command="{Binding SendCommand}" Content="应用"   Style="{DynamicResource ButtonStyle1}"/>
+                <Button Width="100" Height="30"   Command="{Binding SaveCommand}"  Style="{DynamicResource ButtonStyle1}" Content="保存" Margin="0,15" />
             </StackPanel>
             <Grid Grid.Row="1" >
                 <myview:PointList >
@@ -213,16 +218,17 @@
                     <Button Width="100" Height="30"   Command="{Binding CpuInfoEndComand}" CommandParameter="{Binding}"   Style="{DynamicResource ButtonStyle1}">停止</Button>
 
                 </StackPanel>
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" DataContext="">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" >
                     <TextBlock  Foreground="White" VerticalAlignment="Center" >屏幕控制：</TextBlock>
-                    <Button Width="100" Height="30"   Command="{Binding CpuInfoStartComand}" CommandParameter="{Binding}"   Style="{DynamicResource ButtonStyle1}">屏幕开</Button>
-                    <Button Width="100" Height="30"   Command="{Binding CpuInfoEndComand}" CommandParameter="{Binding}"   Style="{DynamicResource ButtonStyle1}">屏幕关</Button>
-                    <Slider Width="200"  Maximum="10" Value="1" SmallChange="1"  />
-                    <Button Width="100" Height="30"   Command="{Binding CpuInfoEndComand}" CommandParameter="{Binding}"   Style="{DynamicResource ButtonStyle1}">修改亮度</Button>
+                    <Button Width="100" Height="30"   Command="{Binding SendOpenSendMessageCommand}"  Style="{DynamicResource ButtonStyle1}">屏幕开</Button>
+                    <Button Width="100" Height="30"   Command="{Binding SendCloseSendMessageCommand}"   Style="{DynamicResource ButtonStyle1}">屏幕关</Button>
+                    <Slider Width="200"  Maximum="255" Value="{Binding Luminance}" SmallChange="1" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White"   />
+                    <Button Width="100" Height="30"   Command="{Binding SendLuminanceSendMessageCommand}"    Style="{DynamicResource ButtonStyle1}">修改亮度</Button>
 
                 </StackPanel>
             </StackPanel>
 
+            <TextBox Grid.Row="2" Margin="724,0,0,0" TextWrapping="Wrap" Text="{Binding DebugInfo}"></TextBox>
         </Grid>
 
     </Grid>

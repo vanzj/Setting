@@ -11,5 +11,14 @@ namespace Setting.Helper
     {
         public static Color BackGroupColor => (Color)ColorConverter.ConvertFromString("#FFFFFFFF");
         public static Color AbcColor =>       (Color)ColorConverter.ConvertFromString("#FF234EDE");
+
+        public static string CMDOpen => "open";
+        public static string CMDClose => "close";
+        public static string CMDGetMac => "getMac";
+        public static string CMDLuminance => "luminance";
+        public static string CMDTheme => "theme";
+        public static string CMDThemeSegment => "themeSegment";
+        public static string CMDModelDynamic { get; set; } = "dynamic";
+        public static string CMDModelCirulate { get; set; } = "cirulate";
     }
 }

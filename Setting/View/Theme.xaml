@@ -73,14 +73,14 @@
         </ListBox.ItemContainerStyle>
         <ListView.ItemTemplate>
             <DataTemplate>
-                <StackPanel Orientation="Horizontal" >
-                    <Button Style="{DynamicResource ButtonStyle1}" Width="160" Height="60"  Command="{Binding ChangeThemeCommand}" CommandParameter="{Binding}" Content="{Binding JsonFileInfo.Name }" Visibility="{Binding Read}">
+                <StackPanel Orientation="Horizontal" Width="200" >
+                    <Button Style="{DynamicResource ButtonStyle1}" Width="160"  Height="60"  Command="{Binding ChangeThemeCommand}" CommandParameter="{Binding}" Content="{Binding JsonFileInfo.Name }" Visibility="{Binding Read}">
                     </Button>
                     <TextBox  Width="160" Height="60"  Text="{Binding JsonFileInfo.Name }" Visibility="{Binding ReName}">
                     </TextBox>
-                    <StackPanel Orientation="Vertical">
+                    <StackPanel Orientation="Vertical" Visibility="{Binding ActionVisibility}">
                         <Button Width="40"  Height="20" Command="{Binding CopyCommand}" CommandParameter="{Binding}"   Style="{DynamicResource ButtonStyle1}">拷贝</Button>
-                        <Button Width="40" Height="20" Command="{Binding ReMoveCommand}"  CommandParameter="{Binding}"   Style="{DynamicResource ButtonStyle1}">删除</Button>
+                        <Button Width="40" Height="20" Command="{Binding ReMoveCommand}"  CommandParameter="{Binding}" Visibility="{Binding Delete}"  Style="{DynamicResource ButtonStyle1}">删除</Button>
                         <Button Width="40" Height="20"  Command="{Binding BeginRenameCommand}" Visibility="{Binding  Read}" CommandParameter="{Binding}"  Style="{DynamicResource ButtonStyle1}">重命名</Button>
                         <Button Width="40" Height="20" Command="{Binding EndRenameCommand}" Visibility="{Binding ReName}" CommandParameter="{Binding}" Style="{DynamicResource ButtonStyle1}" >保存</Button>
                     </StackPanel>

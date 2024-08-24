@@ -37,10 +37,31 @@ namespace Setting.ViewModel
             get { return jsonFileInfo; }
             set { jsonFileInfo = value; RaisePropertyChanged(); }
         }
+        private string debugInfo;
+        /// <summary>
+        /// 文件名
+        /// </summary>
+        public string DebugInfo
+        {
+            get { return debugInfo; }
+            set { debugInfo = value; RaisePropertyChanged(); }
+        }
+        
 
         private CursorEnum CursorEnum { get; set; }
-       
-     
+
+        /// <summary>
+        /// 亮度
+        /// </summary>
+        private int luminance;
+        /// <summary>
+        /// 亮度
+        /// </summary>
+        public int Luminance
+        {
+            get { return luminance; }
+            set { luminance = value; RaisePropertyChanged(); }
+        }
         /// <summary>
         /// 所有帧数
         /// </summary>
@@ -53,7 +74,13 @@ namespace Setting.ViewModel
             get { return framesCount; }
             set { framesCount = value; RaisePropertyChanged(); }
         }
+        private string comName;
 
+        public string ComName
+        {
+            get { return comName; }
+            set { comName = value; RaisePropertyChanged(); }
+        }
         private int currFrame;
 
         public int CurrentFrame
@@ -88,11 +115,13 @@ namespace Setting.ViewModel
 
 
         private CPUHelper CPUHelper { get; set; }
+        private LiveShowHelper LiveShowHelper { get; set; }
         public int xIndex = 85;
         public int yIndex = 5;
+        public bool IsSend = false;
         private Dictionary<int, List<PointItem>> AllPonitList { get; set; }
 
-        
+
 
         private RelayCommand _openFileCommand;
 
@@ -105,12 +134,24 @@ namespace Setting.ViewModel
         }
 
         public RelayCommand SendCommand
-{
+        {
             get
             {
                 return new RelayCommand(() =>
                 {
-                   var msg = MessageHelper.Build(AllPonitList,xIndex,yIndex);
+                    var fileName = string.IsNullOrEmpty(JsonFileInfo.NewFileName) ? JsonFileInfo.FileName : JsonFileInfo.NewFileName;
+                    if (JsonFileInfo.IsDynamic)
+                    {
+                        SerialPortHelper.SendThemeDynamicSendMessage();
+                        IsSend = true;
+                    }
+                    else
+                    {
+                   
+                        var msg = MessageHelper.Build(AllPonitList, xIndex, yIndex, fileName);
+                        SerialPortHelper.SendThemeCirculateSendMessage(msg);
+                    }
+
                 });
             }
         }
@@ -165,7 +206,7 @@ namespace Setting.ViewModel
                     XMoveCommand(OnFrameAllPonitList, xMove);
                     AllPonitList.Add(frame, OnFrameAllPonitList);
                 }
-                BuildShow(CurrentFrame);
+                BuildShowInit(CurrentFrame);
 
 
 
@@ -182,8 +223,14 @@ namespace Setting.ViewModel
         }
         private void BuildShow(int frameIndex)
         {
+
+            if (string.IsNullOrEmpty( JsonFileInfo.NewFileName ))
+            {
+                JsonFileInfo.NewFileName = Guid.NewGuid().ToString();
+
+            }
             ShowPonitList = new ObservableCollection<PointItem>();
-            if (AllPonitList.Count>0)
+            if (AllPonitList.Count > 0)
             {
                 var OnFrameAllPonitList = AllPonitList[frameIndex];
                 OnFrameAllPonitList.Sort();
@@ -206,7 +253,7 @@ namespace Setting.ViewModel
                 }); ;
 
             }
-            
+
 
         }
         private void BuildShowInit(int frameIndex)
@@ -234,7 +281,7 @@ namespace Setting.ViewModel
                     }
                 }); ;
             }
-                
+
 
         }
         private void BuildShowWithHistroy(int frameIndex)
@@ -380,7 +427,7 @@ namespace Setting.ViewModel
                         CurrentFrame = framesCount - 1;
                     }
 
-                    BuildShow(CurrentFrame);
+                    BuildShowInit(CurrentFrame);
                 });
             }
         }
@@ -396,7 +443,7 @@ namespace Setting.ViewModel
                         CurrentFrame = 0;
                     }
 
-                    BuildShow(CurrentFrame);
+                    BuildShowInit(CurrentFrame);
                 });
             }
         }
@@ -406,68 +453,73 @@ namespace Setting.ViewModel
             {
                 return new RelayCommand(() =>
                 {
-                   
                     // 0 1 2 3 4 添加3
                     // 0 1 2 *3  4 5
-                    for (int i = FramesCount; i >= 0; i--)
-                    {
-
-                        if (i>CurrentFrame+1)
-                        {
-                            var OldList = AllPonitList[i - 1];
-                                var temp = new List<PointItem>();
-                            if (AllPonitList.TryGetValue(i,out temp ))
-                            {
-                                AllPonitList[i] = OldList;
-                            }
-                            else
-                            {
-                                AllPonitList.Add(i, OldList);
-                            }
-                        }
-                        else if (i== CurrentFrame+1)
-                        {
-                            var OnFrameAllPonitList = new List<PointItem>();
-                            for (int x = 0; x < xIndex; x++)
-                            {
-                                for (int y = 0; y < yIndex; y++)
-                                {
-                                    OnFrameAllPonitList.Add(new PointItem(x, y));
-                                }
-                            }
-                            AllPonitList[i] = OnFrameAllPonitList; 
-                        }
-                    }
-                    CurrentFrame++;
-                    FramesCount++;
-                    BuildShow(CurrentFrame);
+                    AddRightFrameMethod();
                 });
             }
         }
+
+        private void AddRightFrameMethod()
+        {
+            for (int i = FramesCount; i >= 0; i--)
+            {
+
+                if (i > CurrentFrame + 1)
+                {
+                    var OldList = AllPonitList[i - 1];
+                    var temp = new List<PointItem>();
+                    if (AllPonitList.TryGetValue(i, out temp))
+                    {
+                        AllPonitList[i] = OldList;
+                    }
+                    else
+                    {
+                        AllPonitList.Add(i, OldList);
+                    }
+                }
+                else if (i == CurrentFrame + 1)
+                {
+                    var OnFrameAllPonitList = new List<PointItem>();
+                    for (int x = 0; x < xIndex; x++)
+                    {
+                        for (int y = 0; y < yIndex; y++)
+                        {
+                            OnFrameAllPonitList.Add(new PointItem(x, y));
+                        }
+                    }
+                    AllPonitList[i] = OnFrameAllPonitList;
+                }
+            }
+            CurrentFrame++;
+            FramesCount++;
+            BuildShow(CurrentFrame);
+        }
+
         public RelayCommand DeleteFrameCommand
         {
             get
             {
                 return new RelayCommand(() =>
                 {
-                  
+
                     // 0 1   2  3  4 =>删除2
                     // 0 1  *2 *3
-                    for (int i = 0; i <framesCount-1; i++)
+                    for (int i = 0; i < framesCount - 1; i++)
                     {
 
-                        if (i >= CurrentFrame )
+                        if (i >= CurrentFrame)
                         {
-                            var OldList = AllPonitList[i+1];
+                            var OldList = AllPonitList[i + 1];
                             AllPonitList[i] = OldList;
                         }
 
                     }
 
                     AllPonitList.Remove(framesCount - 1);
-                  if (CurrentFrame >= framesCount)
+                    if (CurrentFrame >= framesCount)
                     {
-                        CurrentFrame --;
+                        CurrentFrame--;
                     }
                     FramesCount--;
                     BuildShow(CurrentFrame);
@@ -485,7 +537,7 @@ namespace Setting.ViewModel
                 return new RelayCommand<CursorEnum>(a =>
                 {
                     CursorEnum = a;
-                    Messenger.Default.Send(new CursorModelChangeEvent {model = a });
+                    Messenger.Default.Send(new CursorModelChangeEvent { model = a });
                 });
             }
         }
@@ -564,6 +616,7 @@ namespace Setting.ViewModel
                     foreach (var item in AllPonitList)
                     {
                         var templist = item.Value.Where(c => c.X >= 0 && c.X < xIndex && c.Y >= 0 && c.Y < yIndex).ToList();
+                        templist.Sort();
                         saveInfo.Add(item.Key, templist);
                     }
                     FileHelper.Save(JsonConvert.SerializeObject(saveInfo), JsonFileInfo);
@@ -588,28 +641,48 @@ namespace Setting.ViewModel
 
 
         #region Cpu动态
-        public RelayCommand CpuInfoStartComand
+        public RelayCommand LiveShowStartComand
         {
             get
             {
                 return new RelayCommand(() =>
                 {
+                    if (JsonFileInfo.IsDynamic)
+                    {
+                        if (CPUHelper==null)
+                        {
 
-                    CPUHelper = new CPUHelper();
-                    CPUHelper.Start();
-
-
+                            CPUHelper = new CPUHelper();
+                        }
+                        CPUHelper.Start();
+                    }
+                    else
+                    {
+                        if (true)
+                        {
+                            LiveShowHelper = new LiveShowHelper();
+                        }
+                   
+                        LiveShowHelper.Start(30);
+                    }
                 });
             }
         }
-        public RelayCommand CpuInfoEndComand
+        public RelayCommand LiveShowEndComand
         {
             get
             {
                 return new RelayCommand(() =>
                 {
-                    CPUHelper = new CPUHelper();
-                    CPUHelper.End();
+                    if(JsonFileInfo.IsDynamic)
+                    {
+                 
+                        CPUHelper.End();
+                    }
+                    else
+                    {
+                        LiveShowHelper.End();
+                    }
 
 
                 });
@@ -617,29 +690,103 @@ namespace Setting.ViewModel
         }
         #endregion
 
-
-
-     
-
-
+        #region
        
+        public RelayCommand SendOpenSendMessageCommand
+        {
+            get
+            {
+                return new RelayCommand(() =>
+                {
+                    SerialPortHelper.SendOpenSendMessage();
+                }
+                );
+            }
+        }
+
+
+        public RelayCommand SendCloseSendMessageCommand
+        {
+            get
+            {
+                return new RelayCommand(() =>
+                {
+                    SerialPortHelper.SendCloseSendMessage();
+                }
+                );
+            }
+        }
+        public RelayCommand SendLuminanceSendMessageCommand
+        {
+            get
+            {
+                return new RelayCommand(() =>
+                {
+                    SerialPortHelper.SendLuminanceSendMessage(Luminance);
+                }
+                );
+            }
+        }
+
+        #endregion
+
+
+
+
+
 
         public PointListViewModel()
         {
             Messenger.Default.Register<PonitClickedEvent>(this, HandlePonitClickedEvent);
             Messenger.Default.Register<CpuInfoEvent>(this, HandleCpuInfoEvent);
-            
+
             Messenger.Default.Register<InitFromHistroyEvent>(this, HanderInitFromHistroyEvent);
             Messenger.Default.Register<ThemeItemClickedEvent>(this, HandleChangeTheMeEvent);
             Messenger.Default.Register<NewThemeEvent>(this, HandleNewThemeEvent);
+            Messenger.Default.Register<DebugInfoEvent>(this, HandleDebugInfoEvent);
 
-
+            Messenger.Default.Register<NextFrameEvent>(this, HandleNextFrameEvent);
+            Luminance = 255;
+            ComName = "COM5";
             CursorEnum = CursorEnum.MOVE;
             ChangeColor = new SolidColorBrush(Const.AbcColor);
+            DebugInfo = "*********************************************调试信息******************" + "\r\n";
+        }
+
+        public RelayCommand CleanDebugInfoCommand
+        {
+            get
+            {
+                return new RelayCommand(() =>
+                {
+                    DebugInfo = "*********************************************调试信息******************" + "\r\n";
+                }
+                );
+            }
+        }
+
+        private void HandleNextFrameEvent(NextFrameEvent obj)
+        {
+            if (!JsonFileInfo.IsDynamic)
+            {
+                CurrentFrame++;
+                if (CurrentFrame >= framesCount)
+                {
+                    CurrentFrame = 0;
+                }
+                BuildShowInit(CurrentFrame);
+            }
+        }
+
+        private void HandleDebugInfoEvent(DebugInfoEvent obj)
+        {
+            DebugInfo += obj.Msg;
         }
 
         private void HandleNewThemeEvent(NewThemeEvent obj)
         {
+            LiveShowHelper?.End();
+            CPUHelper?.End();
             CurrentFrame = 0;
             FramesCount = 1;
             AllPonitList = new Dictionary<int, List<PointItem>>();
@@ -652,13 +799,13 @@ namespace Setting.ViewModel
                 }
             }
             AllPonitList[0] = OnFrameAllPonitList;
-            BuildShow(CurrentFrame);
+            BuildShowInit(CurrentFrame);
             FileHelper.Save(JsonConvert.SerializeObject(AllPonitList), obj.JsonFileInfo);
         }
         #region EventHander
         private void HanderInitFromHistroyEvent(InitFromHistroyEvent obj)
         {
-            AllPonitList =   JsonConvert.DeserializeObject<Dictionary<int, List<PointItem>>>(JsonConvert.SerializeObject(obj.HistoryItem.PointItems));
+            AllPonitList = JsonConvert.DeserializeObject<Dictionary<int, List<PointItem>>>(JsonConvert.SerializeObject(obj.HistoryItem.PointItems));
             CurrentFrame = obj.HistoryItem.CurrentFrame;
             FramesCount = obj.HistoryItem.FrameCount;
             BuildShowWithHistroy(CurrentFrame);
@@ -666,50 +813,81 @@ namespace Setting.ViewModel
         private void HandleChangeTheMeEvent(ThemeItemClickedEvent obj)
         {
             CurrentFrame = 0;
-
+            IsSend = false;
             CursorEnum = CursorEnum.MOVE;
             ChangeColor = new SolidColorBrush(Const.AbcColor);
             JsonFileInfo = obj.JsonFileInfo;
-            var json = FileHelper.Open(obj.JsonFileInfo.FileName);
-            AllPonitList = JsonConvert.DeserializeObject<Dictionary<int, List<PointItem>>>(json);
-            FramesCount = AllPonitList.Count;
-            BuildShowInit(CurrentFrame);
+            if (!JsonFileInfo.IsDynamic)
+            {
+                var json = FileHelper.Open(obj.JsonFileInfo.FileName);
+                AllPonitList = JsonConvert.DeserializeObject<Dictionary<int, List<PointItem>>>(json);
+                FramesCount = AllPonitList.Count;
+                BuildShowInit(CurrentFrame);
+            }
+            else
+            {
+                AllPonitList = new Dictionary<int, List<PointItem>>();
+                var OnFrameAllPonitList = new List<PointItem>();
+                for (int x = 0; x < xIndex; x++)
+                {
+                    for (int y = 0; y < yIndex; y++)
+                    {
+                        OnFrameAllPonitList.Add(new PointItem(x, y));
+                    }
+                }
+                AllPonitList[0] = OnFrameAllPonitList;
+                FramesCount = AllPonitList.Count;
+                BuildShowInit(CurrentFrame);
+            }
+          
         }
         private void HandleCpuInfoEvent(CpuInfoEvent obj)
         {
-            AllPonitList[CurrentFrame] = AllPonitList[currFrame].Where(c => c.X >= 0 && c.X < xIndex && c.Y >= 0 && c.Y < yIndex).ToList();
-            AllPonitList[CurrentFrame].ForEach(c => c.Fill = new SolidColorBrush(Const.BackGroupColor));
-            XMoveCommand(AllPonitList[CurrentFrame], 1);
-            AllPonitList[CurrentFrame].ForEach(c => c.X += 5);
-            AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, ABCEnum.celsius, Const.AbcColor));
-            var cpucelsius = (int)obj.CpuTemp;
-
-            do
+            if (JsonFileInfo.IsDynamic)
             {
-                int remainder = cpucelsius % 10;
+                AllPonitList[CurrentFrame] = AllPonitList[currFrame].Where(c => c.X >= 0 && c.X < xIndex && c.Y >= 0 && c.Y < yIndex).ToList();
+                AllPonitList[CurrentFrame].ForEach(c => c.Fill = new SolidColorBrush(Const.BackGroupColor));
                 XMoveCommand(AllPonitList[CurrentFrame], 1);
-                AllPonitList[CurrentFrame].ForEach(c => c.X += 3);
-                AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, (ABCEnum)remainder, Const.AbcColor));
-                cpucelsius = cpucelsius / 10;
-            } while (cpucelsius >= 1);
+                AllPonitList[CurrentFrame].ForEach(c => c.X += 5);
+                AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, ABCEnum.celsius, Const.AbcColor));
+                var cpucelsius = (int)obj.CpuTemp;
 
-            XMoveCommand(AllPonitList[CurrentFrame], 1);
-            AllPonitList[CurrentFrame].ForEach(c => c.X += 5);
-            AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, ABCEnum.lianjiexian, Const.AbcColor));
-            XMoveCommand(AllPonitList[CurrentFrame], 1);
-            AllPonitList[CurrentFrame].ForEach(c => c.X += 5);
-            AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, ABCEnum.percent, Const.AbcColor));
-            var cpu = (int)obj.CpuUse;
+                do
+                {
+                    int remainder = cpucelsius % 10;
+                    XMoveCommand(AllPonitList[CurrentFrame], 1);
+                    AllPonitList[CurrentFrame].ForEach(c => c.X += 3);
+                    AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, (ABCEnum)remainder, Const.AbcColor));
+                    cpucelsius = cpucelsius / 10;
+                } while (cpucelsius >= 1);
 
-            do
-            {
-                int remainder = cpu % 10;
                 XMoveCommand(AllPonitList[CurrentFrame], 1);
-                AllPonitList[CurrentFrame].ForEach(c => c.X += 3);
-                AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, (ABCEnum)remainder, Const.AbcColor));
-                cpu = cpu / 10;
-            } while (cpu >= 1);
-            BuildShow(CurrentFrame);
+                AllPonitList[CurrentFrame].ForEach(c => c.X += 5);
+                AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, ABCEnum.lianjiexian, Const.AbcColor));
+                XMoveCommand(AllPonitList[CurrentFrame], 1);
+                AllPonitList[CurrentFrame].ForEach(c => c.X += 5);
+                AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, ABCEnum.percent, Const.AbcColor));
+                var cpu = (int)obj.CpuUse;
+
+                do
+                {
+                    int remainder = cpu % 10;
+                    XMoveCommand(AllPonitList[CurrentFrame], 1);
+                    AllPonitList[CurrentFrame].ForEach(c => c.X += 3);
+                    AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, (ABCEnum)remainder, Const.AbcColor));
+                    cpu = cpu / 10;
+                } while (cpu >= 1);
+                BuildShow(CurrentFrame);
+
+                if (IsSend)
+                {
+                    var fileName = string.IsNullOrEmpty(JsonFileInfo.NewFileName) ? JsonFileInfo.FileName : JsonFileInfo.NewFileName;
+                    var msg = MessageHelper.BuildDynamic(AllPonitList, xIndex, yIndex, fileName);
+
+                    SerialPortHelper.SendThemeSegmentSendMessage(msg);
+                }
+            }
+    
         }
         private void HandlePonitClickedEvent(PonitClickedEvent item)
         {
@@ -720,7 +898,7 @@ namespace Setting.ViewModel
             }
             else if (CursorEnum == CursorEnum.ERASE)
             {
-                AllPonitList[CurrentFrame].Find(c => c.Y == item.Y && c.X == item.X).Fill  = new SolidColorBrush( Const.BackGroupColor);
+                AllPonitList[CurrentFrame].Find(c => c.Y == item.Y && c.X == item.X).Fill = new SolidColorBrush(Const.BackGroupColor);
                 BuildShow(CurrentFrame);
             }
         }
@@ -769,7 +947,7 @@ namespace Setting.ViewModel
             X = x;
             Y = y;
         }
-        public PointItem( )
+        public PointItem()
         {
         }
 

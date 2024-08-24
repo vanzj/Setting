@@ -3,6 +3,7 @@ using Setting.Helper;
 using Setting.Model;
 using System;
 using System.Collections.Generic;
+using System.IO.Ports;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,6 +29,8 @@ namespace Setting
             InitializeComponent();
             this.Cursor = CursorHelper.MOVE();
             Messenger.Default.Register<CursorModelChangeEvent>(this, HandleCursorModelChangeEvent);
+            SerialPortHelper.AutoConnect();
+
         }
 
         private void HandleCursorModelChangeEvent(CursorModelChangeEvent obj)

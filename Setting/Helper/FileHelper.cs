@@ -15,13 +15,34 @@ namespace Setting.Helper
       static  string Extension = ".json";
 
 
-        public static List<JsonFileInfo> GetThemeList()
+        public static List<JsonFileInfo> GetOrInitThemeList()
         {
             var sortPath = GetThemDir() + "\\" + "sort.json";
 
             if (!File.Exists(sortPath))
             {
-                var AllFile = GetThemeJsonList();
+
+
+                var AllFile = new List<JsonFileInfo>()
+                {
+                    new JsonFileInfo()
+                {
+                    Name = "CPU状态",
+                    FileName = "7ebb348c-eebf-462b-9354-78d1ef3042c8",
+                    Default= true,
+                    IsDynamic =true
+                },
+                    new JsonFileInfo()
+                {
+                    Name = "音乐律动",
+                    FileName = "57cd5309-9af2-4b1c-bf9a-18a5b17c71f0",
+                    Default= true,
+                }
+
+            };
+
+
+                AllFile.AddRange(GetThemeJsonList());
                 File.WriteAllText(sortPath, JsonConvert.SerializeObject(AllFile), System.Text.Encoding.UTF8);
                 return AllFile;         
              }
@@ -42,7 +63,7 @@ namespace Setting.Helper
 
             DirectoryInfo root = new DirectoryInfo(GetThemDir());
             var tempslit = root.GetFiles();
-            return root.GetFiles().Where(c => c.Extension == Extension && c.Name != "sort.json").Select(c =>new JsonFileInfo() { Name= c.Name.Replace(c.Extension, ""), FileName = c.Name.Replace(c.Extension, "") }  ).ToList();
+            return root.GetFiles().Where(c => c.Extension == Extension && c.Name != "sort.json"&& c.Name!= "57cd5309-9af2-4b1c-bf9a-18a5b17c71f0.json").Select(c =>new JsonFileInfo() { Name= c.Name.Replace(c.Extension, ""), FileName = c.Name.Replace(c.Extension, "") }  ).ToList();
 
         }
         private  static string GetThemDir()
@@ -55,20 +76,23 @@ namespace Setting.Helper
         public static void Save(string json, JsonFileInfo jsonFileInfo)
         {
            
-
             var jsonfile = GetThemDir() + "\\" + jsonFileInfo.FileName + Extension;
+            if (!string.IsNullOrEmpty( jsonFileInfo.NewFileName))
+            {
+                SaveFileName(jsonFileInfo);
+                File.Delete(jsonfile);
+                jsonfile = GetThemDir() + "\\" + jsonFileInfo.NewFileName + Extension;
+            }
             File.WriteAllText(jsonfile, json, System.Text.Encoding.UTF8);//将内容写进jon文件中
         }
-        public static void SaveName( JsonFileInfo jsonFileInfo)
+        public static void SaveThemeName( JsonFileInfo jsonFileInfo)
         {
             var sortPath = GetThemDir() + "\\" + "sort.json";
 
             if (!File.Exists(sortPath))
             {
 
-                var AllFile = GetThemeJsonList();
-                AllFile.Add(jsonFileInfo);
-                File.WriteAllText(sortPath, JsonConvert.SerializeObject(AllFile), System.Text.Encoding.UTF8);//将内容写进jon文件中
+                GetOrInitThemeList();
             }
             else
             {
@@ -86,7 +110,35 @@ namespace Setting.Helper
                 }
             }
         }
+        public static void SaveFileName(JsonFileInfo jsonFileInfo)
+        {
+            var sortPath = GetThemDir() + "\\" + "sort.json";
 
+            if (!File.Exists(sortPath))
+            {
+
+                GetOrInitThemeList();
+            }
+            else
+            {
+                var AllFileString = OpenByPath(sortPath);
+                var AllFile = JsonConvert.DeserializeObject<List<JsonFileInfo>>(AllFileString);
+                if (AllFile.All(c => c.Name != jsonFileInfo.Name))
+                {
+                    if (!string.IsNullOrEmpty(jsonFileInfo.NewFileName))
+                    {
+                        jsonFileInfo.FileName = jsonFileInfo.NewFileName;
+                    }
+                    AllFile.Add(jsonFileInfo);
+                    File.WriteAllText(sortPath, JsonConvert.SerializeObject(AllFile), System.Text.Encoding.UTF8);//将内容写进jon文件中
+                }
+                else
+                {
+                    AllFile.FirstOrDefault(c => c.Name == jsonFileInfo.Name).FileName = jsonFileInfo.NewFileName;
+                    File.WriteAllText(sortPath, JsonConvert.SerializeObject(AllFile), System.Text.Encoding.UTF8);//将内容写进jon文件中
+                }
+            }
+        }
         public static void Remove(JsonFileInfo jsonFileInfo)
         {
             var sortPath = GetThemDir() + "\\" + "sort.json";
@@ -94,8 +146,7 @@ namespace Setting.Helper
             if (!File.Exists(sortPath))
             {
 
-                var AllFile = GetThemeJsonList();
-                File.WriteAllText(sortPath, JsonConvert.SerializeObject(AllFile), System.Text.Encoding.UTF8);//将内容写进jon文件中
+                GetOrInitThemeList();
             }
             else
             {
@@ -121,9 +172,7 @@ namespace Setting.Helper
 
             if (!File.Exists(sortPath))
             {
-                var AllFile = GetThemeJsonList();
-                AllFile.Add(taget);
-                File.WriteAllText(sortPath, JsonConvert.SerializeObject(AllFile), System.Text.Encoding.UTF8);//将内容写进jon文件中
+                GetOrInitThemeList();
             }
             else
             {

@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Setting.Model.CMDModel;
 using Setting.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -11,31 +12,29 @@ namespace Setting.Helper
     public class MessageHelper
     {
 
-        public static List<string> Build(Dictionary<int, List<PointItem>> AllPonitList,int xindex,int yIndex)
+        public static List<string> Build(Dictionary<int, List<PointItem>> AllPonitList,int xindex,int yIndex,string filename )
 
         {
             var templist = new List<string>();
             //循环模式
-            MessageItem msg = new MessageItem()
-            {
-                cmd = MessageConst.Model,
-                date =MessageConst.Cirulate,
-            };
-            templist.Add(JsonConvert.SerializeObject(msg));
-            //开始
-            StratInfo stratInfo = new StratInfo()
-            {
-                FrameCount = AllPonitList.Count,
-                FrameRate = 30,
-            };
+            ThemeSend ThemeSend = new ThemeSend();
+            ThemeSend.data = new ThemeData() { model = Const.CMDModelCirulate, name = filename };
 
-            MessageItem msg1 = new MessageItem()
+            templist.Add(JsonConvert.SerializeObject(ThemeSend));
+            //开始
+            ThemeSendStartSend themeSendStartSend = new ThemeSendStartSend();
+            themeSendStartSend.data = new ThemeSendStartData()
             {
-                cmd = MessageConst.Start,
-                date = JsonConvert.SerializeObject(stratInfo)
+                name = filename,
+                count = AllPonitList.Count.ToString(),
+                frameCount = AllPonitList.Count.ToString(),
+                frameRate = "30",
+                brightness = 255
             };
+            templist.Add(JsonConvert.SerializeObject(themeSendStartSend));
             //帧
-            templist.Add(JsonConvert.SerializeObject(msg1));
+        
+
             for (int i = 0; i < AllPonitList.Count; i++)
             {
 
@@ -44,65 +43,64 @@ namespace Setting.Helper
                 
                var show = OnFrameAllPonitList .Where(c => c.X >= 0 && c.X < xindex && c.Y >= 0 && c.Y < yIndex);
 
-                MessageItemFrame msg2 = new MessageItemFrame()
+                ThemeSegmentSend themeSegmentSend = new ThemeSegmentSend();
+                themeSegmentSend.data = new ThemeSegmentData()
                 {
-                    cmd = MessageConst.OneFrame,
-                    date = show.Select(c => c.Fill.Color.ToString().Replace("#FF", "")).ToList()
+                    name = filename,
+                    count = AllPonitList.Count.ToString(),
+                    frameCount = AllPonitList.Count.ToString(),
+                    frameRate = 30,
+                    brightness = 255,
+                    index = (i + 1).ToString(),
+                   
                 };
-                templist.Add(JsonConvert.SerializeObject(msg2));
+                ThemeSegmentDataPoint oneframe = new ThemeSegmentDataPoint()
+                {
+                    frameGRB = show.Select(c => c.Fill.Color.ToString().Replace("#FF", "")).ToList(),
+                    frameIndex = i.ToString()
+                };
+                themeSegmentSend.data.pointList = new List<ThemeSegmentDataPoint>() { oneframe };
+                templist.Add(JsonConvert.SerializeObject(themeSegmentSend));
             }
-            MessageItem msg3 = new MessageItem()
-            {
-                cmd = MessageConst.End,
-                date = ""
-            };
             return templist;
         }
 
-        public List<string> BuildOpen()
+        public static List<string> BuildDynamic(Dictionary<int, List<PointItem>> AllPonitList, int xindex, int yIndex, string filename)
 
         {
+
             var templist = new List<string>();
 
-            MessageItem msg = new MessageItem()
+            for (int i = 0; i < AllPonitList.Count; i++)
             {
-                cmd = MessageConst.Open,
-                date = ""
-            };
-            templist.Add(JsonConvert.SerializeObject(msg));
+
+                var OnFrameAllPonitList = AllPonitList[i];
+                OnFrameAllPonitList.Sort();
+
+                var show = OnFrameAllPonitList.Where(c => c.X >= 0 && c.X < xindex && c.Y >= 0 && c.Y < yIndex);
+
+                ThemeSegmentSend themeSegmentSend = new ThemeSegmentSend();
+                themeSegmentSend.data = new ThemeSegmentData()
+                {
+                    name = filename,
+                    count = AllPonitList.Count.ToString(),
+                    frameCount = AllPonitList.Count.ToString(),
+                    frameRate = 30,
+                    brightness = 255,
+                    index = (i + 1).ToString(),
+
+                };
+                ThemeSegmentDataPoint oneframe = new ThemeSegmentDataPoint()
+                {
+                    frameGRB = show.Select(c => c.Fill.Color.ToString().Replace("#FF", "")).ToList(),
+                    frameIndex = i.ToString()
+                };
+                themeSegmentSend.data.pointList = new List<ThemeSegmentDataPoint>() { oneframe };
+                templist.Add(JsonConvert.SerializeObject(themeSegmentSend));
+            }
             return templist;
-
         }
-        public List<string> BuildClose()
 
-        {
-            var templist = new List<string>();
-
-            MessageItem msg = new MessageItem()
-            {
-                cmd = MessageConst.Close,
-                date = ""
-            };
-            templist.Add(JsonConvert.SerializeObject(msg));
-
-            return templist;
-
-        }
-        public List<string> BuildLuminance(int lumminance)
-
-        {
-            var templist = new List<string>();
-
-            MessageItem msg = new MessageItem()
-            {
-                cmd = MessageConst.Luminance,
-                date = lumminance.ToString()
-            };
-            templist.Add(JsonConvert.SerializeObject(msg));
-
-            return templist;
-
-        }
     }
 
     public   class MessageItem
@@ -126,10 +124,9 @@ namespace Setting.Helper
     {
         public static  string Open { get; set; } = "Open";
         public static string Close { get; set; } = "Close";
-        public static string Luminance { get; set; } = "Luminance";
+        public static string Luminance { get; set; } = "luminance";
         public static string Model { get; set; } = "Model";
-        public static string Dynamic { get; set; } = "Dynamic";
-        public static string Cirulate { get; set; } = "Cirulate";
+
 
         public static string Start { get; set; } = "Start";
         public static string OneFrame { get; set; } = "OneFrame";

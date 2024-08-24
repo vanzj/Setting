@@ -27,7 +27,7 @@ namespace Setting.ViewModel
         public ThemeListViewModel()
         {
             ThemeItemList = new ObservableCollection<ThemeItem>();
-            foreach (var item in FileHelper.GetThemeList())
+            foreach (var item in FileHelper.GetOrInitThemeList())
             {
                     ThemeItemList.Add(new ThemeItem(item));
             }
@@ -84,7 +84,7 @@ namespace Setting.ViewModel
                 if (item.JsonFileInfo.FileName == obj.JsonFileInfo.FileName)
                 {
                     item.JsonFileInfo.Name = obj.JsonFileInfo.Name;
-                    FileHelper.SaveName(obj.JsonFileInfo);
+                    FileHelper.SaveThemeName(obj.JsonFileInfo);
                 }
             }
         }
@@ -144,9 +144,31 @@ namespace Setting.ViewModel
         /// 编辑模式
         /// </summary>
         public bool IsReName { get; set; }
+        private Visibility actionVisibility;
+
+        public Visibility ActionVisibility
+        {
+            get { return actionVisibility; }
+            set
+            {
+                actionVisibility = value;
+                RaisePropertyChanged();
+            }
+        }
+        private Visibility delete;
+
+        public Visibility Delete
+        {
+            get { return delete; }
+            set
+            {
+                delete = value;
+                RaisePropertyChanged();
+            }
+        }
         private Visibility reName;
 
-        public Visibility ReName  
+        public Visibility ReName
         {
             get { return reName; }
             set
@@ -172,7 +194,8 @@ namespace Setting.ViewModel
             IsReName = false;
             ReName = IsReName ? Visibility.Visible : Visibility.Collapsed;
             Read = IsReName ? Visibility.Collapsed : Visibility.Visible;
-
+            ActionVisibility = JsonFileInfo.IsDynamic? Visibility.Collapsed : Visibility.Visible;
+            Delete = JsonFileInfo.Default ? Visibility.Collapsed : Visibility.Visible;
         }
         public ThemeItem(JsonFileInfo jsonFileInfo)
         {
@@ -180,7 +203,8 @@ namespace Setting.ViewModel
             IsReName = false;
             ReName = IsReName ? Visibility.Visible : Visibility.Collapsed;
             Read = IsReName ? Visibility.Collapsed : Visibility.Visible;
-
+            ActionVisibility = JsonFileInfo.IsDynamic ? Visibility.Collapsed : Visibility.Visible;
+            Delete = JsonFileInfo.Default ? Visibility.Collapsed : Visibility.Visible;
         }
 
       public void  ChangeRead()
@@ -228,7 +252,7 @@ namespace Setting.ViewModel
                     ReName = IsReName ? Visibility.Visible : Visibility.Collapsed;
                     Read = IsReName ? Visibility.Collapsed : Visibility.Visible;
 
-                    FileHelper.SaveName(this.JsonFileInfo);
+                    FileHelper.SaveThemeName(this.JsonFileInfo);
                 });
             }
         }
