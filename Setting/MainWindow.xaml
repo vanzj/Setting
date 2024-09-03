@@ -140,18 +140,7 @@
                     </StackPanel>
 
                 </StackPanel>
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center"  Grid.Column="1" >
-
-                    <Button Width="100" Height="30" Style="{DynamicResource ButtonStyle1}">WIFI</Button>
-                    <TextBox Width="100" Text="{Binding ComName}" Background="#02FFFFFF" Foreground="White" BorderBrush="White"></TextBox>
-                    <Button  Width="100" Height="30" Style="{DynamicResource ButtonStyle1}" Command="{Binding InitCOMCommand}">
-                        <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
-                            <Image Source="img/TypeC_usb-type-c.png" Height="15"></Image>
-                            <TextBlock>USB连接</TextBlock>
-                        </StackPanel>
-                    </Button>
-               
-                </StackPanel>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center"  Grid.Column="1" />
             </Grid>
            
             <StackPanel Orientation="Horizontal" Grid.Row="3

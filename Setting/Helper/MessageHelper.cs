@@ -44,7 +44,8 @@ namespace Setting.Helper
                var show = OnFrameAllPonitList .Where(c => c.X >= 0 && c.X < xindex && c.Y >= 0 && c.Y < yIndex);
 
                 ThemeSegmentSend themeSegmentSend = new ThemeSegmentSend();
-                themeSegmentSend.data = new ThemeSegmentData()
+
+                var oneseg = new ThemeSegmentData()
                 {
                     name = filename,
                     count = AllPonitList.Count.ToString(),
@@ -52,14 +53,18 @@ namespace Setting.Helper
                     frameRate = 30,
                     brightness = 255,
                     index = (i + 1).ToString(),
-                   
+
                 };
                 ThemeSegmentDataPoint oneframe = new ThemeSegmentDataPoint()
                 {
                     frameGRB = show.Select(c => c.Fill.Color.ToString().Replace("#FF", "")).ToList(),
                     frameIndex = i.ToString()
                 };
-                themeSegmentSend.data.pointList = new List<ThemeSegmentDataPoint>() { oneframe };
+                oneseg.pointList = new List<ThemeSegmentDataPoint>() { oneframe };
+                themeSegmentSend.data = new List<ThemeSegmentData>()
+                {oneseg
+                };
+
                 templist.Add(JsonConvert.SerializeObject(themeSegmentSend));
             }
             return templist;
@@ -80,7 +85,9 @@ namespace Setting.Helper
                 var show = OnFrameAllPonitList.Where(c => c.X >= 0 && c.X < xindex && c.Y >= 0 && c.Y < yIndex);
 
                 ThemeSegmentSend themeSegmentSend = new ThemeSegmentSend();
-                themeSegmentSend.data = new ThemeSegmentData()
+             
+                   var oneseg= 
+                    new ThemeSegmentData()
                 {
                     name = filename,
                     count = AllPonitList.Count.ToString(),
@@ -95,8 +102,10 @@ namespace Setting.Helper
                     frameGRB = show.Select(c => c.Fill.Color.ToString().Replace("#FF", "")).ToList(),
                     frameIndex = i.ToString()
                 };
-                themeSegmentSend.data.pointList = new List<ThemeSegmentDataPoint>() { oneframe };
-                templist.Add(JsonConvert.SerializeObject(themeSegmentSend));
+                oneseg.pointList = new List<ThemeSegmentDataPoint>() { oneframe };
+
+                themeSegmentSend.data = new List<ThemeSegmentData>() { oneseg };
+             templist.Add(JsonConvert.SerializeObject(themeSegmentSend));
             }
             return templist;
         }

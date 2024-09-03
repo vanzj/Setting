@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Setting.Model.CMDModel
 {
 
-    public class ThemeSegmentSend : SendBase<ThemeSegmentData>
+    public class ThemeSegmentSend : SendBase<List<ThemeSegmentData>>
     {
         public ThemeSegmentSend()
         {

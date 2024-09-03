@@ -139,20 +139,43 @@ namespace Setting.ViewModel
             {
                 return new RelayCommand(() =>
                 {
+                    if (jsonFileInfo==null)
+                    {
+                        return;
+                    }
                     var fileName = string.IsNullOrEmpty(JsonFileInfo.NewFileName) ? JsonFileInfo.FileName : JsonFileInfo.NewFileName;
                     if (JsonFileInfo.IsDynamic)
                     {
-                        SerialPortHelper.SendThemeDynamicSendMessage();
+                        if (CPUHelper == null)
+                        {
+                            CPUHelper = new CPUHelper();
+                        }
+                        CPUHelper.Start();
+
+                        Task.Run(() =>
+                        {
+                            SerialPortHelper.SendThemeDynamicSendMessage();
+                        }
+                        );
                         IsSend = true;
                     }
                     else
                     {
-                   
+
                         var msg = MessageHelper.Build(AllPonitList, xIndex, yIndex, fileName);
-                        SerialPortHelper.SendThemeCirculateSendMessage(msg);
+
+                        Task.Run(() =>
+                        {
+                            SerialPortHelper.SendThemeCirculateSendMessage(msg);
+                        }
+                        );
+                      
                     }
 
-                });
+                })
+                {
+
+                };
             }
         }
         private void ExecuteOpenFileCommand()
@@ -215,7 +238,7 @@ namespace Setting.ViewModel
                 var TempJsonFileInfo = new JsonFileInfo()
                 {
                     Name = ThemeName,
-                    FileName = Guid.NewGuid().ToString()
+                    FileName = Guid.NewGuid().ToString("N")
                 };
                 FileHelper.Save(JsonConvert.SerializeObject(AllPonitList), TempJsonFileInfo);
                 Messenger.Default.Send(new InputNewThemeEvent { JsonFileInfo = TempJsonFileInfo });
@@ -226,7 +249,7 @@ namespace Setting.ViewModel
 
             if (string.IsNullOrEmpty( JsonFileInfo.NewFileName ))
             {
-                JsonFileInfo.NewFileName = Guid.NewGuid().ToString();
+                JsonFileInfo.NewFileName = Guid.NewGuid().ToString("N");
 
             }
             ShowPonitList = new ObservableCollection<PointItem>();
@@ -280,6 +303,27 @@ namespace Setting.ViewModel
                         PointItems = this.AllPonitList,
                     }
                 }); ;
+            }
+
+
+        }
+
+        private void BuildShowPreView(int frameIndex)
+        {
+         
+            if (AllPonitList.Count > 0)
+            {
+                var OnFrameAllPonitList = AllPonitList[frameIndex];
+
+                for (int i = 0; i < xIndex* yIndex; i++)
+                {
+                    if (OnFrameAllPonitList[i].Fill!=showPonitList[i].Fill)
+                    {
+                        showPonitList[i].Fill = OnFrameAllPonitList[i].Fill;
+                    }
+                }
+               
+               
             }
 
 
@@ -612,6 +656,10 @@ namespace Setting.ViewModel
             {
                 return new RelayCommand(() =>
                 {
+                    if (JsonFileInfo == null)
+                    {
+                        return;
+                    }
                     Dictionary<int, List<PointItem>> saveInfo = new Dictionary<int, List<PointItem>>();
                     foreach (var item in AllPonitList)
                     {
@@ -647,6 +695,10 @@ namespace Setting.ViewModel
             {
                 return new RelayCommand(() =>
                 {
+                    if (jsonFileInfo ==null)
+                    {
+                        return;
+                    }
                     if (JsonFileInfo.IsDynamic)
                     {
                         if (CPUHelper==null)
@@ -658,7 +710,7 @@ namespace Setting.ViewModel
                     }
                     else
                     {
-                        if (true)
+                        if (LiveShowHelper==null)
                         {
                             LiveShowHelper = new LiveShowHelper();
                         }
@@ -674,6 +726,10 @@ namespace Setting.ViewModel
             {
                 return new RelayCommand(() =>
                 {
+                    if (JsonFileInfo==null)
+                    {
+                        return;
+                    }
                     if(JsonFileInfo.IsDynamic)
                     {
                  
@@ -774,7 +830,7 @@ namespace Setting.ViewModel
                 {
                     CurrentFrame = 0;
                 }
-                BuildShowInit(CurrentFrame);
+                BuildShowPreView(CurrentFrame);
             }
         }
 
@@ -919,10 +975,16 @@ namespace Setting.ViewModel
                 });
             }
         }
+        private SolidColorBrush fill { get; set; }
+       
         /// <summary>
         /// 颜色
         /// </summary>
-        public SolidColorBrush Fill { get; set; }
+        public SolidColorBrush Fill
+        {
+            get { return fill; }
+            set { fill = value; RaisePropertyChanged(); }
+        }
 
         /// <summary>
         /// 横坐标

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Setting.Helper;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -13,5 +14,10 @@ namespace Setting
     /// </summary>
     public partial class App : Application
     {
+        protected override void OnExit(ExitEventArgs e)
+        {
+            SerialPortHelper.ClosePort();
+            base.OnExit(e);
+        }
     }
 }

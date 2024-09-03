@@ -21,10 +21,11 @@ namespace Setting.Helper
 
         public void Start()
         {
-            timer = new DispatcherTimer();
-            timer.Interval = TimeSpan.FromMilliseconds(100); // 设置计时器的时间间隔为1秒
-            timer.Tick += Timer_Tick; ; // 订阅Tick事件
-            timer.Start(); // 启动计时器
+            if (!timer.IsEnabled)
+            {
+                timer.Start(); // 启动计时器
+
+            }
         }
 
         private void Timer_Tick(object sender, EventArgs e)
@@ -54,6 +55,9 @@ namespace Setting.Helper
         Computer myComputer = new Computer();
         public CPUHelper()
         {
+            timer = new DispatcherTimer();
+            timer.Interval = TimeSpan.FromMilliseconds(100); // 设置计时器的时间间隔为1秒
+            timer.Tick += Timer_Tick; ; // 订阅Tick事件
             myComputer.Open();
             //启动CPU监测
             myComputer.CPUEnabled = true;

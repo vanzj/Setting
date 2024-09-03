@@ -54,8 +54,8 @@ namespace Setting.ViewModel
             var temp = new ThemeItem(new JsonFileInfo()
             {
                 Name = obj.JsonFileInfo.Name + "副本",
-                FileName = Guid.NewGuid().ToString()
-            });
+                FileName = Guid.NewGuid().ToString("N")
+            }) ;
        
             ThemeItemList.Add(temp);
             FileHelper.Copy(obj.JsonFileInfo,temp.JsonFileInfo);
@@ -104,7 +104,7 @@ namespace Setting.ViewModel
                 {
                     var JsonFileInfo = new JsonFileInfo()
                     {
-                        FileName = Guid.NewGuid().ToString(),
+                        FileName = Guid.NewGuid().ToString("N"),
                         Name = "新建模板" + DateTime.Now.ToString("YYMMddHHmmssms")
                     };
                     var temp = new ThemeItem(JsonFileInfo);

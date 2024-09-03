@@ -28,21 +28,56 @@ namespace Setting.Helper
                     new JsonFileInfo()
                 {
                     Name = "CPU状态",
-                    FileName = "7ebb348c-eebf-462b-9354-78d1ef3042c8",
+                    FileName = "cpu",
                     Default= true,
                     IsDynamic =true
+                },
+                      new JsonFileInfo()
+                {
+                    Name = "GPU状态(待开发)",
+                    FileName = "cpu",
+                    Default= true,
+                    IsDynamic =true
+                },
+                        new JsonFileInfo()
+                {
+                    Name = "网速（待开发）",
+                    FileName = "wifi",
+                    Default= true,
+                    IsDynamic =true
+                },
+                          new JsonFileInfo()
+                {
+                    Name = "开机动画（gif解析待完善）",
+                    FileName = "run",
+                    Default= true,
+ 
+                },  new JsonFileInfo()
+                                          {
+                    Name = "开机动画1（gif解析待完善）",
+                    FileName = "run1",
+                    Default= true,
+
+                },  new JsonFileInfo()
+                                                          {
+                    Name = "开机动画2（gif解析待完善）",
+                    FileName = "run2",
+                    Default= true,
+
+                },          new JsonFileInfo()        {
+                    Name = "开机动画3（gif解析待完善）",
+                    FileName = "run3",
+                    Default= true,
+
                 },
                     new JsonFileInfo()
                 {
                     Name = "音乐律动",
-                    FileName = "57cd5309-9af2-4b1c-bf9a-18a5b17c71f0",
+                    FileName = "e6ca8f3b29dc41fba84aa1ea40cb8e87",
                     Default= true,
                 }
 
             };
-
-
-                AllFile.AddRange(GetThemeJsonList());
                 File.WriteAllText(sortPath, JsonConvert.SerializeObject(AllFile), System.Text.Encoding.UTF8);
                 return AllFile;         
              }
@@ -54,18 +89,7 @@ namespace Setting.Helper
             }
 
         }
-        public static List<JsonFileInfo> GetThemeJsonList()
-        {
-            if (!Directory.Exists(GetThemDir()))
-            {
-                Directory.CreateDirectory(GetThemDir());
-            }
 
-            DirectoryInfo root = new DirectoryInfo(GetThemDir());
-            var tempslit = root.GetFiles();
-            return root.GetFiles().Where(c => c.Extension == Extension && c.Name != "sort.json"&& c.Name!= "57cd5309-9af2-4b1c-bf9a-18a5b17c71f0.json").Select(c =>new JsonFileInfo() { Name= c.Name.Replace(c.Extension, ""), FileName = c.Name.Replace(c.Extension, "") }  ).ToList();
-
-        }
         private  static string GetThemDir()
         {
             var currentDir = Environment.CurrentDirectory;
