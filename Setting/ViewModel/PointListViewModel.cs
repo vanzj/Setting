@@ -152,11 +152,11 @@ namespace Setting.ViewModel
                         }
                         CPUHelper.Start();
 
-                        Task.Run(() =>
-                        {
-                            SerialPortHelper.SendThemeDynamicSendMessage();
-                        }
-                        );
+                        //Task.Run(() =>
+                        //{
+                        SerialPortHelper.SendThemeDynamicSendMessage();
+                        //}
+                        //);
                         IsSend = true;
                     }
                     else
@@ -164,11 +164,11 @@ namespace Setting.ViewModel
 
                         var msg = MessageHelper.Build(AllPonitList, xIndex, yIndex, fileName);
 
-                        Task.Run(() =>
-                        {
+                        //Task.Run(() =>
+                        //{
                             SerialPortHelper.SendThemeCirculateSendMessage(msg);
-                        }
-                        );
+                        //}
+                        //);
                       
                     }
 
