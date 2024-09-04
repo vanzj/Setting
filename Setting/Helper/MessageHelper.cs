@@ -57,7 +57,7 @@ namespace Setting.Helper
                 };
                 ThemeSegmentDataPoint oneframe = new ThemeSegmentDataPoint()
                 {
-                    frameGRB = show.Select(c => c.Fill.Color.ToString().Replace("#FF", "")).ToList(),
+                    frameRGB = show.Select(c => c.Fill.Color.ToString().Replace("#FF", "")).ToList(),
                     frameIndex = i.ToString()
                 };
                 oneseg.pointList = new List<ThemeSegmentDataPoint>() { oneframe };
@@ -99,7 +99,7 @@ namespace Setting.Helper
                 };
                 ThemeSegmentDataPoint oneframe = new ThemeSegmentDataPoint()
                 {
-                    frameGRB = show.Select(c => c.Fill.Color.ToString().Replace("#FF", "")).ToList(),
+                    frameRGB = show.Select(c => c.Fill.Color.ToString().Replace("#FF", "")).ToList(),
                     frameIndex = i.ToString()
                 };
                 oneseg.pointList = new List<ThemeSegmentDataPoint>() { oneframe };

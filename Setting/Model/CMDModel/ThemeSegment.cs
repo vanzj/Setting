@@ -48,7 +48,7 @@ namespace Setting.Model.CMDModel
     public class ThemeSegmentDataPoint
     {
         public string frameIndex { get; set; }
-        public List<string> frameGRB { get; set; }
+        public List<string> frameRGB { get; set; }
     }
     public class ThemeSegmentRetrun : ReturnBase<string>
     {
