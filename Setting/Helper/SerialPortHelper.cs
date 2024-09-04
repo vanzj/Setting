@@ -19,7 +19,7 @@ namespace Setting.Helper
         private static int index { get; set; }
         private static List<string> msgList { get; set; }
         private static DispatcherTimer timer;
-        private static DispatcherTimer Hearttimer;
+       //private static DispatcherTimer Hearttimer;
         private static string[] ComList { get; set; }
         private static int COMindex { get; set; }
         private static bool InitCOM(string PortName)
@@ -94,39 +94,39 @@ namespace Setting.Helper
 
       public static void HeartStart()
         {
-            Hearttimer = new DispatcherTimer();
-            Hearttimer.Tick += Hearttimer_Tick;  // 订阅Tick事件
-            Hearttimer.Interval = TimeSpan.FromMilliseconds(3000); // 设置计时器的时间间隔为1秒
-            Hearttimer.Start(); // 启动计时器
+            //Hearttimer = new DispatcherTimer();
+            //Hearttimer.Tick += Hearttimer_Tick;  // 订阅Tick事件
+            //Hearttimer.Interval = TimeSpan.FromMilliseconds(3000); // 设置计时器的时间间隔为1秒
+            //Hearttimer.Start(); // 启动计时器
             Messenger.Default.Send(new DebugInfoEvent($"心跳检测==>  开始"));
         }
 
         private static void Hearttimer_Tick(object sender, EventArgs e)
         {
-            if (currentCmd == "Heart")
-            {
-                var cmd = new getMacSend();
-                msgList = new List<string>();
-                string msg = JsonConvert.SerializeObject(cmd);
-                if (srialPort.IsOpen)
-                {
-                    Write(msg, true);
-                }
-                else
-                {
-                    HeartEnd();
-                    AutoConnect();
-                }
-            }
+            //if (currentCmd == "Heart")
+            //{
+            //    var cmd = new getMacSend();
+            //    msgList = new List<string>();
+            //    string msg = JsonConvert.SerializeObject(cmd);
+            //    if (srialPort.IsOpen)
+            //    {
+            //        Write(msg, true);
+            //    }
+            //    else
+            //    {
+            //        HeartEnd();
+            //        AutoConnect();
+            //    }
+            //}
             
         }
 
         public static void HeartEnd()
         {
-            Hearttimer.Start(); // 启动计时器
-            Messenger.Default.Send(new DebugInfoEvent($"心跳检测==>  结束"));
-            Hearttimer.Tick -= Hearttimer_Tick;
-            Hearttimer?.Stop();
+            //Hearttimer.Start(); // 启动计时器
+           // Messenger.Default.Send(new DebugInfoEvent($"心跳检测==>  结束"));
+           // Hearttimer.Tick -= Hearttimer_Tick;
+            //Hearttimer?.Stop();
         }
 
         public void End()
@@ -232,8 +232,8 @@ namespace Setting.Helper
                                 {
                                       timer.Stop();
                                         Messenger.Default.Send(new DebugInfoEvent("串口扫描+==  " + srialPort.PortName + "连接成功"));
-                                        HeartStart();
-                                    currentCmd = "Heart";
+                                    //    HeartStart();
+                                    //currentCmd = "Heart";
                                 }
                                 else
                                 {
@@ -290,7 +290,7 @@ namespace Setting.Helper
                             }
                             else
                             {
-                                currentCmd = "Heart";
+                                //currentCmd = "Heart";
                             }
                          
                         }
@@ -302,7 +302,7 @@ namespace Setting.Helper
             }
             catch (Exception ex)
             {
-                currentCmd = "Heart";
+                //currentCmd = "Heart";
                 Messenger.Default.Send(new DebugInfoEvent($"发送消息==>  失败 发送消息{Sendmsg},接受消息{msgreturn}" + ex.ToString()));
 
             }
