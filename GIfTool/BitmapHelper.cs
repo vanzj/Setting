@@ -4,7 +4,7 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
-namespace Setting.Helper
+namespace GIfTool
 {
     public class BitmapHelper
     {
@@ -12,8 +12,8 @@ namespace Setting.Helper
         {
             int pixelX = (int)((OneStep / 2) + (OneStep * xindex));
             int pixelY = (int)((OneStep / 2) + (OneStep * yindex));
-            var temp =   GetPixelColorAt(bitmapSource, pixelX, pixelY);
-            if (temp ==null)
+            var temp = GetPixelColorAt(bitmapSource, pixelX, pixelY);
+            if (temp == null)
             {
                 return null;
             }
@@ -28,8 +28,8 @@ namespace Setting.Helper
             {
                 return null;
             }
-        return     bitmapSource.GetPixel(pixelX, pixelY);
-           
+            return bitmapSource.GetPixel(pixelX, pixelY);
+
         }
 
 
