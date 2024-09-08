@@ -13,7 +13,7 @@ namespace Setting.Model
     {
         public PointInit(Color PointColor)
         {
-            HasColor = !(PointColor == Const.BackGroupColor);
+            HasColor = !(PointColor.ToString() == ColorConst.BackGroupColor);
         }
         public int X { get; set; }
         public int Y { get; set; }

@@ -151,6 +151,7 @@
                 <Button Width="100" Height="30"   Command="{Binding LiveShowEndComand}"  Style="{DynamicResource ButtonStyle1}" >停止预览</Button>
                 <Button Width="100" Height="30"   Command="{Binding SendCommand}" Content="应用"   Style="{DynamicResource ButtonStyle1}"/>
                 <Button Width="100" Height="30"   Command="{Binding SaveCommand}"  Style="{DynamicResource ButtonStyle1}" Content="保存" Margin="0,15" />
+                <Button Width="100" Height="30"   Command="{Binding OutPutGIFCommand}"  Style="{DynamicResource ButtonStyle1}" Content="导出GIF" Margin="0,15" />
             </StackPanel>
             <Grid Grid.Row="1" >
                 <myview:PointList >

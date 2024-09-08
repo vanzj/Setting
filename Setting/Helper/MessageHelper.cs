@@ -110,6 +110,45 @@ namespace Setting.Helper
             }
             return templist;
         }
+        public static List<ThemeSegmentData> Buildgif(Dictionary<int, List<PointItem>> AllPonitList, int xindex, int yIndex, string filename)
+
+        {
+            var result = new List<ThemeSegmentData>();
+
+
+            for (int i = 0; i < AllPonitList.Count; i++)
+            {
+
+                var OnFrameAllPonitList = AllPonitList[i];
+                OnFrameAllPonitList.Sort();
+
+                var show = OnFrameAllPonitList.Where(c => c.X >= 0 && c.X < xindex && c.Y >= 0 && c.Y < yIndex);
+
+                ThemeSegmentSend themeSegmentSend = new ThemeSegmentSend();
+
+                var oneseg = new ThemeSegmentData()
+                {
+                    name = filename,
+                    count = AllPonitList.Count.ToString(),
+                    frameCount = AllPonitList.Count.ToString(),
+                    frameRate = 30,
+                    brightness = 255,
+                    index = (i + 1).ToString(),
+
+                };
+                ThemeSegmentDataPoint oneframe = new ThemeSegmentDataPoint()
+                {
+                    frameRGB = show.Select(c => c.Fill.Color.ToString().Replace("#FF", "")).ToList(),
+                    frameIndex = i.ToString()
+                };
+                oneseg.pointList = new List<ThemeSegmentDataPoint>() { oneframe };
+
+                result.Add(oneseg);
+
+
+            }
+            return result;
+        }
 
     }
 

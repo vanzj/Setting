@@ -176,7 +176,7 @@ namespace Setting.Helper
             {
                 var AllFileString = OpenByPath(sortPath);
                 var AllFile = JsonConvert.DeserializeObject<List<JsonFileInfo>>(AllFileString);
-                var temp = AllFile.FirstOrDefault(c => c.FileName != jsonFileInfo.FileName);
+                var temp = AllFile.FirstOrDefault(c => c.FileName == jsonFileInfo.FileName);
                 if (temp!=null)
                 {
                     AllFile.Remove(temp);

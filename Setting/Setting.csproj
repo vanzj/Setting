@@ -121,6 +121,7 @@
     <Compile Include="Model\CMDModel\Theme.cs" />
     <Compile Include="Model\CMDModel\ThemeSegment.cs" />
     <Compile Include="Model\JsonFileInfo.cs" />
+    <Compile Include="Model\PointInit.cs" />
     <Compile Include="ViewModel\HistoryViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\PointListViewModel.cs" />

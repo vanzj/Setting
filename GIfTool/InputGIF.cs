@@ -11,19 +11,24 @@ namespace GIfTool
 {
     public class InputGIF
     {
-
-        public List<ThemeSegmentData> OPENGIF(string filePath,int xIndex,int yIndex,string filename)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <param name="xIndex"></param>
+        /// <param name="yIndex"></param>
+        /// <param name="filename"></param>
+        /// <returns></returns>
+        public List<ThemeSegmentData> OPENGIF(string filePath, int xIndex, int yIndex, string filename)
         {
             var result = new List<ThemeSegmentData>();
             System.Drawing.Image imgGif = System.Drawing.Image.FromFile(filePath); // 获取图片对象
-
-    
             if (ImageAnimator.CanAnimate(imgGif))
             {
                 FrameDimension imgFrmDim = new FrameDimension(imgGif.FrameDimensionsList[0]);
-              var  FramesCount = imgGif.GetFrameCount(imgFrmDim); // 获取帧数
+                var FramesCount = imgGif.GetFrameCount(imgFrmDim); // 获取帧数
 
-               
+
                 for (int i = 0; i < FramesCount; i++)
                 {
                     // 把每一帧保存为jpg图片
@@ -37,7 +42,7 @@ namespace GIfTool
                     var xindexdouble = (double)yIndex;
                     var CurrentImgxIndex = (int)(pw / (ph / xindexdouble));
                     var OneStep = phdouble / yIndex;
-                    var firstFrameAllPonitList = new List<ThemeSegmentDataPoint>();
+                
                     var oneseg = new ThemeSegmentData()
                     {
                         name = filename,
@@ -49,10 +54,11 @@ namespace GIfTool
 
                     };
 
-                    oneseg.pointList = firstFrameAllPonitList;
+                   
 
                     var OneFrame = new ThemeSegmentDataPoint();
-
+                    OneFrame.frameRGB = new List<string>();
+                    OneFrame.frameIndex = i.ToString();
                     for (int y = 0; y < yIndex; y++)
                     {
                         for (int x = 0; x < xIndex; x++)
@@ -65,53 +71,26 @@ namespace GIfTool
                             }
                             else
                             {
-                                OneFrame.frameRGB.Add(ColorCon .Replace("#FF", ""));
+                                OneFrame.frameRGB.Add(ColorConst.BackGroupColor.Replace("#FF", ""));
                             }
 
 
                         }
                     }
-             
+                    oneseg.pointList = new List<ThemeSegmentDataPoint>() { OneFrame };
                     result.Add(oneseg);
                 }
 
             }
-
+            return result;
         }
 
 
-        
-            }
 
-        //public void cloneGIF()
-        //{
-        //    int width = 128;
-        //    int height = width;
-        //    int stride = width / 8;
-        //    byte[] pixels = new byte[height * stride];
-
-        //    Define the image palette
-        //    BitmapPalette myPalette = BitmapPalettes.WebPalette;
-
-        //    Creates a new empty image with the pre-defined palette
-
-        //   BitmapSource image = BitmapSource.Create(
-        //       width,
-        //       height,
-        //       96,
-        //       96,
-        //       PixelFormats.Indexed1,
-        //       myPalette,
-        //       pixels,
-        //       stride);
-
-        //    FileStream stream = new FileStream("new.gif", FileMode.Create);
-        //    GifBitmapEncoder encoder = new GifBitmapEncoder();
-
-        //    encoder.Frames.Add(BitmapFrame.Create(image));
-        //    encoder.Save(stream);
-        //}
     }
+
+
+}
 
 public class ColorConst
 {
@@ -119,4 +98,4 @@ public class ColorConst
     public static string AbcColor => "#FF234EDE";
 
 }
-}
+

@@ -76,77 +76,77 @@ namespace Setting.Helper
         {
             var pointinitlist = JsonConvert.DeserializeObject<List<PointInit>>("[{\"X\":0,\"Y\":0,\"HasColor\":false},{\"X\":1,\"Y\":0,\"HasColor\":true},{\"X\":2,\"Y\":0,\"HasColor\":false},{\"X\":0,\"Y\":1,\"HasColor\":true},{\"X\":1,\"Y\":1,\"HasColor\":true},{\"X\":2,\"Y\":1,\"HasColor\":false},{\"X\":0,\"Y\":2,\"HasColor\":false},{\"X\":1,\"Y\":2,\"HasColor\":true},{\"X\":2,\"Y\":2,\"HasColor\":false},{\"X\":0,\"Y\":3,\"HasColor\":false},{\"X\":1,\"Y\":3,\"HasColor\":true},{\"X\":2,\"Y\":3,\"HasColor\":false},{\"X\":0,\"Y\":4,\"HasColor\":true},{\"X\":1,\"Y\":4,\"HasColor\":true},{\"X\":2,\"Y\":4,\"HasColor\":true}]");
 
-            return pointinitlist.Select(c => new PointItem(c.X, c.Y, c.HasColor ? color : ColorConst.BackGroupColor)).ToList(); ;
+            return pointinitlist.Select(c => new PointItem(c.X, c.Y, c.HasColor ? color : (Color) ColorConverter.ConvertFromString( ColorConst.BackGroupColor))).ToList(); ;
         }
 
         private static List<PointItem> GetTwoPonitItems(Color color)
         {
             var pointinitlist = JsonConvert.DeserializeObject<List<PointInit>>("[{\"X\":0,\"Y\":0,\"HasColor\":true},{\"X\":1,\"Y\":0,\"HasColor\":true},{\"X\":2,\"Y\":0,\"HasColor\":true},{\"X\":0,\"Y\":1,\"HasColor\":false},{\"X\":1,\"Y\":1,\"HasColor\":false},{\"X\":2,\"Y\":1,\"HasColor\":true},{\"X\":0,\"Y\":2,\"HasColor\":true},{\"X\":1,\"Y\":2,\"HasColor\":true},{\"X\":2,\"Y\":2,\"HasColor\":true},{\"X\":0,\"Y\":3,\"HasColor\":true},{\"X\":1,\"Y\":3,\"HasColor\":false},{\"X\":2,\"Y\":3,\"HasColor\":false},{\"X\":0,\"Y\":4,\"HasColor\":true},{\"X\":1,\"Y\":4,\"HasColor\":true},{\"X\":2,\"Y\":4,\"HasColor\":true}]");
 
-            return pointinitlist.Select(c => new PointItem(c.X, c.Y, c.HasColor ? color : ColorConst.BackGroupColor)).ToList(); ;
+            return pointinitlist.Select(c => new PointItem(c.X, c.Y, c.HasColor ? color : (Color)ColorConverter.ConvertFromString( ColorConst.BackGroupColor))).ToList(); ;
         }
         private static List<PointItem> GetThreePonitItems(Color color)
         {
             var pointinitlist = JsonConvert.DeserializeObject<List<PointInit>>("[{\"X\":0,\"Y\":0,\"HasColor\":true},{\"X\":1,\"Y\":0,\"HasColor\":true},{\"X\":2,\"Y\":0,\"HasColor\":true},{\"X\":0,\"Y\":1,\"HasColor\":false},{\"X\":1,\"Y\":1,\"HasColor\":false},{\"X\":2,\"Y\":1,\"HasColor\":true},{\"X\":0,\"Y\":2,\"HasColor\":true},{\"X\":1,\"Y\":2,\"HasColor\":true},{\"X\":2,\"Y\":2,\"HasColor\":true},{\"X\":0,\"Y\":3,\"HasColor\":false},{\"X\":1,\"Y\":3,\"HasColor\":false},{\"X\":2,\"Y\":3,\"HasColor\":true},{\"X\":0,\"Y\":4,\"HasColor\":true},{\"X\":1,\"Y\":4,\"HasColor\":true},{\"X\":2,\"Y\":4,\"HasColor\":true}]");
-            return pointinitlist.Select(c => new PointItem(c.X, c.Y, c.HasColor ? color : ColorConst.BackGroupColor)).ToList(); ;
+            return pointinitlist.Select(c => new PointItem(c.X, c.Y, c.HasColor ? color : (Color)ColorConverter.ConvertFromString( ColorConst.BackGroupColor))).ToList(); ;
         }
         private static List<PointItem> GetFourPonitItems(Color color)
         {
             var pointinitlist = JsonConvert.DeserializeObject<List<PointInit>>("[{\"X\":0,\"Y\":0,\"HasColor\":true},{\"X\":1,\"Y\":0,\"HasColor\":false},{\"X\":2,\"Y\":0,\"HasColor\":true},{\"X\":0,\"Y\":1,\"HasColor\":true},{\"X\":1,\"Y\":1,\"HasColor\":false},{\"X\":2,\"Y\":1,\"HasColor\":true},{\"X\":0,\"Y\":2,\"HasColor\":true},{\"X\":1,\"Y\":2,\"HasColor\":true},{\"X\":2,\"Y\":2,\"HasColor\":true},{\"X\":0,\"Y\":3,\"HasColor\":false},{\"X\":1,\"Y\":3,\"HasColor\":false},{\"X\":2,\"Y\":3,\"HasColor\":true},{\"X\":0,\"Y\":4,\"HasColor\":false},{\"X\":1,\"Y\":4,\"HasColor\":false},{\"X\":2,\"Y\":4,\"HasColor\":true}]");
 
 
-                return pointinitlist.Select(c => new PointItem(c.X, c.Y, c.HasColor ? color : ColorConst.BackGroupColor)).ToList(); ;
+                return pointinitlist.Select(c => new PointItem(c.X, c.Y, c.HasColor ? color : (Color)ColorConverter.ConvertFromString( ColorConst.BackGroupColor))).ToList(); ;
         }
         private static List<PointItem> GetFivePonitItems(Color color)
         {
             var pointinitlist = JsonConvert.DeserializeObject<List<PointInit>>("[{\"X\":0,\"Y\":0,\"HasColor\":true},{\"X\":1,\"Y\":0,\"HasColor\":true},{\"X\":2,\"Y\":0,\"HasColor\":true},{\"X\":0,\"Y\":1,\"HasColor\":true},{\"X\":1,\"Y\":1,\"HasColor\":false},{\"X\":2,\"Y\":1,\"HasColor\":false},{\"X\":0,\"Y\":2,\"HasColor\":true},{\"X\":1,\"Y\":2,\"HasColor\":true},{\"X\":2,\"Y\":2,\"HasColor\":true},{\"X\":0,\"Y\":3,\"HasColor\":false},{\"X\":1,\"Y\":3,\"HasColor\":false},{\"X\":2,\"Y\":3,\"HasColor\":true},{\"X\":0,\"Y\":4,\"HasColor\":true},{\"X\":1,\"Y\":4,\"HasColor\":true},{\"X\":2,\"Y\":4,\"HasColor\":true}]");
-            return pointinitlist.Select(c => new PointItem(c.X, c.Y, c.HasColor ? color : ColorConst.BackGroupColor)).ToList(); ;
+            return pointinitlist.Select(c => new PointItem(c.X, c.Y, c.HasColor ? color : (Color)ColorConverter.ConvertFromString( ColorConst.BackGroupColor))).ToList(); ;
         }
         private static List<PointItem> GetSixPonitItems(Color color)
         {
             var pointinitlist = JsonConvert.DeserializeObject<List<PointInit>>("[{\"X\":0,\"Y\":0,\"HasColor\":true},{\"X\":1,\"Y\":0,\"HasColor\":true},{\"X\":2,\"Y\":0,\"HasColor\":true},{\"X\":0,\"Y\":1,\"HasColor\":true},{\"X\":1,\"Y\":1,\"HasColor\":false},{\"X\":2,\"Y\":1,\"HasColor\":false},{\"X\":0,\"Y\":2,\"HasColor\":true},{\"X\":1,\"Y\":2,\"HasColor\":true},{\"X\":2,\"Y\":2,\"HasColor\":true},{\"X\":0,\"Y\":3,\"HasColor\":true},{\"X\":1,\"Y\":3,\"HasColor\":false},{\"X\":2,\"Y\":3,\"HasColor\":true},{\"X\":0,\"Y\":4,\"HasColor\":true},{\"X\":1,\"Y\":4,\"HasColor\":true},{\"X\":2,\"Y\":4,\"HasColor\":true}]");
-            return pointinitlist.Select(c => new PointItem(c.X, c.Y, c.HasColor ? color : ColorConst.BackGroupColor)).ToList(); ;
+            return pointinitlist.Select(c => new PointItem(c.X, c.Y, c.HasColor ? color : (Color)ColorConverter.ConvertFromString( ColorConst.BackGroupColor))).ToList(); ;
         }
         private static List<PointItem> GetSevenPonitItems(Color color)
         {
             var pointinitlist = JsonConvert.DeserializeObject<List<PointInit>>("[{\"X\":0,\"Y\":0,\"HasColor\":true},{\"X\":1,\"Y\":0,\"HasColor\":true},{\"X\":2,\"Y\":0,\"HasColor\":true},{\"X\":0,\"Y\":1,\"HasColor\":false},{\"X\":1,\"Y\":1,\"HasColor\":false},{\"X\":2,\"Y\":1,\"HasColor\":true},{\"X\":0,\"Y\":2,\"HasColor\":false},{\"X\":1,\"Y\":2,\"HasColor\":false},{\"X\":2,\"Y\":2,\"HasColor\":true},{\"X\":0,\"Y\":3,\"HasColor\":false},{\"X\":1,\"Y\":3,\"HasColor\":false},{\"X\":2,\"Y\":3,\"HasColor\":true},{\"X\":0,\"Y\":4,\"HasColor\":false},{\"X\":1,\"Y\":4,\"HasColor\":false},{\"X\":2,\"Y\":4,\"HasColor\":true}]");
-            return pointinitlist.Select(c => new PointItem(c.X, c.Y, c.HasColor ? color : ColorConst.BackGroupColor)).ToList(); ;
+            return pointinitlist.Select(c => new PointItem(c.X, c.Y, c.HasColor ? color : (Color)ColorConverter.ConvertFromString( ColorConst.BackGroupColor))).ToList(); ;
         }
         private static List<PointItem> GetEightPonitItems(Color color)
         {
             var pointinitlist = JsonConvert.DeserializeObject<List<PointInit>>("[{\"X\":0,\"Y\":0,\"HasColor\":true},{\"X\":1,\"Y\":0,\"HasColor\":true},{\"X\":2,\"Y\":0,\"HasColor\":true},{\"X\":0,\"Y\":1,\"HasColor\":true},{\"X\":1,\"Y\":1,\"HasColor\":false},{\"X\":2,\"Y\":1,\"HasColor\":true},{\"X\":0,\"Y\":2,\"HasColor\":true},{\"X\":1,\"Y\":2,\"HasColor\":true},{\"X\":2,\"Y\":2,\"HasColor\":true},{\"X\":0,\"Y\":3,\"HasColor\":true},{\"X\":1,\"Y\":3,\"HasColor\":false},{\"X\":2,\"Y\":3,\"HasColor\":true},{\"X\":0,\"Y\":4,\"HasColor\":true},{\"X\":1,\"Y\":4,\"HasColor\":true},{\"X\":2,\"Y\":4,\"HasColor\":true}]");
             
-            return pointinitlist.Select(c => new PointItem(c.X, c.Y, c.HasColor ? color : ColorConst.BackGroupColor)).ToList(); ;
+            return pointinitlist.Select(c => new PointItem(c.X, c.Y, c.HasColor ? color : (Color)ColorConverter.ConvertFromString( ColorConst.BackGroupColor))).ToList(); ;
         }
         private static List<PointItem> GetNinePonitItems(Color color)
         {
             var pointinitlist = JsonConvert.DeserializeObject<List<PointInit>>("[{\"X\":0,\"Y\":0,\"HasColor\":true},{\"X\":1,\"Y\":0,\"HasColor\":true},{\"X\":2,\"Y\":0,\"HasColor\":true},{\"X\":0,\"Y\":1,\"HasColor\":true},{\"X\":1,\"Y\":1,\"HasColor\":false},{\"X\":2,\"Y\":1,\"HasColor\":true},{\"X\":0,\"Y\":2,\"HasColor\":true},{\"X\":1,\"Y\":2,\"HasColor\":true},{\"X\":2,\"Y\":2,\"HasColor\":true},{\"X\":0,\"Y\":3,\"HasColor\":false},{\"X\":1,\"Y\":3,\"HasColor\":false},{\"X\":2,\"Y\":3,\"HasColor\":true},{\"X\":0,\"Y\":4,\"HasColor\":true},{\"X\":1,\"Y\":4,\"HasColor\":true},{\"X\":2,\"Y\":4,\"HasColor\":true}]");
 
-            return pointinitlist.Select(c => new PointItem(c.X, c.Y, c.HasColor ? color : ColorConst.BackGroupColor)).ToList(); ;
+            return pointinitlist.Select(c => new PointItem(c.X, c.Y, c.HasColor ? color : (Color)ColorConverter.ConvertFromString( ColorConst.BackGroupColor))).ToList(); ;
         }
         private static List<PointItem> GetZorePonitItems(Color color)
         {
             var pointinitlist = JsonConvert.DeserializeObject<List<PointInit>>("[{\"X\":0,\"Y\":0,\"HasColor\":true},{\"X\":1,\"Y\":0,\"HasColor\":true},{\"X\":2,\"Y\":0,\"HasColor\":true},{\"X\":0,\"Y\":1,\"HasColor\":true},{\"X\":1,\"Y\":1,\"HasColor\":false},{\"X\":2,\"Y\":1,\"HasColor\":true},{\"X\":0,\"Y\":2,\"HasColor\":true},{\"X\":1,\"Y\":2,\"HasColor\":false},{\"X\":2,\"Y\":2,\"HasColor\":true},{\"X\":0,\"Y\":3,\"HasColor\":true},{\"X\":1,\"Y\":3,\"HasColor\":false},{\"X\":2,\"Y\":3,\"HasColor\":true},{\"X\":0,\"Y\":4,\"HasColor\":true},{\"X\":1,\"Y\":4,\"HasColor\":true},{\"X\":2,\"Y\":4,\"HasColor\":true}]");
 
-            return pointinitlist.Select(c => new PointItem(c.X, c.Y, c.HasColor ? color : ColorConst.BackGroupColor)).ToList(); ;
+            return pointinitlist.Select(c => new PointItem(c.X, c.Y, c.HasColor ? color : (Color)ColorConverter.ConvertFromString( ColorConst.BackGroupColor))).ToList(); ;
         }
         private static List<PointItem> GetPercentPonitItems(Color color)
         {
             var pointinitlist = JsonConvert.DeserializeObject<List<PointInit>>("[{\"X\":0,\"Y\":0,\"HasColor\":true},{\"X\":1,\"Y\":0,\"HasColor\":true},{\"X\":2,\"Y\":0,\"HasColor\":false},{\"X\":3,\"Y\":0,\"HasColor\":false},{\"X\":4,\"Y\":0,\"HasColor\":true},{\"X\":0,\"Y\":1,\"HasColor\":true},{\"X\":1,\"Y\":1,\"HasColor\":true},{\"X\":2,\"Y\":1,\"HasColor\":false},{\"X\":3,\"Y\":1,\"HasColor\":true},{\"X\":4,\"Y\":1,\"HasColor\":false},{\"X\":0,\"Y\":2,\"HasColor\":false},{\"X\":1,\"Y\":2,\"HasColor\":false},{\"X\":2,\"Y\":2,\"HasColor\":true},{\"X\":3,\"Y\":2,\"HasColor\":false},{\"X\":4,\"Y\":2,\"HasColor\":false},{\"X\":0,\"Y\":3,\"HasColor\":false},{\"X\":1,\"Y\":3,\"HasColor\":true},{\"X\":2,\"Y\":3,\"HasColor\":false},{\"X\":3,\"Y\":3,\"HasColor\":true},{\"X\":4,\"Y\":3,\"HasColor\":true},{\"X\":0,\"Y\":4,\"HasColor\":true},{\"X\":1,\"Y\":4,\"HasColor\":false},{\"X\":2,\"Y\":4,\"HasColor\":false},{\"X\":3,\"Y\":4,\"HasColor\":true},{\"X\":4,\"Y\":4,\"HasColor\":true}]");
 
-            return pointinitlist.Select(c => new PointItem(c.X, c.Y, c.HasColor ? color : ColorConst.BackGroupColor)).ToList(); ;
+            return pointinitlist.Select(c => new PointItem(c.X, c.Y, c.HasColor ? color : (Color)ColorConverter.ConvertFromString( ColorConst.BackGroupColor))).ToList(); ;
         }
         private static List<PointItem> GetCelsiusPonitItems(Color color)
         {
             var pointinitlist = JsonConvert.DeserializeObject<List<PointInit>>("[{\"X\":0,\"Y\":0,\"HasColor\":true},{\"X\":1,\"Y\":0,\"HasColor\":false},{\"X\":2,\"Y\":0,\"HasColor\":true},{\"X\":3,\"Y\":0,\"HasColor\":true},{\"X\":4,\"Y\":0,\"HasColor\":true},{\"X\":0,\"Y\":1,\"HasColor\":false},{\"X\":1,\"Y\":1,\"HasColor\":false},{\"X\":2,\"Y\":1,\"HasColor\":true},{\"X\":3,\"Y\":1,\"HasColor\":false},{\"X\":4,\"Y\":1,\"HasColor\":false},{\"X\":0,\"Y\":2,\"HasColor\":false},{\"X\":1,\"Y\":2,\"HasColor\":false},{\"X\":2,\"Y\":2,\"HasColor\":true},{\"X\":3,\"Y\":2,\"HasColor\":false},{\"X\":4,\"Y\":2,\"HasColor\":false},{\"X\":0,\"Y\":3,\"HasColor\":false},{\"X\":1,\"Y\":3,\"HasColor\":false},{\"X\":2,\"Y\":3,\"HasColor\":true},{\"X\":3,\"Y\":3,\"HasColor\":false},{\"X\":4,\"Y\":3,\"HasColor\":false},{\"X\":0,\"Y\":4,\"HasColor\":false},{\"X\":1,\"Y\":4,\"HasColor\":false},{\"X\":2,\"Y\":4,\"HasColor\":true},{\"X\":3,\"Y\":4,\"HasColor\":true},{\"X\":4,\"Y\":4,\"HasColor\":true}]");
 
-            return pointinitlist.Select(c => new PointItem(c.X, c.Y, c.HasColor ? color : ColorConst.BackGroupColor)).ToList(); ;
+            return pointinitlist.Select(c => new PointItem(c.X, c.Y, c.HasColor ? color : (Color)ColorConverter.ConvertFromString( ColorConst.BackGroupColor))).ToList(); ;
         }
         private static List<PointItem> GetLianjiexianPonitItems(Color color)
         {
             var pointinitlist = JsonConvert.DeserializeObject<List<PointInit>>("[{\"X\":0,\"Y\":0,\"HasColor\":false},{\"X\":1,\"Y\":0,\"HasColor\":false},{\"X\":2,\"Y\":0,\"HasColor\":false},{\"X\":3,\"Y\":0,\"HasColor\":false},{\"X\":4,\"Y\":0,\"HasColor\":false},{\"X\":0,\"Y\":1,\"HasColor\":false},{\"X\":1,\"Y\":1,\"HasColor\":false},{\"X\":2,\"Y\":1,\"HasColor\":false},{\"X\":3,\"Y\":1,\"HasColor\":false},{\"X\":4,\"Y\":1,\"HasColor\":false},{\"X\":0,\"Y\":2,\"HasColor\":true},{\"X\":1,\"Y\":2,\"HasColor\":false},{\"X\":2,\"Y\":2,\"HasColor\":true},{\"X\":3,\"Y\":2,\"HasColor\":false},{\"X\":4,\"Y\":2,\"HasColor\":true},{\"X\":0,\"Y\":3,\"HasColor\":false},{\"X\":1,\"Y\":3,\"HasColor\":false},{\"X\":2,\"Y\":3,\"HasColor\":false},{\"X\":3,\"Y\":3,\"HasColor\":false},{\"X\":4,\"Y\":3,\"HasColor\":false},{\"X\":0,\"Y\":4,\"HasColor\":false},{\"X\":1,\"Y\":4,\"HasColor\":false},{\"X\":2,\"Y\":4,\"HasColor\":false},{\"X\":3,\"Y\":4,\"HasColor\":false},{\"X\":4,\"Y\":4,\"HasColor\":false}]");
 
-            return pointinitlist.Select(c => new PointItem(c.X, c.Y, c.HasColor ? color : ColorConst.BackGroupColor)).ToList(); ;
+            return pointinitlist.Select(c => new PointItem(c.X, c.Y, c.HasColor ? color : (Color)ColorConverter.ConvertFromString( ColorConst.BackGroupColor))).ToList(); ;
         }
     }
 

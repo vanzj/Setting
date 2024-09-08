@@ -21,6 +21,7 @@ using Setting.Enum;
 using System.Drawing;
 using System.Drawing.Imaging;
 using GIfTool;
+using ColorConverter = System.Windows.Media.ColorConverter;
 
 namespace Setting.ViewModel
 {
@@ -181,6 +182,42 @@ namespace Setting.ViewModel
                 };
             }
         }
+        public RelayCommand OutPutGIFCommand
+        {
+            get
+            {
+                return new RelayCommand(() =>
+                {
+                    if (jsonFileInfo == null|| JsonFileInfo.IsDynamic)
+                    {
+                        return;
+                    }
+                    var GIFName = JsonFileInfo.Name;
+                
+                    var fileName = string.IsNullOrEmpty(JsonFileInfo.NewFileName) ? JsonFileInfo.FileName : JsonFileInfo.NewFileName;
+
+                var templist  =  MessageHelper.Buildgif(AllPonitList, xIndex, yIndex, fileName);
+
+                    OutPutGIF outPutGIF = new OutPutGIF();
+
+                    if (!Directory.Exists(Environment.CurrentDirectory + "//OutPut"))
+                    {
+                        Directory.CreateDirectory(
+                                     Environment.CurrentDirectory + "//OutPut"
+                           );
+
+              
+                    }
+                    outPutGIF.Output(templist, xIndex, yIndex, 20, Environment.CurrentDirectory + "//OutPut//" + GIFName + ".gif");
+
+                })
+                {
+
+                };
+            }
+        }
+
+        
         private void ExecuteOpenFileCommand()
         {
 
@@ -198,140 +235,43 @@ namespace Setting.ViewModel
             {
                 // 获取用户选择的文件路径
                 string file = openFileDialog.FileName;
-                Image imgGif = Image.FromFile(file); // 获取图片对象
-
-                CurrentFrame = 0;
-
-                AllPonitList = new Dictionary<int, List<PointItem>>();
-
-                if (ImageAnimator.CanAnimate(imgGif))
-                {
-                    FrameDimension imgFrmDim = new FrameDimension(imgGif.FrameDimensionsList[0]);
-                    FramesCount = imgGif.GetFrameCount(imgFrmDim); // 获取帧数
-                    for (int i = 0; i < FramesCount; i++)
-                    {
-                        // 把每一帧保存为jpg图片
-                        imgGif.SelectActiveFrame(imgFrmDim, i);
-                        Bitmap t = new Bitmap(imgGif);
-                        var tmp = t.GetPixel(1, 1);
-                        var pw = t.Width;
-                        var ph = t.Height;
-
-                        var phdouble = (double)ph;
-                        var xindexdouble = (double)yIndex;
-                        var CurrentImgxIndex = (int)(pw / (ph / xindexdouble));
-                        var OneStep = phdouble / yIndex;
-                        var firstFrameAllPonitList = new List<PointItem>();
-
-                        for (int y = 0; y < yIndex; y++)
-                        {
-                            for (int x = 0; x < xIndex; x++)
-                            {
-                                if (x < CurrentImgxIndex)
-                                {
-                                    var tempcolor = BitmapHelper.GetPixelColor(t, x, y, OneStep);
-
-                                    firstFrameAllPonitList.Add(new PointItem(x, y, tempcolor.Value));
-                                }
-                                else
-                                {
-                                    firstFrameAllPonitList.Add(new PointItem(x, y));
-                                }
-
-
-                            }
-                        }
-                        AllPonitList.Add(i, firstFrameAllPonitList);
-                    }
-
-                }
-                //var stream = new FileStream(file, FileMode.Open);
-                //var decoder = new GifBitmapDecoder(stream, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.Default);
-                //CurrentFrame = 0;
-                //FramesCount = decoder.Frames.Count;
-                //AllPonitList = new Dictionary<int, List<PointItem>>();
-
-
-
-                //BitmapFrame t = decoder.Frames[0];
-
-                //var pw = t.PixelWidth;
-                //var ph = t.PixelHeight;
-
-                //var phdouble = (double)ph;
-                //var xindexdouble = (double)yIndex;
-                //var CurrentImgxIndex = (int)(pw / (ph / xindexdouble));
-                //var OneStep = phdouble / yIndex;
-                //var firstFrameAllPonitList = new List<PointItem>();
-
-                //for (int y = 0; y < yIndex; y++)
-                //{
-                //    for (int x = 0; x < xIndex; x++)
-                //    {
-                //        if (x < CurrentImgxIndex)
-                //        {
-                //            var tempcolor = BitmapHelper.GetPixelColor(t, x, y, OneStep);
-
-                //            firstFrameAllPonitList.Add(new PointItem(x, y, tempcolor.Value));
-                //        }
-                //        else
-                //        {
-                //            firstFrameAllPonitList.Add(new PointItem(x, y));
-                //        }
-
-
-                //    }
-                //}
-                //var MaxX = firstFrameAllPonitList.Max(c => c.X);
-                //var addCount = xIndex - MaxX;
-                //var xMove = addCount / 2;
-                ////XMoveCommand(firstFrameAllPonitList, xMove);
-                //AllPonitList.Add(0, firstFrameAllPonitList);
-
-                //for (int frame = 1; frame < FramesCount; frame++)
-                //{
-
-                //    t = decoder.Frames[frame];
-                //    var OnFrameAllPonitList = new List<PointItem>();
-
-                //    for (int y = 0; y < yIndex; y++)
-                //    {
-                //        for (int x = 0; x < xIndex; x++)
-                //        {
-                //            if (x < CurrentImgxIndex)
-                //            {
-                //                var tempcolor = BitmapHelper.GetPixelColor(t, x, y, OneStep);
-                //                if (tempcolor == null || tempcolor.Value == Color.FromArgb(0, 255, 255, 255))
-                //                {
-                //                    OnFrameAllPonitList.Add(firstFrameAllPonitList.FirstOrDefault(c => c.X == x && c.Y == y));
-                //                }
-                //                else
-                //                {
-                //                    OnFrameAllPonitList.Add(new PointItem(x, y, tempcolor.Value));
-                //                }
-                //            }
-                //            else
-                //            {
-                //                OnFrameAllPonitList.Add(firstFrameAllPonitList.FirstOrDefault(c => c.X == x && c.Y == y));
-                //            }
-
-
-                //        }
-                //    }
-                //    // XMoveCommand(OnFrameAllPonitList, xMove);
-                //    AllPonitList.Add(frame, OnFrameAllPonitList);
-                //}
-                BuildShowInit(CurrentFrame);
-
-
-
-                //stream.Close();
                 var ThemeName = "新建模板" + DateTime.Now.ToString("YYMMddHHmmssms");
                 var TempJsonFileInfo = new JsonFileInfo()
                 {
                     Name = ThemeName,
                     FileName = Guid.NewGuid().ToString("N")
                 };
+                InputGIF inputGIF = new InputGIF();
+             var ImgInfo =    inputGIF.OPENGIF(file, xIndex, yIndex, TempJsonFileInfo.FileName);
+
+
+                FramesCount = int.Parse( ImgInfo[0].frameCount);
+
+                AllPonitList = new Dictionary<int, List<PointItem>>();
+                foreach (var Oneseg in ImgInfo)
+                {
+                    var oneframePointList = new List<PointItem>();
+                    int x = 0;
+                    int y = 0;
+                    foreach (var item in Oneseg.pointList[0].frameRGB)
+                    {
+
+                        var temp = new PointItem(x,y, (System.Windows.Media.Color)ColorConverter.ConvertFromString("#FF"+item));
+                        oneframePointList.Add(temp);
+                        x++;
+                        if (x>=xIndex)
+                        {
+                            y++;
+                            x = 0;
+                        }
+                    }
+
+                    AllPonitList.Add(int.Parse(Oneseg.pointList[0].frameIndex), oneframePointList);
+                }
+
+                CurrentFrame = 0;
+                BuildShowInit(CurrentFrame);
+                FileHelper.SaveThemeName(TempJsonFileInfo);
                 FileHelper.Save(JsonConvert.SerializeObject(AllPonitList), TempJsonFileInfo);
                 Messenger.Default.Send(new InputNewThemeEvent { JsonFileInfo = TempJsonFileInfo });
             }
@@ -697,46 +637,47 @@ namespace Setting.ViewModel
         {
             get
             {
+              
                 return new RelayCommand(() =>
                 {
                     AllPonitList[CurrentFrame].ForEach(c => c.X += 3);
-                    AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, ABCEnum.one, ColorConst.AbcColor));
+                    AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, ABCEnum.one,    (System.Windows.Media.Color)ColorConverter.ConvertFromString(ColorConst.AbcColor)));
                     XMoveCommand(AllPonitList[CurrentFrame], 1);
                     AllPonitList[CurrentFrame].ForEach(c => c.X += 3);
-                    AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, ABCEnum.two, ColorConst.AbcColor));
+                    AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, ABCEnum.two,   (System.Windows.Media.Color)ColorConverter.ConvertFromString(ColorConst.AbcColor)));
                     XMoveCommand(AllPonitList[CurrentFrame], 1);
                     AllPonitList[CurrentFrame].ForEach(c => c.X += 3);
-                    AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, ABCEnum.three, ColorConst.AbcColor));
+                    AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, ABCEnum.three,   (System.Windows.Media.Color)ColorConverter.ConvertFromString(ColorConst.AbcColor)));
                     XMoveCommand(AllPonitList[CurrentFrame], 1);
                     AllPonitList[CurrentFrame].ForEach(c => c.X += 3);
-                    AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, ABCEnum.four, ColorConst.AbcColor));
+                    AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, ABCEnum.four,   (System.Windows.Media.Color)ColorConverter.ConvertFromString(ColorConst.AbcColor)));
                     XMoveCommand(AllPonitList[CurrentFrame], 1);
                     AllPonitList[CurrentFrame].ForEach(c => c.X += 3);
-                    AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, ABCEnum.five, ColorConst.AbcColor));
+                    AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, ABCEnum.five,   (System.Windows.Media.Color)ColorConverter.ConvertFromString(ColorConst.AbcColor)));
                     XMoveCommand(AllPonitList[CurrentFrame], 1);
                     AllPonitList[CurrentFrame].ForEach(c => c.X += 3);
-                    AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, ABCEnum.six, ColorConst.AbcColor));
+                    AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, ABCEnum.six,   (System.Windows.Media.Color)ColorConverter.ConvertFromString(ColorConst.AbcColor)));
                     XMoveCommand(AllPonitList[CurrentFrame], 1);
                     AllPonitList[CurrentFrame].ForEach(c => c.X += 3);
-                    AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, ABCEnum.seven, ColorConst.AbcColor));
+                    AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, ABCEnum.seven,   (System.Windows.Media.Color)ColorConverter.ConvertFromString(ColorConst.AbcColor)));
                     XMoveCommand(AllPonitList[CurrentFrame], 1);
                     AllPonitList[CurrentFrame].ForEach(c => c.X += 3);
-                    AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, ABCEnum.eight, ColorConst.AbcColor));
+                    AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, ABCEnum.eight,   (System.Windows.Media.Color)ColorConverter.ConvertFromString(ColorConst.AbcColor)));
                     XMoveCommand(AllPonitList[CurrentFrame], 1);
                     AllPonitList[CurrentFrame].ForEach(c => c.X += 3);
-                    AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, ABCEnum.nine, ColorConst.AbcColor));
+                    AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, ABCEnum.nine,   (System.Windows.Media.Color)ColorConverter.ConvertFromString(ColorConst.AbcColor)));
                     XMoveCommand(AllPonitList[CurrentFrame], 1);
                     AllPonitList[CurrentFrame].ForEach(c => c.X += 3);
-                    AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, ABCEnum.zero, ColorConst.AbcColor));
+                    AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, ABCEnum.zero,   (System.Windows.Media.Color)ColorConverter.ConvertFromString(ColorConst.AbcColor)));
                     XMoveCommand(AllPonitList[CurrentFrame], 1);
                     AllPonitList[CurrentFrame].ForEach(c => c.X += 5);
-                    AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, ABCEnum.percent, ColorConst.AbcColor));
+                    AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, ABCEnum.percent,   (System.Windows.Media.Color)ColorConverter.ConvertFromString(ColorConst.AbcColor)));
                     XMoveCommand(AllPonitList[CurrentFrame], 1);
                     AllPonitList[CurrentFrame].ForEach(c => c.X += 5);
-                    AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, ABCEnum.celsius, ColorConst.AbcColor));
+                    AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, ABCEnum.celsius,   (System.Windows.Media.Color)ColorConverter.ConvertFromString(ColorConst.AbcColor)));
                     XMoveCommand(AllPonitList[CurrentFrame], 1);
                     AllPonitList[CurrentFrame].ForEach(c => c.X += 5);
-                    AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, ABCEnum.lianjiexian, ColorConst.AbcColor));
+                    AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, ABCEnum.lianjiexian,   (System.Windows.Media.Color)ColorConverter.ConvertFromString(ColorConst.AbcColor)));
                     BuildShow(CurrentFrame);
                 });
             }
@@ -765,13 +706,16 @@ namespace Setting.ViewModel
                 );
             }
         }
+
+
+       
         public RelayCommand CleanComand
         {
             get
             {
                 return new RelayCommand(() =>
                 {
-                    AllPonitList[currFrame].ForEach(c => c.Fill = new SolidColorBrush(ColorConst.BackGroupColor));
+                    AllPonitList[currFrame].ForEach(c => c.Fill = new SolidColorBrush((System.Windows.Media.Color)ColorConverter.ConvertFromString(ColorConst.BackGroupColor)));
 
                     BuildShow(CurrentFrame);
                 });
@@ -894,12 +838,19 @@ namespace Setting.ViewModel
             Messenger.Default.Register<DebugInfoEvent>(this, HandleDebugInfoEvent);
 
             Messenger.Default.Register<NextFrameEvent>(this, HandleNextFrameEvent);
+
+
             Luminance = 255;
             ComName = "COM5";
             CursorEnum = CursorEnum.MOVE;
-            ChangeColor = new SolidColorBrush(ColorConst.AbcColor);
+            ChangeColor = new SolidColorBrush(  (System.Windows.Media.Color)ColorConverter.ConvertFromString(ColorConst.AbcColor));
             DebugInfo = "*********************************************调试信息******************" + "\r\n";
         }
+
+        
+       
+
+
 
         public RelayCommand CleanDebugInfoCommand
         {
@@ -948,6 +899,7 @@ namespace Setting.ViewModel
             }
             AllPonitList[0] = OnFrameAllPonitList;
             BuildShowInit(CurrentFrame);
+            FileHelper.SaveThemeName( obj.JsonFileInfo);
             FileHelper.Save(JsonConvert.SerializeObject(AllPonitList), obj.JsonFileInfo);
         }
         #region EventHander
@@ -963,7 +915,7 @@ namespace Setting.ViewModel
             CurrentFrame = 0;
             IsSend = false;
             CursorEnum = CursorEnum.MOVE;
-            ChangeColor = new SolidColorBrush(ColorConst.AbcColor);
+            ChangeColor = new SolidColorBrush(  (System.Windows.Media.Color)ColorConverter.ConvertFromString(ColorConst.AbcColor));
             JsonFileInfo = obj.JsonFileInfo;
             if (!JsonFileInfo.IsDynamic)
             {
@@ -994,10 +946,10 @@ namespace Setting.ViewModel
             if (JsonFileInfo.IsDynamic)
             {
                 AllPonitList[CurrentFrame] = AllPonitList[currFrame].Where(c => c.X >= 0 && c.X < xIndex && c.Y >= 0 && c.Y < yIndex).ToList();
-                AllPonitList[CurrentFrame].ForEach(c => c.Fill = new SolidColorBrush(ColorConst.BackGroupColor));
+                AllPonitList[CurrentFrame].ForEach(c => c.Fill = new SolidColorBrush((System.Windows.Media.Color)ColorConverter.ConvertFromString(ColorConst.BackGroupColor)));
                 XMoveCommand(AllPonitList[CurrentFrame], 1);
                 AllPonitList[CurrentFrame].ForEach(c => c.X += 5);
-                AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, ABCEnum.celsius, ColorConst.AbcColor));
+                AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, ABCEnum.celsius,   (System.Windows.Media.Color)ColorConverter.ConvertFromString(ColorConst.AbcColor)));
                 var cpucelsius = (int)obj.CpuTemp;
 
                 do
@@ -1005,16 +957,16 @@ namespace Setting.ViewModel
                     int remainder = cpucelsius % 10;
                     XMoveCommand(AllPonitList[CurrentFrame], 1);
                     AllPonitList[CurrentFrame].ForEach(c => c.X += 3);
-                    AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, (ABCEnum)remainder, ColorConst.AbcColor));
+                    AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, (ABCEnum)remainder,   (System.Windows.Media.Color)ColorConverter.ConvertFromString(ColorConst.AbcColor)));
                     cpucelsius = cpucelsius / 10;
                 } while (cpucelsius >= 1);
 
                 XMoveCommand(AllPonitList[CurrentFrame], 1);
                 AllPonitList[CurrentFrame].ForEach(c => c.X += 5);
-                AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, ABCEnum.lianjiexian, ColorConst.AbcColor));
+                AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, ABCEnum.lianjiexian,   (System.Windows.Media.Color)ColorConverter.ConvertFromString(ColorConst.AbcColor)));
                 XMoveCommand(AllPonitList[CurrentFrame], 1);
                 AllPonitList[CurrentFrame].ForEach(c => c.X += 5);
-                AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, ABCEnum.percent, ColorConst.AbcColor));
+                AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, ABCEnum.percent,   (System.Windows.Media.Color)ColorConverter.ConvertFromString(ColorConst.AbcColor)));
                 var cpu = (int)obj.CpuUse;
 
                 do
@@ -1022,7 +974,7 @@ namespace Setting.ViewModel
                     int remainder = cpu % 10;
                     XMoveCommand(AllPonitList[CurrentFrame], 1);
                     AllPonitList[CurrentFrame].ForEach(c => c.X += 3);
-                    AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, (ABCEnum)remainder, ColorConst.AbcColor));
+                    AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, (ABCEnum)remainder,   (System.Windows.Media.Color)ColorConverter.ConvertFromString(ColorConst.AbcColor)));
                     cpu = cpu / 10;
                 } while (cpu >= 1);
                 BuildShow(CurrentFrame);
@@ -1046,7 +998,7 @@ namespace Setting.ViewModel
             }
             else if (CursorEnum == CursorEnum.ERASE)
             {
-                AllPonitList[CurrentFrame].Find(c => c.Y == item.Y && c.X == item.X).Fill = new SolidColorBrush(ColorConst.BackGroupColor);
+                AllPonitList[CurrentFrame].Find(c => c.Y == item.Y && c.X == item.X).Fill = new SolidColorBrush((System.Windows.Media.Color)ColorConverter.ConvertFromString(ColorConst.BackGroupColor));
                 BuildShow(CurrentFrame);
             }
         }
@@ -1090,7 +1042,7 @@ namespace Setting.ViewModel
         public PointItem(int x, int y)
         {
 
-            Fill = new SolidColorBrush(ColorConst.BackGroupColor);
+            Fill = new SolidColorBrush((System.Windows.Media.Color)ColorConverter.ConvertFromString(ColorConst.BackGroupColor));
             X = x;
             Y = y;
         }
