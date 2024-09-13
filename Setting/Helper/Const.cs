@@ -9,8 +9,6 @@ namespace Setting.Helper
 {
    public class Const
     {
-        public static Color BackGroupColor => (Color)ColorConverter.ConvertFromString("#FFFFFFFF");
-        public static Color AbcColor =>       (Color)ColorConverter.ConvertFromString("#FF234EDE");
 
         public static string CMDOpen => "open";
         public static string CMDClose => "close";

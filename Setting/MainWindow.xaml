@@ -86,7 +86,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="60"/>
                 <RowDefinition Height="*"/>
-          
+
             </Grid.RowDefinitions>
             <StackPanel Orientation="Horizontal">
                 <Button Width="100" Height="30" DataContext="{Binding Path=ThemeList,Source={StaticResource Locator}}" Command="{Binding CreateCommand}"   Style="{DynamicResource ButtonStyle1}">新增</Button>
@@ -115,7 +115,7 @@
                     <Button Width="100" Height="30"   Command="{Binding  ReBackHistoryCommand}" CommandParameter="{Binding}"  IsEnabled="{Binding ReBackIsEnabled}"    Style="{DynamicResource ButtonStyle1}">恢复</Button>
                     <Button Width="100" Height="30"   Command="{Binding RedoHistoryCommand}" CommandParameter="{Binding}" IsEnabled="{Binding CancelIsEnabled}"  Content="重做"   Style="{DynamicResource ButtonStyle1}"/>
                     <Button Width="100" Height="30"   Command="{Binding CleanComand}" CommandParameter="{Binding}" Content="清除"   Style="{DynamicResource ButtonStyle1}"/>
-    
+
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center"  DataContext="{Binding Path=PointList,Source={StaticResource Locator}}">
                         <Button Width="100" Height="30"   Command="{Binding ChangeCursorCommand }"   CommandParameter="{x:Static enum:CursorEnum.MOVE}" Style="{DynamicResource ButtonStyle1}">
                             <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
@@ -142,7 +142,7 @@
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center"  Grid.Column="1" />
             </Grid>
-           
+
             <StackPanel Orientation="Horizontal" Grid.Row="3
                         " HorizontalAlignment="Right">
 
@@ -150,7 +150,9 @@
                 <Button Width="100" Height="30"   Command="{Binding LiveShowStartComand}"  Style="{DynamicResource ButtonStyle1}" >预览</Button>
                 <Button Width="100" Height="30"   Command="{Binding LiveShowEndComand}"  Style="{DynamicResource ButtonStyle1}" >停止预览</Button>
                 <Button Width="100" Height="30"   Command="{Binding SendCommand}" Content="应用"   Style="{DynamicResource ButtonStyle1}"/>
+                <Button Width="100" Height="30"   Command="{Binding SendOnepackageCommand}" Content="应用整包发送"   Style="{DynamicResource ButtonStyle1}" Margin="0,15"/>
                 <Button Width="100" Height="30"   Command="{Binding SaveCommand}"  Style="{DynamicResource ButtonStyle1}" Content="保存" Margin="0,15" />
+                <Button Width="100" Height="30"   Command="{Binding OutPutGIFCommand}"  Style="{DynamicResource ButtonStyle1}" Content="导出GIF" Margin="0,15" />
             </StackPanel>
             <Grid Grid.Row="1" >
                 <myview:PointList >
@@ -201,7 +203,7 @@
                         </StackPanel>
                     </Button>
                 </StackPanel>
-                
+
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed">
                     <Button Width="100" Height="30"   Command="{Binding CpuInfoStartComand}" CommandParameter="{Binding}"   Style="{DynamicResource ButtonStyle1}">开始</Button>
                     <Button Width="100" Height="30"   Command="{Binding CpuInfoEndComand}" CommandParameter="{Binding}"   Style="{DynamicResource ButtonStyle1}">停止</Button>

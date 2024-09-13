@@ -1,0 +1,14 @@
+﻿<Window x:Class="ColorPicker.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ColorPicker"
+        xmlns:test="clr-namespace:test"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="346.226" Width="595.283">
+    <Grid >
+        <Label Margin="70,87,358,178">点击右侧色块选择背景颜色</Label>
+        <test:ColorPicker Margin="268,78,174,184" SelectColor="Black"></test:ColorPicker>
+    </Grid>
+</Window>

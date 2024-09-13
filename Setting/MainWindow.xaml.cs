@@ -29,7 +29,8 @@ namespace Setting
             InitializeComponent();
             this.Cursor = CursorHelper.MOVE();
             Messenger.Default.Register<CursorModelChangeEvent>(this, HandleCursorModelChangeEvent);
-            SerialPortHelper.AutoConnect();
+
+            SerialPortHelper.Instance.AutoConnect();
 
         }
 
