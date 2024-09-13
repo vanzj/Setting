@@ -227,7 +227,7 @@ namespace Setting.Helper
                 return;
             }
             InitCOM(ComList[COMindex]);
-            SendgetMacSendMessage();
+         //   SendgetMacSendMessage();
         }
 
       
@@ -254,18 +254,29 @@ namespace Setting.Helper
         {
             try
             {
-             
-                srialPort?.Close();
-                srialPort.Dispose();
-                
-            
+
+                if (srialPort != null)
+                {
+                    srialPort.DataReceived -= SrialPort_DataReceived; 
+
+                    srialPort.Close();
+                }
+                srialPort = new SerialPort();
+                srialPort.ReceivedBytesThreshold = 1;
+                srialPort.RtsEnable = false;
+                srialPort.DtrEnable = false;
+
+
             }
             catch (Exception ex)
             {
 
                 return false;
             }
-
+            finally
+            {
+                srialPort.Dispose();
+            }
             return true;
         }
 
@@ -289,7 +300,10 @@ namespace Setting.Helper
             if (srialPort.IsOpen)
             {
                 srialPort.Write(Sendmsg + "**");
-                Messenger.Default.Send(new DebugInfoEvent("发送消息==>  " + srialPort.PortName + Sendmsg + "**"));
+               
+                
+                    Messenger.Default.Send(new DebugInfoEvent("发送消息==>  " + srialPort.PortName + Sendmsg + "**"));
+                
             }
             else
             {

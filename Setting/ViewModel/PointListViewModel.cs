@@ -22,6 +22,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using GIfTool;
 using ColorConverter = System.Windows.Media.ColorConverter;
+using NLog;
 
 namespace Setting.ViewModel
 {
@@ -125,7 +126,7 @@ namespace Setting.ViewModel
         public bool IsSend = false;
         private Dictionary<int, List<PointItem>> AllPonitList { get; set; }
 
-
+        private static Logger logger = LogManager.GetCurrentClassLogger();
 
         private RelayCommand _openFileCommand;
 
@@ -167,6 +168,51 @@ namespace Setting.ViewModel
                     {
 
                         var msg = MessageHelper.Build(AllPonitList, xIndex, yIndex, fileName);
+
+                        //Task.Run(() =>
+                        //{
+                        SerialPortHelper.Instance.SendThemeCirculateSendMessage(msg);
+                        //}
+                        //);
+
+                    }
+
+                })
+                {
+
+                };
+            }
+        }
+        public RelayCommand SendOnepackageCommand
+        {
+            get
+            {
+                return new RelayCommand(() =>
+                {
+                    if (jsonFileInfo == null)
+                    {
+                        return;
+                    }
+                    var fileName = string.IsNullOrEmpty(JsonFileInfo.NewFileName) ? JsonFileInfo.FileName : JsonFileInfo.NewFileName;
+                    if (JsonFileInfo.IsDynamic)
+                    {
+                        if (CPUHelper == null)
+                        {
+                            CPUHelper = new CPUHelper();
+                        }
+                        CPUHelper.Start();
+
+                        //Task.Run(() =>
+                        //{
+                        SerialPortHelper.Instance.SendThemeDynamicSendMessage();
+                        //}
+                        //);
+                        IsSend = true;
+                    }
+                    else
+                    {
+
+                        var msg = MessageHelper.BuildOnePackage(AllPonitList, xIndex, yIndex, fileName);
 
                         //Task.Run(() =>
                         //{
@@ -879,7 +925,30 @@ namespace Setting.ViewModel
 
         private void HandleDebugInfoEvent(DebugInfoEvent obj)
         {
-            DebugInfo += obj.Msg;
+            logger.Info(obj.Msg);
+            if (obj.Msg.Contains("themeSegment"))
+            {
+                if (obj.Msg.Contains("发送消息"))
+                {
+
+                    DebugInfo += "发送消息 ==> themeSegment "+ "\r\n";
+                }
+                else if (obj.Msg.Contains("接收消息"))
+                {
+
+                    DebugInfo += "接收消息<==  themeSegment "+"\r\n";
+                }
+
+            }
+            else
+            {
+                if (DebugInfo.Length > 5000)
+                {
+                    DebugInfo = DebugInfo.Substring(3000);
+                }
+                DebugInfo += obj.Msg;
+            }
+           
         }
 
         private void HandleNewThemeEvent(NewThemeEvent obj)
