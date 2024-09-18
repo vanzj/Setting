@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Setting"
         xmlns:myview="clr-namespace:Setting.View" xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:local1="clr-namespace:Setting.Convert" xmlns:enum="clr-namespace:Setting.Enum"
         mc:Ignorable="d"
-        Title="MainWindow" Height="1000" Width="1920" DataContext="{Binding Path=PointList,Source={StaticResource Locator}}" >
+        Title="MainWindow" Height="1000" Width="1920" DataContext="{Binding Path=PointList,Source={StaticResource Locator}}" Closing="Window_Closing" >
     <Window.Resources>
 
         <local1:CurrentFrameConventer x:Key="CurrentFrameConventer"/>

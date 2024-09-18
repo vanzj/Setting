@@ -51,6 +51,11 @@ namespace Setting
                     break;
             }
         }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            SerialPortHelper.Instance.ClosePort();
+        }
     }
 
 }
