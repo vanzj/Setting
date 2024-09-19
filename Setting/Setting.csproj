@@ -105,8 +105,9 @@
     <Compile Include="Helper\AddNewThemeEvent.cs" />
     <Compile Include="Helper\BitmapHelper.cs" />
     <Compile Include="Helper\Const.cs" />
+    <Compile Include="Helper\GPUHelper.cs" />
     <Compile Include="Helper\CPUHelper.cs" />
-    <Compile Include="Helper\CpuInfoEvent.cs" />
+    <Compile Include="Helper\HardInfoEvent.cs" />
     <Compile Include="Helper\CursorModelChangeEvent.cs" />
     <Compile Include="Helper\CursorSafeHandle.cs" />
     <Compile Include="Helper\DebugInfoEvent.cs" />

@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Setting.Helper
 {
-    public class CpuInfoEvent
+    public class HardInfoEvent
     {
-       public int CpuUse { get; set; }
-       public int CpuTemp { get; set; }
+       public int Use { get; set; }
+       public int Temp { get; set; }
     }
 }

@@ -11,12 +11,12 @@ using System.Windows.Threading;
 
 namespace Setting.Helper
 {
-    public class CPUHelper
+    public class GPUHelper
     {
         private DispatcherTimer timer;
 
         int i = 0;
-        List<double> CpuList = new List<double>();
+        List<double> GPUList = new List<double>();
         List<float> TempList = new List<float>();
 
         public void Start()
@@ -32,13 +32,13 @@ namespace Setting.Helper
         {
             myComputer.Reset();
  
-            CpuList.Add(GetCPUUsage());
-            TempList.Add(getCPU());
+            GPUList.Add(GetGPUUsage());
+            TempList.Add(getGPU());
             if (i == 5)
             {
                 i = 1;
-                Messenger.Default.Send(new HardInfoEvent { Temp = (int)(TempList.Sum(c => c) / TempList.Count) ,Use = (int)(CpuList.Sum(c=>c)/ CpuList.Count)}) ;
-                CpuList = new List<double>();
+                Messenger.Default.Send(new HardInfoEvent { Temp = (int)(TempList.Sum(c => c) / TempList.Count) ,Use = (int)(GPUList.Sum(c=>c)/ GPUList.Count)}) ;
+                GPUList = new List<double>();
                 TempList = new List<float>();
             }
             i++;
@@ -49,24 +49,24 @@ namespace Setting.Helper
             timer?.Stop();
         }
 
-        // 用于获得CPU信息
+        // 用于获得GPU信息
         PerformanceCounter[] counters;
-        UpdateVisitor updateVisitor = new UpdateVisitor();
+        GPPUUpdateVisitor updateVisitor = new GPPUUpdateVisitor();
         Computer myComputer = new Computer();
-        public CPUHelper()
+        public GPUHelper()
         {
             timer = new DispatcherTimer();
             timer.Interval = TimeSpan.FromMilliseconds(100); // 设置计时器的时间间隔为1秒
             timer.Tick += Timer_Tick; ; // 订阅Tick事件
             myComputer.Open();
-            //启动CPU监测
-            myComputer.CPUEnabled = true;
+            //启动GPU监测
+            myComputer.GPUEnabled = true;
             myComputer.Accept(updateVisitor);
 
         }
 
-        // 返回所有核心的CPU的占用率的值
-        public  double GetCPUUsage()
+        // 返回所有核心的GPU的占用率的值
+        public  double GetGPUUsage()
         {
 
 
@@ -78,7 +78,7 @@ namespace Setting.Helper
             return ((templist.Sum(c => c.Value.Value)) / templist.Count);
         }
 
-        public float getCPU()
+        public float getGPU()
         {
             
 
@@ -93,7 +93,7 @@ namespace Setting.Helper
         }
     }
 
-    public  class UpdateVisitor: IVisitor
+    public  class GPPUUpdateVisitor: IVisitor
     {
         public void VisitComputer(IComputer computer)
         {

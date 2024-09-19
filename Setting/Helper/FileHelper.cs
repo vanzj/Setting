@@ -35,7 +35,7 @@ namespace Setting.Helper
                       new JsonFileInfo()
                 {
                     Name = "GPU状态(待开发)",
-                    FileName = "cpu",
+                    FileName = "gpu",
                     Default= true,
                     IsDynamic =true
                 },

@@ -78,7 +78,6 @@ namespace Setting.Helper
 
                     if (serialDevice != null)
                     {
-                        Messenger.Default.Send(new DebugInfoEvent($"线程————————————————"));
                         var count = serialDevice.BytesReceived;
                         var rBuffer = serialDevice.InputStream.ReadAsync(new Windows.Storage.Streams.Buffer(50), 50, InputStreamOptions.None).GetAwaiter().GetResult(); ;
                         string hexString = CryptographicBuffer.EncodeToHexString(rBuffer);

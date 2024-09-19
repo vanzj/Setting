@@ -58,7 +58,7 @@ namespace Setting.ViewModel
             Cancel = new Stack<HistoryItem>();
             ReBack = new Stack<HistoryItem>();
 
-            Messenger.Default.Register<HistroyInitEvent>(this, HanderHistroyInitEvent);
+           // Messenger.Default.Register<HistroyInitEvent>(this, HanderHistroyInitEvent);
             Messenger.Default.Register<HistroyAddEvent>(this, HanderHistroyAddEvent);
 
         }
@@ -79,29 +79,29 @@ namespace Setting.ViewModel
             ReBackIsEnabled = false;
         }
 
-        private void HanderHistroyInitEvent(HistroyInitEvent obj)
-        {
+        //private void HanderHistroyInitEvent(HistroyInitEvent obj)
+        //{
 
            
 
-            InitItem = new HistoryItem()
-            {
-                Title = obj.HistoryItem.Title,
-                CurrentFrame = obj.HistoryItem.CurrentFrame,
-                FrameCount = obj.HistoryItem.FrameCount,
-                PointItems = JsonConvert.DeserializeObject<Dictionary<int, List<PointItem>>>(JsonConvert.SerializeObject(obj.HistoryItem.PointItems)),
-            };
-            Cancel.Push(new HistoryItem()
-            {
-                Title = obj.HistoryItem.Title,
-                CurrentFrame = obj.HistoryItem.CurrentFrame,
-                FrameCount = obj.HistoryItem.FrameCount,
-                PointItems = JsonConvert.DeserializeObject<Dictionary<int, List<PointItem>>>(JsonConvert.SerializeObject(obj.HistoryItem.PointItems)),
-            });
-            ReBack.Clear();
-            CancelIsEnabled = false;
-            ReBackIsEnabled = false;
-        }
+        //    InitItem = new HistoryItem()
+        //    {
+        //        Title = obj.HistoryItem.Title,
+        //        CurrentFrame = obj.HistoryItem.CurrentFrame,
+        //        FrameCount = obj.HistoryItem.FrameCount,
+        //        PointItems = JsonConvert.DeserializeObject<Dictionary<int, List<PointItem>>>(JsonConvert.SerializeObject(obj.HistoryItem.PointItems)),
+        //    };
+        //    Cancel.Push(new HistoryItem()
+        //    {
+        //        Title = obj.HistoryItem.Title,
+        //        CurrentFrame = obj.HistoryItem.CurrentFrame,
+        //        FrameCount = obj.HistoryItem.FrameCount,
+        //        PointItems = JsonConvert.DeserializeObject<Dictionary<int, List<PointItem>>>(JsonConvert.SerializeObject(obj.HistoryItem.PointItems)),
+        //    });
+        //    ReBack.Clear();
+        //    CancelIsEnabled = false;
+        //    ReBackIsEnabled = false;
+        //}
 
         public RelayCommand ReBackHistoryCommand
         {
