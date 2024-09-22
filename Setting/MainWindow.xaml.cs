@@ -106,7 +106,17 @@ namespace Setting
             this.DragMove();
         }
 
-       
+        private void Button_Click_3(object sender, RoutedEventArgs e)
+        {
+            if (this.degbug.Visibility == Visibility.Visible)
+            {
+                this.degbug.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                this.degbug.Visibility = Visibility.Visible;
+            }
+        }
     }
 
 }

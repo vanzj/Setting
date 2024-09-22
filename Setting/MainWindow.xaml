@@ -348,7 +348,7 @@
 
 
         </Grid>
-       
+
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="64"/>
@@ -555,9 +555,7 @@
                 </Button>
 
             </Grid>
-            <Grid
-                Grid.Row="5"
-                >
+            <Grid Grid.Row="5">
                 <Button Width="71" Height="27.75"   Command="{Binding LiveShowStartComand}"  Style="{DynamicResource ButtonStyle1}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="774.5,7,0,0" >
                     <Button.Background>
                         <ImageBrush ImageSource="img/UI/主题-预览开始.png"/>
@@ -581,17 +579,18 @@
                     </Button.Background>
                 </Button>
 
+                <ScrollViewer  Visibility="Collapsed" x:Name="degbug"  Width="500" Height="300" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,-250,0,0" >
+                    <TextBox Text="{Binding DebugInfo}"></TextBox>
+                </ScrollViewer>
+         
+                <Button HorizontalAlignment="Left" Margin="500,0,0,0" Click="Button_Click_3">调试</Button>
+                <Button Margin="540,0,0,0" HorizontalAlignment="Left" Command="{Binding CleanDebugInfoCommand}" >清除</Button>
             </Grid>
 
 
 
 
-            <Grid Grid.Row="1" >
 
-
-
-
-            </Grid>
         </Grid>
         <Grid Width="959" Height="65" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.ColumnSpan="2" Cursor="Cross" MouseLeftButtonDown="Grid_MouseLeftButtonDown" Background="#021FBF1F"></Grid>
 

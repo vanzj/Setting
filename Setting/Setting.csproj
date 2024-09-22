@@ -151,6 +151,7 @@
     <Compile Include="Helper\MouseClickCommandBehavior.cs" />
     <Compile Include="Helper\HistroyEvent.cs" />
     <Compile Include="Event\NextFrameEvent.cs" />
+    <Compile Include="Helper\MYSerialDevice.cs" />
     <Compile Include="Helper\SerialPortHelper.cs" />
     <Compile Include="Event\ThemeClickedEvent.cs" />
     <Compile Include="Event\PonitClickedEvent.cs" />
@@ -169,6 +170,8 @@
     <Compile Include="Model\CMDModel\ThemeSendStart.cs" />
     <Compile Include="Model\CMDModel\Theme.cs" />
     <Compile Include="Model\CMDModel\ThemeSegment.cs" />
+    <Compile Include="Model\Constants.cs" />
+    <Compile Include="Model\DeviceListEntry.cs" />
     <Compile Include="Model\JsonFileInfo.cs" />
     <Compile Include="Model\PointInit.cs" />
     <Compile Include="ViewModel\HistoryViewModel.cs" />

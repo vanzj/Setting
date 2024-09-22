@@ -1,5 +1,6 @@
 ﻿using GalaSoft.MvvmLight.Messaging;
 using Newtonsoft.Json;
+using Setting.Model;
 using Setting.Model.CMDModel;
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,7 @@ using System.Timers;
 using System.Windows.Threading;
 using Windows.Devices.Enumeration;
 using Windows.Devices.SerialCommunication;
+using Windows.Foundation;
 using Windows.Security.Cryptography;
 using Windows.Storage.Streams;
 using Timer = System.Timers.Timer;
@@ -18,9 +20,9 @@ namespace Setting.Helper
     public class SerialPortHelper
     {
 
-        private SerialDevice serialDevice { get; set; }
-
-
+        private MYSerialDevice MYSerialDevice { get; set; }
+        private Dictionary<DeviceWatcher, String> mapDeviceWatchersToDeviceSelector;
+        private List<DeviceListEntry> listOfDevices;
 
         public List<string> ScanDeviceComportsAsync()
         {
@@ -29,20 +31,15 @@ namespace Setting.Helper
             List<string> portNamesList = new List<string>();
             foreach (var item in deviceCollection)
             {
-                var serialDevice = SerialDevice.FromIdAsync(item.Id).GetAwaiter().GetResult();
-                if (serialDevice!=null)
-                {
-                    var portName = serialDevice.PortName;
-                    portNamesList.Add(portName);
-                    serialDevice.Dispose();
-                }
+                portNamesList.Add(item.Id);
+              
              
             }
             return portNamesList;
         }
 
 
-        private string CurrentComName { get; set; }
+        private string CurrentCOMID { get; set; }
         private string currentCmd { get; set; }
         private int index { get; set; }
         private List<string> msgList { get; set; }
@@ -50,24 +47,99 @@ namespace Setting.Helper
 
       static readonly object _object = new object();
 
-        private List<string> ComList { get; set; }
+        private List<string> DeviceIdList { get; set; }
         private int COMindex { get; set; }
         Thread t;
 
 
         private SerialPortHelper()
         {
+            listOfDevices = new List<DeviceListEntry>();
             // 设置WMI查询来监听串口设备的添加和移除事件
-
+            mapDeviceWatchersToDeviceSelector = new Dictionary<DeviceWatcher, String>();
             timer = new System.Timers.Timer();
             timer.Elapsed += Timer_Tick; ; // 订阅Tick事件
-            timer.Interval = 3000; // 设置计时器的时间间隔为1秒
+            timer.Interval = 1000; // 设置计时器的时间间隔为1秒
             timer.AutoReset = true;
             timer.Enabled = true;
             t = new Thread(TimerRead_Tick);
             t.Start();
-
+            InitializeDeviceWatchers();
+            StartDeviceWatchers();
         }
+        private Boolean watchersStarted;
+
+        // Has all the devices enumerated by the device watcher?
+        private Boolean isAllDevicesEnumerated;
+        private void StartDeviceWatchers()
+        {
+            // Start all device watchers
+            watchersStarted = true;
+            isAllDevicesEnumerated = false;
+
+            foreach (DeviceWatcher deviceWatcher in mapDeviceWatchersToDeviceSelector.Keys)
+            {
+                if ((deviceWatcher.Status != DeviceWatcherStatus.Started)
+                    && (deviceWatcher.Status != DeviceWatcherStatus.EnumerationCompleted))
+                {
+                    deviceWatcher.Start();
+                }
+            }
+        }
+        private void InitializeDeviceWatchers()
+        {
+
+            // Target all Serial Devices present on the system
+            var deviceSelector = SerialDevice.GetDeviceSelector();
+            var deviceWatcher = DeviceInformation.CreateWatcher(deviceSelector);
+            AddDeviceWatcher(deviceWatcher, deviceSelector);
+        }
+        private void AddDeviceWatcher(DeviceWatcher deviceWatcher, String deviceSelector)
+        {
+            deviceWatcher.Added += new TypedEventHandler<DeviceWatcher, DeviceInformation>(this.OnDeviceAdded);
+            deviceWatcher.Removed += new TypedEventHandler<DeviceWatcher, DeviceInformationUpdate>(this.OnDeviceRemoved);
+            mapDeviceWatchersToDeviceSelector.Add(deviceWatcher, deviceSelector);
+        }
+
+        private void OnDeviceRemoved(DeviceWatcher sender, DeviceInformationUpdate args)
+        {
+           
+            if (args.Id == CurrentCOMID)
+            {
+                MYSerialDevice.SerialDevice.Dispose();
+                MYSerialDevice.IsConnect = false;
+                Messenger.Default.Send(new DebugInfoEvent($"串口扫描==> 连接断开"));
+            }
+        }
+
+        private void OnDeviceAdded(DeviceWatcher sender, DeviceInformation args)
+        {
+            if (args.Id == CurrentCOMID)
+            {
+                MYSerialDevice.SerialDevice = SerialDevice.FromIdAsync(CurrentCOMID).GetAwaiter().GetResult();
+                if (MYSerialDevice.SerialDevice !=null)
+                {
+                    MYSerialDevice.SerialDevice.BaudRate = 115200;
+                    MYSerialDevice.SerialDevice.Handshake = SerialHandshake.None;
+                    MYSerialDevice.SerialDevice.Parity = SerialParity.None;
+                    MYSerialDevice.SerialDevice.DataBits = 8;
+                    MYSerialDevice.SerialDevice.StopBits = SerialStopBitCount.One;
+                    MYSerialDevice.SerialDevice.ReadTimeout = TimeSpan.FromSeconds(0.1);
+                    MYSerialDevice.SerialDevice.WriteTimeout = TimeSpan.FromSeconds(600);
+                    MYSerialDevice.SerialDevice.IsRequestToSendEnabled = false;
+                    MYSerialDevice.SerialDevice.IsDataTerminalReadyEnabled = true;
+                    MYSerialDevice.IsConnect = true;
+                }
+                Messenger.Default.Send(new DebugInfoEvent($"串口扫描==> 恢复连接"));
+            }
+            if (string.IsNullOrEmpty(CurrentCOMID))
+            {
+                Messenger.Default.Send(new DebugInfoEvent($"串口扫描==> 新串口自动扫描"));
+                AutoConnect();
+            }
+        }
+       
+
         private string ReadMsg { get; set; }
         private void TimerRead_Tick()
         {
@@ -76,10 +148,10 @@ namespace Setting.Helper
                 try
                 {
 
-                    if (serialDevice != null)
+                    if (MYSerialDevice!=null && MYSerialDevice.SerialDevice != null&MYSerialDevice.IsConnect)
                     {
-                        var count = serialDevice.BytesReceived;
-                        var rBuffer = serialDevice.InputStream.ReadAsync(new Windows.Storage.Streams.Buffer(50), 50, InputStreamOptions.None).GetAwaiter().GetResult(); ;
+                        var count = MYSerialDevice.SerialDevice.BytesReceived;
+                        var rBuffer = MYSerialDevice.SerialDevice.InputStream.ReadAsync(new Windows.Storage.Streams.Buffer(50), 50, InputStreamOptions.None).GetAwaiter().GetResult(); ;
                         string hexString = CryptographicBuffer.EncodeToHexString(rBuffer);
 
                         byte[] bytes = HexStringToByteArray(hexString);
@@ -146,33 +218,35 @@ namespace Setting.Helper
             }
         }
 
-        private bool InitCOM(string PortName)
+        private bool InitCOM(string COMID)
         {
             try
             {
-                if (serialDevice !=null)
+                if (MYSerialDevice !=null&&MYSerialDevice.SerialDevice!=null)
                 {
-                    serialDevice.Dispose();
+                    MYSerialDevice.SerialDevice.Dispose();
+                    MYSerialDevice.IsConnect = false;
                 }
-                DeviceInformationCollection serialDeviceInfos =
-                DeviceInformation.FindAllAsync(SerialDevice.GetDeviceSelector(PortName)).GetAwaiter().GetResult(); ;
-
+                if (MYSerialDevice ==null)
+                {
+                    MYSerialDevice = new MYSerialDevice();
+                }
                 try
                 {
-                    serialDevice = SerialDevice.FromIdAsync(serialDeviceInfos[0].Id).GetAwaiter().GetResult(); ;
-
-                    if (serialDevice != null)
+                    MYSerialDevice.SerialDevice = SerialDevice.FromIdAsync(COMID).GetAwaiter().GetResult(); ;
+                    MYSerialDevice.COMID = COMID;
+                    if (MYSerialDevice != null)
                     {
-                        serialDevice.BaudRate = 115200;
-                        serialDevice.Handshake = SerialHandshake.None;
-                        serialDevice.Parity = SerialParity.None;
-                        serialDevice.DataBits = 8;
-                        serialDevice.StopBits = SerialStopBitCount.One;
-                        serialDevice.ReadTimeout = TimeSpan.FromSeconds(0.1);
-                        serialDevice.WriteTimeout = TimeSpan.FromSeconds(600);
-                        serialDevice.IsRequestToSendEnabled = false;
-                        serialDevice.IsDataTerminalReadyEnabled = true;
-                       
+                        MYSerialDevice.SerialDevice.BaudRate = 115200;
+                        MYSerialDevice.SerialDevice.Handshake = SerialHandshake.None;
+                        MYSerialDevice.SerialDevice.Parity = SerialParity.None;
+                        MYSerialDevice.SerialDevice.DataBits = 8;
+                        MYSerialDevice.SerialDevice.StopBits = SerialStopBitCount.One;
+                        MYSerialDevice.SerialDevice.ReadTimeout = TimeSpan.FromSeconds(0.1);
+                        MYSerialDevice.SerialDevice.WriteTimeout = TimeSpan.FromSeconds(600);
+                        MYSerialDevice.SerialDevice.IsRequestToSendEnabled = false;
+                        MYSerialDevice.SerialDevice.IsDataTerminalReadyEnabled = true;
+                        MYSerialDevice.IsConnect = true;
                     }
                     SendgetMacSendMessage();
 
@@ -181,12 +255,12 @@ namespace Setting.Helper
                 {
                     throw new Exception(ex.Message);
                 }
-                Messenger.Default.Send(new DebugInfoEvent($"串口扫描==> 打开{PortName}成功"));
+                Messenger.Default.Send(new DebugInfoEvent($"串口扫描==> 打开{COMID}成功"));
                 return true;
             }
             catch (Exception ex)
             {
-                Messenger.Default.Send(new DebugInfoEvent($"串口扫描==> 打开{PortName}失败，失败原因：{ex.Message}"));
+                Messenger.Default.Send(new DebugInfoEvent($"串口扫描==> 打开{COMID}失败，失败原因：{ex.Message}"));
                 return false;
             }
         }
@@ -201,7 +275,7 @@ namespace Setting.Helper
 
 
 
-                Messenger.Default.Send(new DebugInfoEvent("接收消息<==  " + serialDevice.PortName +"  "+ msgreturn));
+                Messenger.Default.Send(new DebugInfoEvent("接收消息<==  " + MYSerialDevice.SerialDevice.PortName +"  "+ msgreturn));
                 var msgobject = JsonConvert.DeserializeObject<ReturnBase<string>>(msgreturn);
                 switch (msgobject.cmd)
                 {
@@ -214,12 +288,13 @@ namespace Setting.Helper
                             if (!string.IsNullOrEmpty(getMacmsg.data))
                             {
                                 timer.Stop();
-                                CurrentComName = serialDevice.PortName;
-                                Messenger.Default.Send(new DebugInfoEvent("串口扫描=>  " + serialDevice.PortName + "连接成功"));
+                                CurrentCOMID = MYSerialDevice.COMID;
+                      
+                                Messenger.Default.Send(new DebugInfoEvent("串口扫描=>  " + MYSerialDevice.SerialDevice.PortName + "连接成功"));
                             }
                             else
                             {
-                                Messenger.Default.Send(new DebugInfoEvent("串口扫描+==  " + serialDevice.PortName + "未返回mac地址未能自动连接"));
+                                Messenger.Default.Send(new DebugInfoEvent("串口扫描+==  " + MYSerialDevice.SerialDevice.PortName + "未返回mac地址未能自动连接"));
                             }
 
 
@@ -287,17 +362,17 @@ namespace Setting.Helper
         {
 
             COMindex++;
-            if (COMindex >= ComList.Count)
+            if (COMindex >= DeviceIdList.Count)
             {
                 timer.Stop();
                 Messenger.Default.Send(new DebugInfoEvent($"串口扫描结束"));
                 return;
             }
-            if (ComList.Count == 0)
+            if (DeviceIdList.Count == 0)
             {
                 return;
             }
-            InitCOM(ComList[COMindex]);
+            InitCOM(DeviceIdList[COMindex]);
             //   SendgetMacSendMessage();
         }
 
@@ -314,9 +389,8 @@ namespace Setting.Helper
 
 
             timer.Start(); // 启动计时器
-
-            ComList = ScanDeviceComportsAsync();
-            Messenger.Default.Send(new DebugInfoEvent($"串口扫描==>  发现{ComList.Count}个串口，串口列表：{String.Join(",", ComList)}"));
+            DeviceIdList = ScanDeviceComportsAsync();
+            Messenger.Default.Send(new DebugInfoEvent($"串口扫描==>  发现{DeviceIdList.Count}个串口，串口列表：{String.Join(",", DeviceIdList)}"));
             COMindex = -1;
         }
 
@@ -326,10 +400,12 @@ namespace Setting.Helper
             try
             {
 
-                if (serialDevice != null)
+                if (MYSerialDevice != null)
                 {
-                    serialDevice.Dispose();
+                    MYSerialDevice.SerialDevice?.Dispose();
+                    MYSerialDevice.IsConnect = false;
                 }
+                t.Abort();
 
             }
             catch (Exception ex)
@@ -350,7 +426,7 @@ namespace Setting.Helper
             index = 0;
             msgList = new List<string>();
             string msg = JsonConvert.SerializeObject(cmd);
-            if (serialDevice != null)
+            if (MYSerialDevice != null)
             {
                 Write(msg);
             }
@@ -360,7 +436,7 @@ namespace Setting.Helper
         {
             try
             {
-                if (serialDevice != null)
+                if (MYSerialDevice != null)
                 {
 
                     string str = Sendmsg + "**";
@@ -371,16 +447,16 @@ namespace Setting.Helper
                     var sendDatas = Encoding.UTF8.GetBytes(str);
                     Messenger.Default.Send(new DebugInfoEvent($"发送消息==>  长度{sendDatas.Length}"));
                     var wBuffer = CryptographicBuffer.CreateFromByteArray(sendDatas);
-                    var sw = serialDevice.OutputStream.WriteAsync(wBuffer).GetAwaiter().GetResult();
+                    var sw = MYSerialDevice.SerialDevice.OutputStream.WriteAsync(wBuffer).GetAwaiter().GetResult();
 
 
-                    Messenger.Default.Send(new DebugInfoEvent("发送消息==>  " + serialDevice.PortName + Sendmsg + "**"));
+                    Messenger.Default.Send(new DebugInfoEvent("发送消息==>  " + MYSerialDevice.SerialDevice.PortName + Sendmsg + "**"));
 
 
                 }
                 else
                 {
-                    Messenger.Default.Send(new DebugInfoEvent("发送消息==>  失败串口关闭" + serialDevice.PortName + Sendmsg + "**"));
+                    Messenger.Default.Send(new DebugInfoEvent("发送消息==>  失败串口关闭" + MYSerialDevice.SerialDevice.PortName + Sendmsg + "**"));
                 }
             }
             catch (Exception ex)
