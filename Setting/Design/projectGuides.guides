@@ -11,5 +11,24 @@
         </GuideModel>
       </GuideModels>
     </ProjectItemGuide>
+    <ProjectItemGuide TargetFile="MainWindow.xaml">
+      <GuideModels>
+        <GuideModel>
+          <Guides>
+            <Guide Alignment="Top" Position="641" />
+            <Guide Alignment="Left" Position="1135" />
+            <Guide Alignment="Top" Position="624" />
+            <Guide Alignment="Left" Position="508" />
+            <Guide Alignment="Left" Position="641" />
+            <Guide Alignment="Top" Position="550" />
+            <Guide Alignment="Top" Position="711" />
+            <Guide Alignment="Left" Position="469" />
+            <Guide Alignment="Top" Position="154" />
+            <Guide Alignment="Top" Position="209" />
+            <Guide Alignment="Left" Position="186" />
+          </Guides>
+        </GuideModel>
+      </GuideModels>
+    </ProjectItemGuide>
   </ProjectItemGuides>
 </ProjectGuidesConfiguration>

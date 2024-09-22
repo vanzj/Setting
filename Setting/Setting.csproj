@@ -96,30 +96,64 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Event\ThemeLotFocusEvent.cs" />
+    <Resource Include="img\UI\画面上%402x.png" />
+    <Resource Include="img\UI\画面下%402x.png" />
+    <Resource Include="img\UI\画面右%402x.png" />
+    <Resource Include="img\UI\画面左%402x.png" />
+    <Resource Include="img\UI\帧操作%402x 上一帧.png" />
+    <Resource Include="img\UI\帧操作%402x 下一帧.png" />
+    <Resource Include="img\UI\帧操作%402x 减一帧.png" />
+    <Resource Include="img\UI\帧操作%402x 加一帧.png" />
+    <Resource Include="img\UI\鼠标-擦除%402x.png" />
+    <Resource Include="img\UI\鼠标-着色%402x.png" />
+    <Resource Include="img\UI\鼠标-选择%402x.png" />
+    <Resource Include="img\UI\软件ui 3.png" />
+    <Resource Include="img\UI\gif导入.png" />
+    <Resource Include="img\UI\gif导出.png" />
+    <Resource Include="img\UI\gif新建.png" />
+    <Resource Include="img\UI\操作-回退.png" />
+    <Resource Include="img\UI\操作-撤销.png" />
+    <Resource Include="img\UI\操作-清空.png" />
+    <Resource Include="img\UI\操作-重做.png" />
+    <Resource Include="img\UI\主题-预览开始.png" />
+    <Resource Include="img\UI\主题-预览结束.png" />
+    <Resource Include="img\UI\主题-保存.png" />
+    <Resource Include="img\UI\主题-应用.png" />
+    <Resource Include="img\UI\主题-下一页.png" />
+    <Resource Include="img\UI\主题上一页.png" />
+    <Resource Include="img\UI\主题修改弹窗.png" />
+    <Resource Include="img\UI\背景-主题.png" />
+    <Resource Include="img\UI\背景-编辑界面%402x.png" />
+    <Resource Include="img\UI\开关-底.png" />
+    <Resource Include="img\UI\开关按钮.png" />
+    <Resource Include="img\UI\窗口--.png" />
+    <Resource Include="img\UI\窗口-x.png" />
+    <Resource Include="img\UI\窗口-口.png" />
     <Content Include="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Compile Include="Convert\CurrentFrameConventer.cs" />
     <Compile Include="Enum\CursorEnum.cs" />
     <Compile Include="Helper\ABCHelper.cs" />
-    <Compile Include="Helper\AddNewThemeEvent.cs" />
+    <Compile Include="Event\AddNewThemeEvent.cs" />
     <Compile Include="Helper\BitmapHelper.cs" />
     <Compile Include="Helper\Const.cs" />
     <Compile Include="Helper\GPUHelper.cs" />
     <Compile Include="Helper\CPUHelper.cs" />
-    <Compile Include="Helper\HardInfoEvent.cs" />
-    <Compile Include="Helper\CursorModelChangeEvent.cs" />
+    <Compile Include="Event\HardInfoEvent.cs" />
+    <Compile Include="Event\CursorModelChangeEvent.cs" />
     <Compile Include="Helper\CursorSafeHandle.cs" />
-    <Compile Include="Helper\DebugInfoEvent.cs" />
+    <Compile Include="Event\DebugInfoEvent.cs" />
     <Compile Include="Helper\FileHelper.cs" />
     <Compile Include="Helper\LiveShowHelper.cs" />
     <Compile Include="Helper\MessageHelper.cs" />
     <Compile Include="Helper\MouseClickCommandBehavior.cs" />
     <Compile Include="Helper\HistroyEvent.cs" />
-    <Compile Include="Helper\NextFrameEvent.cs" />
+    <Compile Include="Event\NextFrameEvent.cs" />
     <Compile Include="Helper\SerialPortHelper.cs" />
-    <Compile Include="Helper\ThemeClickedEvent.cs" />
-    <Compile Include="Helper\PonitClickedEvent.cs" />
+    <Compile Include="Event\ThemeClickedEvent.cs" />
+    <Compile Include="Event\PonitClickedEvent.cs" />
     <Compile Include="Media\HsbaColor.cs" />
     <Compile Include="Media\ResObj.cs" />
     <Compile Include="Media\RgbaColor.cs" />
@@ -280,10 +314,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ColorPicker\ColorPicker.csproj">
-      <Project>{2e94bf09-753d-409b-aa93-807b15d6651a}</Project>
-      <Name>ColorPicker</Name>
-    </ProjectReference>
     <ProjectReference Include="..\GIfTool\GIfTool.csproj">
       <Project>{cc9d10d6-fdeb-4a17-9e92-8eefe3cd9b4a}</Project>
       <Name>GIfTool</Name>

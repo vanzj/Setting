@@ -75,7 +75,7 @@ namespace Setting.Media
         public SolidColorBrush SolidColorBrush { get { return new SolidColorBrush(Color); } }
         public SolidColorBrush OpaqueSolidColorBrush { get { return new SolidColorBrush(OpaqueColor); } }
 
-        public string HexString { get { return Color.ToString(); } }
+        public string HexString { get { return Color.ToString().Replace("#FF",""); } }
         public string RgbaString { get { return R + "," + G + "," + B + "," + A; } }
 
         public HsbaColor HsbaColor { get { return Utility.RgbaToHsba(this); } }

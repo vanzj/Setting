@@ -946,13 +946,38 @@ namespace Setting.ViewModel
 
         #region
 
+        private Visibility open;
+        public Visibility Open
+        {
+            get { return open; }
+            set
+            {
+                open = value;
+                RaisePropertyChanged();
+            }
+        }
+        private Visibility close;
+
+        public Visibility Close
+        {
+            get { return close; }
+            set
+            {
+                close = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
         public RelayCommand SendOpenSendMessageCommand
         {
             get
             {
                 return new RelayCommand(() =>
                 {
-                    SerialPortHelper.Instance.SendOpenSendMessage();
+                  //  SerialPortHelper.Instance.SendOpenSendMessage();
+                    Close = Visibility.Visible;
+                    Open = Visibility.Collapsed;
                 }
                 );
             }
@@ -965,7 +990,9 @@ namespace Setting.ViewModel
             {
                 return new RelayCommand(() =>
                 {
-                    SerialPortHelper.Instance.SendCloseSendMessage();
+                  //  SerialPortHelper.Instance.SendCloseSendMessage();
+                    Open  = Visibility.Visible;
+                    Close = Visibility.Collapsed;
                 }
                 );
             }
@@ -1001,11 +1028,12 @@ namespace Setting.ViewModel
 
             Messenger.Default.Register<NextFrameEvent>(this, HandleNextFrameEvent);
 
-
+            Open = Visibility.Visible;
+            Close = Visibility.Collapsed;
             Luminance = 255;
             ComName = "COM5";
             CursorEnum = CursorEnum.MOVE;
-            ChangeColor = new SolidColorBrush((System.Windows.Media.Color)ColorConverter.ConvertFromString(ColorConst.AbcColor));
+            ChangeColor = new SolidColorBrush((System.Windows.Media.Color)ColorConverter.ConvertFromString(ColorConst.BackGroupColor));
             DebugInfo = "*********************************************调试信息******************" + "\r\n";
         }
 
@@ -1102,7 +1130,7 @@ namespace Setting.ViewModel
             CurrentFrame = 0;
             IsSend = false;
             CursorEnum = CursorEnum.MOVE;
-            ChangeColor = new SolidColorBrush((System.Windows.Media.Color)ColorConverter.ConvertFromString(ColorConst.AbcColor));
+            //ChangeColor = new SolidColorBrush((System.Windows.Media.Color)ColorConverter.ConvertFromString(ColorConst.BackGroupColor));
             JsonFileInfo = obj.JsonFileInfo;
             if (!JsonFileInfo.IsDynamic)
             {

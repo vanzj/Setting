@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Setting.View"
              mc:Ignorable="d" 
-                 d:DesignHeight="17.871" d:DesignWidth="54.444"   DataContext="{Binding Path=PointList,Source={StaticResource Locator}}">
+                 d:DesignHeight="300" d:DesignWidth="300"   DataContext="{Binding Path=PointList,Source={StaticResource Locator}}">
     <UserControl.Resources>
         <Style x:Key="ThumbStyle1" TargetType="{x:Type local:ThumbPro}">
             <Setter Property="Stylus.IsPressAndHoldEnabled" Value="false"/>
@@ -91,111 +91,93 @@
 
     </UserControl.Resources>
     <Grid>
-        <Button x:Name="btn"  Background="{Binding ChangeColor}" Click="btn_Click" Style="{DynamicResource ButtonStyle1}">
 
-        </Button>
-        <Popup AllowsTransparency="True"  PlacementTarget="{Binding ElementName=btn}" Placement="Bottom" VerticalOffset="10" StaysOpen="False" Name="pop" >
-            <Border Padding="0,10,0,0">
-                <Border Padding="5" CornerRadius="5" Background="#FF0A1197" Width="367" Height="201">
-                    <Grid>
-                        <Polygon Fill="#FF0A1197" StrokeThickness="10" Points="20,0 40,0 30,-10"/>
+        <Image Width="1300" Height="750" Source="/Setting;component/img/UI/软件ui 3.png" Margin="-181,-481,-844,29.5" HorizontalAlignment="Left" VerticalAlignment="Top" Visibility="Collapsed"/>
+        <Grid x:Name="btn"  Width="19.375" Height="19.812" Background="{Binding ChangeColor}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="65.5,0.5,0,0" >
 
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="3*"/>
-                                <RowDefinition Height="Auto"/>
-                            </Grid.RowDefinitions>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="30"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                </Grid.ColumnDefinitions>
-                                <Grid >
-                                    <Rectangle x:Name="viewSelectColor" RadiusX="2" Fill="Red" RadiusY="2"/>
-                                    <Rectangle x:Name="viewSelectColor1" RadiusX="2" RadiusY="2">
-                                        <Rectangle.Fill>
-                                            <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
-                                                <GradientStop Offset="0" Color="#FFFFFFFF"/>
-                                                <GradientStop Offset="1" Color="#00FFFFFF"/>
-                                            </LinearGradientBrush>
-                                        </Rectangle.Fill>
-                                    </Rectangle>
-                                    <Rectangle x:Name="viewSelectColor2" RadiusX="2" RadiusY="2">
-                                        <Rectangle.Fill>
-                                            <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                                                <GradientStop Offset="0" Color="#00000000"/>
-                                                <GradientStop Offset="1" Color="#FF000000"/>
-                                            </LinearGradientBrush>
-                                        </Rectangle.Fill>
-                                    </Rectangle>
-                                    <local:ThumbPro x:Name="thumbSB" ValueChanged="ThumbPro_ValueChanged_1"  Style="{StaticResource ThumbStyle2}" Xoffset="10"  Yoffset="10"  />
+        </Grid>
 
-                                </Grid>
-                                <Grid Grid.Column="1" Margin="5,0,0,0">
-                                    <Rectangle RadiusX="2" RadiusY="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
-                                        <Rectangle.Fill >
-                                            <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                                                <GradientStop x:Name="viewLine1" Color="Red" Offset="0"/>
-                                                <GradientStop x:Name="viewLine2" Color="Yellow" Offset="0.1667"/>
-                                                <GradientStop x:Name="viewLine3" Color="Lime" Offset="0.3334"/>
-                                                <GradientStop x:Name="viewLine4" Color="Cyan" Offset="0.5001"/>
-                                                <GradientStop x:Name="viewLine5" Color="Blue" Offset="0.6668"/>
-                                                <GradientStop x:Name="viewLine6" Color="Magenta" Offset="0.8335"/>
-                                                <GradientStop x:Name="viewLine7" Color="Red" Offset="1"/>
-                                            </LinearGradientBrush>
-                                        </Rectangle.Fill>
-                                    </Rectangle>
-                                    <local:ThumbPro x:Name="thumbH" ValueChanged="ThumbPro_ValueChanged"  Style="{StaticResource ThumbStyle1}" Xoffset="30"  VerticalOnly="True" Yoffset="5" />
+        <Grid HorizontalAlignment="Left" VerticalAlignment="Top" Margin="8,38,-120,0" Width="410" Height="153.867">
 
-                                </Grid>
-                                <StackPanel Grid.Column="2">
-                                    <StackPanel Margin="10,5,10,5" Orientation="Horizontal" HorizontalAlignment="Center" >
-                                        <Label Foreground="White" Width="30">R</Label>
-                                        <TextBox x:Name="TextR" LostFocus="TextBox_LostFocus" VerticalAlignment="Center" Width="70" >255</TextBox>
-                                    </StackPanel>
-                                    <StackPanel Margin="10,5,10,5" Orientation="Horizontal" HorizontalAlignment="Center">
-                                        <Label Foreground="White" Width="30">G</Label>
-                                        <TextBox x:Name="TextG" LostFocus="TextBox_LostFocus" VerticalAlignment="Center" Width="70">255</TextBox>
-                                    </StackPanel>
-                                    <StackPanel Margin="10,5,10,5" Orientation="Horizontal" HorizontalAlignment="Center">
-                                        <Label Foreground="White" Width="30">B</Label>
-                                        <TextBox x:Name="TextB" LostFocus="TextBox_LostFocus" VerticalAlignment="Center" Width="70">255</TextBox>
-                                    </StackPanel>
-                                    <StackPanel Margin="10,5,10,5" Orientation="Horizontal" HorizontalAlignment="Center">
-                                        <Label Foreground="White" Width="30">A</Label>
-                                        <TextBox x:Name="TextA" LostFocus="TextBox_LostFocus" Width="70" VerticalAlignment="Center"  >255</TextBox>
-                                        <!--<Label Foreground="White">%</Label>-->
-                                    </StackPanel>
-                                    <StackPanel  Margin="10,5,10,5" Orientation="Horizontal" HorizontalAlignment="Center">
-                                        <Label Foreground="White" Width="30"></Label>
-                                        <TextBox Width="70" x:Name="TextHex" LostFocus="HexTextLostFocus" Text="#FFFFFFFF" />
-                                    </StackPanel>
-                                </StackPanel>
-                            </Grid>
-                            <!--<Grid Grid.Row="1"  >
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="154"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="153"/>
+                        <ColumnDefinition Width="40"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid >
+                        <Rectangle x:Name="viewSelectColor" RadiusX="2" Fill="Red" RadiusY="2"/>
+                        <Rectangle x:Name="viewSelectColor1" RadiusX="2" RadiusY="2">
+                            <Rectangle.Fill>
+                                <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
+                                    <GradientStop Offset="0" Color="#FFFFFFFF"/>
+                                    <GradientStop Offset="1" Color="#00FFFFFF"/>
+                                </LinearGradientBrush>
+                            </Rectangle.Fill>
+                        </Rectangle>
+                        <Rectangle x:Name="viewSelectColor2" RadiusX="2" RadiusY="2">
+                            <Rectangle.Fill>
+                                <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                                    <GradientStop Offset="0" Color="#00000000"/>
+                                    <GradientStop Offset="1" Color="#FF000000"/>
+                                </LinearGradientBrush>
+                            </Rectangle.Fill>
+                        </Rectangle>
+                        <local:ThumbPro x:Name="thumbSB" ValueChanged="ThumbPro_ValueChanged_1"  Style="{StaticResource ThumbStyle2}" Xoffset="10"  Yoffset="10"  />
+
+                    </Grid>
+                    <Grid Grid.Column="1" Margin="16,0,0,0">
+                        <Rectangle RadiusX="2" RadiusY="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+                            <Rectangle.Fill >
+                                <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                                    <GradientStop x:Name="viewLine1" Color="Red" Offset="0"/>
+                                    <GradientStop x:Name="viewLine2" Color="Yellow" Offset="0.1667"/>
+                                    <GradientStop x:Name="viewLine3" Color="Lime" Offset="0.3334"/>
+                                    <GradientStop x:Name="viewLine4" Color="Cyan" Offset="0.5001"/>
+                                    <GradientStop x:Name="viewLine5" Color="Blue" Offset="0.6668"/>
+                                    <GradientStop x:Name="viewLine6" Color="Magenta" Offset="0.8335"/>
+                                    <GradientStop x:Name="viewLine7" Color="Red" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Rectangle.Fill>
+                        </Rectangle>
+                        <local:ThumbPro x:Name="thumbH" ValueChanged="ThumbPro_ValueChanged"  Style="{StaticResource ThumbStyle1}" Xoffset="30"  VerticalOnly="True" Yoffset="5" />
+
+                    </Grid>
+
+                    <Grid Grid.Column="2">
+                        <TextBox IsReadOnly="True" x:Name="TextR" LostFocus="TextBox_LostFocus" VerticalAlignment="Top" Width="70" HorizontalAlignment="Left" Margin="52,-3,0,0" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="White" SelectionBrush="{x:Null}" FontSize="16" >255</TextBox>
+                        <TextBox IsReadOnly="True" x:Name="TextG" LostFocus="TextBox_LostFocus" VerticalAlignment="Top" Width="70" HorizontalAlignment="Left" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="White" SelectionBrush="{x:Null}"  FontSize="16" Margin="52,37,0,0" >255</TextBox>
+                        <TextBox IsReadOnly="True" x:Name="TextB" LostFocus="TextBox_LostFocus" VerticalAlignment="Top" Width="70" HorizontalAlignment="Left" Background="{x:Null}" BorderBrush="{x:Null}" SelectionBrush="{x:Null}" Foreground="White"  FontSize="16" Margin="52,72,0,0" >255</TextBox>
+                        <TextBox  IsReadOnly="True" x:Name="TextA" LostFocus="TextBox_LostFocus" VerticalAlignment="Top" Width="70" HorizontalAlignment="Left" Background="{x:Null}" BorderBrush="{x:Null}" SelectionBrush="{x:Null}" Foreground="White"  FontSize="16" Margin="52,72,0,0" Visibility="Collapsed" >255</TextBox>
+                        <TextBox  IsReadOnly="True" Width="75.333" x:Name="TextHex" LostFocus="HexTextLostFocus" Text="FFFFFF" HorizontalAlignment="Left" VerticalAlignment="Top" Background="{x:Null}" BorderBrush="{x:Null}" SelectionBrush="{x:Null}" Foreground="White"  FontSize="16" Margin="141,-3,-5.333,0" />
+                    </Grid>
+
+
+                </Grid>
+                <!--<Grid Grid.Row="1"  >
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="5*"/>
                                         <ColumnDefinition Width="30"/>
                                         <ColumnDefinition Width="4*"/>
                                     </Grid.ColumnDefinitions>
                                     -->
-                            <!--<Rectangle RadiusX="2" RadiusY="2" Margin="0,2" Grid.ColumnSpan="2" Fill="{Binding SelectColor,ElementName=root}" >
+                <!--<Rectangle RadiusX="2" RadiusY="2" Margin="0,2" Grid.ColumnSpan="2" Fill="{Binding SelectColor,ElementName=root}" >
 
                                     </Rectangle>-->
-                            <!--
+                <!--
 
                                 </Grid>-->
-                        </Grid>
+            </Grid>
 
-                    </Grid>
-                </Border>
-
-            </Border>
+        </Grid>
 
 
 
-        </Popup>
     </Grid>
 
 </UserControl>
