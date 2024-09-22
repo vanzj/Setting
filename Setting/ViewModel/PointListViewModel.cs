@@ -396,6 +396,7 @@ namespace Setting.ViewModel
                 BuildShowInit(CurrentFrame);
                 FileHelper.SaveThemeName(TempJsonFileInfo);
                 FileHelper.Save(JsonConvert.SerializeObject(AllPonitList), TempJsonFileInfo);
+                JsonFileInfo = TempJsonFileInfo;
                 Messenger.Default.Send(new InputNewThemeEvent { JsonFileInfo = TempJsonFileInfo });
             }
         }
@@ -412,22 +413,79 @@ namespace Setting.ViewModel
             {
                 var OnFrameAllPonitList = AllPonitList[frameIndex];
 
-
-                var showPonit = OnFrameAllPonitList.Where(c => c.X >= 0 && c.X < xIndex && c.Y >= 0 && c.Y < yIndex).ToList();
+                List<HistoryShowItemPoint> historyShowItemPoints = new List<HistoryShowItemPoint>();
+                var NewshowPonit = OnFrameAllPonitList.Where(c => c.X >= 0 && c.X < xIndex && c.Y >= 0 && c.Y < yIndex).ToList();
                 for (int i = 0; i < xIndex * yIndex; i++)
                 {
-                    if (showPonit[i].Fill != ShowPonitList[i].Fill)
+                    if (NewshowPonit[i].Fill != ShowPonitList[i].Fill)
                     {
-                        ShowPonitList[i].Fill = showPonit[i].Fill;
+                        historyShowItemPoints.Add(new HistoryShowItemPoint()
+                        {
+                            X = NewshowPonit[i].X,
+                            Y = NewshowPonit[i].Y,
+                            OldFill = ShowPonitList[i].Fill,
+                            NewFill = NewshowPonit[i].Fill
+                        });
+
+                        ShowPonitList[i].Fill = NewshowPonit[i].Fill;
                     }
                 }
-
+                Messenger.Default.Send(new HistroyAddEvent
+                {
+                    HistoryItem = new HistoryItem()
+                    {
+                        IsAdd = false,
+                        ShowPointItems = historyShowItemPoints,
+                    }
+                });
             }
           
 
         }
 
+        private void BuildShowAdd(int frameIndex,addenum addenum)
+        {
 
+            if (string.IsNullOrEmpty(JsonFileInfo.NewFileName))
+            {
+                JsonFileInfo.NewFileName = Guid.NewGuid().ToString("N");
+
+            }
+
+            if (AllPonitList.Count > 0)
+            {
+                var OnFrameAllPonitList = AllPonitList[frameIndex];
+
+                List<HistoryShowItemPoint> historyShowItemPoints = new List<HistoryShowItemPoint>();
+                var NewshowPonit = OnFrameAllPonitList.Where(c => c.X >= 0 && c.X < xIndex && c.Y >= 0 && c.Y < yIndex).ToList();
+                for (int i = 0; i < xIndex * yIndex; i++)
+                {
+                    if (NewshowPonit[i].Fill != ShowPonitList[i].Fill)
+                    {
+                        historyShowItemPoints.Add(new HistoryShowItemPoint()
+                        {
+                            X = NewshowPonit[i].X,
+                            Y = NewshowPonit[i].Y,
+                            OldFill = ShowPonitList[i].Fill,
+                             NewFill = NewshowPonit[i].Fill
+                        });
+
+                        ShowPonitList[i].Fill = NewshowPonit[i].Fill;
+                    }
+                }
+                Messenger.Default.Send(new HistroyAddEvent
+                {
+                    HistoryItem = new HistoryItem()
+                    {
+                        IsAdd = true,
+                        add  = addenum,
+                        ShowPointItems = historyShowItemPoints,
+                    }
+                });
+            }
+
+
+        }
 
         private void BuildShowInit(int frameIndex)
         {
@@ -472,11 +530,16 @@ namespace Setting.ViewModel
                 {
                     HistoryItem = new HistoryItem()
                     {
-                        FrameCount = this.framesCount,
-                        CurrentFrame = this.CurrentFrame,
-                        PointItems = this.AllPonitList,
+                        IsAdd = false,
+                        ShowPointItems = this.AllPonitList[CurrentFrame].Select(c => new HistoryShowItemPoint()
+                        {
+                            X = c.X,
+                            Y = c.Y,
+                            OldFill = null,
+                            NewFill = c.Fill
+                        }).ToList(),
                     }
-                }); 
+                });
             }
 
 
@@ -503,26 +566,7 @@ namespace Setting.ViewModel
 
 
         }
-        private void BuildShowWithoutHistroy(int frameIndex)
-        {
-            ShowPonitList = new ObservableCollection<PointItem>();
-            if (AllPonitList.Count > 0)
-            {
-                var OnFrameAllPonitList = AllPonitList[frameIndex];
-          
-                var showPonit = OnFrameAllPonitList.Where(c => c.X >= 0 && c.X < xIndex && c.Y >= 0 && c.Y < yIndex).ToList();
-                for (int i = 0; i < xIndex * yIndex; i++)
-                {
-                    if (showPonit[i].Fill != ShowPonitList[i].Fill)
-                    {
-                        ShowPonitList[i].Fill = showPonit[i].Fill;
-                    }
-                }
-            }
 
-
-
-        }
         #region 上下左右移动
         public RelayCommand LeftCommand
         {
@@ -531,7 +575,7 @@ namespace Setting.ViewModel
                 return new RelayCommand(() =>
                 {
                     XMoveCommand(AllPonitList[CurrentFrame], -1);
-                    BuildShow(CurrentFrame);
+                    BuildShowAdd(CurrentFrame,addenum.left);
                 });
             }
         }
@@ -542,7 +586,7 @@ namespace Setting.ViewModel
                 return new RelayCommand(() =>
                 {
                     XMoveCommand(AllPonitList[CurrentFrame], 1);
-                    BuildShow(CurrentFrame);
+                    BuildShowAdd(CurrentFrame,addenum.right);
                 });
             }
         }
@@ -554,7 +598,7 @@ namespace Setting.ViewModel
                 return new RelayCommand(() =>
                 {
                     YMoveCommand(AllPonitList[CurrentFrame], -1);
-                    BuildShow(CurrentFrame);
+                    BuildShowAdd(CurrentFrame,addenum.top);
                 });
             }
         }
@@ -565,7 +609,7 @@ namespace Setting.ViewModel
                 return new RelayCommand(() =>
                 {
                     YMoveCommand(AllPonitList[CurrentFrame], 1);
-                    BuildShow(CurrentFrame);
+                    BuildShowAdd(CurrentFrame,addenum.bottom);
                 });
             }
         }
@@ -1120,10 +1164,102 @@ namespace Setting.ViewModel
         #region EventHander
         private void HanderInitFromHistroyEvent(InitFromHistroyEvent obj)
         {
-            AllPonitList = JsonConvert.DeserializeObject<Dictionary<int, List<PointItem>>>(JsonConvert.SerializeObject(obj.HistoryItem.PointItems));
-            CurrentFrame = obj.HistoryItem.CurrentFrame;
-            FramesCount = obj.HistoryItem.FrameCount;
-            BuildShowWithoutHistroy(CurrentFrame);
+            switch (obj.HistoryEnum)
+            {
+                case HistoryEnum.ReBack:
+                    if (obj.HistoryItem.IsAdd)
+                    {
+                        switch (obj.HistoryItem.add)
+                        {
+                            case addenum.top:
+                                AllPonitList[CurrentFrame].ForEach(c => c.Y -= 1);
+                                break;
+                            case addenum.bottom:
+                                AllPonitList[CurrentFrame].ForEach(c => c.Y += 1);
+                                break;
+                            case addenum.left:
+                                AllPonitList[CurrentFrame].ForEach(c => c.X += 1);
+                                break;
+                            case addenum.right:
+                                AllPonitList[CurrentFrame].ForEach(c => c.X -= 1);
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                    foreach (var item in obj.HistoryItem.ShowPointItems)
+                    {
+                        if (!obj.HistoryItem.IsAdd)
+                        {
+                            var temp = AllPonitList[CurrentFrame].FirstOrDefault(c => c.X == item.X && c.Y == item.Y);
+                            temp.Fill = item.OldFill;
+
+                          
+                        }
+                        var tempShowpoint = ShowPonitList.FirstOrDefault(c => c.X == item.X && c.Y == item.Y);
+                        tempShowpoint.Fill = item.OldFill;
+                    }
+
+
+                    break;
+                case HistoryEnum.Cancel:
+                    if (obj.HistoryItem.IsAdd)
+                    {
+
+                        switch (obj.HistoryItem.add)
+                        {
+                            case addenum.top:
+                                AllPonitList[CurrentFrame].ForEach(c => c.Y += 1);
+                                break;
+                            case addenum.bottom:
+                                AllPonitList[CurrentFrame].ForEach(c => c.Y -= 1);
+                                break;
+                            case addenum.left:
+                                AllPonitList[CurrentFrame].ForEach(c => c.X -= 1);
+                                break;
+                            case addenum.right:
+                                AllPonitList[CurrentFrame].ForEach(c => c.X += 1);
+                                break;
+                            default:
+                                break;
+                        }
+
+                    }
+                    foreach (var item in obj.HistoryItem.ShowPointItems)
+                    {
+                        if (!obj.HistoryItem.IsAdd)
+                        {
+                            var temp = AllPonitList[CurrentFrame].FirstOrDefault(c => c.X == item.X && c.Y == item.Y);
+                            temp.Fill = item.NewFill;
+
+
+                        }
+                        var tempShowpoint = ShowPonitList.FirstOrDefault(c => c.X == item.X && c.Y == item.Y);
+                        tempShowpoint.Fill = item.NewFill;
+                    }
+                    break;
+                case HistoryEnum.Redo:
+                    AllPonitList[CurrentFrame] = obj.HistoryItem.ShowPointItems.Select(c =>
+                     new PointItem
+                     {X =c.X,
+                     Y=c.Y,
+                     Fill = c.NewFill
+                     }).ToList();
+                    var showPonit = AllPonitList[CurrentFrame].Where(c => c.X >= 0 && c.X < xIndex && c.Y >= 0 && c.Y < yIndex).ToList();
+                    for (int i = 0; i < xIndex * yIndex; i++)
+                    {
+                        if (showPonit[i].Fill != ShowPonitList[i].Fill)
+                        {
+                            ShowPonitList[i].Fill = showPonit[i].Fill;
+                        }
+                    }
+
+                    break;
+                default:
+                    break;
+            }
+        
+
         }
         private void HandleChangeTheMeEvent(ThemeItemClickedEvent obj)
         {

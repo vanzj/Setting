@@ -93,7 +93,21 @@ namespace Setting.ViewModel
             Messenger.Default.Register<ChangeThemeNameEvent>(this, HandleChangeThemeNameEvent);
             Messenger.Default.Register<ThemeLotFocusEvent>(this, HandleThemeLotFocusEvent);
             Messenger.Default.Register<CursorModelChangeEvent>(this, HandleCursorModelChangeEvent);
+            Messenger.Default.Register<LoadedEvent>(this, HandleCursorModelChangeEvent);
 
+
+
+        }
+
+        private void HandleCursorModelChangeEvent(LoadedEvent obj)
+        {
+            if (AllThemeList.Count > 0)
+            {
+                Messenger.Default.Send(new ThemeItemClickedEvent
+                {
+                    JsonFileInfo = AllThemeList.First().JsonFileInfo
+                });
+            }
         }
 
         private void buttonShow()

@@ -117,6 +117,13 @@ namespace Setting
                 this.degbug.Visibility = Visibility.Visible;
             }
         }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+
+            Messenger.Default.Send(new LoadedEvent { });
+        
+        }
     }
 
 }
