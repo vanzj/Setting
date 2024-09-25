@@ -62,6 +62,12 @@
     <Reference Include="GalaSoft.MvvmLight.Platform, Version=5.4.1.0, Culture=neutral, PublicKeyToken=5f873c45e98af8a1, processorArchitecture=MSIL">
       <HintPath>..\packages\MvvmLightLibs.5.4.1.1\lib\net45\GalaSoft.MvvmLight.Platform.dll</HintPath>
     </Reference>
+    <Reference Include="HidSharp, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\HidSharp.2.1.0\lib\net35\HidSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="LibreHardwareMonitorLib, Version=0.9.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\LibreHardwareMonitorLib.0.9.4-pre346\lib\net472\LibreHardwareMonitorLib.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -72,6 +78,9 @@
       <HintPath>..\packages\OpenHardwareMonitor.0.9.6\lib\net45\OpenHardwareMonitorLib.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.CodeDom, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.CodeDom.8.0.0\lib\net462\System.CodeDom.dll</HintPath>
+    </Reference>
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
