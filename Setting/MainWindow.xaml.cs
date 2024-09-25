@@ -14,6 +14,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
@@ -30,9 +31,30 @@ namespace Setting
             InitializeComponent();
             this.Cursor = CursorHelper.MOVE();
             Messenger.Default.Register<CursorModelChangeEvent>(this, HandleCursorModelChangeEvent);
+            Messenger.Default.Register<SendStartEvent>(this, HandleSendStartEvent);
+            Messenger.Default.Register<SendEndEvent>(this, HandleSendEndEvent);
 
             SerialPortHelper.Instance.AutoConnect();
 
+        }
+
+        private void HandleSendEndEvent(SendEndEvent obj)
+        {
+            this.Dispatcher.Invoke(() =>
+            {
+                this.button1.IsEnabled = true;
+                Storyboard sb = (Storyboard)this.FindResource("SendStory");
+
+                sb.Stop();
+            });
+         
+        }
+
+        private void HandleSendStartEvent(SendStartEvent obj)
+        {
+            Storyboard sb = (Storyboard)this.FindResource("SendStory");
+
+            sb.Begin();
         }
 
         private void HandleCursorModelChangeEvent(CursorModelChangeEvent obj)
@@ -138,6 +160,21 @@ namespace Setting
             {
                 Messenger.Default.Send(new KeyDownEvent { Key = e.Key });
             }
+        }
+
+        private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            Console.WriteLine(e.NewValue);
+        }
+
+        private void Button_Click_4(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Storyboard_Completed(object sender, EventArgs e)
+        {
+            this.button1.IsEnabled = true;
         }
     }
 

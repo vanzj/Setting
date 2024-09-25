@@ -1,5 +1,6 @@
 ﻿using GalaSoft.MvvmLight.Messaging;
 using Newtonsoft.Json;
+using Setting.Event;
 using Setting.Model;
 using Setting.Model.CMDModel;
 using System;
@@ -125,7 +126,7 @@ namespace Setting.Helper
                     MYSerialDevice.SerialDevice.DataBits = 8;
                     MYSerialDevice.SerialDevice.StopBits = SerialStopBitCount.One;
                     MYSerialDevice.SerialDevice.ReadTimeout = TimeSpan.FromSeconds(0.1);
-                    MYSerialDevice.SerialDevice.WriteTimeout = TimeSpan.FromSeconds(600);
+                    MYSerialDevice.SerialDevice.WriteTimeout = TimeSpan.FromSeconds(10);
                     MYSerialDevice.SerialDevice.IsRequestToSendEnabled = false;
                     MYSerialDevice.SerialDevice.IsDataTerminalReadyEnabled = true;
                     MYSerialDevice.IsConnect = true;
@@ -243,7 +244,7 @@ namespace Setting.Helper
                         MYSerialDevice.SerialDevice.DataBits = 8;
                         MYSerialDevice.SerialDevice.StopBits = SerialStopBitCount.One;
                         MYSerialDevice.SerialDevice.ReadTimeout = TimeSpan.FromSeconds(0.1);
-                        MYSerialDevice.SerialDevice.WriteTimeout = TimeSpan.FromSeconds(600);
+                        MYSerialDevice.SerialDevice.WriteTimeout = TimeSpan.FromSeconds(10);
                         MYSerialDevice.SerialDevice.IsRequestToSendEnabled = false;
                         MYSerialDevice.SerialDevice.IsDataTerminalReadyEnabled = true;
                         MYSerialDevice.IsConnect = true;
@@ -260,6 +261,7 @@ namespace Setting.Helper
             }
             catch (Exception ex)
             {
+                Messenger.Default.Send(new SendEndEvent());
                 Messenger.Default.Send(new DebugInfoEvent($"串口扫描==> 打开{COMID}失败，失败原因：{ex.Message}"));
                 return false;
             }
@@ -344,6 +346,10 @@ namespace Setting.Helper
                             {
 
                                 Write(msgList[index]);
+                            }
+                            if (index >= msgList.Count)
+                            {
+                                Messenger.Default.Send(new SendEndEvent());
                             }
                         }
                         break;
@@ -432,42 +438,53 @@ namespace Setting.Helper
             }
         }
 
+        bool isSending = false;
         private void Write(string Sendmsg)
         {
             try
             {
-                if (MYSerialDevice != null)
+                if (isSending == false)
                 {
+                    isSending = true;
+                    if (MYSerialDevice != null)
+                    {
 
-                    string str = Sendmsg + "**";
-
-
-
-                    // send request cmd 
-                    var sendDatas = Encoding.UTF8.GetBytes(str);
-                    Messenger.Default.Send(new DebugInfoEvent($"发送消息==>  长度{sendDatas.Length}"));
-                    var wBuffer = CryptographicBuffer.CreateFromByteArray(sendDatas);
-                    var sw = MYSerialDevice.SerialDevice.OutputStream.WriteAsync(wBuffer).GetAwaiter().GetResult();
+                        string str = Sendmsg + "**";
 
 
-                    Messenger.Default.Send(new DebugInfoEvent("发送消息==>  " + MYSerialDevice.SerialDevice.PortName + Sendmsg + "**"));
+
+                        // send request cmd 
+                        var sendDatas = Encoding.UTF8.GetBytes(str);
+                        Messenger.Default.Send(new DebugInfoEvent($"发送消息==>  长度{sendDatas.Length}"));
+                        var wBuffer = CryptographicBuffer.CreateFromByteArray(sendDatas);
+
+                        var sw = MYSerialDevice.SerialDevice.OutputStream.WriteAsync(wBuffer).GetAwaiter().GetResult();
 
 
+                        Messenger.Default.Send(new DebugInfoEvent("发送消息==>  " + MYSerialDevice.SerialDevice.PortName + Sendmsg + "**"));
+
+
+                    }
+                    else
+                    {
+                        Messenger.Default.Send(new DebugInfoEvent("发送消息==>  失败串口关闭" + MYSerialDevice.SerialDevice.PortName + Sendmsg + "**"));
+                    }
                 }
                 else
                 {
-                    Messenger.Default.Send(new DebugInfoEvent("发送消息==>  失败串口关闭" + MYSerialDevice.SerialDevice.PortName + Sendmsg + "**"));
+                    Messenger.Default.Send(new DebugInfoEvent("发送消息==>  失败串口忙" + MYSerialDevice.SerialDevice.PortName + Sendmsg + "**"));
                 }
+              
             }
             catch (Exception ex)
             {
 
                 Messenger.Default.Send(new DebugInfoEvent($"发送消息失败 ：{ex.ToString()}"));
             }
-              
-        
-           
-
+            finally
+            {
+                isSending = false;
+            }
 
         }
         public void SendLuminanceSendMessage(int arge)
@@ -498,6 +515,15 @@ namespace Setting.Helper
             Write(msg);
         }
         public void SendThemeCirculateSendMessage(List<string> cmdlist)
+        {
+            var cmd = new ThemeSend();
+            currentCmd = cmd.cmd;
+            index = 0;
+            msgList = cmdlist;
+            Write(cmdlist[index]);
+        }
+
+        public void SendThemeDynamicSendMessage(List<string> cmdlist)
         {
             var cmd = new ThemeSend();
             currentCmd = cmd.cmd;

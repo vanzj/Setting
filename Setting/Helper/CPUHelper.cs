@@ -56,7 +56,7 @@ namespace Setting.Helper
         public CPUHelper()
         {
             timer = new DispatcherTimer();
-            timer.Interval = TimeSpan.FromMilliseconds(100); // 设置计时器的时间间隔为1秒
+            timer.Interval = TimeSpan.FromMilliseconds(200); // 设置计时器的时间间隔为1秒
             timer.Tick += Timer_Tick; ; // 订阅Tick事件
             myComputer.Open();
             //启动CPU监测

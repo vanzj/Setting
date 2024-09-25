@@ -34,6 +34,18 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>abvss-4lnyk-001.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <TargetZone>LocalIntranet</TargetZone>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>false</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="AnimatedGif, Version=1.0.5.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\AnimatedGif.1.0.5\lib\netstandard2.0\AnimatedGif.dll</HintPath>
@@ -97,7 +109,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Event\KeyDownEvent.cs" />
+    <Compile Include="Event\LiveStartEvent.cs" />
     <Compile Include="Event\LoadedEvent.cs" />
+    <Compile Include="Event\LumianceChangeEvent.cs" />
+    <Compile Include="Event\SendStartEvent.cs" />
     <Compile Include="Event\ThemeLotFocusEvent.cs" />
     <Resource Include="img\UI\画面上%402x.png" />
     <Resource Include="img\UI\画面下%402x.png" />
@@ -132,6 +147,7 @@
     <Resource Include="img\UI\窗口--.png" />
     <Resource Include="img\UI\窗口-x.png" />
     <Resource Include="img\UI\窗口-口.png" />
+    <Resource Include="abvss-4lnyk-001.ico" />
     <Content Include="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -153,6 +169,7 @@
     <Compile Include="Helper\MouseClickCommandBehavior.cs" />
     <Compile Include="Helper\HistroyEvent.cs" />
     <Compile Include="Event\NextFrameEvent.cs" />
+    <Compile Include="Convert\MultiValueConverter.cs" />
     <Compile Include="Helper\MYSerialDevice.cs" />
     <Compile Include="Helper\SerialPortHelper.cs" />
     <Compile Include="Event\ThemeClickedEvent.cs" />
@@ -180,6 +197,7 @@
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\PointListViewModel.cs" />
     <Compile Include="ViewModel\ScreenInfoViewModel.cs" />
+    <Compile Include="ViewModel\SliderWithDebounce.cs" />
     <Compile Include="ViewModel\ThemeViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Compile Include="View\ColorPicker.xaml.cs">
@@ -284,6 +302,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />
+    <None Include="Properties\app.manifest" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

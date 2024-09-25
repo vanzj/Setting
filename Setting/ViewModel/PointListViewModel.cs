@@ -23,6 +23,8 @@ using System.Drawing.Imaging;
 using GIfTool;
 using ColorConverter = System.Windows.Media.ColorConverter;
 using NLog;
+using Setting.Event;
+using Setting.Model.CMDModel;
 
 namespace Setting.ViewModel
 {
@@ -117,6 +119,29 @@ namespace Setting.ViewModel
             set { addFrame = value; RaisePropertyChanged(); }
         }
 
+
+        private bool outgif;
+
+        public bool Outgif
+        {
+            get { return outgif; }
+            set { outgif = value; RaisePropertyChanged(); }
+        }
+
+        private bool startLive;
+
+        public bool StartLive
+        {
+            get { return startLive; }
+            set { startLive = value; RaisePropertyChanged(); }
+        }
+        private bool endLive;
+
+        public bool EndLive
+        {
+            get { return endLive; }
+            set { endLive = value; RaisePropertyChanged(); }
+        }
 
         private SolidColorBrush changeColor;
 
@@ -238,6 +263,8 @@ namespace Setting.ViewModel
             {
                 return new RelayCommand(() =>
                 {
+                    Messenger.Default.Send(new SendStartEvent());
+
                     if (jsonFileInfo == null)
                     {
                         return;
@@ -245,17 +272,48 @@ namespace Setting.ViewModel
                     var fileName = string.IsNullOrEmpty(JsonFileInfo.NewFileName) ? JsonFileInfo.FileName : JsonFileInfo.NewFileName;
                     if (JsonFileInfo.IsDynamic)
                     {
-                        if (CPUHelper == null)
-                        {
-                            CPUHelper = new CPUHelper();
-                        }
-                        CPUHelper.Start();
+                        var themeSend = new ThemeSend();
 
-                        //Task.Run(() =>
-                        //{
-                        SerialPortHelper.Instance.SendThemeDynamicSendMessage();
-                        //}
-                        //);
+                        themeSend.data = new ThemeData()
+                        {
+                            model = "dynamic",
+                            name = ""
+                        };
+                        ThemeSendStartSend themeSendStartSend = new ThemeSendStartSend();
+                        themeSendStartSend.data = new ThemeSendStartData()
+                        {
+                            name = jsonFileInfo.FileName,
+                            count = AllPonitList.Count.ToString(),
+                            frameCount = AllPonitList.Count.ToString(),
+                            frameRate = "30",
+                            brightness = 255
+                        };
+                        var templist = new List<string>();
+                        templist.Add(JsonConvert.SerializeObject(themeSend));
+                        templist.Add(JsonConvert.SerializeObject(themeSendStartSend));
+                        SerialPortHelper.Instance.SendThemeDynamicSendMessage(templist);
+                        if (jsonFileInfo.FileName == "cpu")
+                        {
+                            if (CPUHelper == null)
+                            {
+                                CPUHelper = new CPUHelper();
+                            }
+                            CPUHelper.Start();
+                        }
+                        if (jsonFileInfo.FileName == "gpu")
+                        {
+                            if (GPUHelper == null)
+                            {
+                                GPUHelper = new GPUHelper();
+                            }
+                            GPUHelper.Start();
+                        }
+                        if (jsonFileInfo.FileName == "wifi")
+                        {
+
+
+                        }
+                        
                         IsSend = true;
                     }
                     else
@@ -981,6 +1039,11 @@ namespace Setting.ViewModel
             {
                 return;
             }
+            Messenger.Default.Send(new LiveStartEvent());
+            StartLive = false;
+            EndLive = true;
+            AddFrame = false;
+            RemoveFrame = false;
             if (JsonFileInfo.IsDynamic)
             {
                 if (jsonFileInfo.FileName == "cpu")
@@ -1032,6 +1095,33 @@ namespace Setting.ViewModel
             {
                 return;
             }
+            Messenger.Default.Send(new HistroyInitEvent
+            {
+                HistoryItem = new HistoryItem()
+                {
+                    IsAdd = false,
+                    ShowPointItems = this.AllPonitList[CurrentFrame].Select(c => new HistoryShowItemPoint()
+                    {
+                        X = c.X,
+                        Y = c.Y,
+                        OldFill = null,
+                        NewFill = c.Fill
+                    }).ToList(),
+                }
+            });
+            StartLive = true;
+            EndLive = false;
+            RemoveFrame = true;
+            AddFrame = true;    
+            if (FramesCount == 1)
+            {
+                RemoveFrame = false;
+            }
+            if (framesCount >= 110)
+            {
+                AddFrame = false;
+
+            }
             if (JsonFileInfo.IsDynamic)
             {
                 GPUHelper?.End();
@@ -1075,7 +1165,7 @@ namespace Setting.ViewModel
             {
                 return new RelayCommand(() =>
                 {
-                  //  SerialPortHelper.Instance.SendOpenSendMessage();
+                   SerialPortHelper.Instance.SendOpenSendMessage();
                     Close = Visibility.Visible;
                     Open = Visibility.Collapsed;
                 }
@@ -1090,7 +1180,7 @@ namespace Setting.ViewModel
             {
                 return new RelayCommand(() =>
                 {
-                  //  SerialPortHelper.Instance.SendCloseSendMessage();
+                   SerialPortHelper.Instance.SendCloseSendMessage();
                     Open  = Visibility.Visible;
                     Close = Visibility.Collapsed;
                 }
@@ -1127,7 +1217,7 @@ namespace Setting.ViewModel
             Messenger.Default.Register<DebugInfoEvent>(this, HandleDebugInfoEvent);
 
             Messenger.Default.Register<NextFrameEvent>(this, HandleNextFrameEvent);
-
+            Messenger.Default.Register<LumianceChangeEvent>(this, HandleLumianceChangeEventt);
             Open = Visibility.Visible;
             Close = Visibility.Collapsed;
             Luminance = 255;
@@ -1137,10 +1227,10 @@ namespace Setting.ViewModel
             DebugInfo = "*********************************************调试信息******************" + "\r\n";
         }
 
-
-
-
-
+        private void HandleLumianceChangeEventt(LumianceChangeEvent obj)
+        {
+            SerialPortHelper.Instance.SendLuminanceSendMessage(Luminance);
+        }
 
         public RelayCommand CleanDebugInfoCommand
         {
@@ -1327,6 +1417,7 @@ namespace Setting.ViewModel
             JsonFileInfo = obj.JsonFileInfo;
             if (!JsonFileInfo.IsDynamic)
             {
+                Outgif = true;
                 var json = FileHelper.Open(obj.JsonFileInfo.FileName);
                 AllPonitList = JsonConvert.DeserializeObject<Dictionary<int, List<PointItem>>>(json);
                 FramesCount = AllPonitList.Count;
@@ -1334,6 +1425,7 @@ namespace Setting.ViewModel
             }
             else
             {
+                Outgif = false;
                 AllPonitList = new Dictionary<int, List<PointItem>>();
                 var OnFrameAllPonitList = new List<PointItem>();
                 for (int x = 0; x < xIndex; x++)
@@ -1429,7 +1521,7 @@ namespace Setting.ViewModel
                 XMoveCommand(AllPonitList[CurrentFrame], 22);
 
                 AllPonitList[currFrame].Sort();
-                BuildShow(CurrentFrame);
+                BuildShowPreView(CurrentFrame);
 
                 if (IsSend)
                 {

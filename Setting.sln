@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Blend for Visual Studio Version 16
+# Visual Studio Version 16
 VisualStudioVersion = 16.0.32510.428
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Setting", "Setting\Setting.csproj", "{DCF740BB-917E-44F4-A107-90B4DAA84927}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GIfTool", "GIfTool\GIfTool.csproj", "{CC9D10D6-FDEB-4A17-9E92-8EEFE3CD9B4A}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "SettingSetUp", "SettingSetUp\SettingSetUp.vdproj", "{CA129A49-92E9-4179-8B5C-DE88E1D7053E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -61,6 +63,16 @@ Global
 		{CC9D10D6-FDEB-4A17-9E92-8EEFE3CD9B4A}.Release|x64.Build.0 = Release|Any CPU
 		{CC9D10D6-FDEB-4A17-9E92-8EEFE3CD9B4A}.Release|x86.ActiveCfg = Release|Any CPU
 		{CC9D10D6-FDEB-4A17-9E92-8EEFE3CD9B4A}.Release|x86.Build.0 = Release|Any CPU
+		{CA129A49-92E9-4179-8B5C-DE88E1D7053E}.Debug|Any CPU.ActiveCfg = Debug
+		{CA129A49-92E9-4179-8B5C-DE88E1D7053E}.Debug|ARM.ActiveCfg = Debug
+		{CA129A49-92E9-4179-8B5C-DE88E1D7053E}.Debug|ARM64.ActiveCfg = Debug
+		{CA129A49-92E9-4179-8B5C-DE88E1D7053E}.Debug|x64.ActiveCfg = Debug
+		{CA129A49-92E9-4179-8B5C-DE88E1D7053E}.Debug|x86.ActiveCfg = Debug
+		{CA129A49-92E9-4179-8B5C-DE88E1D7053E}.Release|Any CPU.ActiveCfg = Release
+		{CA129A49-92E9-4179-8B5C-DE88E1D7053E}.Release|ARM.ActiveCfg = Release
+		{CA129A49-92E9-4179-8B5C-DE88E1D7053E}.Release|ARM64.ActiveCfg = Release
+		{CA129A49-92E9-4179-8B5C-DE88E1D7053E}.Release|x64.ActiveCfg = Release
+		{CA129A49-92E9-4179-8B5C-DE88E1D7053E}.Release|x86.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

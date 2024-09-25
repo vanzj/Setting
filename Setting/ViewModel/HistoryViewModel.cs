@@ -2,6 +2,7 @@
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
 using Newtonsoft.Json;
+using Setting.Event;
 using Setting.Helper;
 using System;
 using System.Collections.Generic;
@@ -61,6 +62,15 @@ namespace Setting.ViewModel
 
             Messenger.Default.Register<HistroyAddEvent>(this, HanderHistroyAddEvent);
             Messenger.Default.Register<HistroyInitEvent>(this, HanderHistroyInitEvent);
+            Messenger.Default.Register<LiveStartEvent>(this, HanderLiveStartEvent);
+    
+        }
+
+       
+        private void HanderLiveStartEvent(LiveStartEvent obj)
+        {
+            CancelIsEnabled = false;
+            ReBackIsEnabled = false;
         }
 
         private void HanderHistroyInitEvent(HistroyInitEvent obj)
