@@ -207,6 +207,18 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_10F8191CF9599D68BCF1485318087C80"
+        "OwnerKey" = "8:_C484144726C84B8CB388A139195772BF"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_10F8191CF9599D68BCF1485318087C80"
+        "OwnerKey" = "8:_A7925B82F92F4CC98A1BE31BECA5E753"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_1127787A010EF5DCD418B4C3BFF72CFE"
         "OwnerKey" = "8:_68C8FECAFABB4CE7B70C46554CE841A2"
         "MsmSig" = "8:_UNDEFINED"
@@ -537,12 +549,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_55919284415F5BFD4AE2C19873F8325E"
-        "OwnerKey" = "8:_8CA6EB7656E81B141C3FD883F646D6C3"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_568842A8C50C22410D0453F63055A492"
         "OwnerKey" = "8:_68C8FECAFABB4CE7B70C46554CE841A2"
         "MsmSig" = "8:_UNDEFINED"
@@ -663,6 +669,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_681633E173EF59E493BDA7FC67BB24A8"
+        "OwnerKey" = "8:_A7925B82F92F4CC98A1BE31BECA5E753"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_68C8FECAFABB4CE7B70C46554CE841A2"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -747,12 +759,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_741A5499889E5114803ECF92260B8075"
-        "OwnerKey" = "8:_8CA6EB7656E81B141C3FD883F646D6C3"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_74B41876A10741B7A3B000E8DD3CE791"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -767,12 +773,6 @@
         {
         "MsmKey" = "8:_782F62F97B39369C5311BD31FDA9A0CF"
         "OwnerKey" = "8:_68C8FECAFABB4CE7B70C46554CE841A2"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_78B5C64417EBA77E79B4F5EFE9A40A72"
-        "OwnerKey" = "8:_A7925B82F92F4CC98A1BE31BECA5E753"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -929,12 +929,6 @@
         {
         "MsmKey" = "8:_8B3A24C283B3C4B63434F745C78FBB76"
         "OwnerKey" = "8:_55919284415F5BFD4AE2C19873F8325E"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_8CA6EB7656E81B141C3FD883F646D6C3"
-        "OwnerKey" = "8:_A7925B82F92F4CC98A1BE31BECA5E753"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -1631,6 +1625,12 @@
         {
         "MsmKey" = "8:_EF8B2F4B2CE09356C38479058BCEA402"
         "OwnerKey" = "8:_68C8FECAFABB4CE7B70C46554CE841A2"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_EF8B2F4B2CE09356C38479058BCEA402"
+        "OwnerKey" = "8:_A7925B82F92F4CC98A1BE31BECA5E753"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -2488,12 +2488,6 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_78B5C64417EBA77E79B4F5EFE9A40A72"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_6E5A887D086C9B5AC92484637B8C3531"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -2501,12 +2495,6 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_F35F8748BF868C568A42569FD5479304"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_8CA6EB7656E81B141C3FD883F646D6C3"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -3190,11 +3178,6 @@
             "AssemblyAsmDisplayName" = "8:GalaSoft.MvvmLight, Version=5.4.1.0, Culture=neutral, PublicKeyToken=e7570ab207bcb616, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_0A031938FEB24D89A6B089292431509F"
-                    {
-                    "Name" = "8:GalaSoft.MvvmLight.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:..\\Setting\\bin\\Debug\\GalaSoft.MvvmLight.dll"
             "TargetName" = "8:"
@@ -3283,11 +3266,6 @@
             "AssemblyAsmDisplayName" = "8:System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_0B8ECF4D6D1F85A9BF4765BAE303CF46"
-                    {
-                    "Name" = "8:System.Windows.Interactivity.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:System.Windows.Interactivity.dll"
             "TargetName" = "8:"
@@ -3314,11 +3292,6 @@
             "AssemblyAsmDisplayName" = "8:GalaSoft.MvvmLight, Version=5.4.1.0, Culture=neutral, PublicKeyToken=e7570ab207bcb616, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_0BBC11AC898B98BB8CD20148940DACFB"
-                    {
-                    "Name" = "8:GalaSoft.MvvmLight.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:GalaSoft.MvvmLight.dll"
             "TargetName" = "8:"
@@ -4577,11 +4550,6 @@
             "AssemblyAsmDisplayName" = "8:GalaSoft.MvvmLight.Extras, Version=5.4.1.0, Culture=neutral, PublicKeyToken=669f0b5e8f868abf, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_4C14F045F0A74568B7557E1D2102C93E"
-                    {
-                    "Name" = "8:GalaSoft.MvvmLight.Extras.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:..\\Setting\\bin\\Debug\\GalaSoft.MvvmLight.Extras.dll"
             "TargetName" = "8:"
@@ -5279,11 +5247,6 @@
             "AssemblyAsmDisplayName" = "8:GIfTool, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_681633E173EF59E493BDA7FC67BB24A8"
-                    {
-                    "Name" = "8:GIfTool.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:GIfTool.dll"
             "TargetName" = "8:"
@@ -5392,11 +5355,6 @@
             "AssemblyAsmDisplayName" = "8:NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_6E5A887D086C9B5AC92484637B8C3531"
-                    {
-                    "Name" = "8:NLog.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:NLog.dll"
             "TargetName" = "8:"
@@ -5485,11 +5443,6 @@
             "AssemblyAsmDisplayName" = "8:System.Drawing.Common, Version=4.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_741A5499889E5114803ECF92260B8075"
-                    {
-                    "Name" = "8:System.Drawing.Common.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:System.Drawing.Common.dll"
             "TargetName" = "8:"
@@ -5574,37 +5527,6 @@
                     }
                 }
             "SourcePath" = "8:System.Runtime.Numerics.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_D505915E8C304C3AA854310A9410DEA7"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_78B5C64417EBA77E79B4F5EFE9A40A72"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:OpenHardwareMonitorLib, Version=0.9.6.0, Culture=neutral, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_78B5C64417EBA77E79B4F5EFE9A40A72"
-                    {
-                    "Name" = "8:OpenHardwareMonitorLib.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:OpenHardwareMonitorLib.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_D505915E8C304C3AA854310A9410DEA7"
@@ -5946,11 +5868,6 @@
             "AssemblyAsmDisplayName" = "8:CommonServiceLocator, Version=2.0.2.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_8A881C45FFE84D1498A2FCF445702E10"
-                    {
-                    "Name" = "8:CommonServiceLocator.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:..\\Setting\\bin\\Debug\\CommonServiceLocator.dll"
             "TargetName" = "8:"
@@ -5984,37 +5901,6 @@
                     }
                 }
             "SourcePath" = "8:System.Data.Common.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_D505915E8C304C3AA854310A9410DEA7"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_8CA6EB7656E81B141C3FD883F646D6C3"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:GIfTool, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_8CA6EB7656E81B141C3FD883F646D6C3"
-                    {
-                    "Name" = "8:GIfTool.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:GIfTool.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_D505915E8C304C3AA854310A9410DEA7"
@@ -6245,11 +6131,6 @@
             "AssemblyAsmDisplayName" = "8:NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_9456248794544B24B084B2F98237D787"
-                    {
-                    "Name" = "8:NLog.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:..\\Setting\\bin\\Debug\\NLog.dll"
             "TargetName" = "8:"
@@ -6358,11 +6239,6 @@
             "AssemblyAsmDisplayName" = "8:GalaSoft.MvvmLight.Extras, Version=5.4.1.0, Culture=neutral, PublicKeyToken=669f0b5e8f868abf, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_98989307640884396DC7CCDC6B2EEA5A"
-                    {
-                    "Name" = "8:GalaSoft.MvvmLight.Extras.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:GalaSoft.MvvmLight.Extras.dll"
             "TargetName" = "8:"
@@ -6626,11 +6502,6 @@
             "AssemblyAsmDisplayName" = "8:System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_A40B5AFAF4F048219D19AB1FD79C0B8F"
-                    {
-                    "Name" = "8:System.Windows.Interactivity.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:..\\Setting\\bin\\Debug\\System.Windows.Interactivity.dll"
             "TargetName" = "8:"
@@ -6657,11 +6528,6 @@
             "AssemblyAsmDisplayName" = "8:GalaSoft.MvvmLight.Platform, Version=5.4.1.0, Culture=neutral, PublicKeyToken=5f873c45e98af8a1, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_A432207A18BB4E3DBBDCE58A6164F64D"
-                    {
-                    "Name" = "8:GalaSoft.MvvmLight.Platform.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:..\\Setting\\bin\\Debug\\GalaSoft.MvvmLight.Platform.dll"
             "TargetName" = "8:"
@@ -6750,11 +6616,6 @@
             "AssemblyAsmDisplayName" = "8:Setting, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_A7925B82F92F4CC98A1BE31BECA5E753"
-                    {
-                    "Name" = "8:Setting.exe"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:..\\Setting\\bin\\Debug\\Setting.exe"
             "TargetName" = "8:"
@@ -7047,11 +6908,6 @@
             "AssemblyAsmDisplayName" = "8:GIfTool, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_B1C4C65CA4E14FC58B326046194A6715"
-                    {
-                    "Name" = "8:GIfTool.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:..\\Setting\\bin\\Debug\\GIfTool.dll"
             "TargetName" = "8:"
@@ -7253,11 +7109,6 @@
             "AssemblyAsmDisplayName" = "8:OpenHardwareMonitorLib, Version=0.9.6.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_BA1CB5E1EDFA45EDA4226F382D152494"
-                    {
-                    "Name" = "8:OpenHardwareMonitorLib.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:..\\Setting\\bin\\Debug\\OpenHardwareMonitorLib.dll"
             "TargetName" = "8:"
@@ -7581,11 +7432,6 @@
             "AssemblyAsmDisplayName" = "8:System.Runtime.WindowsRuntime, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
                 "ScatterAssemblies"
                 {
-                    "_C484144726C84B8CB388A139195772BF"
-                    {
-                    "Name" = "8:System.Runtime.WindowsRuntime.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:..\\Setting\\bin\\Debug\\System.Runtime.WindowsRuntime.dll"
             "TargetName" = "8:"
@@ -7929,11 +7775,6 @@
             "AssemblyAsmDisplayName" = "8:Windows, Version=255.255.255.255, Culture=neutral"
                 "ScatterAssemblies"
                 {
-                    "_D1CC613E16D94CE4BC6F2866DD4B3DF1"
-                    {
-                    "Name" = "8:Windows.winmd"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:..\\Setting\\bin\\Debug\\Windows.winmd"
             "TargetName" = "8:"
@@ -8022,11 +7863,6 @@
             "AssemblyAsmDisplayName" = "8:System.Drawing.Common, Version=4.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_D4507AE29150431FB751760F63EA5733"
-                    {
-                    "Name" = "8:System.Drawing.Common.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:..\\Setting\\bin\\Debug\\System.Drawing.Common.dll"
             "TargetName" = "8:"
@@ -8638,11 +8474,6 @@
             "AssemblyAsmDisplayName" = "8:Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_F09895093ACF4FDFA56DE7A0C7D7D065"
-                    {
-                    "Name" = "8:Newtonsoft.Json.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:..\\Setting\\bin\\Debug\\Newtonsoft.Json.dll"
             "TargetName" = "8:"
@@ -8793,11 +8624,6 @@
             "AssemblyAsmDisplayName" = "8:CommonServiceLocator, Version=2.0.2.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_F304DBE5BA6F845EA9EBFB1252AD35CE"
-                    {
-                    "Name" = "8:CommonServiceLocator.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:CommonServiceLocator.dll"
             "TargetName" = "8:"
@@ -8844,11 +8670,6 @@
             "AssemblyAsmDisplayName" = "8:Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_F35F8748BF868C568A42569FD5479304"
-                    {
-                    "Name" = "8:Newtonsoft.Json.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:Newtonsoft.Json.dll"
             "TargetName" = "8:"
@@ -8895,11 +8716,6 @@
             "AssemblyAsmDisplayName" = "8:AnimatedGif, Version=1.0.5.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_F472727D1BA24262844023574ABA0072"
-                    {
-                    "Name" = "8:AnimatedGif.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:..\\Setting\\bin\\Debug\\AnimatedGif.dll"
             "TargetName" = "8:"
@@ -9135,7 +8951,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:SettingSetUp"
         "ProductCode" = "8:{9A3A1523-25B0-4FF4-B7CC-B1F5680964BA}"
-        "PackageCode" = "8:{89E92839-5108-4863-80A3-9978414C18D7}"
+        "PackageCode" = "8:{516A9A79-3152-4F04-9865-707C13BDE038}"
         "UpgradeCode" = "8:{20C0321C-FD30-46A3-BA10-A51EA755A6AA}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
