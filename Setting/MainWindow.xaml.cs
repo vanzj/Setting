@@ -85,7 +85,7 @@ namespace Setting
 
             if (Application.Current.MainWindow.WindowState == WindowState.Maximized)
             {
-                Application.Current.MainWindow.ResizeMode = ResizeMode.CanResize;
+                Application.Current.MainWindow.ResizeMode = ResizeMode.CanResizeWithGrip;
                 Application.Current.MainWindow.WindowState = WindowState.Normal;
                 return;
             }
@@ -122,7 +122,22 @@ namespace Setting
         {
 
             Messenger.Default.Send(new LoadedEvent { });
-        
+
+            this.KeyDown += new KeyEventHandler(MainWindow_KeyDown);
+
+        }
+
+        private void MainWindow_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                Messenger.Default.Send(new KeyDownEvent { Key = e.Key});
+
+            }
+            else if (e.Key == Key.Enter)
+            {
+                Messenger.Default.Send(new KeyDownEvent { Key = e.Key });
+            }
         }
     }
 

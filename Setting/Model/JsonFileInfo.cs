@@ -25,6 +25,11 @@ namespace Setting.Model
                     name = value;
             }
         }
+
+        public string BakName
+        {
+            get;set;
+        }
         public bool Default { get; set; }
         public bool IsDynamic { get; set; }
         public string FileName { get; set; }

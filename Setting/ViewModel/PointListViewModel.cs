@@ -101,6 +101,23 @@ namespace Setting.ViewModel
             set { currCpu = value; RaisePropertyChanged(); }
         }
 
+        private bool removeFrame;
+
+        public bool RemoveFrame
+        {
+            get { return removeFrame; }
+            set { removeFrame = value; RaisePropertyChanged(); }
+        }
+
+        private bool addFrame;
+
+        public bool AddFrame
+        {
+            get { return addFrame; }
+            set { addFrame = value; RaisePropertyChanged(); }
+        }
+
+
         private SolidColorBrush changeColor;
 
         public SolidColorBrush ChangeColor
@@ -368,11 +385,17 @@ namespace Setting.ViewModel
                 var ImgInfo = inputGIF.OPENGIF(file, xIndex, yIndex, TempJsonFileInfo.FileName);
 
 
-                FramesCount = int.Parse(ImgInfo[0].frameCount);
+                FramesCount = int.Parse(ImgInfo[0].frameCount)>110?110: int.Parse(ImgInfo[0].frameCount);
 
                 AllPonitList = new Dictionary<int, List<PointItem>>();
+                int i = 0;
                 foreach (var Oneseg in ImgInfo)
                 {
+                    if (i>=110)
+                    {
+                      
+                        continue;
+                    }
                     var oneframePointList = new List<PointItem>();
                     int x = 0;
                     int y = 0;
@@ -387,13 +410,26 @@ namespace Setting.ViewModel
                             y++;
                             x = 0;
                         }
+
                     }
-
+                   
                     AllPonitList.Add(int.Parse(Oneseg.pointList[0].frameIndex), oneframePointList);
+                    i++;
                 }
-
+               
                 CurrentFrame = 0;
                 BuildShowInit(CurrentFrame);
+                AddFrame = true;
+                RemoveFrame = true;
+
+                if (FramesCount == 1)
+                {
+                    RemoveFrame = false;
+                }
+                if (FramesCount>=110)
+                {
+                    AddFrame = false;
+                }
                 FileHelper.SaveThemeName(TempJsonFileInfo);
                 FileHelper.Save(JsonConvert.SerializeObject(AllPonitList), TempJsonFileInfo);
                 JsonFileInfo = TempJsonFileInfo;
@@ -727,6 +763,7 @@ namespace Setting.ViewModel
 
         private void AddRightFrameMethod()
         {
+     
             for (int i = FramesCount; i >= 0; i--)
             {
 
@@ -761,7 +798,12 @@ namespace Setting.ViewModel
             }
             CurrentFrame++;
             FramesCount++;
-            BuildShow(CurrentFrame);
+            if (FramesCount >=110)
+            {
+                AddFrame = false;
+            }
+            RemoveFrame = true;
+            BuildShowInit(CurrentFrame);
         }
 
         public RelayCommand DeleteFrameCommand
@@ -790,8 +832,12 @@ namespace Setting.ViewModel
                     {
                         CurrentFrame--;
                     }
-                  
-                    BuildShow(CurrentFrame);
+                    AddFrame = true;
+                    if (FramesCount == 1)
+                    {
+                        RemoveFrame = false;
+                    }
+                    BuildShowInit(CurrentFrame);
                 });
             }
         }
@@ -924,66 +970,76 @@ namespace Setting.ViewModel
             {
                 return new RelayCommand(() =>
                 {
-                    if (jsonFileInfo == null)
-                    {
-                        return;
-                    }
-                    if (JsonFileInfo.IsDynamic)
-                    {
-                        if (jsonFileInfo.FileName =="cpu")
-                        {
-                            if (CPUHelper == null)
-                            {
-
-                                CPUHelper = new CPUHelper();
-                            }
-                            CPUHelper.Start();
-                        }
-                        if (jsonFileInfo.FileName == "gpu")
-                        {
-                            if (GPUHelper == null)
-                            {
-
-                                GPUHelper = new GPUHelper();
-                            }
-                            GPUHelper.Start();
-                        }
-      
-                    }
-                    else
-                    {
-                        if (LiveShowHelper == null)
-                        {
-                            LiveShowHelper = new LiveShowHelper();
-                        }
-
-                        LiveShowHelper.Start(30);
-                    }
+                    LiveShowStart();
                 });
             }
         }
+
+        private void LiveShowStart()
+        {
+            if (jsonFileInfo == null)
+            {
+                return;
+            }
+            if (JsonFileInfo.IsDynamic)
+            {
+                if (jsonFileInfo.FileName == "cpu")
+                {
+                    if (CPUHelper == null)
+                    {
+
+                        CPUHelper = new CPUHelper();
+                    }
+                    CPUHelper.Start();
+                }
+                if (jsonFileInfo.FileName == "gpu")
+                {
+                    if (GPUHelper == null)
+                    {
+
+                        GPUHelper = new GPUHelper();
+                    }
+                    GPUHelper.Start();
+                }
+
+            }
+            else
+            {
+                if (LiveShowHelper == null)
+                {
+                    LiveShowHelper = new LiveShowHelper();
+                }
+
+                LiveShowHelper.Start(30);
+            }
+        }
+
         public RelayCommand LiveShowEndComand
         {
             get
             {
                 return new RelayCommand(() =>
                 {
-                    if (JsonFileInfo == null)
-                    {
-                        return;
-                    }
-                    if (JsonFileInfo.IsDynamic)
-                    {
-
-                        CPUHelper.End();
-                    }
-                    else
-                    {
-                        LiveShowHelper.End();
-                    }
-
+                    LiveShowEnd();
 
                 });
+            }
+        }
+
+        private void LiveShowEnd()
+        {
+            if (JsonFileInfo == null)
+            {
+                return;
+            }
+            if (JsonFileInfo.IsDynamic)
+            {
+                GPUHelper?.End();
+                CPUHelper?.End();
+            }
+            else
+            {
+                LiveShowHelper.End();
             }
         }
         #endregion
@@ -1263,6 +1319,7 @@ namespace Setting.ViewModel
         }
         private void HandleChangeTheMeEvent(ThemeItemClickedEvent obj)
         {
+            LiveShowEnd();
             CurrentFrame = 0;
             IsSend = false;
             CursorEnum = CursorEnum.MOVE;
@@ -1290,7 +1347,18 @@ namespace Setting.ViewModel
                 FramesCount = AllPonitList.Count;
                 BuildShowInit(CurrentFrame);
             }
+            RemoveFrame = true;
+            AddFrame = true;
+            if (FramesCount == 1)
+            {
+                RemoveFrame = false;
+            }
+            if (framesCount>=110)
+            {
+                AddFrame = false;
 
+            }
+            LiveShowStart();
         }
         private void HandleCpuInfoEvent(HardInfoEvent obj)
         {
@@ -1311,7 +1379,21 @@ namespace Setting.ViewModel
                     AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, (ABCEnum)remainder, (System.Windows.Media.Color)ColorConverter.ConvertFromString(ColorConst.AbcColor)));
                     cpucelsius = cpucelsius / 10;
                 } while (cpucelsius >= 1);
-
+                if (obj.Temp<100&&obj.Temp>=10)
+                {
+                    XMoveCommand(AllPonitList[CurrentFrame], 4);
+                }
+                else if (obj.Temp < 10 && obj.Temp > 0)
+                {
+                    XMoveCommand(AllPonitList[CurrentFrame], 8);
+                }
+                else if (obj.Temp == 0)
+                {
+                    XMoveCommand(AllPonitList[CurrentFrame], 1);
+                    AllPonitList[CurrentFrame].ForEach(c => c.X += 3);
+                    AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, (ABCEnum)0, (System.Windows.Media.Color)ColorConverter.ConvertFromString(ColorConst.AbcColor)));
+                    XMoveCommand(AllPonitList[CurrentFrame], 8);
+                }
                 XMoveCommand(AllPonitList[CurrentFrame], 1);
                 AllPonitList[CurrentFrame].ForEach(c => c.X += 5);
                 AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, ABCEnum.lianjiexian, (System.Windows.Media.Color)ColorConverter.ConvertFromString(ColorConst.AbcColor)));
@@ -1328,6 +1410,24 @@ namespace Setting.ViewModel
                     AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, (ABCEnum)remainder, (System.Windows.Media.Color)ColorConverter.ConvertFromString(ColorConst.AbcColor)));
                     cpu = cpu / 10;
                 } while (cpu >= 1);
+
+                if (obj.Use < 100 && obj.Use >= 10)
+                {
+                    XMoveCommand(AllPonitList[CurrentFrame], 4);
+                }
+                else if (obj.Use < 10 && obj.Use > 0)
+                {
+                    XMoveCommand(AllPonitList[CurrentFrame], 8);
+                }
+                else if (obj.Use == 0)
+                {
+                    XMoveCommand(AllPonitList[CurrentFrame], 1);
+                    AllPonitList[CurrentFrame].ForEach(c => c.X += 3);
+                    AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, (ABCEnum)0, (System.Windows.Media.Color)ColorConverter.ConvertFromString(ColorConst.AbcColor)));
+                    XMoveCommand(AllPonitList[CurrentFrame], 8);
+                }
+                XMoveCommand(AllPonitList[CurrentFrame], 22);
+
                 AllPonitList[currFrame].Sort();
                 BuildShow(CurrentFrame);
 

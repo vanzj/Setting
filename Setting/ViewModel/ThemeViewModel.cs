@@ -95,8 +95,13 @@ namespace Setting.ViewModel
             Messenger.Default.Register<CursorModelChangeEvent>(this, HandleCursorModelChangeEvent);
             Messenger.Default.Register<LoadedEvent>(this, HandleCursorModelChangeEvent);
 
+            Messenger.Default.Register<KeyDownEvent>(this, HandleKeyDownEvent);
 
+        }
 
+        private void HandleKeyDownEvent(KeyDownEvent obj)
+        {
+            Messenger.Default.Send(new KeyDownEventTheme() { Key = obj.Key, FileName = CurrJsonFileInfo.FileName });
         }
 
         private void HandleCursorModelChangeEvent(LoadedEvent obj)
@@ -381,20 +386,36 @@ namespace Setting.ViewModel
         /// 编辑模式
         /// </summary>
         public bool IsReName { get; set; }
-        private Visibility actionVisibility;
 
-        public Visibility ActionVisibility
+
+
+
+        private bool canRename;
+
+        public bool CanRename
         {
-            get { return actionVisibility; }
+            get { return canRename; }
             set
             {
-                actionVisibility = value;
+                canRename = value;
                 RaisePropertyChanged();
             }
         }
-        private Visibility delete;
 
-        public Visibility Delete
+        private bool copy;
+
+        public bool Copy
+        {
+            get { return copy; }
+            set
+            {
+                copy = value;
+                RaisePropertyChanged();
+            }
+        }
+        private bool delete;
+
+        public bool Delete
         {
             get { return delete; }
             set
@@ -428,20 +449,85 @@ namespace Setting.ViewModel
 
         public ThemeItem()
         {
+            Messenger.Default.Register<KeyDownEventTheme>(this, HandleKeyDownEventTheme);
+
             IsReName = false;
             ReName = IsReName ? Visibility.Visible : Visibility.Collapsed;
             Read = IsReName ? Visibility.Collapsed : Visibility.Visible;
-            ActionVisibility = JsonFileInfo.IsDynamic ? Visibility.Collapsed : Visibility.Visible;
-            Delete = JsonFileInfo.Default ? Visibility.Collapsed : Visibility.Visible;
+
+            CanRename = true;
+            if (jsonFileInfo.Default)
+            {
+
+                Delete = false;
+            }
+            else
+            {
+                Delete = true;
+
+            }
+            if (JsonFileInfo.IsDynamic)
+            {
+                Copy = false;
+            }
+            else
+            {
+                Copy = true;
+            }
         }
+
+        private void HandleKeyDownEventTheme(KeyDownEventTheme obj)
+        {
+            if (JsonFileInfo.FileName == obj.FileName)
+            {
+                PopupOpen = false;
+                if (obj.Key == Key.Enter)
+                {
+                    IsReName = false;
+                    ReName = IsReName ? Visibility.Visible : Visibility.Collapsed;
+                    Read = IsReName ? Visibility.Collapsed : Visibility.Visible;
+                   
+                        FileHelper.SaveThemeName(this.JsonFileInfo);
+                    
+                }
+                if (obj.Key == Key.Escape)
+                {
+                    IsReName = false;
+                    ReName = IsReName ? Visibility.Visible : Visibility.Collapsed;
+                    Read = IsReName ? Visibility.Collapsed : Visibility.Visible;
+                    JsonFileInfo.Name = JsonFileInfo.BakName;
+                 
+                }
+            }
+        }
+
         public ThemeItem(JsonFileInfo jsonFileInfo)
         {
+            Messenger.Default.Register<KeyDownEventTheme>(this, HandleKeyDownEventTheme);
+
             JsonFileInfo = jsonFileInfo;
             IsReName = false;
             ReName = IsReName ? Visibility.Visible : Visibility.Collapsed;
             Read = IsReName ? Visibility.Collapsed : Visibility.Visible;
-            ActionVisibility = JsonFileInfo.IsDynamic ? Visibility.Collapsed : Visibility.Visible;
-            Delete = JsonFileInfo.Default ? Visibility.Collapsed : Visibility.Visible;
+            CanRename = true;
+            if (jsonFileInfo.Default)
+            {
+   
+                Delete = false;
+            }
+            else
+            {
+                Delete = true;
+              
+            }
+            if (JsonFileInfo.IsDynamic)
+            { 
+                Copy = false;
+            }
+            else
+            {
+                Copy = true;
+            }
         }
 
         public void ChangeRead()
@@ -470,7 +556,8 @@ namespace Setting.ViewModel
             {
                 return new RelayCommand<ThemeItem>(item =>
                 {
-
+                    JsonFileInfo.BakName = JsonFileInfo.Name;
+                   
                     IsReName = true;
                     ReName = IsReName ? Visibility.Visible : Visibility.Collapsed;
                     Read = IsReName ? Visibility.Collapsed : Visibility.Visible;
@@ -489,8 +576,7 @@ namespace Setting.ViewModel
                     IsReName = false;
                     ReName = IsReName ? Visibility.Visible : Visibility.Collapsed;
                     Read = IsReName ? Visibility.Collapsed : Visibility.Visible;
-
-                    FileHelper.SaveThemeName(this.JsonFileInfo);
+                     FileHelper.SaveThemeName(this.JsonFileInfo);
                 });
             }
         }

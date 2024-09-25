@@ -96,6 +96,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Event\KeyDownEvent.cs" />
     <Compile Include="Event\LoadedEvent.cs" />
     <Compile Include="Event\ThemeLotFocusEvent.cs" />
     <Resource Include="img\UI\画面上%402x.png" />
