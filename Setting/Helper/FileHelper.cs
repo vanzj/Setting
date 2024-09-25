@@ -24,7 +24,13 @@ namespace Setting.Helper
 
 
                 var AllFile = new List<JsonFileInfo>()
+                {    new JsonFileInfo()
                 {
+                    Name = "开机动画",
+                    FileName = "run",
+                    Default= true,
+
+                },
                     new JsonFileInfo()
                 {
                     Name = "CPU状态",
@@ -34,8 +40,8 @@ namespace Setting.Helper
                 },
                       new JsonFileInfo()
                 {
-                    Name = "GPU状态(待开发)",
-                    FileName = "cpu",
+                    Name = "GPU状态",
+                    FileName = "gpu",
                     Default= true,
                     IsDynamic =true
                 },
@@ -46,26 +52,20 @@ namespace Setting.Helper
                     Default= true,
                     IsDynamic =true
                 },
-                          new JsonFileInfo()
-                {
-                    Name = "开机动画（gif解析待完善）",
-                    FileName = "run",
-                    Default= true,
- 
-                },  new JsonFileInfo()
+                        new JsonFileInfo()
                                           {
-                    Name = "开机动画1（gif解析待完善）",
+                    Name = "开机动画1",
                     FileName = "run1",
                     Default= true,
 
                 },  new JsonFileInfo()
                                                           {
-                    Name = "开机动画2（gif解析待完善）",
+                    Name = "开机动画2",
                     FileName = "run2",
                     Default= true,
 
                 },          new JsonFileInfo()        {
-                    Name = "开机动画3（gif解析待完善）",
+                    Name = "开机动画3",
                     FileName = "run3",
                     Default= true,
 

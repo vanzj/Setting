@@ -2,12 +2,14 @@
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
 using Newtonsoft.Json;
+using Setting.Event;
 using Setting.Helper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 
 namespace Setting.ViewModel
 {
@@ -58,50 +60,42 @@ namespace Setting.ViewModel
             Cancel = new Stack<HistoryItem>();
             ReBack = new Stack<HistoryItem>();
 
-            Messenger.Default.Register<HistroyInitEvent>(this, HanderHistroyInitEvent);
             Messenger.Default.Register<HistroyAddEvent>(this, HanderHistroyAddEvent);
-
+            Messenger.Default.Register<HistroyInitEvent>(this, HanderHistroyInitEvent);
+            Messenger.Default.Register<LiveStartEvent>(this, HanderLiveStartEvent);
+    
         }
 
-
-
-        private void HanderHistroyAddEvent(HistroyAddEvent obj)
+       
+        private void HanderLiveStartEvent(LiveStartEvent obj)
         {
-            Cancel.Push( new HistoryItem()
-            {
-                Title = obj.HistoryItem.Title,
-                CurrentFrame = obj.HistoryItem.CurrentFrame,
-                FrameCount = obj.HistoryItem.FrameCount,
-                PointItems =  JsonConvert.DeserializeObject<Dictionary<int, List<PointItem>>>(JsonConvert.SerializeObject( obj.HistoryItem.PointItems)),
-            });
-            ReBack.Clear();
-            CancelIsEnabled = true;
+            CancelIsEnabled = false;
             ReBackIsEnabled = false;
         }
 
         private void HanderHistroyInitEvent(HistroyInitEvent obj)
         {
-
-           
-
-            InitItem = new HistoryItem()
-            {
-                Title = obj.HistoryItem.Title,
-                CurrentFrame = obj.HistoryItem.CurrentFrame,
-                FrameCount = obj.HistoryItem.FrameCount,
-                PointItems = JsonConvert.DeserializeObject<Dictionary<int, List<PointItem>>>(JsonConvert.SerializeObject(obj.HistoryItem.PointItems)),
-            };
-            Cancel.Push(new HistoryItem()
-            {
-                Title = obj.HistoryItem.Title,
-                CurrentFrame = obj.HistoryItem.CurrentFrame,
-                FrameCount = obj.HistoryItem.FrameCount,
-                PointItems = JsonConvert.DeserializeObject<Dictionary<int, List<PointItem>>>(JsonConvert.SerializeObject(obj.HistoryItem.PointItems)),
-            });
+            Cancel.Clear();
             ReBack.Clear();
+            InitItem = obj.HistoryItem;
+            Cancel.Push(InitItem);
             CancelIsEnabled = false;
             ReBackIsEnabled = false;
         }
+
+        private void HanderHistroyAddEvent(HistroyAddEvent obj)
+        {
+            ReBack.Push( new HistoryItem()
+            {
+               
+                ShowPointItems =   obj.HistoryItem.ShowPointItems,
+            });
+            Cancel.Clear();
+            CancelIsEnabled = false;
+            ReBackIsEnabled =  true;
+        }
+
+       
 
         public RelayCommand ReBackHistoryCommand
         {
@@ -117,7 +111,7 @@ namespace Setting.ViewModel
                         ReBackIsEnabled = false;
                     }
                     
-                    Messenger.Default.Send<InitFromHistroyEvent>(new InitFromHistroyEvent() { HistoryItem = Cancel.Peek() });
+                    Messenger.Default.Send<InitFromHistroyEvent>(new InitFromHistroyEvent() { HistoryItem = Cancel.Peek(),HistoryEnum= HistoryEnum.ReBack });
                 });
             }
         }
@@ -130,11 +124,11 @@ namespace Setting.ViewModel
                     var pop = Cancel.Pop();
                     ReBack.Push(pop);
                     ReBackIsEnabled = true;
-                    if (Cancel.Count == 1)
+                    if (Cancel.Count == 0)
                     {
                         CancelIsEnabled = false;
                     }
-                    Messenger.Default.Send<InitFromHistroyEvent>(new InitFromHistroyEvent() { HistoryItem = Cancel.Peek() });
+                    Messenger.Default.Send<InitFromHistroyEvent>(new InitFromHistroyEvent() { HistoryItem = ReBack.Peek()  , HistoryEnum = HistoryEnum.Cancel});
                 });
             }
         }
@@ -146,16 +140,10 @@ namespace Setting.ViewModel
                 {
                     Cancel.Clear();
                     ReBack.Clear();
-                    Cancel.Push(new HistoryItem()
-                    {
-                        Title = InitItem.Title,
-                        CurrentFrame = InitItem.CurrentFrame,
-                        FrameCount = InitItem.FrameCount,
-                        PointItems = JsonConvert.DeserializeObject<Dictionary<int, List<PointItem>>>(JsonConvert.SerializeObject(InitItem.PointItems)),
-                    });
+                    Cancel.Push( InitItem);
                     CancelIsEnabled = false;
                     ReBackIsEnabled = false;
-                    Messenger.Default.Send<InitFromHistroyEvent>(new InitFromHistroyEvent() { HistoryItem = Cancel.Peek() });
+                    Messenger.Default.Send<InitFromHistroyEvent>(new InitFromHistroyEvent() { HistoryItem =InitItem,HistoryEnum = HistoryEnum.Redo });
                 });
             }
         }
@@ -164,11 +152,32 @@ namespace Setting.ViewModel
     }
     public class HistoryItem
     {
-        public int FrameCount { get; set; }
-        public int CurrentFrame { get; set; }
-        public string Title { get; set; }
 
-        public Dictionary<int, List<PointItem>> PointItems { get; set; }
+
+        public List<HistoryShowItemPoint> ShowPointItems { get; set; }
+
+        public bool IsAdd { get; set; }
+        /// <summary>
+        ///  上下左右 1234;
+        /// </summary>
+        public addenum add { get; set; }
     }
 
+   public  enum addenum
+    {
+        top,
+        bottom,
+        left,
+        right,
+    }
+
+    public class HistoryShowItemPoint
+    {
+        public int X { get; set; }
+        public int Y { get; set; }
+        
+
+        public  SolidColorBrush OldFill { get; set; }
+        public SolidColorBrush NewFill { get; set; }
+    }
 }

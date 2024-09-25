@@ -9,6 +9,6 @@
         Title="MainWindow" Height="346.226" Width="595.283">
     <Grid >
         <Label Margin="70,87,358,178">点击右侧色块选择背景颜色</Label>
-        <test:ColorPicker Margin="268,78,174,184" SelectColor="Black"></test:ColorPicker>
+        <test:ColorPicker Margin="221.2,87,34.51,64.589" SelectColor="Black"></test:ColorPicker>
     </Grid>
 </Window>

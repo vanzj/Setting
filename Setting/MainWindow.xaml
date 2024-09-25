@@ -4,11 +4,17 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Setting"
-        xmlns:myview="clr-namespace:Setting.View" xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:local1="clr-namespace:Setting.Convert" xmlns:enum="clr-namespace:Setting.Enum"
+        xmlns:myview="clr-namespace:Setting.View" xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:local1="clr-namespace:Setting.Convert" xmlns:enum="clr-namespace:Setting.Enum" 
+        xmlns:viewmodel="clr-namespace:Setting.ViewModel" d:DataContext="{d:DesignInstance Type=viewmodel:ThemeListViewModel}"
         mc:Ignorable="d"
-        Title="MainWindow" Height="1000" Width="1920" DataContext="{Binding Path=PointList,Source={StaticResource Locator}}" >
+        Title="MainWindow" Height="758" Width="1308"  DataContext="{Binding Path=PointList,Source={StaticResource Locator}}" Closing="Window_Closing" Loaded="Window_Loaded"
+        
+        Background="Transparent"  AllowsTransparency="True"
+        WindowStyle="None" ResizeMode="CanResizeWithGrip">
     <Window.Resources>
 
+        <local1:MultiValueConverter x:Key="MultiValueConverter"/>
         <local1:CurrentFrameConventer x:Key="CurrentFrameConventer"/>
         <Style x:Key="FocusVisual">
             <Setter Property="Control.Template">
@@ -33,194 +39,921 @@
             <Setter Property="Background" Value="#02DDDDDD"/>
             <Setter Property="BorderBrush" Value="White"/>
             <Setter Property="Foreground" Value="White"/>
-            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderThickness" Value="0"/>
             <Setter Property="HorizontalContentAlignment" Value="Center"/>
             <Setter Property="VerticalContentAlignment" Value="Center"/>
             <Setter Property="Padding" Value="1"/>
             <Setter Property="Template">
+        
+   
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
-                        <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" CornerRadius="10" SnapsToDevicePixels="true">
+                        <Border x:Name="border"   BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}"  SnapsToDevicePixels="true">
                             <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                         </Border>
                         <ControlTemplate.Triggers>
-                            <Trigger Property="IsDefaulted" Value="true">
-                                <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
-                            </Trigger>
-                            <Trigger Property="IsMouseOver" Value="true">
-                                <Setter Property="BorderThickness" Value="3"/>
-                            </Trigger>
-                            <Trigger Property="IsPressed" Value="true">
-                                <Setter Property="BorderThickness" Value="3"/>
-                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Pressed.Border}"/>
-                            </Trigger>
-                            <Trigger Property="IsEnabled" Value="false">
-                                <Setter Property="BorderThickness" Value="2"/>
-                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Disabled.Border}"/>
-                                <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.Disabled.Foreground}"/>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Opacity"  Value="0.3"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
+            <Style.Triggers>
+                <EventTrigger RoutedEvent="Button.MouseEnter">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(Button.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" >
+                                <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="1.1">
+                                  
+                                </EasingDoubleKeyFrame>
+
+                            </DoubleAnimationUsingKeyFrames>
+                            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(Button.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" >
+                                <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="1.1">
+                                   
+                                </EasingDoubleKeyFrame>
+
+                            </DoubleAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+                <EventTrigger RoutedEvent="Button.MouseLeave">
+                    <EventTrigger.Actions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(Button.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" >
+                                    <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="1">
+                                       
+                                    </EasingDoubleKeyFrame>
+
+                                </DoubleAnimationUsingKeyFrames>
+                                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(Button.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" >
+                                    <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="1">
+                                        
+                                    </EasingDoubleKeyFrame>
+
+                                </DoubleAnimationUsingKeyFrames>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger.Actions>
+                </EventTrigger>
+
+            </Style.Triggers>
+
         </Style>
+        <SolidColorBrush x:Key="SliderThumb.Static.Foreground" Color="#FFE5E5E5"/>
+        <SolidColorBrush x:Key="SliderThumb.MouseOver.Background" Color="#FFDCECFC"/>
+        <SolidColorBrush x:Key="SliderThumb.MouseOver.Border" Color="#FF7Eb4EA"/>
+        <SolidColorBrush x:Key="SliderThumb.Pressed.Background" Color="#FFDAECFC"/>
+        <SolidColorBrush x:Key="SliderThumb.Pressed.Border" Color="#FF569DE5"/>
+        <SolidColorBrush x:Key="SliderThumb.Disabled.Background" Color="#FFF0F0F0"/>
+        <SolidColorBrush x:Key="SliderThumb.Disabled.Border" Color="#FFD9D9D9"/>
+        <SolidColorBrush x:Key="SliderThumb.Static.Background" Color="#FFF0F0F0"/>
+        <SolidColorBrush x:Key="SliderThumb.Static.Border" Color="#FFACACAC"/>
+        <ControlTemplate x:Key="SliderThumbHorizontalTop" TargetType="{x:Type Thumb}">
+            <Grid HorizontalAlignment="Center" UseLayoutRounding="True" VerticalAlignment="Center">
+                <Path x:Name="grip" Data="M 0,6 C0,6 5.5,0 5.5,0 5.5,0 11,6 11,6 11,6 11,18 11,18 11,18 0,18 0,18 0,18 0,6 0,6 z" Fill="{StaticResource SliderThumb.Static.Background}" Stretch="Fill" SnapsToDevicePixels="True" Stroke="{StaticResource SliderThumb.Static.Border}" StrokeThickness="1" UseLayoutRounding="True" VerticalAlignment="Center"/>
+            </Grid>
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsMouseOver" Value="true">
+                    <Setter Property="Fill" TargetName="grip" Value="{StaticResource SliderThumb.MouseOver.Background}"/>
+                    <Setter Property="Stroke" TargetName="grip" Value="{StaticResource SliderThumb.MouseOver.Border}"/>
+                </Trigger>
+                <Trigger Property="IsDragging" Value="true">
+                    <Setter Property="Fill" TargetName="grip" Value="{StaticResource SliderThumb.Pressed.Background}"/>
+                    <Setter Property="Stroke" TargetName="grip" Value="{StaticResource SliderThumb.Pressed.Border}"/>
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="false">
+                    <Setter Property="Fill" TargetName="grip" Value="{StaticResource SliderThumb.Disabled.Background}"/>
+                    <Setter Property="Stroke" TargetName="grip" Value="{StaticResource SliderThumb.Disabled.Border}"/>
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+        <ControlTemplate x:Key="SliderThumbHorizontalBottom" TargetType="{x:Type Thumb}">
+            <Grid HorizontalAlignment="Center" UseLayoutRounding="True" VerticalAlignment="Center">
+                <Path x:Name="grip" Data="M 0,12 C0,12 5.5,18 5.5,18 5.5,18 11,12 11,12 11,12 11,0 11,0 11,0 0,0 0,0 0,0 0,12 0,12 z" Fill="{StaticResource SliderThumb.Static.Background}" Stretch="Fill" SnapsToDevicePixels="True" Stroke="{StaticResource SliderThumb.Static.Border}" StrokeThickness="1" UseLayoutRounding="True" VerticalAlignment="Center"/>
+            </Grid>
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsMouseOver" Value="true">
+                    <Setter Property="Fill" TargetName="grip" Value="{StaticResource SliderThumb.MouseOver.Background}"/>
+                    <Setter Property="Stroke" TargetName="grip" Value="{StaticResource SliderThumb.MouseOver.Border}"/>
+                </Trigger>
+                <Trigger Property="IsDragging" Value="true">
+                    <Setter Property="Fill" TargetName="grip" Value="{StaticResource SliderThumb.Pressed.Background}"/>
+                    <Setter Property="Stroke" TargetName="grip" Value="{StaticResource SliderThumb.Pressed.Border}"/>
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="false">
+                    <Setter Property="Fill" TargetName="grip" Value="{StaticResource SliderThumb.Disabled.Background}"/>
+                    <Setter Property="Stroke" TargetName="grip" Value="{StaticResource SliderThumb.Disabled.Border}"/>
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+        <SolidColorBrush x:Key="SliderThumb.Track.Border" Color="#FFD6D6D6"/>
+        <SolidColorBrush x:Key="SliderThumb.Track.Background" Color="#FFE7EAEA"/>
+        <Style x:Key="RepeatButtonTransparent" TargetType="{x:Type RepeatButton}">
+            <Setter Property="OverridesDefaultStyle" Value="true"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Focusable" Value="false"/>
+            <Setter Property="IsTabStop" Value="false"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type RepeatButton}">
+                        <Rectangle Fill="{TemplateBinding Background}" Height="{TemplateBinding Height}" Width="{TemplateBinding Width}"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <ControlTemplate x:Key="SliderThumbHorizontalDefault" TargetType="{x:Type Thumb}">
+            <Grid HorizontalAlignment="Center" UseLayoutRounding="True" VerticalAlignment="Center">
+                <Path x:Name="grip" Data="M 0,0 C0,0 11,0 11,0 11,0 11,18 11,18 11,18 0,18 0,18 0,18 0,0 0,0 z" Fill="{StaticResource SliderThumb.Static.Background}" Stretch="Fill" SnapsToDevicePixels="True" Stroke="{StaticResource SliderThumb.Static.Border}" StrokeThickness="1" UseLayoutRounding="True" VerticalAlignment="Center"/>
+            </Grid>
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsMouseOver" Value="true">
+                    <Setter Property="Fill" TargetName="grip" Value="{StaticResource SliderThumb.MouseOver.Background}"/>
+                    <Setter Property="Stroke" TargetName="grip" Value="{StaticResource SliderThumb.MouseOver.Border}"/>
+                </Trigger>
+                <Trigger Property="IsDragging" Value="true">
+                    <Setter Property="Fill" TargetName="grip" Value="{StaticResource SliderThumb.Pressed.Background}"/>
+                    <Setter Property="Stroke" TargetName="grip" Value="{StaticResource SliderThumb.Pressed.Border}"/>
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="false">
+                    <Setter Property="Fill" TargetName="grip" Value="{StaticResource SliderThumb.Disabled.Background}"/>
+                    <Setter Property="Stroke" TargetName="grip" Value="{StaticResource SliderThumb.Disabled.Border}"/>
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+        <ControlTemplate x:Key="SliderHorizontal" TargetType="{x:Type Slider}">
+            <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto" MinHeight="{TemplateBinding MinHeight}"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <TickBar x:Name="TopTick" Fill="{TemplateBinding Foreground}" Height="4" Margin="0,0,0,2" Placement="Top" Grid.Row="0" Visibility="Collapsed"/>
+                    <TickBar x:Name="BottomTick" Fill="{TemplateBinding Foreground}" Height="2" Margin="0,2,0,0" Placement="Bottom" Grid.Row="2" Visibility="Collapsed"/>
+                    <Border x:Name="TrackBackground" BorderBrush="{StaticResource SliderThumb.Track.Border}" BorderThickness="1" Background="{StaticResource SliderThumb.Track.Background}" Height="1.0" Margin="5,0" Grid.Row="1" VerticalAlignment="center">
+                        <Canvas Margin="-6,-1">
+                            <Rectangle x:Name="PART_SelectionRange" Fill="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" Height="4.0" Visibility="Hidden"/>
+                        </Canvas>
+                    </Border>
+                    <Track x:Name="PART_Track" Grid.Row="1">
+                        <Track.DecreaseRepeatButton>
+                            <RepeatButton Command="{x:Static Slider.DecreaseLarge}" Style="{StaticResource RepeatButtonTransparent}"/>
+                        </Track.DecreaseRepeatButton>
+                        <Track.IncreaseRepeatButton>
+                            <RepeatButton Command="{x:Static Slider.IncreaseLarge}" Style="{StaticResource RepeatButtonTransparent}"/>
+                        </Track.IncreaseRepeatButton>
+                        <Track.Thumb>
+                            <Thumb x:Name="Thumb" Focusable="False" Height="20" OverridesDefaultStyle="True" Template="{StaticResource SliderThumbHorizontalDefault}" BorderThickness="0" VerticalAlignment="Center" Width="8"/>
+                        </Track.Thumb>
+                    </Track>
+                </Grid>
+            </Border>
+            <ControlTemplate.Triggers>
+                <Trigger Property="TickPlacement" Value="TopLeft">
+                    <Setter Property="Visibility" TargetName="TopTick" Value="Visible"/>
+                    <Setter Property="Template" TargetName="Thumb" Value="{StaticResource SliderThumbHorizontalTop}"/>
+                    <Setter Property="Margin" TargetName="TrackBackground" Value="5,2,5,0"/>
+                </Trigger>
+                <Trigger Property="TickPlacement" Value="BottomRight">
+                    <Setter Property="Visibility" TargetName="BottomTick" Value="Visible"/>
+                    <Setter Property="Template" TargetName="Thumb" Value="{StaticResource SliderThumbHorizontalBottom}"/>
+                    <Setter Property="Margin" TargetName="TrackBackground" Value="5,0,5,2"/>
+                </Trigger>
+                <Trigger Property="TickPlacement" Value="Both">
+                    <Setter Property="Visibility" TargetName="TopTick" Value="Visible"/>
+                    <Setter Property="Visibility" TargetName="BottomTick" Value="Visible"/>
+                </Trigger>
+                <Trigger Property="IsSelectionRangeEnabled" Value="true">
+                    <Setter Property="Visibility" TargetName="PART_SelectionRange" Value="Visible"/>
+                </Trigger>
+                <Trigger Property="IsKeyboardFocused" Value="true">
+                    <Setter Property="Foreground" TargetName="Thumb" Value="Blue"/>
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+        <ControlTemplate x:Key="SliderThumbVerticalLeft" TargetType="{x:Type Thumb}">
+            <Grid HorizontalAlignment="Center" UseLayoutRounding="True" VerticalAlignment="Center">
+                <Path x:Name="grip" Data="M 6,11 C6,11 0,5.5 0,5.5 0,5.5 6,0 6,0 6,0 18,0 18,0 18,0 18,11 18,11 18,11 6,11 6,11 z" Fill="{StaticResource SliderThumb.Static.Background}" Stretch="Fill" Stroke="{StaticResource SliderThumb.Static.Border}"/>
+            </Grid>
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsMouseOver" Value="true">
+                    <Setter Property="Fill" TargetName="grip" Value="{StaticResource SliderThumb.MouseOver.Background}"/>
+                    <Setter Property="Stroke" TargetName="grip" Value="{StaticResource SliderThumb.MouseOver.Border}"/>
+                </Trigger>
+                <Trigger Property="IsDragging" Value="true">
+                    <Setter Property="Fill" TargetName="grip" Value="{StaticResource SliderThumb.Pressed.Background}"/>
+                    <Setter Property="Stroke" TargetName="grip" Value="{StaticResource SliderThumb.Pressed.Border}"/>
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="false">
+                    <Setter Property="Fill" TargetName="grip" Value="{StaticResource SliderThumb.Disabled.Background}"/>
+                    <Setter Property="Stroke" TargetName="grip" Value="{StaticResource SliderThumb.Disabled.Border}"/>
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+        <ControlTemplate x:Key="SliderThumbVerticalRight" TargetType="{x:Type Thumb}">
+            <Grid HorizontalAlignment="Center" UseLayoutRounding="True" VerticalAlignment="Center">
+                <Path x:Name="grip" Data="M 12,11 C12,11 18,5.5 18,5.5 18,5.5 12,0 12,0 12,0 0,0 0,0 0,0 0,11 0,11 0,11 12,11 12,11 z" Fill="{StaticResource SliderThumb.Static.Background}" Stretch="Fill" Stroke="{StaticResource SliderThumb.Static.Border}"/>
+            </Grid>
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsMouseOver" Value="true">
+                    <Setter Property="Fill" TargetName="grip" Value="{StaticResource SliderThumb.MouseOver.Background}"/>
+                    <Setter Property="Stroke" TargetName="grip" Value="{StaticResource SliderThumb.MouseOver.Border}"/>
+                </Trigger>
+                <Trigger Property="IsDragging" Value="true">
+                    <Setter Property="Fill" TargetName="grip" Value="{StaticResource SliderThumb.Pressed.Background}"/>
+                    <Setter Property="Stroke" TargetName="grip" Value="{StaticResource SliderThumb.Pressed.Border}"/>
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="false">
+                    <Setter Property="Fill" TargetName="grip" Value="{StaticResource SliderThumb.Disabled.Background}"/>
+                    <Setter Property="Stroke" TargetName="grip" Value="{StaticResource SliderThumb.Disabled.Border}"/>
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+        <ControlTemplate x:Key="SliderThumbVerticalDefault" TargetType="{x:Type Thumb}">
+            <Grid HorizontalAlignment="Center" UseLayoutRounding="True" VerticalAlignment="Center">
+                <Path x:Name="grip" Data="M0.5,0.5 L18.5,0.5 18.5,11.5 0.5,11.5z" Fill="{StaticResource SliderThumb.Static.Background}" Stretch="Fill" Stroke="{StaticResource SliderThumb.Static.Border}"/>
+            </Grid>
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsMouseOver" Value="true">
+                    <Setter Property="Fill" TargetName="grip" Value="{StaticResource SliderThumb.MouseOver.Background}"/>
+                    <Setter Property="Stroke" TargetName="grip" Value="{StaticResource SliderThumb.MouseOver.Border}"/>
+                </Trigger>
+                <Trigger Property="IsDragging" Value="true">
+                    <Setter Property="Fill" TargetName="grip" Value="{StaticResource SliderThumb.Pressed.Background}"/>
+                    <Setter Property="Stroke" TargetName="grip" Value="{StaticResource SliderThumb.Pressed.Border}"/>
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="false">
+                    <Setter Property="Fill" TargetName="grip" Value="{StaticResource SliderThumb.Disabled.Background}"/>
+                    <Setter Property="Stroke" TargetName="grip" Value="{StaticResource SliderThumb.Disabled.Border}"/>
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+        <ControlTemplate x:Key="SliderVertical" TargetType="{x:Type Slider}">
+            <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition MinWidth="{TemplateBinding MinWidth}" Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TickBar x:Name="TopTick" Grid.Column="0" Fill="{TemplateBinding Foreground}" Margin="0,0,2,0" Placement="Left" Visibility="Collapsed" Width="4"/>
+                    <TickBar x:Name="BottomTick" Grid.Column="2" Fill="{TemplateBinding Foreground}" Margin="2,0,0,0" Placement="Right" Visibility="Collapsed" Width="4"/>
+                    <Border x:Name="TrackBackground" BorderBrush="{StaticResource SliderThumb.Track.Border}" BorderThickness="1" Background="{StaticResource SliderThumb.Track.Background}" Grid.Column="1" HorizontalAlignment="center" Margin="0,5" Width=".0">
+                        <Canvas Margin="-1,-6">
+                            <Rectangle x:Name="PART_SelectionRange" Fill="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" Visibility="Hidden" Width=".0"/>
+                        </Canvas>
+                    </Border>
+                    <Track x:Name="PART_Track" Grid.Column="1">
+                        <Track.DecreaseRepeatButton>
+                            <RepeatButton Command="{x:Static Slider.DecreaseLarge}" Style="{StaticResource RepeatButtonTransparent}"/>
+                        </Track.DecreaseRepeatButton>
+                        <Track.IncreaseRepeatButton>
+                            <RepeatButton Command="{x:Static Slider.IncreaseLarge}" Style="{StaticResource RepeatButtonTransparent}"/>
+                        </Track.IncreaseRepeatButton>
+                        <Track.Thumb>
+                            <Thumb x:Name="Thumb" Focusable="False" Height="11" OverridesDefaultStyle="True" Template="{StaticResource SliderThumbVerticalDefault}" VerticalAlignment="Top" Width="18"/>
+                        </Track.Thumb>
+                    </Track>
+                </Grid>
+            </Border>
+            <ControlTemplate.Triggers>
+                <Trigger Property="TickPlacement" Value="TopLeft">
+                    <Setter Property="Visibility" TargetName="TopTick" Value="Visible"/>
+                    <Setter Property="Template" TargetName="Thumb" Value="{StaticResource SliderThumbVerticalLeft}"/>
+                    <Setter Property="Margin" TargetName="TrackBackground" Value="2,5,0,5"/>
+                </Trigger>
+                <Trigger Property="TickPlacement" Value="BottomRight">
+                    <Setter Property="Visibility" TargetName="BottomTick" Value="Visible"/>
+                    <Setter Property="Template" TargetName="Thumb" Value="{StaticResource SliderThumbVerticalRight}"/>
+                    <Setter Property="Margin" TargetName="TrackBackground" Value="0,5,2,5"/>
+                </Trigger>
+                <Trigger Property="TickPlacement" Value="Both">
+                    <Setter Property="Visibility" TargetName="TopTick" Value="Visible"/>
+                    <Setter Property="Visibility" TargetName="BottomTick" Value="Visible"/>
+                </Trigger>
+                <Trigger Property="IsSelectionRangeEnabled" Value="true">
+                    <Setter Property="Visibility" TargetName="PART_SelectionRange" Value="Visible"/>
+                </Trigger>
+                <Trigger Property="IsKeyboardFocused" Value="true">
+                    <Setter Property="Foreground" TargetName="Thumb" Value="Blue"/>
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+        <Style x:Key="SliderStyle1" TargetType="{x:Type Slider}">
+            <Setter Property="Stylus.IsPressAndHoldEnabled" Value="false"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{StaticResource SliderThumb.Static.Foreground}"/>
+            <Setter Property="Template" Value="{StaticResource SliderHorizontal}"/>
+            <Style.Triggers>
+                <Trigger Property="Orientation" Value="Vertical">
+                    <Setter Property="Template" Value="{StaticResource SliderVertical}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Storyboard x:Key="SendStory" Completed="Storyboard_Completed">
+            <BooleanAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.IsEnabled)" Storyboard.TargetName="button1">
+                <DiscreteBooleanKeyFrame KeyTime="0" Value="False"/>
+                <DiscreteBooleanKeyFrame KeyTime="0:0:3" Value="True"/>
+            </BooleanAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="button1">
+                <EasingDoubleKeyFrame KeyTime="0" Value="0.8"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="0.3"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:1" Value="0.8"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:1.5" Value="0.3"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:2" Value="0.8"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:2.5" Value="0.3"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:3" Value="0.8"/>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+
     </Window.Resources>
-    <Grid>
-        <Grid.Background>
 
-            <LinearGradientBrush>
+    <Viewbox Stretch="Fill">
+        <Grid x:Name="grid" Height="750" Width="1300" >
 
-                <GradientStop Color="#673ab7" Offset="0"/>
-                <GradientStop Color="#f48fb1" Offset="0.3"/>
-                <GradientStop Color="#aed581" Offset="0.7"/>
-                <GradientStop Color="#FF3F51B5" Offset="1"/>
-            </LinearGradientBrush>
+            <Grid.Background>
 
-        </Grid.Background>
+                <ImageBrush ImageSource="img/UI/背景-编辑界面@2x.png" Stretch="Fill"/>
 
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-        <Grid >
-            <Grid.RowDefinitions>
-                <RowDefinition Height="60"/>
-                <RowDefinition Height="*"/>
+            </Grid.Background>
 
-            </Grid.RowDefinitions>
-            <StackPanel Orientation="Horizontal">
-                <Button Width="100" Height="30" DataContext="{Binding Path=ThemeList,Source={StaticResource Locator}}" Command="{Binding CreateCommand}"   Style="{DynamicResource ButtonStyle1}">新增</Button>
-                <Button Width="100" Height="30"   Command="{Binding OpenFileCommand}" Style="{DynamicResource ButtonStyle1}" >导入</Button>
-            </StackPanel>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="128"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="60"/>
+                    <RowDefinition Height="*"/>
 
-            <myview:Theme  Grid.Row="1"></myview:Theme>
+                </Grid.RowDefinitions>
+                <StackPanel Orientation="Horizontal">
 
-        </Grid>
+                </StackPanel>
 
-        <Grid Grid.Column="1">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="60"/>
-                <RowDefinition Height="300"/>
-                <RowDefinition Height="112*"/>
-                <RowDefinition Height="60"/>
-            </Grid.RowDefinitions>
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" DataContext="{Binding Path=HistoryList,Source={StaticResource Locator}}" >
 
-                    <Button Width="100" Height="30"   Command="{Binding CancelHistoryCommand }"  IsEnabled="{Binding CancelIsEnabled}"   Style="{DynamicResource ButtonStyle1}">撤销</Button>
-                    <Button Width="100" Height="30"   Command="{Binding  ReBackHistoryCommand}" CommandParameter="{Binding}"  IsEnabled="{Binding ReBackIsEnabled}"    Style="{DynamicResource ButtonStyle1}">恢复</Button>
-                    <Button Width="100" Height="30"   Command="{Binding RedoHistoryCommand}" CommandParameter="{Binding}" IsEnabled="{Binding CancelIsEnabled}"  Content="重做"   Style="{DynamicResource ButtonStyle1}"/>
-                    <Button Width="100" Height="30"   Command="{Binding CleanComand}" CommandParameter="{Binding}" Content="清除"   Style="{DynamicResource ButtonStyle1}"/>
 
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center"  DataContext="{Binding Path=PointList,Source={StaticResource Locator}}">
-                        <Button Width="100" Height="30"   Command="{Binding ChangeCursorCommand }"   CommandParameter="{x:Static enum:CursorEnum.MOVE}" Style="{DynamicResource ButtonStyle1}">
-                            <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
-                                <Image Source="img/移动_move-one.png" Height="15"></Image>
-                                <TextBlock>正常</TextBlock>
-                            </StackPanel>
-                        </Button>
-                        <myview:ColorPicker Width="30" x:Name="colorPicker" ></myview:ColorPicker>
-                        <Button Width="100" Height="30"   Command="{Binding ChangeCursorCommand }"   CommandParameter="{x:Static enum:CursorEnum.Magic}" Style="{DynamicResource ButtonStyle1}">
-                            <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
-                                <Image Source="img/魔法棒_magic.png" Height="15"></Image>
-                                <TextBlock>修改颜色</TextBlock>
-                            </StackPanel>
-                        </Button>
-                        <Button Width="100" Height="30"  Command="{Binding ChangeCursorCommand }"   CommandParameter="{x:Static enum:CursorEnum.ERASE}"  Style="{DynamicResource ButtonStyle1}">
+            </Grid>
 
-                            <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
-                                <Image Source="img/擦除_erase.png" Height="15"></Image>
-                                <TextBlock>擦除颜色</TextBlock>
-                            </StackPanel>
-                        </Button>
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="64"/>
+                    <RowDefinition Height="139"/>
+                    <RowDefinition Height="142"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="41"/>
+                </Grid.RowDefinitions>
+                <Grid Margin="204,3,0,0" Width="300" HorizontalAlignment="Left">
+                    <Label HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" FontSize="20">我的屏幕</Label>
+                </Grid>
+                <Grid Margin="889,3,0,0" Width="100" HorizontalAlignment="Left" VerticalAlignment="Center">
+                    <Label HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="White" FontSize="16">游客</Label>
+                </Grid>
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="996,0,0,0" Width="200" Height="100">
+                    <Button Style="{DynamicResource ButtonStyle1}"   HorizontalAlignment="Left" VerticalAlignment="Top" Width="59" Height="40"  Click="Button_Click" RenderTransformOrigin="0.5,0.5" Margin="3,11,0,0">
+                        <Button.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform />
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Button.RenderTransform>
+                        <Button.Background>
+                            <ImageBrush ImageSource="img/UI/窗口--.png"/>
+                        </Button.Background>
+                    </Button>
+                    <Button Style="{DynamicResource ButtonStyle1}"    HorizontalAlignment="Left" VerticalAlignment="Top" Width="60" Height="40" Margin="-5,11,0,0"   Click="Button_Click_1" RenderTransformOrigin="0.5,0.5">
+                        <Button.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform />
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Button.RenderTransform>
+                        <Button.Background>
+                            <ImageBrush ImageSource="img/UI/窗口-口.png"/>
+                        </Button.Background>
+                    </Button>
+                    <Button Style="{DynamicResource ButtonStyle1}"    HorizontalAlignment="Left" VerticalAlignment="Top" Width="59" Height="40" Margin="-5,11,0,0"  Click="Button_Click_2" RenderTransformOrigin="0.5,0.5" >
+                        <Button.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform />
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Button.RenderTransform>
+                        <Button.Background>
+                            <ImageBrush ImageSource="img/UI/窗口-x.png"/>
+                        </Button.Background>
+                    </Button>
+
+                </StackPanel>
+                <myview:Theme  Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,54,0,0"  MouseLeave="Theme_MouseLeave" Height="100" Grid.RowSpan="2" Background="#02000000"></myview:Theme>
+                <Button Style="{DynamicResource ButtonStyle1}" Visibility="{Binding VisibilityRight }" Command="{Binding RightCommand }" DataContext="{Binding Path=ThemeList,Source={StaticResource Locator}}"  HorizontalAlignment="Left" VerticalAlignment="Top"  Grid.Row="1" Width="20" Height="75" Margin="1103,44,0,0"  RenderTransformOrigin="0.5,0.5">
+                    <Button.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform />
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Button.RenderTransform>
+                    <Button.Background>
+                        <ImageBrush ImageSource="img/UI/主题-下一页.png"/>
+                    </Button.Background>
+                </Button>
+                <Button Style="{DynamicResource ButtonStyle1}" Visibility="{Binding VisibilityLeft }" Command="{Binding LeftCommand}"  DataContext="{Binding Path=ThemeList,Source={StaticResource Locator}}"  HorizontalAlignment="Left" VerticalAlignment="Top"  Grid.Row="1" Width="20" Height="75" Margin="20,44,0,0"   RenderTransformOrigin="0.5,0.5">
+                    <Button.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform />
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Button.RenderTransform>
+                    <Button.Background>
+                        <ImageBrush ImageSource="img/UI/主题上一页.png"/>
+                    </Button.Background>
+                </Button>
+                <Grid Grid.Row="2">
+
+                    <Border BorderThickness="1" BorderBrush="White" Width="1134" Height="84" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="21,40,0,0" CornerRadius="5">
+                        <myview:PointList  HorizontalAlignment="Center" VerticalAlignment="Center"  Width="1120" Height="70"/>
+                    </Border>
+
+
+
+                </Grid>
+                <Grid Grid.Row="3">
+                    <Button Width="76.75" Height="35.75" DataContext="{Binding Path=ThemeList,Source={StaticResource Locator}}"  Style="{DynamicResource ButtonStyle1 }" Command="{Binding CreateCommand}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="165.25,4.25,0,0"    RenderTransformOrigin="0.5,0.5">
+                        <Button.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform />
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Button.RenderTransform>
+                        <Button.Background>
+                            <ImageBrush ImageSource="img/UI/gif新建.png"/>
+                        </Button.Background>
+                    </Button>
+                    <Button Width="76.917" Height="35.75"    Command="{Binding OpenFileCommand}" Style="{DynamicResource ButtonStyle1 }" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="267.583,4.25,0,0" RenderTransformOrigin="0.5,0.5">
+                        <Button.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform />
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Button.RenderTransform>
+                        <Button.Background>
+                            <ImageBrush ImageSource="img/UI/gif导入.png"/>
+                        </Button.Background>
+                    </Button>
+                    <Button Width="74.625" Height="34.6"  IsEnabled="{Binding Outgif}"  Command="{Binding OutPutGIFCommand}"  Style="{DynamicResource ButtonStyle1}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="376.3,5.3,0,0"   RenderTransformOrigin="0.5,0.5">
+                        <Button.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform />
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Button.RenderTransform>
+                        <Button.Background>
+                            <ImageBrush ImageSource="img/UI/gif导出.png"/>
+                        </Button.Background>
+                    </Button>
+                    <Button Width="81" Height="27.75"   Command="{Binding  ReBackHistoryCommand }"  IsEnabled="{Binding ReBackIsEnabled}"  DataContext="{Binding Path=HistoryList,Source={StaticResource Locator}}" Style="{DynamicResource ButtonStyle1}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="483.6,10,0,0" RenderTransformOrigin="0.5,0.5">
+                        <Button.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform />
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Button.RenderTransform>
+                        <Button.Background>
+                            <ImageBrush ImageSource="img/UI/操作-撤销.png"/>
+                        </Button.Background>
+                    </Button>
+                    <Button Width="80.1" Height="28.2"   Command="{Binding  CancelHistoryCommand}" CommandParameter="{Binding}"  IsEnabled="{Binding CancelIsEnabled }"  DataContext="{Binding Path=HistoryList,Source={StaticResource Locator}}"  Style="{DynamicResource ButtonStyle1}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="597.2,9.9,0,0"    RenderTransformOrigin="0.5,0.5">
+                        <Button.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform />
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Button.RenderTransform>
+                        <Button.Background>
+                            <ImageBrush ImageSource="img/UI/操作-回退.png"/>
+                        </Button.Background>
+                    </Button>
+                    <Button Width="79" Height="29"   Command="{Binding RedoHistoryCommand}" CommandParameter="{Binding}" IsEnabled="{Binding ReBackIsEnabled}"   DataContext="{Binding Path=HistoryList,Source={StaticResource Locator}}"  Style="{DynamicResource ButtonStyle1}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="709.4,9,0,0"   RenderTransformOrigin="0.5,0.5">
+                        <Button.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform />
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Button.RenderTransform>
+                        <Button.Background>
+                            <ImageBrush ImageSource="img/UI/操作-重做.png"/>
+                        </Button.Background>
+                    </Button>
+                    <Button Width="82" Height="35"  Command="{Binding CleanComand}" CommandParameter="{Binding}"    Style="{DynamicResource ButtonStyle1}" DataContext="{Binding Path=PointList,Source={StaticResource Locator}}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="822,4.2,0,0"   RenderTransformOrigin="0.5,0.5">
+                        <Button.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform />
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Button.RenderTransform>
+                        <Button.IsEnabled>
+                            <MultiBinding Converter="{StaticResource MultiValueConverter}" >
+                                <Binding Path="StartLive"/>
+                                <Binding Path="Outgif"/>
+                            </MultiBinding>
+                        </Button.IsEnabled>
+                        <Button.Background>
+                            <ImageBrush ImageSource="img/UI/操作-清空.png"/>
+                        </Button.Background>
+                    </Button>
+
+                </Grid>
+
+                <Grid Grid.Row="4" HorizontalAlignment="Left" VerticalAlignment="Top" >
+
+                    <!-- 上下左右-->
+                    <Button Width="68" Height="30.581"  Command="{Binding BottomCommand}"   Style="{DynamicResource ButtonStyle1}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="979,238.753,0,0" RenderTransformOrigin="0.5,0.5"  >
+                        <Button.IsEnabled>
+                            <MultiBinding Converter="{StaticResource MultiValueConverter}" >
+                                <Binding Path="StartLive"/>
+                                <Binding Path="Outgif"/>
+                            </MultiBinding>
+                        </Button.IsEnabled>
+                        <Button.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform />
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Button.RenderTransform>
+                        <Button.Background>
+                            <ImageBrush ImageSource="img/UI/画面下@2x.png"/>
+                        </Button.Background>
+
+                    </Button>
+                    <Button Height="68" Width="30.581"  Command="{Binding LeftCommand}" Style="{DynamicResource ButtonStyle1}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="961.166,181.169,0,0"    RenderTransformOrigin="0.5,0.5">
+                        <Button.IsEnabled>
+                            <MultiBinding Converter="{StaticResource MultiValueConverter}" >
+                                <Binding Path="StartLive"/>
+                                <Binding Path="Outgif"/>
+                            </MultiBinding>
+                        </Button.IsEnabled>
+                        <Button.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform />
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Button.RenderTransform>
+                        <Button.Background>
+                            <ImageBrush ImageSource="img/UI/画面左@2x.png"/>
+                        </Button.Background>
+
+                    </Button>
+                    <Button  Height="68" Width="30.581"  Command="{Binding RightCommand}" Style="{DynamicResource ButtonStyle1}"  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="1035,181.169,0,0"    RenderTransformOrigin="0.5,0.5">
+                        <Button.IsEnabled>
+                            <MultiBinding Converter="{StaticResource MultiValueConverter}" >
+                                <Binding Path="StartLive"/>
+                                <Binding Path="Outgif"/>
+                            </MultiBinding>
+                        </Button.IsEnabled>
+                        <Button.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform />
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Button.RenderTransform>
+                        <Button.Background>
+                            <ImageBrush ImageSource="img/UI/画面右@2x.png"/>
+                        </Button.Background>
+
+                    </Button>
+                    <Button Width="68" Height="30.582"  Command="{Binding TopCommand}"   Style="{DynamicResource ButtonStyle1}"    HorizontalAlignment="Left" VerticalAlignment="Top" Margin="979.832,161.898,0,0"    RenderTransformOrigin="0.5,0.5">
+                        <Button.IsEnabled>
+                            <MultiBinding Converter="{StaticResource MultiValueConverter}" >
+                                <Binding Path="StartLive"/>
+                                <Binding Path="Outgif"/>
+                            </MultiBinding>
+                        </Button.IsEnabled>
+                        <Button.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform />
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Button.RenderTransform>
+                        <Button.Background>
+                            <ImageBrush ImageSource="img/UI/画面上@2x.png"/>
+                        </Button.Background>
+
+                    </Button>
+
+
+
+                    <!-- 帧数控制-->
+
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="681,138,0,0">
+                        <TextBlock  Foreground="White" VerticalAlignment="Center" FontSize="16" >当前第</TextBlock>
+                        <Grid HorizontalAlignment="Left" VerticalAlignment="Center" Width="47" Margin="8,0,0,0" Height="22">
+                            <TextBlock Text="{Binding CurrentFrame,Converter = {StaticResource CurrentFrameConventer}}"  FontSize="16" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" ></TextBlock>
+                        </Grid>
+
+                        <TextBlock  Foreground="White" VerticalAlignment="Center"  FontSize="16" HorizontalAlignment="Left" Margin="4.9,0,0,0" >帧 / 共</TextBlock>
+                        <TextBlock Text="{Binding FramesCount}"  Foreground="White" VerticalAlignment="Center"   FontSize="16"></TextBlock>
+                        <TextBlock  Foreground="White" VerticalAlignment="Center"  FontSize="16" >帧</TextBlock>
                     </StackPanel>
+                    <Button Width="100.063" Height="31.896"   Command="{Binding LeftFrameCommand}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="671.417,181.169,0,0"  Style="{DynamicResource ButtonStyle1}"   RenderTransformOrigin="0.5,0.5">
+                        <Button.IsEnabled>
+                            <MultiBinding Converter="{StaticResource MultiValueConverter}" >
+                                <Binding Path="StartLive"/>
+                                <Binding Path="Outgif"/>
+                            </MultiBinding>
+                        </Button.IsEnabled>
+                        <Button.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform />
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Button.RenderTransform>
+                        <Button.Background>
+                            <ImageBrush ImageSource="img/UI/帧操作@2x 上一帧.png"/>
+                        </Button.Background>
+                    </Button>
+                    <Button Width="100.063" Height="31.896"  Command="{Binding RightframeCommand}" Style="{DynamicResource ButtonStyle1}" Margin="789.5,181.169,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"   RenderTransformOrigin="0.5,0.5">
+                        <Button.IsEnabled>
+                            <MultiBinding Converter="{StaticResource MultiValueConverter}" >
+                                <Binding Path="StartLive"/>
+                                <Binding Path="Outgif"/>
+                            </MultiBinding>
+                        </Button.IsEnabled>
+                        <Button.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform />
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Button.RenderTransform>
+                        <Button.Background>
+                            <ImageBrush ImageSource="img/UI/帧操作@2x 下一帧.png"/>
+                        </Button.Background>
+                    </Button>
+                    <Button Width="100.063" Height="31.896"    Command="{Binding AddRightFrameCommand}" Style="{DynamicResource ButtonStyle1}" Margin="671.417,228.583,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"   RenderTransformOrigin="0.5,0.5">
+                        <Button.IsEnabled>
+                            <MultiBinding Converter="{StaticResource MultiValueConverter}" >
+                                <Binding Path="AddFrame"/>
+                                <Binding Path="Outgif"/>
+                            </MultiBinding>
+                        </Button.IsEnabled>
+                        <Button.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform />
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Button.RenderTransform>
+                        <Button.Background>
+                            <ImageBrush ImageSource="img/UI/帧操作@2x 加一帧.png"/>
+                        </Button.Background>
+                    </Button>
+                    <Button Width="100.063" Height="31.896"    Command="{Binding DeleteFrameCommand}" Style="{DynamicResource ButtonStyle1}" Margin="789.5,228.583,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"   RenderTransformOrigin="0.5,0.5">
+                        <Button.IsEnabled>
+                            <MultiBinding Converter="{StaticResource MultiValueConverter}" >
+                                <Binding Path="RemoveFrame"/>
+                                <Binding Path="Outgif"/>
+                            </MultiBinding>
+                        </Button.IsEnabled>
+                        <Button.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform />
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Button.RenderTransform>
+                        <Button.Background>
+                            <ImageBrush ImageSource="img/UI/帧操作@2x 减一帧.png"/>
+                        </Button.Background>
+                    </Button>
 
-                </StackPanel>
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center"  Grid.Column="1" />
+
+                    <!-- 鼠标控制 -->
+
+                    <Button Width="81.917" Height="26.417"  Command="{Binding ChangeCursorCommand }"   CommandParameter="{x:Static enum:CursorEnum.MOVE}" Style="{DynamicResource ButtonStyle1}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="55.75,25.833,0,0"   RenderTransformOrigin="0.5,0.5">
+                        <Button.IsEnabled>
+                            <MultiBinding Converter="{StaticResource MultiValueConverter}" >
+                                <Binding Path="StartLive"/>
+                                <Binding Path="Outgif"/>
+                            </MultiBinding>
+                        </Button.IsEnabled>
+                        <Button.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform />
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Button.RenderTransform>
+                        <Button.Background>
+                            <ImageBrush ImageSource="img/UI/鼠标-选择@2x.png"/>
+                        </Button.Background>
+
+                    </Button>
+
+                    <Button x:Name="button" Width="90.167" Height="26.417"   Command="{Binding ChangeCursorCommand }"   CommandParameter="{x:Static enum:CursorEnum.Magic}" Style="{DynamicResource ButtonStyle1}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="153.833,25.833,0,0" RenderTransformOrigin="0.5,0.5">
+                        <Button.IsEnabled>
+                            <MultiBinding Converter="{StaticResource MultiValueConverter}" >
+                                <Binding Path="StartLive"/>
+                                <Binding Path="Outgif"/>
+                            </MultiBinding>
+                        </Button.IsEnabled>
+                        <Button.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform />
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Button.RenderTransform>
+                        <Button.Background>
+                            <ImageBrush ImageSource="img/UI/鼠标-着色@2x.png"/>
+                        </Button.Background>
+
+                    </Button>
+                    <Button Width="89.25" Height="26.417"   Command="{Binding ChangeCursorCommand }"   CommandParameter="{x:Static enum:CursorEnum.ERASE}"  Style="{DynamicResource ButtonStyle1}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="259.625,25.833,0,0"   RenderTransformOrigin="0.5,0.5">
+                        <Button.IsEnabled>
+                            <MultiBinding Converter="{StaticResource MultiValueConverter}" >
+                                <Binding Path="StartLive"/>
+                                <Binding Path="Outgif"/>
+                            </MultiBinding>
+                        </Button.IsEnabled>
+                        <Button.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform />
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Button.RenderTransform>
+                        <Button.Background>
+                            <ImageBrush ImageSource="img/UI/鼠标-擦除@2x.png"/>
+                        </Button.Background>
+
+
+                    </Button>
+
+
+                    <myview:ColorPicker Margin="53,86,-367,-181.5" HorizontalAlignment="Left" VerticalAlignment="Top" Width="414" Height="195.5"></myview:ColorPicker>
+
+
+                    <!--亮度 -->
+                    <viewmodel:SliderWithDebounce Width="238"  Maximum="255" Value="{Binding Luminance}" NewValueChanged="Slider_ValueChanged" SmallChange="1" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="White" Margin="325.833,258,0,0" Style="{DynamicResource SliderStyle1}"    RenderTransformOrigin="0.5,0.5"/>
+
+
+
+                    <Button Width="57" Height="24"   Command="{Binding SendCloseSendMessageCommand}"   Visibility="{Binding Close}"  Style="{DynamicResource ButtonStyle1}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="379,197,0,0"    RenderTransformOrigin="0.5,0.5">
+
+                        <Button.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform />
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Button.RenderTransform>
+                        <Button.Background>
+                            <ImageBrush ImageSource="img/UI/开关-底.png"/>
+                        </Button.Background>
+
+                        <Image Source="img/UI/开关按钮.png" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="-25,0,0,0" Width="18"></Image>
+                    </Button>
+                    <Button Width="57" Height="24"   Command="{Binding SendOpenSendMessageCommand}"  Visibility="{Binding Open}"    Style="{DynamicResource ButtonStyle1}"  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="379,197,0,0"    RenderTransformOrigin="0.5,0.5">
+
+                        <Button.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform />
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Button.RenderTransform>
+                        <Button.Background>
+                            <ImageBrush ImageSource="img/UI/开关-底.png"/>
+                        </Button.Background>
+                        <Image Source="img/UI/开关按钮.png" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="32,0,0,0" Width="18"></Image>
+                    </Button>
+
+                </Grid>
+                <Grid Grid.Row="5">
+                    <Button Width="71" Height="27.75"   IsEnabled="{Binding StartLive }" Command="{Binding LiveShowStartComand}"  Style="{DynamicResource ButtonStyle1}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="774.5,7,0,0"    RenderTransformOrigin="0.5,0.5">
+
+                        <Button.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform />
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Button.RenderTransform>
+                        <Button.Background>
+                            <ImageBrush ImageSource="img/UI/主题-预览开始.png"/>
+                        </Button.Background>
+                    </Button>
+                    <Button Width="104.166" Height="27.75"  IsEnabled="{Binding EndLive }" Command="{Binding LiveShowEndComand}"  Style="{DynamicResource ButtonStyle1}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="862.667,7,0,0"    RenderTransformOrigin="0.5,0.5">
+
+                        <Button.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform />
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Button.RenderTransform>
+                        <Button.Background>
+                            <ImageBrush ImageSource="img/UI/主题-预览结束.png"/>
+                        </Button.Background>
+                    </Button>
+                    <Button x:Name="button1" Width="68.75" Height="24.584"   Command="{Binding SendOnepackageCommandTwo}"   Style="{DynamicResource ButtonStyle1}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="984.167,9.569,0,0" RenderTransformOrigin="0.5,0.5">
+                        <Button.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform />
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Button.RenderTransform>
+                        <Button.Background>
+                            <ImageBrush ImageSource="img/UI/主题-应用.png"/>
+                        </Button.Background>
+                    </Button>
+
+                    <Button Width="69.25" Height="22.903" IsEnabled="{Binding Outgif}"  Command="{Binding SaveCommand}"  Style="{DynamicResource ButtonStyle1}"  Margin="1071.25,11.25,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"     RenderTransformOrigin="0.5,0.5">
+                        
+                        <Button.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform />
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Button.RenderTransform>
+                        <Button.Background>
+                            <ImageBrush ImageSource="img/UI/主题-保存.png"/>
+                        </Button.Background>
+                    </Button>
+
+                    <ScrollViewer  Visibility="Collapsed" x:Name="degbug"  Width="500" Height="300" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,-250,0,0" >
+                        <TextBox Text="{Binding DebugInfo}"></TextBox>
+                    </ScrollViewer>
+
+                    <Button HorizontalAlignment="Left" Margin="500,0,0,0" Click="Button_Click_3">调试</Button>
+                    <Button Margin="540,0,0,0" HorizontalAlignment="Left" Command="{Binding CleanDebugInfoCommand}" >清除</Button>
+                </Grid>
+
+
+
+
+
             </Grid>
+            <Grid Width="959" Height="65" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.ColumnSpan="2" Cursor="Cross" MouseLeftButtonDown="Grid_MouseLeftButtonDown" Background="#021FBF1F"></Grid>
 
-            <StackPanel Orientation="Horizontal" Grid.Row="3
-                        " HorizontalAlignment="Right">
-
-                <Button Width="100" Height="30"   Command="{Binding CleanDebugInfoCommand}"   >清理调试输出</Button>
-                <Button Width="100" Height="30"   Command="{Binding LiveShowStartComand}"  Style="{DynamicResource ButtonStyle1}" >预览</Button>
-                <Button Width="100" Height="30"   Command="{Binding LiveShowEndComand}"  Style="{DynamicResource ButtonStyle1}" >停止预览</Button>
-                <Button Width="100" Height="30"   Command="{Binding SendCommand}" Content="应用"   Style="{DynamicResource ButtonStyle1}"/>
-                <Button Width="100" Height="30"   Command="{Binding SendOnepackageCommand}" Content="应用整包发送"   Style="{DynamicResource ButtonStyle1}" Margin="0,15"/>
-                <Button Width="100" Height="30"   Command="{Binding SaveCommand}"  Style="{DynamicResource ButtonStyle1}" Content="保存" Margin="0,15" />
-                <Button Width="100" Height="30"   Command="{Binding OutPutGIFCommand}"  Style="{DynamicResource ButtonStyle1}" Content="导出GIF" Margin="0,15" />
-            </StackPanel>
-            <Grid Grid.Row="1" >
-                <myview:PointList >
-                </myview:PointList>
-
-
-            </Grid>
-            <StackPanel Grid.Row="2" DataContext="{Binding Path=PointList,Source={StaticResource Locator}}" HorizontalAlignment="Left">
-
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
-                    <TextBlock  Foreground="White" VerticalAlignment="Center" >帧数调节：</TextBlock>
-                    <TextBlock Text="{Binding CurrentFrame,Converter = {StaticResource CurrentFrameConventer}}" Foreground="White" VerticalAlignment="Center" ></TextBlock>
-                    <TextBlock  Foreground="White" VerticalAlignment="Center" >/</TextBlock>
-                    <TextBlock Text="{Binding FramesCount}"  Foreground="White" VerticalAlignment="Center" ></TextBlock>
-                    <Button Width="100" Height="30"   Command="{Binding LeftFrameCommand}" Style="{DynamicResource ButtonStyle1}">上一帧
-                    </Button>
-                    <Button Width="100" Height="30"   Command="{Binding RightframeCommand}" Style="{DynamicResource ButtonStyle1}">下一帧
-                    </Button>
-                    <Button Width="100" Height="30"   Command="{Binding AddRightFrameCommand}" Style="{DynamicResource ButtonStyle1}">添加一帧
-                    </Button>
-                    <Button Width="100" Height="30"   Command="{Binding DeleteFrameCommand}" Style="{DynamicResource ButtonStyle1}">删除一帧
-                    </Button>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
-                    <TextBlock  Foreground="White" VerticalAlignment="Center" >画面调节：</TextBlock>
-                    <Button Width="100" Height="30"   Command="{Binding LeftCommand}" Style="{DynamicResource ButtonStyle1}">
-                        <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
-                            <Image Source="img/箭头左_arrow-left (1).png" Height="15"></Image>
-                            <TextBlock>左</TextBlock>
-                        </StackPanel>
-                    </Button>
-                    <Button Width="100" Height="30"   Command="{Binding RightCommand}" Style="{DynamicResource ButtonStyle1}">
-                        <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
-                            <Image Source="img/箭头右_arrow-right.png" Height="15"></Image>
-                            <TextBlock>右</TextBlock>
-                        </StackPanel>
-                    </Button>
-                    <Button Width="100" Height="30"   Command="{Binding TopCommand}"   Style="{DynamicResource ButtonStyle1}">
-                        <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
-                            <Image Source="img/箭头上_arrow-up.png" Height="15"></Image>
-                            <TextBlock>上</TextBlock>
-                        </StackPanel>
-                    </Button>
-                    <Button Width="100" Height="30"   Command="{Binding BottomCommand}"   Style="{DynamicResource ButtonStyle1}">
-                        <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
-                            <Image Source="img/箭头下_arrow-down.png" Height="15"></Image>
-                            <TextBlock>下</TextBlock>
-                        </StackPanel>
-                    </Button>
-                </StackPanel>
-
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed">
-                    <Button Width="100" Height="30"   Command="{Binding CpuInfoStartComand}" CommandParameter="{Binding}"   Style="{DynamicResource ButtonStyle1}">开始</Button>
-                    <Button Width="100" Height="30"   Command="{Binding CpuInfoEndComand}" CommandParameter="{Binding}"   Style="{DynamicResource ButtonStyle1}">停止</Button>
-
-                </StackPanel>
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" >
-                    <TextBlock  Foreground="White" VerticalAlignment="Center" >屏幕控制：</TextBlock>
-                    <Button Width="100" Height="30"   Command="{Binding SendOpenSendMessageCommand}"  Style="{DynamicResource ButtonStyle1}">屏幕开</Button>
-                    <Button Width="100" Height="30"   Command="{Binding SendCloseSendMessageCommand}"   Style="{DynamicResource ButtonStyle1}">屏幕关</Button>
-                    <Slider Width="200"  Maximum="255" Value="{Binding Luminance}" SmallChange="1" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White"   />
-                    <Button Width="100" Height="30"   Command="{Binding SendLuminanceSendMessageCommand}"    Style="{DynamicResource ButtonStyle1}">修改亮度</Button>
-
-                </StackPanel>
-            </StackPanel>
-
-            <TextBox Grid.Row="2" Margin="724,0,0,0" TextWrapping="Wrap" Text="{Binding DebugInfo}"></TextBox>
         </Grid>
+    </Viewbox>
 
-    </Grid>
+
+
+
 </Window>

@@ -131,7 +131,7 @@ namespace Setting.View
         private void HexTextLostFocus(object sender, RoutedEventArgs e)
         {
 
-            RgbaColor Hcolor = new RgbaColor(TextHex.Text);
+            RgbaColor Hcolor = new RgbaColor("#FF"+TextHex.Text);
 
             PointList.ChangeColor = Hcolor.SolidColorBrush;
 
@@ -151,25 +151,25 @@ namespace Setting.View
             TextHex.Text = Hcolor.HexString;
         }
 
-        private void btn_Click(object sender, RoutedEventArgs e)
-        {
-            pop.IsOpen = true;
+        //private void btn_Click(object sender, RoutedEventArgs e)
+        //{
+        //    pop.IsOpen = true;
 
-            PointList.ChangeColor = btn.Background as SolidColorBrush;
+        //    PointList.ChangeColor = btn.Background as SolidColorBrush;
 
-            RgbaColor Hcolor = new RgbaColor(PointList.ChangeColor );
-            ColorChange(Hcolor);
+        //    RgbaColor Hcolor = new RgbaColor(PointList.ChangeColor );
+        //    ColorChange(Hcolor);
 
-            var xpercent = Hcolor.HsbaColor.S;
-            var ypercent = 1 - Hcolor.HsbaColor.B;
+        //    var xpercent = Hcolor.HsbaColor.S;
+        //    var ypercent = 1 - Hcolor.HsbaColor.B;
 
-            var Ypercent = Hcolor.HsbaColor.H / 360;
+        //    var Ypercent = Hcolor.HsbaColor.H / 360;
 
-            thumbH.SetTopLeftByPercent(1, Ypercent);
-            thumbSB.SetTopLeftByPercent(xpercent, ypercent);
+        //    thumbH.SetTopLeftByPercent(1, Ypercent);
+        //    thumbSB.SetTopLeftByPercent(xpercent, ypercent);
 
 
-        }
+        //}
     }
 
     /// <summary>

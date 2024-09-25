@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Setting.Helper
 {
-   public class HistroyInitEvent
+    public class HistroyInitEvent
     {
         public HistoryItem HistoryItem { get; set; }
     }
@@ -19,8 +19,15 @@ namespace Setting.Helper
     }
     public class InitFromHistroyEvent
     {
+        public HistoryEnum HistoryEnum { get; set; }
         public HistoryItem HistoryItem { get; set; }
     }
 
+    public enum HistoryEnum
+    {
+        ReBack,
+        Cancel,
+        Redo,
+    }
 
 }

@@ -138,25 +138,25 @@ namespace test
             TextHex.Text = Hcolor.HexString;
         }
 
-        private void btn_Click(object sender, RoutedEventArgs e)
-        {
-            pop.IsOpen = true;
+        //private void btn_Click(object sender, RoutedEventArgs e)
+        //{
+        //    pop.IsOpen = true;
 
-            SelectColor = btn.Background as SolidColorBrush;
+        //    SelectColor = btn.Background as SolidColorBrush;
 
-            RgbaColor Hcolor = new RgbaColor(SelectColor);
-            ColorChange(Hcolor);
+        //    RgbaColor Hcolor = new RgbaColor(SelectColor);
+        //    ColorChange(Hcolor);
 
-            var xpercent  = Hcolor.HsbaColor.S;
-            var ypercent  = 1 - Hcolor.HsbaColor.B;
+        //    var xpercent  = Hcolor.HsbaColor.S;
+        //    var ypercent  = 1 - Hcolor.HsbaColor.B;
 
-            var Ypercent = Hcolor.HsbaColor.H /360 ;
+        //    var Ypercent = Hcolor.HsbaColor.H /360 ;
 
-            thumbH.SetTopLeftByPercent(1, Ypercent);
-            thumbSB.SetTopLeftByPercent(xpercent, ypercent);
+        //    thumbH.SetTopLeftByPercent(1, Ypercent);
+        //    thumbSB.SetTopLeftByPercent(xpercent, ypercent);
 
 
-        }
+        //}
     }
 
     /// <summary>

@@ -14,10 +14,6 @@ namespace Setting
     /// </summary>
     public partial class App : Application
     {
-        protected override void OnExit(ExitEventArgs e)
-        {
-            SerialPortHelper.Instance.ClosePort();
-            base.OnExit(e);
-        }
+      
     }
 }

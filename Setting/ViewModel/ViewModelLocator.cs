@@ -41,10 +41,12 @@ namespace Setting.ViewModel
             ////    // Create run time view services and models
             ////    SimpleIoc.Default.Register<IDataService, DataService>();
             ////}
+            ///
+            SimpleIoc.Default.Register<HistoryViewModel>();
             SimpleIoc.Default.Register<PointListViewModel>();//TODO  
             SimpleIoc.Default.Register<MainViewModel>();
             SimpleIoc.Default.Register<ThemeListViewModel>();
-            SimpleIoc.Default.Register<HistoryViewModel>();
+      
         }
         public HistoryViewModel HistoryList
 

@@ -34,6 +34,18 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>abvss-4lnyk-001.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <TargetZone>LocalIntranet</TargetZone>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>false</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="AnimatedGif, Version=1.0.5.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\AnimatedGif.1.0.5\lib\netstandard2.0\AnimatedGif.dll</HintPath>
@@ -50,6 +62,12 @@
     <Reference Include="GalaSoft.MvvmLight.Platform, Version=5.4.1.0, Culture=neutral, PublicKeyToken=5f873c45e98af8a1, processorArchitecture=MSIL">
       <HintPath>..\packages\MvvmLightLibs.5.4.1.1\lib\net45\GalaSoft.MvvmLight.Platform.dll</HintPath>
     </Reference>
+    <Reference Include="HidSharp, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\HidSharp.2.1.0\lib\net35\HidSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="LibreHardwareMonitorLib, Version=0.9.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\LibreHardwareMonitorLib.0.9.4-pre346\lib\net472\LibreHardwareMonitorLib.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -60,6 +78,9 @@
       <HintPath>..\packages\OpenHardwareMonitor.0.9.6\lib\net45\OpenHardwareMonitorLib.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.CodeDom, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.CodeDom.8.0.0\lib\net462\System.CodeDom.dll</HintPath>
+    </Reference>
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -68,6 +89,10 @@
     </Reference>
     <Reference Include="System.IO.Compression" />
     <Reference Include="System.Management" />
+    <Reference Include="System.Runtime.WindowsRuntime, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETCore\v4.5\System.Runtime.WindowsRuntime.dll</HintPath>
+    </Reference>
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\MvvmLightLibs.5.4.1.1\lib\net45\System.Windows.Interactivity.dll</HintPath>
     </Reference>
@@ -80,6 +105,9 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="Windows">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Windows Kits\10\UnionMetadata\10.0.19041.0\Windows.winmd</HintPath>
+    </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -89,30 +117,72 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Event\KeyDownEvent.cs" />
+    <Compile Include="Event\LiveStartEvent.cs" />
+    <Compile Include="Event\LoadedEvent.cs" />
+    <Compile Include="Event\LumianceChangeEvent.cs" />
+    <Compile Include="Event\SendStartEvent.cs" />
+    <Compile Include="Event\ThemeLotFocusEvent.cs" />
+    <Resource Include="img\UI\画面上%402x.png" />
+    <Resource Include="img\UI\画面下%402x.png" />
+    <Resource Include="img\UI\画面右%402x.png" />
+    <Resource Include="img\UI\画面左%402x.png" />
+    <Resource Include="img\UI\帧操作%402x 上一帧.png" />
+    <Resource Include="img\UI\帧操作%402x 下一帧.png" />
+    <Resource Include="img\UI\帧操作%402x 减一帧.png" />
+    <Resource Include="img\UI\帧操作%402x 加一帧.png" />
+    <Resource Include="img\UI\鼠标-擦除%402x.png" />
+    <Resource Include="img\UI\鼠标-着色%402x.png" />
+    <Resource Include="img\UI\鼠标-选择%402x.png" />
+    <Resource Include="img\UI\软件ui 3.png" />
+    <Resource Include="img\UI\gif导入.png" />
+    <Resource Include="img\UI\gif导出.png" />
+    <Resource Include="img\UI\gif新建.png" />
+    <Resource Include="img\UI\操作-回退.png" />
+    <Resource Include="img\UI\操作-撤销.png" />
+    <Resource Include="img\UI\操作-清空.png" />
+    <Resource Include="img\UI\操作-重做.png" />
+    <Resource Include="img\UI\主题-预览开始.png" />
+    <Resource Include="img\UI\主题-预览结束.png" />
+    <Resource Include="img\UI\主题-保存.png" />
+    <Resource Include="img\UI\主题-应用.png" />
+    <Resource Include="img\UI\主题-下一页.png" />
+    <Resource Include="img\UI\主题上一页.png" />
+    <Resource Include="img\UI\主题修改弹窗.png" />
+    <Resource Include="img\UI\背景-主题.png" />
+    <Resource Include="img\UI\背景-编辑界面%402x.png" />
+    <Resource Include="img\UI\开关-底.png" />
+    <Resource Include="img\UI\开关按钮.png" />
+    <Resource Include="img\UI\窗口--.png" />
+    <Resource Include="img\UI\窗口-x.png" />
+    <Resource Include="img\UI\窗口-口.png" />
+    <Resource Include="abvss-4lnyk-001.ico" />
     <Content Include="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Compile Include="Convert\CurrentFrameConventer.cs" />
     <Compile Include="Enum\CursorEnum.cs" />
     <Compile Include="Helper\ABCHelper.cs" />
-    <Compile Include="Helper\AddNewThemeEvent.cs" />
+    <Compile Include="Event\AddNewThemeEvent.cs" />
     <Compile Include="Helper\BitmapHelper.cs" />
     <Compile Include="Helper\Const.cs" />
+    <Compile Include="Helper\GPUHelper.cs" />
     <Compile Include="Helper\CPUHelper.cs" />
-    <Compile Include="Helper\CpuInfoEvent.cs" />
-    <Compile Include="Helper\CursorModelChangeEvent.cs" />
+    <Compile Include="Event\HardInfoEvent.cs" />
+    <Compile Include="Event\CursorModelChangeEvent.cs" />
     <Compile Include="Helper\CursorSafeHandle.cs" />
-    <Compile Include="Helper\DebugInfoEvent.cs" />
+    <Compile Include="Event\DebugInfoEvent.cs" />
     <Compile Include="Helper\FileHelper.cs" />
     <Compile Include="Helper\LiveShowHelper.cs" />
     <Compile Include="Helper\MessageHelper.cs" />
     <Compile Include="Helper\MouseClickCommandBehavior.cs" />
     <Compile Include="Helper\HistroyEvent.cs" />
-    <Compile Include="Helper\NextFrameEvent.cs" />
+    <Compile Include="Event\NextFrameEvent.cs" />
+    <Compile Include="Convert\MultiValueConverter.cs" />
+    <Compile Include="Helper\MYSerialDevice.cs" />
     <Compile Include="Helper\SerialPortHelper.cs" />
-    <Compile Include="Helper\SerialPortMonitor.cs" />
-    <Compile Include="Helper\ThemeClickedEvent.cs" />
-    <Compile Include="Helper\PonitClickedEvent.cs" />
+    <Compile Include="Event\ThemeClickedEvent.cs" />
+    <Compile Include="Event\PonitClickedEvent.cs" />
     <Compile Include="Media\HsbaColor.cs" />
     <Compile Include="Media\ResObj.cs" />
     <Compile Include="Media\RgbaColor.cs" />
@@ -128,12 +198,15 @@
     <Compile Include="Model\CMDModel\ThemeSendStart.cs" />
     <Compile Include="Model\CMDModel\Theme.cs" />
     <Compile Include="Model\CMDModel\ThemeSegment.cs" />
+    <Compile Include="Model\Constants.cs" />
+    <Compile Include="Model\DeviceListEntry.cs" />
     <Compile Include="Model\JsonFileInfo.cs" />
     <Compile Include="Model\PointInit.cs" />
     <Compile Include="ViewModel\HistoryViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\PointListViewModel.cs" />
     <Compile Include="ViewModel\ScreenInfoViewModel.cs" />
+    <Compile Include="ViewModel\SliderWithDebounce.cs" />
     <Compile Include="ViewModel\ThemeViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Compile Include="View\ColorPicker.xaml.cs">
@@ -238,6 +311,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />
+    <None Include="Properties\app.manifest" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -273,10 +347,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ColorPicker\ColorPicker.csproj">
-      <Project>{2e94bf09-753d-409b-aa93-807b15d6651a}</Project>
-      <Name>ColorPicker</Name>
-    </ProjectReference>
     <ProjectReference Include="..\GIfTool\GIfTool.csproj">
       <Project>{cc9d10d6-fdeb-4a17-9e92-8eefe3cd9b4a}</Project>
       <Name>GIfTool</Name>

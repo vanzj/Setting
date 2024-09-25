@@ -1,6 +1,7 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
+using Setting.Event;
 using Setting.Helper;
 using Setting.Model;
 using System;
@@ -10,42 +11,258 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 
 namespace Setting.ViewModel
 {
-  public  class ThemeListViewModel : ViewModelBase
+    public class ThemeListViewModel : ViewModelBase
     {
-      public JsonFileInfo CurrJsonFileInfo { get; set; }
+        private List<ThemeItem> AllThemeList = new List<ThemeItem>();
+        private int page { set; get; } = 1;
+        private int size { set; get; } = 7;
+        private Visibility visibilityLeft;
+        private Visibility visibilityRight;
+        public Visibility VisibilityLeft
+        {
+            get { return visibilityLeft; }
+            set
+            {
+                visibilityLeft = value;
+                RaisePropertyChanged();
+            }
+        }
+        public Visibility VisibilityRight
+        {
+            get { return visibilityRight; }
+            set
+            {
+                visibilityRight = value;
+                RaisePropertyChanged();
+            }
+        }
+        public RelayCommand LeftCommand
+        {
+            get
+            {
+                return new RelayCommand(() =>
+                {
+                    PrePageThemeList();
+                });
+            }
+        }
+        public RelayCommand RightCommand
+        {
+            get
+            {
+                return new RelayCommand(() =>
+                {
+                    NextPageThemeList();
+                });
+            }
+        }
 
-        private ObservableCollection<ThemeItem> themeItemList;
+
+
+
+
+
+
+
+
+        public JsonFileInfo CurrJsonFileInfo { get; set; }
+
+        private ObservableCollection<ThemeItem> themeItemShowList;
         /// <summary>
         /// 主题列表
         /// </summary>
-        public ObservableCollection<ThemeItem> ThemeItemList { get => themeItemList; set => Set(ref themeItemList, value); }
+        public ObservableCollection<ThemeItem> ThemeItemShowList { get => themeItemShowList; set => Set(ref themeItemShowList, value); }
 
 
         public ThemeListViewModel()
         {
-            ThemeItemList = new ObservableCollection<ThemeItem>();
+
             foreach (var item in FileHelper.GetOrInitThemeList())
             {
-                    ThemeItemList.Add(new ThemeItem(item));
+                AllThemeList.Add(new ThemeItem(item));
             }
+            InitThemeList();
             Messenger.Default.Register<ThemeItemClickedEvent>(this, HandleThemeItemClickedEvent);
             Messenger.Default.Register<InputNewThemeEvent>(this, HandleAddNewThemeEvent);
             Messenger.Default.Register<CopyThemeEvent>(this, HandleCopyThemeEvent);
             Messenger.Default.Register<RemoveThemeEvent>(this, HandleRemoveThemeEvent);
             Messenger.Default.Register<ChangeThemeNameEvent>(this, HandleChangeThemeNameEvent);
+            Messenger.Default.Register<ThemeLotFocusEvent>(this, HandleThemeLotFocusEvent);
+            Messenger.Default.Register<CursorModelChangeEvent>(this, HandleCursorModelChangeEvent);
+            Messenger.Default.Register<LoadedEvent>(this, HandleCursorModelChangeEvent);
 
+            Messenger.Default.Register<KeyDownEvent>(this, HandleKeyDownEvent);
+
+        }
+
+        private void HandleKeyDownEvent(KeyDownEvent obj)
+        {
+            Messenger.Default.Send(new KeyDownEventTheme() { Key = obj.Key, FileName = CurrJsonFileInfo.FileName });
+        }
+
+        private void HandleCursorModelChangeEvent(LoadedEvent obj)
+        {
+            if (AllThemeList.Count > 0)
+            {
+                Messenger.Default.Send(new ThemeItemClickedEvent
+                {
+                    JsonFileInfo = AllThemeList.First().JsonFileInfo
+                });
+            }
+        }
+
+        private void buttonShow()
+        {
+            if (page == 1)
+            {
+                VisibilityLeft = Visibility.Hidden;
+            }
+            else
+            {
+                VisibilityLeft = Visibility.Visible;
+            }
+            var LastPge = ((AllThemeList.Count - 1) / size) + 1;
+            if (page == LastPge || LastPge == 1)
+            {
+                VisibilityRight = Visibility.Hidden;
+            }
+            else
+            {
+                VisibilityRight = Visibility.Visible;
+            }
+
+        }
+
+        private void InitThemeList()
+        {
+            ThemeItemShowList = new ObservableCollection<ThemeItem>();
+            page = 1;
+            for (int i = 0; i < size && i < AllThemeList.Count - ((page - 1) * size); i++)
+            {
+                ThemeItemShowList.Add(AllThemeList[(page - 1) * size + i]);
+            }
+            buttonShow();
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        private void LastPageThemeList()
+        {
+            ThemeItemShowList = new ObservableCollection<ThemeItem>();
+            if (AllThemeList.Count == 1)
+            {
+                page = 1;
+            }
+            else
+            {
+                var LastPge = ((AllThemeList.Count - 1) / size) + 1;
+                page = LastPge;
+            }
+
+            for (int i = 0; i < size && i < AllThemeList.Count - ((page - 1) * size); i++)
+            {
+                ThemeItemShowList.Add(AllThemeList[(page - 1) * size + i]);
+            }
+            buttonShow();
+        }
+        private void ReloadThisPageThemeList()
+        {
+            ThemeItemShowList = new ObservableCollection<ThemeItem>();
+            var LastPge = ((AllThemeList.Count - 1) / size) + 1;
+            if (page > LastPge)
+            {//最后一页没数据刷新。页面
+                page = LastPge;
+            }
+            for (int i = 0; i < size && i < AllThemeList.Count - ((page - 1) * size); i++)
+            {
+                ThemeItemShowList.Add(AllThemeList[(page - 1) * size + i]);
+            }
+            buttonShow();
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        private void NextPageThemeList()
+        {
+            ThemeItemShowList = new ObservableCollection<ThemeItem>();
+            var LastPge = ((AllThemeList.Count - 1) / size) + 1;
+            if (page >= LastPge)
+            {
+                return;
+            }
+            page++;
+            for (int i = 0; i < size && i < AllThemeList.Count - ((page - 1) * size); i++)
+            {
+                ThemeItemShowList.Add(AllThemeList[(page - 1) * size + i]);
+            }
+            buttonShow();
+        } /// <summary>
+          /// 
+          /// </summary>
+        private void PrePageThemeList()
+        {
+            if (page <= 1)
+            {
+                return;
+            }
+            page--;
+            ThemeItemShowList = new ObservableCollection<ThemeItem>();
+
+            for (int i = (page - 1) * size; i < size && i < AllThemeList.Count - ((page - 1) * size); i++)
+            {
+                ThemeItemShowList.Add(AllThemeList[i]);
+            }
+            buttonShow();
+        }
+
+
+        private void HandleCursorModelChangeEvent(CursorModelChangeEvent obj)
+        {
+            Cursor cursor = null;
+            switch (obj.model)
+            {
+                case Enum.CursorEnum.MOVE:
+                    cursor = CursorHelper.MOVE();
+                    break;
+                case Enum.CursorEnum.ERASE:
+                    cursor = CursorHelper.ERASE();
+                    break;
+                case Enum.CursorEnum.Magic:
+                    cursor = CursorHelper.MAGIC();
+                    break;
+                default:
+                    break;
+            }
+            foreach (var item in ThemeItemShowList)
+            {
+                if (cursor != null)
+                {
+                    item.Cursor = cursor;
+                }
+            }
+        }
+
+        private void HandleThemeLotFocusEvent(ThemeLotFocusEvent obj)
+        {
+            foreach (var item in ThemeItemShowList)
+            {
+                item.PopupOpen = false;
+
+            }
         }
 
         private void HandleRemoveThemeEvent(RemoveThemeEvent obj)
         {
-            ThemeItemList.Remove(themeItemList.First(c => c.JsonFileInfo.FileName == obj.JsonFileInfo.FileName));
+            AllThemeList.Remove(AllThemeList.First(c => c.JsonFileInfo.FileName == obj.JsonFileInfo.FileName));
+            ReloadThisPageThemeList();
             FileHelper.Remove(obj.JsonFileInfo);
             if (CurrJsonFileInfo.FileName == obj.JsonFileInfo.FileName)
             {
-                Messenger.Default.Send(new ThemeItemClickedEvent { JsonFileInfo = ThemeItemList.First().JsonFileInfo});
+                Messenger.Default.Send(new ThemeItemClickedEvent { JsonFileInfo = AllThemeList.First().JsonFileInfo });
             }
         }
 
@@ -55,10 +272,11 @@ namespace Setting.ViewModel
             {
                 Name = obj.JsonFileInfo.Name + "副本",
                 FileName = Guid.NewGuid().ToString("N")
-            }) ;
-       
-            ThemeItemList.Add(temp);
-            FileHelper.Copy(obj.JsonFileInfo,temp.JsonFileInfo);
+            });
+
+            AllThemeList.Add(temp);
+            LastPageThemeList();
+            FileHelper.Copy(obj.JsonFileInfo, temp.JsonFileInfo);
 
             Messenger.Default.Send(new ThemeItemClickedEvent { JsonFileInfo = temp.JsonFileInfo });
         }
@@ -66,20 +284,21 @@ namespace Setting.ViewModel
         private void HandleThemeItemClickedEvent(ThemeItemClickedEvent obj)
         {
             CurrJsonFileInfo = obj.JsonFileInfo;
-            foreach (var item in ThemeItemList)
+            foreach (var item in ThemeItemShowList)
             {
                 if (item.JsonFileInfo.FileName != obj.JsonFileInfo.FileName)
                 {
+                    item.PopupOpen = false;
                     item.ChangeRead();
-                    
+
                 }
-                
+
             }
         }
 
         private void HandleChangeThemeNameEvent(ChangeThemeNameEvent obj)
         {
-            foreach (var item in ThemeItemList)
+            foreach (var item in ThemeItemShowList)
             {
                 if (item.JsonFileInfo.FileName == obj.JsonFileInfo.FileName)
                 {
@@ -93,8 +312,8 @@ namespace Setting.ViewModel
         {
 
             var temp = new ThemeItem(obj.JsonFileInfo);
-            ThemeItemList.Add(temp) ;
-
+            AllThemeList.Add(temp);
+            LastPageThemeList();
         }
         public RelayCommand CreateCommand
         {
@@ -108,10 +327,10 @@ namespace Setting.ViewModel
                         Name = "新建模板" + DateTime.Now.ToString("YYMMddHHmmssms")
                     };
                     var temp = new ThemeItem(JsonFileInfo);
-                    ThemeItemList.Add(temp);
-
+                    AllThemeList.Add(temp);
+                    LastPageThemeList();
                     CurrJsonFileInfo = JsonFileInfo;
-                    foreach (var themeItem in ThemeItemList)
+                    foreach (var themeItem in ThemeItemShowList)
                     {
                         if (themeItem.JsonFileInfo.FileName != JsonFileInfo.FileName)
                         {
@@ -140,24 +359,63 @@ namespace Setting.ViewModel
                 RaisePropertyChanged();
             }
         }
+
+        private Cursor cursor;
+        public Cursor Cursor
+        {
+            get { return cursor; }
+            set
+            {
+                cursor = value;
+                RaisePropertyChanged();
+            }
+        }
+        private bool popupOpen;
+
+
+        public bool PopupOpen
+        {
+            get { return popupOpen; }
+            set
+            {
+                popupOpen = value;
+                RaisePropertyChanged();
+            }
+        }
         /// <summary>
         /// 编辑模式
         /// </summary>
         public bool IsReName { get; set; }
-        private Visibility actionVisibility;
 
-        public Visibility ActionVisibility
+
+
+
+        private bool canRename;
+
+        public bool CanRename
         {
-            get { return actionVisibility; }
+            get { return canRename; }
             set
             {
-                actionVisibility = value;
+                canRename = value;
                 RaisePropertyChanged();
             }
         }
-        private Visibility delete;
 
-        public Visibility Delete
+        private bool copy;
+
+        public bool Copy
+        {
+            get { return copy; }
+            set
+            {
+                copy = value;
+                RaisePropertyChanged();
+            }
+        }
+        private bool delete;
+
+        public bool Delete
         {
             get { return delete; }
             set
@@ -179,7 +437,7 @@ namespace Setting.ViewModel
         }
         private Visibility read;
 
-        public Visibility Read 
+        public Visibility Read
         {
             get { return read; }
             set
@@ -191,23 +449,88 @@ namespace Setting.ViewModel
 
         public ThemeItem()
         {
+            Messenger.Default.Register<KeyDownEventTheme>(this, HandleKeyDownEventTheme);
+
             IsReName = false;
             ReName = IsReName ? Visibility.Visible : Visibility.Collapsed;
             Read = IsReName ? Visibility.Collapsed : Visibility.Visible;
-            ActionVisibility = JsonFileInfo.IsDynamic? Visibility.Collapsed : Visibility.Visible;
-            Delete = JsonFileInfo.Default ? Visibility.Collapsed : Visibility.Visible;
-        }
-        public ThemeItem(JsonFileInfo jsonFileInfo)
-        {
-            JsonFileInfo =jsonFileInfo;
-            IsReName = false;
-            ReName = IsReName ? Visibility.Visible : Visibility.Collapsed;
-            Read = IsReName ? Visibility.Collapsed : Visibility.Visible;
-            ActionVisibility = JsonFileInfo.IsDynamic ? Visibility.Collapsed : Visibility.Visible;
-            Delete = JsonFileInfo.Default ? Visibility.Collapsed : Visibility.Visible;
+
+            CanRename = true;
+            if (jsonFileInfo.Default)
+            {
+
+                Delete = false;
+            }
+            else
+            {
+                Delete = true;
+
+            }
+            if (JsonFileInfo.IsDynamic)
+            {
+                Copy = false;
+            }
+            else
+            {
+                Copy = true;
+            }
         }
 
-      public void  ChangeRead()
+        private void HandleKeyDownEventTheme(KeyDownEventTheme obj)
+        {
+            if (JsonFileInfo.FileName == obj.FileName)
+            {
+                PopupOpen = false;
+                if (obj.Key == Key.Enter)
+                {
+                    IsReName = false;
+                    ReName = IsReName ? Visibility.Visible : Visibility.Collapsed;
+                    Read = IsReName ? Visibility.Collapsed : Visibility.Visible;
+                   
+                        FileHelper.SaveThemeName(this.JsonFileInfo);
+                    
+                }
+                if (obj.Key == Key.Escape)
+                {
+                    IsReName = false;
+                    ReName = IsReName ? Visibility.Visible : Visibility.Collapsed;
+                    Read = IsReName ? Visibility.Collapsed : Visibility.Visible;
+                    JsonFileInfo.Name = JsonFileInfo.BakName;
+                 
+                }
+            }
+        }
+
+        public ThemeItem(JsonFileInfo jsonFileInfo)
+        {
+            Messenger.Default.Register<KeyDownEventTheme>(this, HandleKeyDownEventTheme);
+
+            JsonFileInfo = jsonFileInfo;
+            IsReName = false;
+            ReName = IsReName ? Visibility.Visible : Visibility.Collapsed;
+            Read = IsReName ? Visibility.Collapsed : Visibility.Visible;
+            CanRename = true;
+            if (jsonFileInfo.Default)
+            {
+   
+                Delete = false;
+            }
+            else
+            {
+                Delete = true;
+              
+            }
+            if (JsonFileInfo.IsDynamic)
+            { 
+                Copy = false;
+            }
+            else
+            {
+                Copy = true;
+            }
+        }
+
+        public void ChangeRead()
         {
             IsReName = false;
             ReName = IsReName ? Visibility.Visible : Visibility.Collapsed;
@@ -220,6 +543,7 @@ namespace Setting.ViewModel
             {
                 return new RelayCommand<ThemeItem>(item =>
                 {
+                    PopupOpen = true;
                     Messenger.Default.Send(new ThemeItemClickedEvent { JsonFileInfo = item.JsonFileInfo });
                 });
             }
@@ -232,7 +556,8 @@ namespace Setting.ViewModel
             {
                 return new RelayCommand<ThemeItem>(item =>
                 {
-
+                    JsonFileInfo.BakName = JsonFileInfo.Name;
+                   
                     IsReName = true;
                     ReName = IsReName ? Visibility.Visible : Visibility.Collapsed;
                     Read = IsReName ? Visibility.Collapsed : Visibility.Visible;
@@ -251,8 +576,7 @@ namespace Setting.ViewModel
                     IsReName = false;
                     ReName = IsReName ? Visibility.Visible : Visibility.Collapsed;
                     Read = IsReName ? Visibility.Collapsed : Visibility.Visible;
-
-                    FileHelper.SaveThemeName(this.JsonFileInfo);
+                     FileHelper.SaveThemeName(this.JsonFileInfo);
                 });
             }
         }
@@ -263,19 +587,19 @@ namespace Setting.ViewModel
             {
                 return new RelayCommand<ThemeItem>(item =>
                 {
-
+                    PopupOpen = false;
                     Messenger.Default.Send(new CopyThemeEvent { JsonFileInfo = item.JsonFileInfo });
                 });
             }
         }
-     
+
         public RelayCommand<ThemeItem> ReMoveCommand
         {
             get
             {
                 return new RelayCommand<ThemeItem>(item =>
                 {
-
+                    PopupOpen = false;
                     Messenger.Default.Send(new RemoveThemeEvent { JsonFileInfo = item.JsonFileInfo });
                 });
             }

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using GalaSoft.MvvmLight.Messaging;
+using Setting.Event;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,7 +24,10 @@ namespace Setting.View
     {
         public Theme()
         {
+           
             InitializeComponent();
         }
+
+
     }
 }

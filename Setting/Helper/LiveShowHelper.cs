@@ -13,9 +13,12 @@ namespace Setting.Helper
         private DispatcherTimer timer;
         public void Start(int FramRate)
         {
-            timer = new DispatcherTimer();
-            timer.Interval = TimeSpan.FromMilliseconds(1000/FramRate); // 设置计时器的时间间隔为1秒
-            timer.Tick += Timer_Tick; ; // 订阅Tick事件
+            if (timer==null)
+            {
+                timer = new DispatcherTimer();
+                timer.Interval = TimeSpan.FromMilliseconds(1000 / FramRate); // 设置计时器的时间间隔为1秒
+                timer.Tick += Timer_Tick; ; // 订阅Tick事件
+            }
             timer.Start(); // 启动计时器
         }
 

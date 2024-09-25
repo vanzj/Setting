@@ -37,7 +37,7 @@ namespace Setting.Helper
             if (i == 5)
             {
                 i = 1;
-                Messenger.Default.Send(new CpuInfoEvent { CpuTemp = (int)(TempList.Sum(c => c) / TempList.Count) ,CpuUse = (int)(CpuList.Sum(c=>c)/ CpuList.Count)}) ;
+                Messenger.Default.Send(new HardInfoEvent { Temp = (int)(TempList.Sum(c => c) / TempList.Count) ,Use = (int)(CpuList.Sum(c=>c)/ CpuList.Count)}) ;
                 CpuList = new List<double>();
                 TempList = new List<float>();
             }
@@ -56,7 +56,7 @@ namespace Setting.Helper
         public CPUHelper()
         {
             timer = new DispatcherTimer();
-            timer.Interval = TimeSpan.FromMilliseconds(100); // 设置计时器的时间间隔为1秒
+            timer.Interval = TimeSpan.FromMilliseconds(200); // 设置计时器的时间间隔为1秒
             timer.Tick += Timer_Tick; ; // 订阅Tick事件
             myComputer.Open();
             //启动CPU监测

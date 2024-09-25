@@ -1,4 +1,5 @@
 ﻿using GalaSoft.MvvmLight.Messaging;
+using Setting.Event;
 using Setting.Helper;
 using Setting.Model;
 using System;
@@ -13,6 +14,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
@@ -29,9 +31,30 @@ namespace Setting
             InitializeComponent();
             this.Cursor = CursorHelper.MOVE();
             Messenger.Default.Register<CursorModelChangeEvent>(this, HandleCursorModelChangeEvent);
+            Messenger.Default.Register<SendStartEvent>(this, HandleSendStartEvent);
+            Messenger.Default.Register<SendEndEvent>(this, HandleSendEndEvent);
 
             SerialPortHelper.Instance.AutoConnect();
 
+        }
+
+        private void HandleSendEndEvent(SendEndEvent obj)
+        {
+            this.Dispatcher.Invoke(() =>
+            {
+                this.button1.IsEnabled = true;
+                Storyboard sb = (Storyboard)this.FindResource("SendStory");
+
+                sb.Stop();
+            });
+         
+        }
+
+        private void HandleSendStartEvent(SendStartEvent obj)
+        {
+            Storyboard sb = (Storyboard)this.FindResource("SendStory");
+
+            sb.Begin();
         }
 
         private void HandleCursorModelChangeEvent(CursorModelChangeEvent obj)
@@ -50,6 +73,108 @@ namespace Setting
                 default:
                     break;
             }
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            SerialPortHelper.Instance.ClosePort();
+        }
+
+
+
+        private void Theme_MouseLeave(object sender, MouseEventArgs e)
+        {
+            Messenger.Default.Send(new ThemeLotFocusEvent { });
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            //【最小化当前窗口】
+            Application.Current.MainWindow.WindowState = WindowState.Minimized;
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {//【还原 或者 最大化当前窗口】
+            if (Application.Current.MainWindow.WindowState == WindowState.Normal)
+            {
+                //Application.Current.MainWindow.MaxHeight = SystemParameters.MaximizedPrimaryScreenHeight;//用这个，如果没有隐藏任务栏，就显示不全
+                Application.Current.MainWindow.MaxHeight = SystemParameters.WorkArea.Height;
+                Application.Current.MainWindow.WindowStyle = WindowStyle.None;
+                Application.Current.MainWindow.ResizeMode = ResizeMode.NoResize;
+                Application.Current.MainWindow.WindowState = WindowState.Maximized;
+                return;
+            }
+
+            if (Application.Current.MainWindow.WindowState == WindowState.Maximized)
+            {
+                Application.Current.MainWindow.ResizeMode = ResizeMode.CanResizeWithGrip;
+                Application.Current.MainWindow.WindowState = WindowState.Normal;
+                return;
+            }
+        }
+
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult result = MessageBox.Show("您确定要退出吗？", "退出提示", MessageBoxButton.OKCancel, MessageBoxImage.None, MessageBoxResult.Cancel);
+            if (result == MessageBoxResult.OK)
+            {
+                //【关闭当前窗口】
+                System.Environment.Exit(0);
+            }
+        }
+ 
+        private void Grid_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            this.DragMove();
+        }
+
+        private void Button_Click_3(object sender, RoutedEventArgs e)
+        {
+            if (this.degbug.Visibility == Visibility.Visible)
+            {
+                this.degbug.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                this.degbug.Visibility = Visibility.Visible;
+            }
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+
+            Messenger.Default.Send(new LoadedEvent { });
+
+            this.KeyDown += new KeyEventHandler(MainWindow_KeyDown);
+
+        }
+
+        private void MainWindow_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                Messenger.Default.Send(new KeyDownEvent { Key = e.Key});
+
+            }
+            else if (e.Key == Key.Enter)
+            {
+                Messenger.Default.Send(new KeyDownEvent { Key = e.Key });
+            }
+        }
+
+        private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            Console.WriteLine(e.NewValue);
+        }
+
+        private void Button_Click_4(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Storyboard_Completed(object sender, EventArgs e)
+        {
+            this.button1.IsEnabled = true;
         }
     }
 

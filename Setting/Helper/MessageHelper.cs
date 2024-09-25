@@ -128,6 +128,66 @@ namespace Setting.Helper
             return templist;
         }
 
+        public static List<string> BuildOnePackageModeTwo(Dictionary<int, List<PointItem>> AllPonitList, int xindex, int yIndex, string filename)
+
+        {
+            var templist = new List<string>();
+            //循环模式
+            ThemeSend ThemeSend = new ThemeSend();
+            ThemeSend.data = new ThemeData() { model = Const.CMDModelCirulate, name = filename };
+
+            templist.Add(JsonConvert.SerializeObject(ThemeSend));
+            //开始
+            ThemeSendStartSend themeSendStartSend = new ThemeSendStartSend();
+            themeSendStartSend.data = new ThemeSendStartData()
+            {
+                name = filename,
+                count = "1",
+                frameCount = AllPonitList.Count.ToString(),
+                frameRate = "30",
+                brightness = 255
+            };
+            templist.Add(JsonConvert.SerializeObject(themeSendStartSend));
+            //帧
+            ThemeSegmentSend themeSegmentSend = new ThemeSegmentSend();
+
+            themeSegmentSend.data = new List<ThemeSegmentData>();
+
+
+            var oneseg = new ThemeSegmentData()
+            {
+                name = filename,
+                count = "1",
+                frameCount = AllPonitList.Count.ToString(),
+                frameRate = 30,
+                brightness = 255,
+                index = "1",
+
+            };
+            oneseg.pointList = new List<ThemeSegmentDataPoint>() {  };
+
+            for (int i = 0; i < AllPonitList.Count; i++)
+            {
+
+                var OnFrameAllPonitList = AllPonitList[i];
+                OnFrameAllPonitList.Sort();
+
+                var show = OnFrameAllPonitList.Where(c => c.X >= 0 && c.X < xindex && c.Y >= 0 && c.Y < yIndex);
+
+
+                ThemeSegmentDataPoint oneframe = new ThemeSegmentDataPoint()
+                {
+                    frameRGB = show.Select(c => c.Fill.Color.ToString().Replace("#FF", "")).ToList(),
+                    frameIndex = i.ToString()
+                };
+                oneseg.pointList.Add(oneframe);
+           
+            }
+            themeSegmentSend.data.Add(oneseg);
+            templist.Add(JsonConvert.SerializeObject(themeSegmentSend));
+            return templist;
+        }
+
         public static List<string> BuildDynamic(Dictionary<int, List<PointItem>> AllPonitList, int xindex, int yIndex, string filename)
 
         {
