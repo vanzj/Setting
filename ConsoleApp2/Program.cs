@@ -61,11 +61,23 @@ namespace PPSU_hwmonitor_c
                 {
                     // only fire the update when found
                     hardware.Update();
-                  
+
+                    // loop through the data
+                    foreach (var sensor in hardware.Sensors)
+                    {
+                        if (sensor.SensorType == SensorType.Temperature && sensor.Name.Contains("CPU Package"))
+                        {
+                            Console.WriteLine($"{hardware.Name}-{sensor.Name}-{sensor.SensorType}-{sensor.Value.GetValueOrDefault()}");
 
                     logger.Info($"CPU info: {JsonConvert.SerializeObject(hardware, settings)}");
 
-              
+                            Console.WriteLine($"{hardware.Name}-{sensor.Name}-{sensor.SensorType}-{sensor.Value.GetValueOrDefault()}");
+
+                        }
+                
+                       
+                    }
+
 
 
                   
