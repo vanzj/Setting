@@ -44,8 +44,8 @@
             <Setter Property="VerticalContentAlignment" Value="Center"/>
             <Setter Property="Padding" Value="1"/>
             <Setter Property="Template">
-        
-   
+
+
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
                         <Border x:Name="border"   BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}"  SnapsToDevicePixels="true">
@@ -65,13 +65,13 @@
                         <Storyboard>
                             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(Button.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" >
                                 <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="1.1">
-                                  
+
                                 </EasingDoubleKeyFrame>
 
                             </DoubleAnimationUsingKeyFrames>
                             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(Button.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" >
                                 <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="1.1">
-                                   
+
                                 </EasingDoubleKeyFrame>
 
                             </DoubleAnimationUsingKeyFrames>
@@ -84,13 +84,13 @@
                             <Storyboard>
                                 <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(Button.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" >
                                     <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="1">
-                                       
+
                                     </EasingDoubleKeyFrame>
 
                                 </DoubleAnimationUsingKeyFrames>
                                 <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(Button.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" >
                                     <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="1">
-                                        
+
                                     </EasingDoubleKeyFrame>
 
                                 </DoubleAnimationUsingKeyFrames>
@@ -373,6 +373,7 @@
     </Window.Resources>
 
     <Viewbox Stretch="Fill">
+
         <Grid x:Name="grid" Height="750" Width="1300" >
 
             <Grid.Background>
@@ -381,25 +382,39 @@
 
             </Grid.Background>
 
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="128"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
+
             <Grid >
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="60"/>
-                    <RowDefinition Height="*"/>
-
-                </Grid.RowDefinitions>
-                <StackPanel Orientation="Horizontal">
-
-                </StackPanel>
-
-
+                <myview:ScreenList HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,106,0,0" Width="230" Height="570"></myview:ScreenList>
+                <Button Style="{DynamicResource ButtonStyle1}" Visibility="{Binding VisibilityRight }" Command="{Binding RightCommand }" DataContext="{Binding Path=ScreenInfoList,Source={StaticResource Locator}}"  HorizontalAlignment="Left" VerticalAlignment="Top" Width="22" Height="12"  RenderTransformOrigin="0.5,0.5" Margin="56,729,0,0">
+                    <Button.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform />
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Button.RenderTransform>
+                    <Button.Background>
+                        <ImageBrush ImageSource="img/Login/屏幕-下.png"/>
+                    </Button.Background>
+                </Button>
+                <Button Style="{DynamicResource ButtonStyle1}" Visibility="{Binding VisibilityLeft }" Command="{Binding LeftCommand}"  DataContext="{Binding Path=ScreenInfoList,Source={StaticResource Locator}}"  HorizontalAlignment="Left" VerticalAlignment="Top"  Width="22" Height="12"   RenderTransformOrigin="0.5,0.5" Margin="56,88,0,0">
+                    <Button.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform />
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Button.RenderTransform>
+                    <Button.Background>
+                        <ImageBrush ImageSource="img/Login/屏幕-上.png"/>
+                    </Button.Background>
+                </Button>
 
             </Grid>
 
-            <Grid Grid.Column="1">
+            <Grid Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="128,0,0,0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="64"/>
                     <RowDefinition Height="139"/>
@@ -415,48 +430,8 @@
                     <Label HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="White" FontSize="16">游客</Label>
                 </Grid>
 
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="996,0,0,0" Width="200" Height="100">
-                    <Button Style="{DynamicResource ButtonStyle1}"   HorizontalAlignment="Left" VerticalAlignment="Top" Width="59" Height="40"  Click="Button_Click" RenderTransformOrigin="0.5,0.5" Margin="3,11,0,0">
-                        <Button.RenderTransform>
-                            <TransformGroup>
-                                <ScaleTransform />
-                                <SkewTransform/>
-                                <RotateTransform/>
-                                <TranslateTransform/>
-                            </TransformGroup>
-                        </Button.RenderTransform>
-                        <Button.Background>
-                            <ImageBrush ImageSource="img/UI/窗口--.png"/>
-                        </Button.Background>
-                    </Button>
-                    <Button Style="{DynamicResource ButtonStyle1}"    HorizontalAlignment="Left" VerticalAlignment="Top" Width="60" Height="40" Margin="-5,11,0,0"   Click="Button_Click_1" RenderTransformOrigin="0.5,0.5">
-                        <Button.RenderTransform>
-                            <TransformGroup>
-                                <ScaleTransform />
-                                <SkewTransform/>
-                                <RotateTransform/>
-                                <TranslateTransform/>
-                            </TransformGroup>
-                        </Button.RenderTransform>
-                        <Button.Background>
-                            <ImageBrush ImageSource="img/UI/窗口-口.png"/>
-                        </Button.Background>
-                    </Button>
-                    <Button Style="{DynamicResource ButtonStyle1}"    HorizontalAlignment="Left" VerticalAlignment="Top" Width="59" Height="40" Margin="-5,11,0,0"  Click="Button_Click_2" RenderTransformOrigin="0.5,0.5" >
-                        <Button.RenderTransform>
-                            <TransformGroup>
-                                <ScaleTransform />
-                                <SkewTransform/>
-                                <RotateTransform/>
-                                <TranslateTransform/>
-                            </TransformGroup>
-                        </Button.RenderTransform>
-                        <Button.Background>
-                            <ImageBrush ImageSource="img/UI/窗口-x.png"/>
-                        </Button.Background>
-                    </Button>
 
-                </StackPanel>
+            
                 <myview:Theme  Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,54,0,0"  MouseLeave="Theme_MouseLeave" Height="100" Grid.RowSpan="2" Background="#02000000"></myview:Theme>
                 <Button Style="{DynamicResource ButtonStyle1}" Visibility="{Binding VisibilityRight }" Command="{Binding RightCommand }" DataContext="{Binding Path=ThemeList,Source={StaticResource Locator}}"  HorizontalAlignment="Left" VerticalAlignment="Top"  Grid.Row="1" Width="20" Height="75" Margin="1103,44,0,0"  RenderTransformOrigin="0.5,0.5">
                     <Button.RenderTransform>
@@ -921,7 +896,7 @@
                     </Button>
 
                     <Button Width="69.25" Height="22.903" IsEnabled="{Binding Outgif}"  Command="{Binding SaveCommand}"  Style="{DynamicResource ButtonStyle1}"  Margin="1071.25,11.25,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"     RenderTransformOrigin="0.5,0.5">
-                        
+
                         <Button.RenderTransform>
                             <TransformGroup>
                                 <ScaleTransform />
@@ -935,22 +910,78 @@
                         </Button.Background>
                     </Button>
 
-                    <ScrollViewer  Visibility="Collapsed" x:Name="degbug"  Width="500" Height="300" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,-250,0,0" >
-                        <TextBox Text="{Binding DebugInfo}"></TextBox>
-                    </ScrollViewer>
 
-                    <Button HorizontalAlignment="Left" Margin="500,0,0,0" Click="Button_Click_3">调试</Button>
-                    <Button Margin="540,0,0,0" HorizontalAlignment="Left" Command="{Binding CleanDebugInfoCommand}" >清除</Button>
                 </Grid>
 
 
 
 
 
+                <Grid  Width="83" Height="24" Margin="896,19,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" MouseDown="Grid_MouseDown">
+                    <Grid.Background>
+                        <ImageBrush ImageSource="img/Login/退出登录.png"/>
+                    </Grid.Background>
+
+                </Grid>
+
+
             </Grid>
             <Grid Width="959" Height="65" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.ColumnSpan="2" Cursor="Cross" MouseLeftButtonDown="Grid_MouseLeftButtonDown" Background="#021FBF1F"></Grid>
+            <myview:Login x:Name="Login"  HorizontalAlignment="Left" VerticalAlignment="Top" Grid.ColumnSpan="2" Visibility="Collapsed" ></myview:Login>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="1125,0,0,0" Width="200" Height="100">
+                <Button Style="{DynamicResource ButtonStyle1}"   HorizontalAlignment="Left" VerticalAlignment="Top" Width="59" Height="40"  Click="Button_Click" RenderTransformOrigin="0.5,0.5" Margin="3,11,0,0">
+                    <Button.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform />
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Button.RenderTransform>
+                    <Button.Background>
+                        <ImageBrush ImageSource="img/UI/窗口--.png"/>
+                    </Button.Background>
+                </Button>
+                <Button Style="{DynamicResource ButtonStyle1}"    HorizontalAlignment="Left" VerticalAlignment="Top" Width="60" Height="40" Margin="-5,11,0,0"   Click="Button_Click_1" RenderTransformOrigin="0.5,0.5">
+                    <Button.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform />
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Button.RenderTransform>
+                    <Button.Background>
+                        <ImageBrush ImageSource="img/UI/窗口-口.png"/>
+                    </Button.Background>
+                </Button>
+                <Button Style="{DynamicResource ButtonStyle1}"    HorizontalAlignment="Left" VerticalAlignment="Top" Width="59" Height="40" Margin="-5,11,0,0"  Click="Button_Click_2" RenderTransformOrigin="0.5,0.5" >
+                    <Button.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform />
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Button.RenderTransform>
+                    <Button.Background>
+                        <ImageBrush ImageSource="img/UI/窗口-x.png"/>
+                    </Button.Background>
+                </Button>
+
+            </StackPanel>
+
+            <ScrollViewer  Visibility="Collapsed" x:Name="degbug"  Width="500" Height="300" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="0,0,0,0" Grid.Column="1" >
+                <TextBox Text="{Binding DebugInfo}"></TextBox>
+            </ScrollViewer>
+
+            <Button HorizontalAlignment="Left" Height="40" Margin="500,0,0,0" Click="Button_Click_3" VerticalAlignment="Bottom" Grid.Column="1">调试</Button>
+            <Button Margin="540,0,0,0" HorizontalAlignment="Left" Height="40" Command="{Binding CleanDebugInfoCommand}" VerticalAlignment="Bottom"  Grid.Column="1" >清除</Button>
+
 
         </Grid>
+
     </Viewbox>
 
 

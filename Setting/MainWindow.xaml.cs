@@ -18,6 +18,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Webapi;
 
 namespace Setting
 {
@@ -33,9 +34,7 @@ namespace Setting
             Messenger.Default.Register<CursorModelChangeEvent>(this, HandleCursorModelChangeEvent);
             Messenger.Default.Register<SendStartEvent>(this, HandleSendStartEvent);
             Messenger.Default.Register<SendEndEvent>(this, HandleSendEndEvent);
-
-            SerialPortHelper.Instance.AutoConnect();
-
+            this.Login.Visibility = Visibility.Visible;
         }
 
         private void HandleSendEndEvent(SendEndEvent obj)
@@ -175,6 +174,28 @@ namespace Setting
         private void Storyboard_Completed(object sender, EventArgs e)
         {
             this.button1.IsEnabled = true;
+        }
+
+        private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            Task.Run(() =>
+            {
+                JdClient jdClient = new JdClient(HttpClientHelper.Instance.GetHttpClient());
+
+           var result =     jdClient.LogoutUsingPOSTAsync();
+                // Restart current process Method 1
+
+                this.Dispatcher.Invoke(() =>
+                {
+                    System.Windows.Forms.Application.Restart();
+                    Application.Current.Shutdown();
+
+                });
+           
+     
+
+            });
+            
         }
     }
 

@@ -10,6 +10,35 @@ namespace Setting.Helper
 {
    public class LiveShowHelper
     {
+
+    
+
+        static readonly object _object = new object();
+
+
+        private static LiveShowHelper instance = null;
+        public static LiveShowHelper Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    lock (_object)
+                    {
+                        if (instance == null)
+                        {
+
+                            instance = new LiveShowHelper();
+                        }
+                    }
+                }
+                return instance;
+            }
+        }
+        private LiveShowHelper() { }
+
+
+
         private DispatcherTimer timer;
         public void Start(int FramRate)
         {

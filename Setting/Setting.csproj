@@ -89,10 +89,12 @@
     </Reference>
     <Reference Include="System.IO.Compression" />
     <Reference Include="System.Management" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Runtime.WindowsRuntime, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETCore\v4.5\System.Runtime.WindowsRuntime.dll</HintPath>
     </Reference>
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\MvvmLightLibs.5.4.1.1\lib\net45\System.Windows.Interactivity.dll</HintPath>
     </Reference>
@@ -117,6 +119,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Event\FindScreenEvent.cs" />
+    <Compile Include="Event\GetThemeList.cs" />
+    <Compile Include="Event\HttpMsgEvent.cs" />
+    <Compile Include="Event\InitEndEvent.cs" />
+    <Compile Include="Event\InitMsgEvent.cs" />
     <Compile Include="Event\KeyDownEvent.cs" />
     <Compile Include="Event\LiveStartEvent.cs" />
     <Compile Include="Event\LoadedEvent.cs" />
@@ -157,6 +164,21 @@
     <Resource Include="img\UI\窗口-x.png" />
     <Resource Include="img\UI\窗口-口.png" />
     <Resource Include="abvss-4lnyk-001.ico" />
+    <Resource Include="img\Login\loading背景.png" />
+    <Resource Include="img\Login\主题背景.png" />
+    <Resource Include="img\Login\发送验证码按钮.png" />
+    <Resource Include="img\Login\屏幕-上.png" />
+    <Resource Include="img\Login\屏幕-下.png" />
+    <Resource Include="img\Login\屏幕背景.png" />
+    <Resource Include="img\Login\注册背景.png" />
+    <Resource Include="img\Login\登录对照.png" />
+    <Resource Include="img\Login\登录按钮.png" />
+    <Resource Include="img\Login\登录界面背景.png" />
+    <Resource Include="img\Login\立即注册按钮.png" />
+    <Resource Include="img\Login\账号密码登录.png" />
+    <Resource Include="img\Login\账号注册背景.png" />
+    <Resource Include="img\Login\退出登录.png" />
+    <Resource Include="img\Login\验证码倒计时背景.png" />
     <Content Include="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -181,6 +203,7 @@
     <Compile Include="Convert\MultiValueConverter.cs" />
     <Compile Include="Helper\MYSerialDevice.cs" />
     <Compile Include="Helper\SerialPortHelper.cs" />
+    <Compile Include="Helper\HttpClientHelper.cs" />
     <Compile Include="Event\ThemeClickedEvent.cs" />
     <Compile Include="Event\PonitClickedEvent.cs" />
     <Compile Include="Media\HsbaColor.cs" />
@@ -201,7 +224,9 @@
     <Compile Include="Model\Constants.cs" />
     <Compile Include="Model\DeviceListEntry.cs" />
     <Compile Include="Model\JsonFileInfo.cs" />
+    <Compile Include="Model\Json\Tokenjson.cs" />
     <Compile Include="Model\PointInit.cs" />
+    <Compile Include="OpenAPIs\OpenApi.cs" />
     <Compile Include="ViewModel\HistoryViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\PointListViewModel.cs" />
@@ -212,8 +237,17 @@
     <Compile Include="View\ColorPicker.xaml.cs">
       <DependentUpon>ColorPicker.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\MessageBox.xaml.cs">
+      <DependentUpon>MessageBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Login.xaml.cs">
+      <DependentUpon>Login.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\PointList.xaml.cs">
       <DependentUpon>PointList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ScreenList.xaml.cs">
+      <DependentUpon>ScreenList.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Theme.xaml.cs">
       <DependentUpon>Theme.xaml</DependentUpon>
@@ -234,7 +268,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\MessageBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Login.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\PointList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ScreenList.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -261,6 +307,12 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="..\..\..\..\Downloads\OpenApi.json">
+      <Link>OpenAPIs\OpenApi.json</Link>
+      <Namespace>Webapi</Namespace>
+      <ClassName>JdClient</ClassName>
+      <CodeGenerator>NSwagCSharp</CodeGenerator>
+    </None>
     <None Include="Design\projectGuides.guides" />
     <None Include="Json\Base\1 - 复制%2810%29.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -310,6 +362,7 @@
     <None Include="Json\Base\1.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="Json\OpenApi.json" />
     <None Include="packages.config" />
     <None Include="Properties\app.manifest" />
     <None Include="Properties\Settings.settings">

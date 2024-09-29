@@ -25,11 +25,14 @@ using ColorConverter = System.Windows.Media.ColorConverter;
 using NLog;
 using Setting.Event;
 using Setting.Model.CMDModel;
+using Webapi;
 
 namespace Setting.ViewModel
 {
     public class PointListViewModel : ViewModelBase
     {
+
+        private DeviceInfo CurrentDevInfo { get; set; }
 
         #region 页面属性
         /// <summary>
@@ -163,7 +166,7 @@ namespace Setting.ViewModel
 
         private CPUHelper CPUHelper { get; set; }
         private GPUHelper GPUHelper { get; set; }
-        private LiveShowHelper LiveShowHelper { get; set; }
+   
         public int xIndex = 85;
         public int yIndex = 5;
         public bool IsSend = false;
@@ -488,10 +491,10 @@ namespace Setting.ViewModel
                 {
                     AddFrame = false;
                 }
-                FileHelper.SaveThemeName(TempJsonFileInfo);
-                FileHelper.Save(JsonConvert.SerializeObject(AllPonitList), TempJsonFileInfo);
+                FileHelper.SaveThemeName(TempJsonFileInfo,CurrentDevInfo?.Id.ToString());
+                FileHelper.Save(JsonConvert.SerializeObject(AllPonitList), TempJsonFileInfo, CurrentDevInfo?.Id.ToString());
                 JsonFileInfo = TempJsonFileInfo;
-                Messenger.Default.Send(new InputNewThemeEvent { JsonFileInfo = TempJsonFileInfo });
+                Messenger.Default.Send(new InputNewThemeEvent { JsonFileInfo = TempJsonFileInfo ,CurrentDevInfo = CurrentDevInfo });
             }
         }
         private void BuildShow(int frameIndex)
@@ -997,7 +1000,7 @@ namespace Setting.ViewModel
                         templist.Sort();
                         saveInfo.Add(item.Key, templist);
                     }
-                    FileHelper.Save(JsonConvert.SerializeObject(saveInfo), JsonFileInfo);
+                    FileHelper.Save(JsonConvert.SerializeObject(saveInfo), JsonFileInfo,CurrentDevInfo?.Id?.ToString());
 
                 }
                 );
@@ -1068,12 +1071,8 @@ namespace Setting.ViewModel
             }
             else
             {
-                if (LiveShowHelper == null)
-                {
-                    LiveShowHelper = new LiveShowHelper();
-                }
-
-                LiveShowHelper.Start(30);
+        
+                LiveShowHelper.Instance .Start(30);
             }
         }
 
@@ -1129,7 +1128,7 @@ namespace Setting.ViewModel
             }
             else
             {
-                LiveShowHelper.End();
+                LiveShowHelper.Instance.End();
             }
         }
         #endregion
@@ -1287,7 +1286,7 @@ namespace Setting.ViewModel
 
         private void HandleNewThemeEvent(NewThemeEvent obj)
         {
-            LiveShowHelper?.End();
+            LiveShowHelper.Instance.End();
             CPUHelper?.End();
             GPUHelper?.End();
             CurrentFrame = 0;
@@ -1304,8 +1303,8 @@ namespace Setting.ViewModel
             OnFrameAllPonitList.Sort();
             AllPonitList[0] = OnFrameAllPonitList;
             BuildShowInit(CurrentFrame);
-            FileHelper.SaveThemeName(obj.JsonFileInfo);
-            FileHelper.Save(JsonConvert.SerializeObject(AllPonitList), obj.JsonFileInfo);
+            FileHelper.SaveThemeName(obj.JsonFileInfo,obj.CurrentDevInfo?.Id?.ToString());
+            FileHelper.Save(JsonConvert.SerializeObject(AllPonitList), obj.JsonFileInfo,obj.CurrentDevInfo?.Id?.ToString());
         }
         #region EventHander
         private void HanderInitFromHistroyEvent(InitFromHistroyEvent obj)
@@ -1409,6 +1408,7 @@ namespace Setting.ViewModel
         }
         private void HandleChangeTheMeEvent(ThemeItemClickedEvent obj)
         {
+            CurrentDevInfo = obj.CurrentDevInfo;
             LiveShowEnd();
             CurrentFrame = 0;
             IsSend = false;

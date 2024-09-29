@@ -12,7 +12,7 @@ namespace Setting.Model
 {
     public class JsonFileInfo 
     {
-
+        public string FileId { get; set; }
 
         private string name;
 

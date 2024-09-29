@@ -289,9 +289,11 @@ namespace Setting.Helper
                             var getMacmsg = JsonConvert.DeserializeObject<getMacRetrun>(msgreturn);
                             if (!string.IsNullOrEmpty(getMacmsg.data))
                             {
-                                timer.Stop();
-                                CurrentCOMID = MYSerialDevice.COMID;
-                      
+                                //timer.Stop();
+                                //CurrentCOMID = MYSerialDevice.COMID;
+
+                                var devNo = getMacmsg.data.Replace(":", "");
+                                Messenger.Default.Send(new FindScreenEvent { DeviceInfos = new List<Webapi.DeviceInfo>() { new Webapi.DeviceInfo() { DevNo = devNo, Name = "新屏幕" } } });
                                 Messenger.Default.Send(new DebugInfoEvent("串口扫描=>  " + MYSerialDevice.SerialDevice.PortName + "连接成功"));
                             }
                             else
@@ -366,11 +368,15 @@ namespace Setting.Helper
 
         private void Timer_Tick(object sender, EventArgs e)
         {
-
+            if (DeviceIdList ==null)
+            {
+                return;
+            }
             COMindex++;
             if (COMindex >= DeviceIdList.Count)
             {
                 timer.Stop();
+                Messenger.Default.Send(new InitEndEvent() { endName = "findScreen" });
                 Messenger.Default.Send(new DebugInfoEvent($"串口扫描结束"));
                 return;
             }
