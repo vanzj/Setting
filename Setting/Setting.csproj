@@ -274,6 +274,7 @@
       <CodeGenerator>NSwagCSharp</CodeGenerator>
     </None>
     <None Include="Design\projectGuides.guides" />
+    <None Include="Dll\Windows.winmd" />
     <None Include="Json\Base\1 - 复制%2810%29.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

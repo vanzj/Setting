@@ -6,6 +6,7 @@ using System.Drawing;
 using Newtonsoft.Json;
 using System.Drawing.Imaging;
 using System.Windows.Media;
+using System.Configuration;
 
 namespace GIfTool
 {
@@ -94,8 +95,8 @@ namespace GIfTool
 
 public class ColorConst
 {
-    public static string BackGroupColor => "#FFFFFFFF";
-    public static string AbcColor => "#FF234EDE";
+    public static string BackGroupColor => ConfigurationManager.AppSettings["Background"] ?? "#FF999999";
+    public static string AbcColor => ConfigurationManager.AppSettings["Foreground"] ?? "#FF234EDE";
 
 }
 

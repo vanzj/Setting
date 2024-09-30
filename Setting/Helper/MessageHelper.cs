@@ -255,7 +255,7 @@ namespace Setting.Helper
                 };
                 ThemeSegmentDataPoint oneframe = new ThemeSegmentDataPoint()
                 {
-                    frameRGB = show.Select(c => c.Fill.Color.ToString().Replace("#FF", "")).ToList(),
+                    frameRGB = show.Select(c => c.Fill.Color.ToString().Substring(3,6)).ToList(),
                     frameIndex = i.ToString()
                 };
                 oneseg.pointList = new List<ThemeSegmentDataPoint>() { oneframe };
