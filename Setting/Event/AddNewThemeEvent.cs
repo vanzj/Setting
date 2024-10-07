@@ -1,4 +1,5 @@
 ﻿using Setting.Model;
+using Setting.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,27 +11,27 @@ namespace Setting.Helper
 {
    public class InputNewThemeEvent
     {
-        public  DeviceInfo CurrentDevInfo { get; set; }
+        public ScreenDeviceInfoViewModel CurrentDevInfo { get; set; }
         public JsonFileInfo JsonFileInfo { get; set; }
     }
     public class CopyThemeEvent
     {
-        public DeviceInfo CurrentDevInfo { get; set; }
+        public ScreenDeviceInfoViewModel CurrentDevInfo { get; set; }
         public JsonFileInfo JsonFileInfo { get; set; }
     }
     public class NewThemeEvent
     {
-        public DeviceInfo CurrentDevInfo { get; set; }
+        public ScreenDeviceInfoViewModel CurrentDevInfo { get; set; }
         public JsonFileInfo JsonFileInfo { get; set; }
     }
     public class RemoveThemeEvent
     {
-        public DeviceInfo CurrentDevInfo { get; set; }
+        public ScreenDeviceInfoViewModel CurrentDevInfo { get; set; }
         public JsonFileInfo JsonFileInfo { get; set; }
     }
     public class ChangeThemeNameEvent
     {
-        public DeviceInfo CurrentDevInfo { get; set; }
+        public ScreenDeviceInfoViewModel CurrentDevInfo { get; set; }
         public JsonFileInfo JsonFileInfo { get; set; }
     }
 }

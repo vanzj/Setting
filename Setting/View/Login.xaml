@@ -93,28 +93,157 @@
             </Style.Triggers>
 
         </Style>
+        <SolidColorBrush x:Key="TextBox.Static.Border" Color="#FFABAdB3"/>
+        <SolidColorBrush x:Key="TextBox.MouseOver.Border" Color="#FF7EB4EA"/>
+        <SolidColorBrush x:Key="TextBox.Focus.Border" Color="#FF569DE5"/>
+        <Style x:Key="TextBoxStyle1" TargetType="{x:Type TextBox}">
+            <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource TextBox.Static.Border}"/>
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="KeyboardNavigation.TabNavigation" Value="None"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+            <Setter Property="AllowDrop" Value="true"/>
+            <Setter Property="ScrollViewer.PanningMode" Value="VerticalFirst"/>
+            <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TextBox}">
+                        <Grid>
+                            <Path Stroke="Black" StrokeThickness="0" Fill="Transparent">
+                                <Path.Data>
+                                    <PathGeometry>
+                                        <PathFigure StartPoint="0,5">
+                                            <LineSegment Point="5,0" />
+                                            <LineSegment Point="295,0" />
+                                            <LineSegment Point="295,27" />
+                                            <LineSegment Point="284,39" />
+                                            <LineSegment Point="0,39" />
+                                            <LineSegment Point="0,5" />
+                                        </PathFigure>
+                                    </PathGeometry>
+                                </Path.Data>
+                            </Path>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <MultiTrigger>
+                    <MultiTrigger.Conditions>
+                        <Condition Property="IsInactiveSelectionHighlightEnabled" Value="true"/>
+                        <Condition Property="IsSelectionActive" Value="false"/>
+                    </MultiTrigger.Conditions>
+                    <Setter Property="SelectionBrush" Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightBrushKey}}"/>
+                </MultiTrigger>
+            </Style.Triggers>
+        </Style>
     </UserControl.Resources>
     <Grid>
 
         <Grid.Background>
             <ImageBrush ImageSource="/Setting;component/img/Login/登录界面背景.png"/>
         </Grid.Background>
-        <Grid Width="531" Height="511" Margin="670,164,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" x:Name="RegGird" Visibility="Collapsed">
+        <Grid Width="531" Height="511" Margin="670,164,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" x:Name="RegGird"  Visibility="Collapsed">
             <Label HorizontalAlignment="Center" VerticalAlignment="Top" Foreground="White" Content="注册账号"  FontSize="48"/>
             <Grid  HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="531" Height="439" >
                 <Grid.Background>
                     <ImageBrush ImageSource="/Setting;component/img/Login/loading背景.png"/>
                 </Grid.Background>
-                <TextBox x:Name="mobile" HorizontalAlignment="Left" VerticalAlignment="Top" Width="295" Margin="191,75,0,0" Height="39" Background="#02000000" BorderBrush="#FFD6ABAB" Foreground="White">
-
+                <TextBox x:Name="mobile" HorizontalAlignment="Left" VerticalAlignment="Top" TextChanged="mobile_TextChanged"  Text="" FontSize="32"  Width="295" Margin="191,34,0,0" Height="39" Background="#422D31"  BorderThickness="0" Foreground="White">
+                    <TextBox.Clip>
+                        <PathGeometry>
+                            <PathFigure StartPoint="0,5">
+                                <LineSegment Point="5,0" />
+                                <LineSegment Point="295,0" />
+                                <LineSegment Point="295,27" />
+                                <LineSegment Point="284,39" />
+                                <LineSegment Point="0,39" />
+                                <LineSegment Point="0,5" />
+                            </PathFigure>
+                        </PathGeometry>
+                    </TextBox.Clip>
                 </TextBox>
-                <TextBox x:Name="password" HorizontalAlignment="Left" VerticalAlignment="Top" Width="295" Margin="191,129,0,0" Height="39" Background="#02000000" BorderBrush="#FFD6ABAB" Foreground="White">
+                <Label x:Name="mobileerror" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="red" Margin="191,73,0,0" FontSize="12" Content="" />
 
-                </TextBox>
-                <TextBox x:Name="Repassword"  HorizontalAlignment="Left" VerticalAlignment="Top" Width="295" Margin="191,190,0,0" Height="39" Background="#02FFFFFF" BorderBrush="#FFD6ABAB"  Foreground="White">
 
+
+                <PasswordBox  x:Name="password" HorizontalAlignment="Left" PasswordChanged="password_PasswordChanged"  VerticalAlignment="Top" FontSize="32"  Width="295" Margin="191,98,0,0" Height="39" Background="#422D31" BorderThickness="0" Foreground="White">
+                    <PasswordBox.Clip>
+                        <PathGeometry>
+                            <PathFigure StartPoint="0,5">
+                                <LineSegment Point="5,0" />
+                                <LineSegment Point="295,0" />
+                                <LineSegment Point="295,27" />
+                                <LineSegment Point="284,39" />
+                                <LineSegment Point="0,39" />
+                                <LineSegment Point="0,5" />
+                            </PathFigure>
+                        </PathGeometry>
+                    </PasswordBox.Clip>
+                </PasswordBox>
+                <TextBox  x:Name="passwordTextBox"  Visibility="Collapsed" HorizontalAlignment="Left" TextChanged="passwordTextBox_PasswordChanged"  VerticalAlignment="Top" FontSize="32"  Width="295" Margin="191,98,0,0" Height="39" Background="#422D31" BorderThickness="0" Foreground="White">
+                    <TextBox.Clip>
+                        <PathGeometry>
+                            <PathFigure StartPoint="0,5">
+                                <LineSegment Point="5,0" />
+                                <LineSegment Point="295,0" />
+                                <LineSegment Point="295,27" />
+                                <LineSegment Point="284,39" />
+                                <LineSegment Point="0,39" />
+                                <LineSegment Point="0,5" />
+                            </PathFigure>
+                        </PathGeometry>
+                    </TextBox.Clip>
                 </TextBox>
-                <Button HorizontalAlignment="Left" VerticalAlignment="Top" Height="60" Width="221" Margin="153,369,0,0" Style="{DynamicResource ButtonStyle1}" Click="Button_Click"  >
+
+                <Label x:Name="passworderror" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="red" Margin="191,137,0,0" FontSize="12" Content="" />
+                <PasswordBox x:Name="Repassword"  FontSize="32" PasswordChanged="Repassword_PasswordChanged" HorizontalAlignment="Left" VerticalAlignment="Top" Width="295" Margin="191,162,0,0" Height="39" Background="#422D31" BorderThickness="0"  Foreground="White">
+                    <PasswordBox.Clip>
+                        <PathGeometry>
+                            <PathFigure StartPoint="0,5">
+                                <LineSegment Point="5,0" />
+                                <LineSegment Point="295,0" />
+                                <LineSegment Point="295,27" />
+                                <LineSegment Point="284,39" />
+                                <LineSegment Point="0,39" />
+                                <LineSegment Point="0,5" />
+                            </PathFigure>
+                        </PathGeometry>
+                    </PasswordBox.Clip>
+                </PasswordBox>
+                <TextBox  x:Name="RepasswordTextBox" Visibility="Collapsed" HorizontalAlignment="Left" TextChanged="RepasswordTextBox_PasswordChanged"  VerticalAlignment="Top" FontSize="32"  Width="295" Margin="191,162,0,0" Height="39" Background="#422D31" BorderThickness="0" Foreground="White">
+                    <TextBox.Clip>
+                        <PathGeometry>
+                            <PathFigure StartPoint="0,5">
+                                <LineSegment Point="5,0" />
+                                <LineSegment Point="295,0" />
+                                <LineSegment Point="295,27" />
+                                <LineSegment Point="284,39" />
+                                <LineSegment Point="0,39" />
+                                <LineSegment Point="0,5" />
+                            </PathFigure>
+                        </PathGeometry>
+                    </TextBox.Clip>
+                </TextBox>
+                <Button x:Name="passwordChart" Width="20" Height="20" Margin="492,108,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"  Style="{DynamicResource ButtonStyle1}" Click="passwordChart_Click" RenderTransformOrigin="0.5,0.5">
+
+                    <Button.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform />
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Button.RenderTransform>
+                    <Button.Background>
+                        <ImageBrush ImageSource="/Setting;component/img/预览-打开_preview-open.png"/>
+                    </Button.Background>
+                </Button>
+                <Label x:Name="Repassworderror" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="red" Margin="191,201,0,0" FontSize="12" Content="" />
+                <Button HorizontalAlignment="Left" VerticalAlignment="Top" Height="60" Width="221" Margin="153,369,0,0" Style="{DynamicResource ButtonStyle1}" Click="Button_Click"  RenderTransformOrigin="0.5,0.5">
+
                     <Button.RenderTransform>
                         <TransformGroup>
                             <ScaleTransform />
@@ -127,45 +256,194 @@
                         <ImageBrush ImageSource="/Setting;component/img/Login/立即注册按钮.png"/>
                     </Button.Background>
                 </Button>
-                <Label HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="White" Margin="68,306,0,0" FontSize="24" >验  证  码</Label>
-                <TextBox x:Name="code" HorizontalAlignment="Left" VerticalAlignment="Top" Width="85" Margin="191,252,0,0" Height="39"  BorderBrush="#FFD6ABAB"   Foreground="White"/>
-                <Button HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="40" Margin="386,252,0,0" Click="Button_Click_1">
+                <Button x:Name="RepasswordChart" Width="20" Height="20" Margin="492,171,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"  Style="{DynamicResource ButtonStyle1}" Click="RepasswordChart_Click" RenderTransformOrigin="0.5,0.5">
+
+                    <Button.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform />
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Button.RenderTransform>
+                    <Button.Background>
+                        <ImageBrush ImageSource="/Setting;component/img/预览-打开_preview-open.png"/>
+                    </Button.Background>
+                </Button>
+                <Label HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="White" Margin="48,289,0,0" FontSize="24" Content="短信验证码" />
+                <TextBox x:Name="code" FontSize="32" HorizontalAlignment="Left" VerticalAlignment="Top" Width="295" Margin="191,226,0,0" Height="39"  Background="#422D31" BorderThickness="0" TextChanged="code_TextChanged"  Foreground="White">
+                    <TextBox.Clip>
+                        <PathGeometry>
+                            <PathFigure StartPoint="0,5">
+                                <LineSegment Point="5,0" />
+                                <LineSegment Point="295,0" />
+                                <LineSegment Point="295,27" />
+                                <LineSegment Point="284,39" />
+                                <LineSegment Point="0,39" />
+                                <LineSegment Point="0,5" />
+                            </PathFigure>
+                        </PathGeometry>
+                    </TextBox.Clip>
+                </TextBox>
+                <Image x:Name="msgCodeimg" HorizontalAlignment="Left" VerticalAlignment="Top"  Margin="338,226,0,0" MouseDown="msgCodeimg_MouseDown" Height="39" Width="147">
+                    <Image.Clip>
+                        <PathGeometry>
+                            <PathFigure StartPoint="0,5">
+                                <LineSegment Point="5,0" />
+                                <LineSegment Point="147,0" />
+                                <LineSegment Point="147,27" />
+                                <LineSegment Point="136,39" />
+                                <LineSegment Point="0,39" />
+                                <LineSegment Point="0,5" />
+                            </PathFigure>
+                        </PathGeometry>
+                    </Image.Clip>
+                </Image>
+                <Label x:Name="codeerror" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="red" Margin="191,265,0,0" FontSize="12" Content="" />
+                <TextBox x:Name="msgCode" HorizontalAlignment="Left" FontSize="32   " VerticalAlignment="Top" Width="295" Margin="191,290,0,0" Height="39" Background="#422D31" BorderThickness="0" TextChanged="msgCode_TextChanged"  Foreground="White">
+                    <TextBox.Clip>
+                        <PathGeometry>
+                            <PathFigure StartPoint="0,5">
+                                <LineSegment Point="5,0" />
+                                <LineSegment Point="295,0" />
+                                <LineSegment Point="295,27" />
+                                <LineSegment Point="284,39" />
+                                <LineSegment Point="0,39" />
+                                <LineSegment Point="0,5" />
+                            </PathFigure>
+                        </PathGeometry>
+                    </TextBox.Clip>
+                </TextBox>
+                <Button  HorizontalAlignment="Left" VerticalAlignment="Top" Width="98" Height="39" Margin="388,290,0,0" Click="RegsendMsg" Style="{DynamicResource ButtonStyle1}" RenderTransformOrigin="0.5,0.5">
+
+                    <Button.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform />
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Button.RenderTransform>
                     <Button.Background>
                         <ImageBrush ImageSource="/Setting;component/img/Login/发送验证码按钮.png"/>
                     </Button.Background>
                 </Button>
-                <TextBox x:Name="msgCode" HorizontalAlignment="Left" VerticalAlignment="Top" Width="214" Margin="191,307,0,0" Height="39" BorderBrush="#FFD6ABAB"  Foreground="White"/>
+                <Grid  x:Name="regTimeOutGrip" HorizontalAlignment="Left" VerticalAlignment="Top"  Margin="388,290,0,0"  Background="#FF540000" Width="98" Height="39"  Visibility="Collapsed">
+                    <Grid.Clip>
+                        <PathGeometry>
+                            <PathFigure StartPoint="0,5">
+                                <LineSegment Point="5,0" />
+                                <LineSegment Point="98,0" />
+                                <LineSegment Point="98,27" />
+                                <LineSegment Point="87,39" />
+                                <LineSegment Point="0,39" />
+                                <LineSegment Point="0,5" />
+                            </PathFigure>
+                        </PathGeometry>
+                    </Grid.Clip>
+                    <Label x:Name="regTimeout" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" Margin="0" FontSize="24" Content="60" />
+                </Grid>
 
-                <Image x:Name="msgCodeimg" HorizontalAlignment="Left" VerticalAlignment="Top"  Margin="281,253,0,0" MouseDown="msgCodeimg_MouseDown" Width="100"/>
-                <Label HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="White" Margin="68,253,0,0" FontSize="24" Content="验 证 码" />
-                <Label HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="White" Margin="68,190,0,0" FontSize="24" Content="确认密码" />
-                <Label HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="White" Margin="68,128,0,0" FontSize="24" Content="密码" />
-                <Label HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="White" Margin="68,74,0,0" FontSize="24" Content="手机号码" />
+
+                <Label x:Name="msgCodeerror" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="red" Margin="191,330,0,0" FontSize="12" Content="" />
+
+                <Label HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="White" Margin="44,227,0,0" FontSize="24" Content="图片验证码" />
+                <Label HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="White" Margin="68,162,0,0" FontSize="24" Content="确认密码" />
+                <Label HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="White" Margin="116,98,0,0" FontSize="24" Content="密码" />
+                <Label HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="White" Margin="68,33,0,0" FontSize="24" Content="手机号码" />
+
             </Grid>
         </Grid>
-        <Grid Width="531" Height="511" Margin="670,164,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" x:Name="MsgCodeGrid" Visibility="Hidden" >
+        <Grid Width="531" Height="511" Margin="670,164,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" x:Name="MsgCodeGrid"  Visibility="Collapsed" >
+            <Grid.Background>
+                <ImageBrush/>
+            </Grid.Background>
             <Label HorizontalAlignment="Center" VerticalAlignment="Top" Foreground="White" Content="验证码登录"  FontSize="48"/>
             <Grid HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="531" Height="439" >
                 <Grid.Background>
                     <ImageBrush ImageSource="/Setting;component/img/Login/loading背景.png"/>
                 </Grid.Background>
 
-                <Label x:Name="pwsMOdel" Foreground="White" FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="121,26,0,0" MouseDown="pwsMOdel_MouseDown" >账号密码</Label>
-                <TextBox x:Name="msgCodemobile" HorizontalAlignment="Left" VerticalAlignment="Top" Width="327" Margin="172,114,0,0" Height="39" Background="#02000000" BorderBrush="#FFD6ABAB"  Foreground="White">
+                <Border Height="50" Width="400" VerticalAlignment="Top" Background="#FF422D31" HorizontalAlignment="Center" Margin="0,27,0,0"  BorderThickness="1" BorderBrush="#FFFF001F" CornerRadius="5">
+                    <Grid   >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid MouseDown="pwsMOdel_MouseDown" Width="200" Height="48" Background="#01000000">
+                            <Label x:Name="pwsMOdel" Foreground="White" FontSize="24" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0"  Grid.ColumnSpan="2" >账号密码</Label>
 
+                        </Grid>
+                        <Border  Grid.Column="1" Background="#FF540000"  BorderThickness="1" CornerRadius="3" BorderBrush="#FFFF001F" >
+                            <Grid>
+                                <Label x:Name="pwsMOdel_Copy" Foreground="White" FontSize="24" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0"  Content="验证码" Grid.Column="1" />
+
+                            </Grid>
+                        </Border>
+
+
+                    </Grid>
+                </Border>
+                <TextBox x:Name="msgCodemobile" HorizontalAlignment="Left" VerticalAlignment="Top" Width="320" Margin="172,114,0,0" TextChanged="msgCodemobile_TextChanged" Height="39"  FontSize="32" Background="#422D31" BorderThickness="0"  Foreground="White">
+                    <TextBox.Clip>
+                        <PathGeometry>
+                            <PathFigure StartPoint="0,5">
+                                <LineSegment Point="5,0" />
+                                <LineSegment Point="320,0" />
+                                <LineSegment Point="320,27" />
+                                <LineSegment Point="309,39" />
+                                <LineSegment Point="0,39" />
+                                <LineSegment Point="0,5" />
+                            </PathFigure>
+                        </PathGeometry>
+                    </TextBox.Clip>
                 </TextBox>
-                <TextBox x:Name="msgCodepassword" HorizontalAlignment="Left" VerticalAlignment="Top" Width="327" Margin="172,173,0,0" Height="39" Background="#02000000" BorderBrush="#FFD6ABAB"  Foreground="White">
-
+                <Label x:Name="msgCodemobileerror" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="red" Margin="172,153,0,0" FontSize="12" Content="" />
+                <TextBox x:Name="msgCodemsgCode" HorizontalAlignment="Left" VerticalAlignment="Top" Width="320" Margin="172,178,0,0" Height="39" Background="#422D31" TextChanged="msgCodemsgCode_TextChanged"  FontSize="32" BorderThickness="0"  Foreground="White">
+                    <TextBox.Clip>
+                        <PathGeometry>
+                            <PathFigure StartPoint="0,5">
+                                <LineSegment Point="5,0" />
+                                <LineSegment Point="320,0" />
+                                <LineSegment Point="320,27" />
+                                <LineSegment Point="309,39" />
+                                <LineSegment Point="0,39" />
+                                <LineSegment Point="0,5" />
+                            </PathFigure>
+                        </PathGeometry>
+                    </TextBox.Clip>
                 </TextBox>
-                <TextBox x:Name="msgCodemsgCode" HorizontalAlignment="Left" VerticalAlignment="Top" Width="76" Margin="172,242,0,0" Height="39" Background="#02000000"  BorderBrush="#FFD6ABAB"  Foreground="White">
-
+                <Label x:Name="msgCodemsgCodeerror" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="red" Margin="172,218,0,0" FontSize="12" Content="" />
+                <TextBox x:Name="msgCodeCode" HorizontalAlignment="Left" VerticalAlignment="Top" Width="320" Margin="172,242,0,0" Height="39" Background="#422D31" TextChanged="msgCodeCode_TextChanged"  FontSize="32" BorderThickness="0"  Foreground="White">
+                    <TextBox.Clip>
+                        <PathGeometry>
+                            <PathFigure StartPoint="0,5">
+                                <LineSegment Point="5,0" />
+                                <LineSegment Point="320,0" />
+                                <LineSegment Point="320,27" />
+                                <LineSegment Point="309,39" />
+                                <LineSegment Point="0,39" />
+                                <LineSegment Point="0,5" />
+                            </PathFigure>
+                        </PathGeometry>
+                    </TextBox.Clip>
                 </TextBox>
-
-                <TextBox x:Name="msgCodeCode" HorizontalAlignment="Left" VerticalAlignment="Top" Width="152" Margin="172,295,0,0" Height="39" Background="#02000000"  BorderBrush="#FFD6ABAB"  Foreground="White">
-
-                </TextBox>
-                <Image x:Name="msgCodemsgCodeimg" HorizontalAlignment="Left" VerticalAlignment="Top" Height="39"  Margin="253,242,0,0" MouseDown="msgCodeimg_MouseDown" Width="126"></Image>
-                <Button HorizontalAlignment="Left" VerticalAlignment="Top" Height="39" Width="115" Margin="384,302,0,0" Style="{DynamicResource ButtonStyle1}" Click="Button_Click_3"  >
+                <Label x:Name="msgCodeCodeerror" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="red" Margin="172,280,0,0" FontSize="12" Content="" />
+                <Image x:Name="msgCodemsgCodeimg" HorizontalAlignment="Left" VerticalAlignment="Top" Height="39"  Margin="345,178,0,0" MouseDown="msgCodeimg_MouseDown" Width="147">
+                    <Image.Clip>
+                        <PathGeometry>
+                            <PathFigure StartPoint="0,5">
+                                <LineSegment Point="5,0" />
+                                <LineSegment Point="147,0" />
+                                <LineSegment Point="147,27" />
+                                <LineSegment Point="136,39" />
+                                <LineSegment Point="0,39" />
+                                <LineSegment Point="0,5" />
+                            </PathFigure>
+                        </PathGeometry>
+                    </Image.Clip>
+                </Image>
+                <Button HorizontalAlignment="Left" VerticalAlignment="Top" Height="39" Width="98" Margin="394,242,0,0" Style="{DynamicResource ButtonStyle1}" Click="msgCodRegsendMsg"   RenderTransformOrigin="0.5,0.5">
                     <Button.RenderTransform>
                         <TransformGroup>
                             <ScaleTransform />
@@ -178,8 +456,23 @@
                         <ImageBrush ImageSource="/Setting;component/img/Login/发送验证码按钮.png"/>
                     </Button.Background>
                 </Button>
+                <Grid  x:Name="regTimeOutmsgCodGrip" HorizontalAlignment="Left" VerticalAlignment="Top"   Margin="394,242,0,0"  Background="#FF540000" Width="98" Height="39" Visibility="Collapsed"  >
+                    <Grid.Clip>
+                        <PathGeometry>
+                            <PathFigure StartPoint="0,5">
+                                <LineSegment Point="5,0" />
+                                <LineSegment Point="98,0" />
+                                <LineSegment Point="98,27" />
+                                <LineSegment Point="87,39" />
+                                <LineSegment Point="0,39" />
+                                <LineSegment Point="0,5" />
+                            </PathFigure>
+                        </PathGeometry>
+                    </Grid.Clip>
+                    <Label x:Name="msgCodregTimeout" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" Margin="0" FontSize="24" Content="60" />
+                </Grid>
 
-                <Button HorizontalAlignment="Left" VerticalAlignment="Top" Height="60" Width="220" Margin="153,369,0,0"  Style="{DynamicResource ButtonStyle1}" Click="Button_Click_2"   >
+                <Button HorizontalAlignment="Left" VerticalAlignment="Top" Height="60" Width="220" Margin="153,369,0,0"  Style="{DynamicResource ButtonStyle1}" Click="msgCodeLogin"    RenderTransformOrigin="0.5,0.5">
                     <Button.RenderTransform>
                         <TransformGroup>
                             <ScaleTransform />
@@ -192,32 +485,106 @@
                         <ImageBrush ImageSource="/Setting;component/img/Login/登录按钮.png"/>
                     </Button.Background>
                 </Button>
-                <Label HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="White" Margin="61,296,0,0" FontSize="24" Content="验证码" />
-                <Label HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="White" Margin="32,241,0,0" FontSize="24" Content="图形验证码" />
-                <Label HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="White" Margin="85,183,0,0" FontSize="24" Content="密码" />
+                <Label HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="White" Margin="37,241,0,0" FontSize="24" Content="手机验证码" />
+                <Label HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="White" Margin="37,174,0,0" FontSize="24" Content="图形验证码" />
                 <Label HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="White" Margin="61,114,0,0" FontSize="24" Content="手机号码" />
-                <Label x:Name="pwsMOdel_Copy" Foreground="White" FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="340,26,0,0"  Content="验证码" />
+
             </Grid>
         </Grid>
-        <Grid Width="531" Height="511" Margin="670,164,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" x:Name="PWDGrid" Visibility="Collapsed"  >
+        <Grid Width="531" Height="511" Margin="670,164,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" x:Name="PWDGrid"  Visibility="Collapsed">
             <Label HorizontalAlignment="Center" VerticalAlignment="Top" Foreground="White" Content="账号密码登录"  FontSize="48"/>
-            <Grid   HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="531" Height="439" Opacity="0.75"  >
+            <Grid   HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="531" Height="439"   >
                 <Grid.Background>
                     <ImageBrush ImageSource="/Setting;component/img/Login/loading背景.png"/>
                 </Grid.Background>
 
-                <Label x:Name="msgCodeModel" Foreground="White" FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="327,30,0,0" MouseDown="msgCodeModel_MouseDown">验证码</Label>
-                <Label x:Name="手机号" Foreground="White" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="75,174,0,0">手机号</Label>
-                <Label x:Name="密码" Foreground="White" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="89,233,0,0">密码</Label>
-                <TextBox x:Name="pwsmobile" HorizontalAlignment="Left" Text="18758326825" VerticalAlignment="Top" Width="327" Margin="172,174,0,0" Height="39" Background="#22000000" BorderBrush="#FFD6ABAB"  Foreground="White">
+                <Border Height="50" Width="400" VerticalAlignment="Top" Background="#FF422D31" HorizontalAlignment="Center" Margin="0,27,0,0"  BorderThickness="1" BorderBrush="#FFFF001F" CornerRadius="5">
+                    <Grid   >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Border  Background="#FF540000"  BorderThickness="1" CornerRadius="3" BorderBrush="#FFFF001F" >
+                            <Grid >
+                                <Label Foreground="White" FontSize="24" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0"  Grid.ColumnSpan="2" >账号密码</Label>
 
+                            </Grid>
+                        </Border>
+
+                        <Grid  Grid.Column="1" MouseDown="msgCodeModel_MouseDown" Background="#01000000" Width="200" Height="48">
+                            <Label x:Name="msgCodeModel" Foreground="White" FontSize="24" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0"  Content="验证码" Grid.Column="1" />
+
+                        </Grid>
+
+                    </Grid>
+                </Border>
+
+                <Label x:Name="手机号" Foreground="White" FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="61,170,0,0">手机号码</Label>
+                <Label x:Name="密码" Foreground="White" FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="109,234,0,0">密码</Label>
+                <TextBox x:Name="pwsmobile" HorizontalAlignment="Left" TextChanged="pwsmobile_TextChanged"  VerticalAlignment="Top" FontSize="32"  Width="295" Margin="172,170,0,0" Height="39" Background="#422D31"  Text=""  BorderThickness="0" Foreground="White">
+                    <TextBox.Clip>
+                        <PathGeometry>
+                            <PathFigure StartPoint="0,5">
+                                <LineSegment Point="5,0" />
+                                <LineSegment Point="295,0" />
+                                <LineSegment Point="295,27" />
+                                <LineSegment Point="284,39" />
+                                <LineSegment Point="0,39" />
+                                <LineSegment Point="0,5" />
+                            </PathFigure>
+                        </PathGeometry>
+                    </TextBox.Clip>
                 </TextBox>
-                <TextBox x:Name="pwspassword" HorizontalAlignment="Left" Text="12345678" VerticalAlignment="Top" Width="327" Margin="172,233,0,0" Height="39" Background="#02000000" BorderBrush="#FFD6ABAB" Foreground="White">
+                <Label x:Name="pwsmobileerror" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="red" Margin="172,209,0,0" FontSize="12" Content="" />
 
+
+                <PasswordBox x:Name="pwspassword"  FontSize="32" PasswordChanged="pwspassword_PasswordChanged"  HorizontalAlignment="Left" VerticalAlignment="Top" Width="295" Margin="172,234,0,0" Height="39" Background="#422D31" BorderThickness="0" Password=""  Foreground="White">
+                    <PasswordBox.Clip>
+                        <PathGeometry>
+                            <PathFigure StartPoint="0,5">
+                                <LineSegment Point="5,0" />
+                                <LineSegment Point="295,0" />
+                                <LineSegment Point="295,27" />
+                                <LineSegment Point="284,39" />
+                                <LineSegment Point="0,39" />
+                                <LineSegment Point="0,5" />
+                            </PathFigure>
+                        </PathGeometry>
+                    </PasswordBox.Clip>
+                </PasswordBox>
+                <TextBox  x:Name="pwspasswordTextBox" Visibility="Collapsed"  HorizontalAlignment="Left" TextChanged="pwspasswordTextBox_TextChanged"  VerticalAlignment="Top" FontSize="32"  Width="295" Margin="172,234,0,0" Height="39" Background="#422D31" BorderThickness="0" Foreground="White">
+                    <TextBox.Clip>
+                        <PathGeometry>
+                            <PathFigure StartPoint="0,5">
+                                <LineSegment Point="5,0" />
+                                <LineSegment Point="295,0" />
+                                <LineSegment Point="295,27" />
+                                <LineSegment Point="284,39" />
+                                <LineSegment Point="0,39" />
+                                <LineSegment Point="0,5" />
+                            </PathFigure>
+                        </PathGeometry>
+                    </TextBox.Clip>
                 </TextBox>
+                <Label x:Name="pwspassworderror" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="red" Margin="172,273,0,0" FontSize="12" Content="" />
+
+                <Button x:Name="pwspasswordChart" Width="20" Height="20" Margin="476,241,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"  Style="{DynamicResource ButtonStyle1}" Click="pwspasswordChart_Click" RenderTransformOrigin="0.5,0.5">
+
+                    <Button.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform />
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Button.RenderTransform>
+                    <Button.Background>
+                        <ImageBrush ImageSource="/Setting;component/img/预览-打开_preview-open.png"/>
+                    </Button.Background>
+                </Button>
 
 
-                <Button HorizontalAlignment="Left" VerticalAlignment="Top" Height="60" Width="220" Margin="154,367,0,0" Style="{DynamicResource ButtonStyle1}" Click="Button_Click_4"  >
+                <Button HorizontalAlignment="Left" VerticalAlignment="Top" Height="60" Width="220" Margin="154,367,0,0" Style="{DynamicResource ButtonStyle1}" Click="Button_Click_4"  RenderTransformOrigin="0.5,0.5">
                     <Button.RenderTransform>
                         <TransformGroup>
                             <ScaleTransform />
@@ -231,22 +598,22 @@
                     </Button.Background>
                 </Button>
 
-                <Label  Foreground="White" FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="106,30,0,0"  >账号密码</Label>
+
 
             </Grid>
         </Grid>
-        <StackPanel HorizontalAlignment="Left" Orientation="Horizontal" VerticalAlignment="Top" Width="100" Margin="879,687,0,0">
+        <StackPanel HorizontalAlignment="Left" Orientation="Horizontal" VerticalAlignment="Top" Width="100" Margin="879,687,0,0" >
             <Label x:Name="Reg" Foreground="Wheat" FontSize="20" MouseDown="Reg_MouseDown">注册</Label>
             <Label x:Name="Loginlabel" Foreground="Wheat" FontSize="20" MouseDown="Login_MouseDown">登录</Label>
         </StackPanel>
 
-        <Grid Width="531" Height="511" Margin="670,164,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" x:Name="Loading" Opacity="0.8"  >
+        <Grid Width="531" Height="511" Margin="670,164,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" x:Name="Loading" Opacity="0.8"   >
             <Label HorizontalAlignment="Center" VerticalAlignment="Top" Foreground="White" Content="初始化加载"  FontSize="48"/>
-            <StackPanel Orientation="Vertical" Name="LoadingStackPanel" HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="531" Height="439">
+            <StackPanel x:Name="LoadingInfo" Orientation="Vertical"  HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="531" Height="439">
                 <StackPanel.Background>
                     <ImageBrush ImageSource="/Setting;component/img/Login/loading背景.png"/>
                 </StackPanel.Background>
-                
+
             </StackPanel>
 
         </Grid>

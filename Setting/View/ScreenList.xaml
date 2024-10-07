@@ -89,24 +89,24 @@
                             <ImageBrush ImageSource="/Setting;component/img/Login/屏幕背景.png" Stretch="Uniform"/>
                         </Button.Background>
                         <Grid  Width="130"  Height="89" >
-                            <Label   Content="{Binding Name }" FontSize="14" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,4" ></Label>
+                            <Label   Content="{Binding DeviceInfo.Name }" FontSize="14" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,4" ></Label>
                         </Grid>
                    
                     </Button>
                     <Grid  Width="130" Height="89"  Visibility="{Binding ReName}" Background="White">
-                        <TextBox   Text="{Binding Name}"  BorderThickness="0" HorizontalAlignment="Center" VerticalAlignment="Center" >
+                        <TextBox   Text="{Binding DeviceInfo.Name }"  BorderThickness="0" HorizontalAlignment="Center" VerticalAlignment="Center" >
                         </TextBox>
                     </Grid>
 
                     <Popup x:Name="popup" Placement="Right" IsOpen="{Binding PopupOpen,Mode=TwoWay}" Width="100" Height="89"  >
 
-                        <StackPanel Orientation="Vertical"  Width="100" Height="100" >
+                        <StackPanel Orientation="Vertical"  Width="100" Height="89" >
                             <StackPanel.Background>
-                                <ImageBrush ImageSource="/Setting;component/img/UI/主题修改弹窗.png"/>
+                                <ImageBrush ImageSource="/Setting;component/img/Login/屏幕编辑背景.png"/>
                             </StackPanel.Background>
-                          
-                            <Button Width="40" Height="33" Command="{Binding ReMoveCommand}"  CommandParameter="{Binding}"   Style="{DynamicResource ButtonStyle1}">删除</Button>
-                            <Button Width="40" Height="33"  Command="{Binding BeginRenameCommand}" Visibility="{Binding  Read}"  CommandParameter="{Binding}"  Style="{DynamicResource ButtonStyle1}">重命名</Button>
+
+                            <Button Width="40" Height="33" Command="{Binding ReMoveCommand}"  CommandParameter="{Binding}"     Style="{DynamicResource ButtonStyle1}">删除</Button>
+                            <Button Width="40" Height="33"  Command="{Binding BeginRenameCommand}" Visibility="{Binding  Read}" IsEnabled="False"  CommandParameter="{Binding}"  Style="{DynamicResource ButtonStyle1}">重命名</Button>
                             <Button Width="40" Height="33" Command="{Binding EndRenameCommand}" Visibility="{Binding ReName}"   CommandParameter="{Binding}" Style="{DynamicResource ButtonStyle1}" >保存</Button>
                         </StackPanel>
                     </Popup>

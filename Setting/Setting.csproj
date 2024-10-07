@@ -65,17 +65,14 @@
     <Reference Include="HidSharp, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\HidSharp.2.1.0\lib\net35\HidSharp.dll</HintPath>
     </Reference>
-    <Reference Include="LibreHardwareMonitorLib, Version=0.9.4.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\LibreHardwareMonitorLib.0.9.4-pre346\lib\net472\LibreHardwareMonitorLib.dll</HintPath>
+    <Reference Include="LibreHardwareMonitorLib, Version=0.9.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\LibreHardwareMonitorLib.0.9.3\lib\net472\LibreHardwareMonitorLib.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <HintPath>..\packages\NLog.5.3.4\lib\net46\NLog.dll</HintPath>
-    </Reference>
-    <Reference Include="OpenHardwareMonitorLib, Version=0.9.6.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\OpenHardwareMonitor.0.9.6\lib\net45\OpenHardwareMonitorLib.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.CodeDom, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -119,6 +116,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Event\CanChangeScreenEvent.cs" />
+    <Compile Include="Event\LostScreenEvent.cs" />
     <Compile Include="Event\FindScreenEvent.cs" />
     <Compile Include="Event\GetThemeList.cs" />
     <Compile Include="Event\HttpMsgEvent.cs" />
@@ -128,7 +127,11 @@
     <Compile Include="Event\LiveStartEvent.cs" />
     <Compile Include="Event\LoadedEvent.cs" />
     <Compile Include="Event\LumianceChangeEvent.cs" />
+    <Compile Include="Event\RemoveScreenInfoEvent.cs" />
+    <Compile Include="Event\ScreenClickedEvent.cs" />
+    <Compile Include="Event\ScreenReConnactEvent.cs" />
     <Compile Include="Event\SendStartEvent.cs" />
+    <Compile Include="Event\ScreenLotFocusEvent.cs" />
     <Compile Include="Event\ThemeLotFocusEvent.cs" />
     <Resource Include="img\UI\画面上%402x.png" />
     <Resource Include="img\UI\画面下%402x.png" />
@@ -179,6 +182,10 @@
     <Resource Include="img\Login\账号注册背景.png" />
     <Resource Include="img\Login\退出登录.png" />
     <Resource Include="img\Login\验证码倒计时背景.png" />
+    <Resource Include="img\预览-关闭_preview-close.png" />
+    <Resource Include="img\预览-打开_preview-open.png" />
+    <Resource Include="img\Login\退出登录背景.png" />
+    <Resource Include="img\Login\屏幕编辑背景.png" />
     <Content Include="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -188,8 +195,7 @@
     <Compile Include="Event\AddNewThemeEvent.cs" />
     <Compile Include="Helper\BitmapHelper.cs" />
     <Compile Include="Helper\Const.cs" />
-    <Compile Include="Helper\GPUHelper.cs" />
-    <Compile Include="Helper\CPUHelper.cs" />
+    <Compile Include="Helper\HardwareHelper.cs" />
     <Compile Include="Event\HardInfoEvent.cs" />
     <Compile Include="Event\CursorModelChangeEvent.cs" />
     <Compile Include="Helper\CursorSafeHandle.cs" />
@@ -237,6 +243,9 @@
     <Compile Include="View\ColorPicker.xaml.cs">
       <DependentUpon>ColorPicker.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\LoadingInfoItem.xaml.cs">
+      <DependentUpon>LoadingInfoItem.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\MessageBox.xaml.cs">
       <DependentUpon>MessageBox.xaml</DependentUpon>
     </Compile>
@@ -265,6 +274,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="View\ColorPicker.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\LoadingInfoItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -404,6 +417,9 @@
       <Project>{cc9d10d6-fdeb-4a17-9e92-8eefe3cd9b4a}</Project>
       <Name>GIfTool</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

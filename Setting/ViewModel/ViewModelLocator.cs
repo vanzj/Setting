@@ -46,18 +46,18 @@ namespace Setting.ViewModel
             SimpleIoc.Default.Register<PointListViewModel>();//TODO  
             SimpleIoc.Default.Register<MainViewModel>();
             SimpleIoc.Default.Register<ThemeListViewModel>();
-            SimpleIoc.Default.Register<ScreenInfoViewModel>();
+            SimpleIoc.Default.Register<ScreenInfoListViewModel>();
             
 
 
         }
 
-        public ScreenInfoViewModel ScreenInfoList
+        public ScreenInfoListViewModel ScreenInfoList
 
         {
             get
             {
-                var a = ServiceLocator.Current.GetInstance<ScreenInfoViewModel>();
+                var a = ServiceLocator.Current.GetInstance<ScreenInfoListViewModel>();
                 return a;
             }
         }

@@ -7,7 +7,7 @@ using Webapi;
 
 namespace Setting.Event
 {
-  public  class FindScreenEvent
+  public  class LostScreenEvent
     {
         public bool isLocal { get; set; }
         public List<DeviceInfo> DeviceInfos { get; set; }

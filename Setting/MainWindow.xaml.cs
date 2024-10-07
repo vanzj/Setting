@@ -173,7 +173,7 @@ namespace Setting
 
         private void Storyboard_Completed(object sender, EventArgs e)
         {
-            this.button1.IsEnabled = true;
+     
         }
 
         private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
@@ -196,6 +196,21 @@ namespace Setting
 
             });
             
+        }
+
+        private void ScreenList_MouseLeave(object sender, MouseEventArgs e)
+        {
+            Messenger.Default.Send(new ScreenLotFocusEvent { });
+        }
+
+        private void Logoutgrip_MouseLeave(object sender, MouseEventArgs e)
+        {
+            this.Logoutgrip.Visibility = Visibility.Collapsed;
+        }
+
+        private void Grid_MouseDown_1(object sender, MouseButtonEventArgs e)
+        {
+            this.Logoutgrip.Visibility = Visibility.Visible;
         }
     }
 

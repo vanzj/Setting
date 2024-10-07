@@ -14,7 +14,7 @@
         WindowStyle="None" ResizeMode="CanResizeWithGrip">
     <Window.Resources>
 
-        <local1:MultiValueConverter x:Key="MultiValueConverter"/>
+        <local1:MultiValueConverter x:Key="MultiValueConverterInstance"/>
         <local1:CurrentFrameConventer x:Key="CurrentFrameConventer"/>
         <Style x:Key="FocusVisual">
             <Setter Property="Control.Template">
@@ -355,19 +355,10 @@
             </Style.Triggers>
         </Style>
         <Storyboard x:Key="SendStory" Completed="Storyboard_Completed">
-            <BooleanAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.IsEnabled)" Storyboard.TargetName="button1">
-                <DiscreteBooleanKeyFrame KeyTime="0" Value="False"/>
-                <DiscreteBooleanKeyFrame KeyTime="0:0:3" Value="True"/>
-            </BooleanAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="button1">
-                <EasingDoubleKeyFrame KeyTime="0" Value="0.8"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="0.3"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:1" Value="0.8"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:1.5" Value="0.3"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:2" Value="0.8"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:2.5" Value="0.3"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:3" Value="0.8"/>
-            </DoubleAnimationUsingKeyFrames>
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="button1mask">
+                <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
+                <DiscreteObjectKeyFrame KeyTime="0:0:3" Value="{x:Static Visibility.Collapsed}"/>
+            </ObjectAnimationUsingKeyFrames>
         </Storyboard>
 
     </Window.Resources>
@@ -384,7 +375,7 @@
 
 
             <Grid >
-                <myview:ScreenList HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,106,0,0" Width="230" Height="570"></myview:ScreenList>
+                <myview:ScreenList HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,106,0,0" Width="230" Height="570" MouseLeave="ScreenList_MouseLeave"></myview:ScreenList>
                 <Button Style="{DynamicResource ButtonStyle1}" Visibility="{Binding VisibilityRight }" Command="{Binding RightCommand }" DataContext="{Binding Path=ScreenInfoList,Source={StaticResource Locator}}"  HorizontalAlignment="Left" VerticalAlignment="Top" Width="22" Height="12"  RenderTransformOrigin="0.5,0.5" Margin="56,729,0,0">
                     <Button.RenderTransform>
                         <TransformGroup>
@@ -414,7 +405,10 @@
 
             </Grid>
 
-            <Grid Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="128,0,0,0">
+            <Grid Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="128,0,0,0" Height="749" Width="1172">
+                <Grid.Background>
+                    <ImageBrush/>
+                </Grid.Background>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="64"/>
                     <RowDefinition Height="139"/>
@@ -424,14 +418,14 @@
                     <RowDefinition Height="41"/>
                 </Grid.RowDefinitions>
                 <Grid Margin="204,3,0,0" Width="300" HorizontalAlignment="Left">
-                    <Label HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" FontSize="20">我的屏幕</Label>
+                    <Label HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" FontSize="20" Content="{Binding ScreenName}"></Label>
                 </Grid>
-                <Grid Margin="889,3,0,0" Width="100" HorizontalAlignment="Left" VerticalAlignment="Center">
-                    <Label HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="White" FontSize="16">游客</Label>
+                <Grid Margin="889,3,0,0" Width="100" HorizontalAlignment="Left" VerticalAlignment="Center" Background="#01000000" MouseDown="Grid_MouseDown_1">
+                    <Label HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" FontSize="16">游客</Label>
                 </Grid>
 
 
-            
+
                 <myview:Theme  Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,54,0,0"  MouseLeave="Theme_MouseLeave" Height="100" Grid.RowSpan="2" Background="#02000000"></myview:Theme>
                 <Button Style="{DynamicResource ButtonStyle1}" Visibility="{Binding VisibilityRight }" Command="{Binding RightCommand }" DataContext="{Binding Path=ThemeList,Source={StaticResource Locator}}"  HorizontalAlignment="Left" VerticalAlignment="Top"  Grid.Row="1" Width="20" Height="75" Margin="1103,44,0,0"  RenderTransformOrigin="0.5,0.5">
                     <Button.RenderTransform>
@@ -557,7 +551,7 @@
                             </TransformGroup>
                         </Button.RenderTransform>
                         <Button.IsEnabled>
-                            <MultiBinding Converter="{StaticResource MultiValueConverter}" >
+                            <MultiBinding Converter="{StaticResource MultiValueConverterInstance}" >
                                 <Binding Path="StartLive"/>
                                 <Binding Path="Outgif"/>
                             </MultiBinding>
@@ -574,7 +568,7 @@
                     <!-- 上下左右-->
                     <Button Width="68" Height="30.581"  Command="{Binding BottomCommand}"   Style="{DynamicResource ButtonStyle1}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="979,238.753,0,0" RenderTransformOrigin="0.5,0.5"  >
                         <Button.IsEnabled>
-                            <MultiBinding Converter="{StaticResource MultiValueConverter}" >
+                            <MultiBinding Converter="{StaticResource MultiValueConverterInstance}" >
                                 <Binding Path="StartLive"/>
                                 <Binding Path="Outgif"/>
                             </MultiBinding>
@@ -594,7 +588,7 @@
                     </Button>
                     <Button Height="68" Width="30.581"  Command="{Binding LeftCommand}" Style="{DynamicResource ButtonStyle1}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="961.166,181.169,0,0"    RenderTransformOrigin="0.5,0.5">
                         <Button.IsEnabled>
-                            <MultiBinding Converter="{StaticResource MultiValueConverter}" >
+                            <MultiBinding Converter="{StaticResource MultiValueConverterInstance}" >
                                 <Binding Path="StartLive"/>
                                 <Binding Path="Outgif"/>
                             </MultiBinding>
@@ -614,7 +608,7 @@
                     </Button>
                     <Button  Height="68" Width="30.581"  Command="{Binding RightCommand}" Style="{DynamicResource ButtonStyle1}"  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="1035,181.169,0,0"    RenderTransformOrigin="0.5,0.5">
                         <Button.IsEnabled>
-                            <MultiBinding Converter="{StaticResource MultiValueConverter}" >
+                            <MultiBinding Converter="{StaticResource MultiValueConverterInstance}" >
                                 <Binding Path="StartLive"/>
                                 <Binding Path="Outgif"/>
                             </MultiBinding>
@@ -634,7 +628,7 @@
                     </Button>
                     <Button Width="68" Height="30.582"  Command="{Binding TopCommand}"   Style="{DynamicResource ButtonStyle1}"    HorizontalAlignment="Left" VerticalAlignment="Top" Margin="979.832,161.898,0,0"    RenderTransformOrigin="0.5,0.5">
                         <Button.IsEnabled>
-                            <MultiBinding Converter="{StaticResource MultiValueConverter}" >
+                            <MultiBinding Converter="{StaticResource MultiValueConverterInstance}" >
                                 <Binding Path="StartLive"/>
                                 <Binding Path="Outgif"/>
                             </MultiBinding>
@@ -669,7 +663,7 @@
                     </StackPanel>
                     <Button Width="100.063" Height="31.896"   Command="{Binding LeftFrameCommand}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="671.417,181.169,0,0"  Style="{DynamicResource ButtonStyle1}"   RenderTransformOrigin="0.5,0.5">
                         <Button.IsEnabled>
-                            <MultiBinding Converter="{StaticResource MultiValueConverter}" >
+                            <MultiBinding Converter="{StaticResource MultiValueConverterInstance}" >
                                 <Binding Path="StartLive"/>
                                 <Binding Path="Outgif"/>
                             </MultiBinding>
@@ -688,7 +682,7 @@
                     </Button>
                     <Button Width="100.063" Height="31.896"  Command="{Binding RightframeCommand}" Style="{DynamicResource ButtonStyle1}" Margin="789.5,181.169,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"   RenderTransformOrigin="0.5,0.5">
                         <Button.IsEnabled>
-                            <MultiBinding Converter="{StaticResource MultiValueConverter}" >
+                            <MultiBinding Converter="{StaticResource MultiValueConverterInstance}" >
                                 <Binding Path="StartLive"/>
                                 <Binding Path="Outgif"/>
                             </MultiBinding>
@@ -707,7 +701,7 @@
                     </Button>
                     <Button Width="100.063" Height="31.896"    Command="{Binding AddRightFrameCommand}" Style="{DynamicResource ButtonStyle1}" Margin="671.417,228.583,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"   RenderTransformOrigin="0.5,0.5">
                         <Button.IsEnabled>
-                            <MultiBinding Converter="{StaticResource MultiValueConverter}" >
+                            <MultiBinding Converter="{StaticResource MultiValueConverterInstance}" >
                                 <Binding Path="AddFrame"/>
                                 <Binding Path="Outgif"/>
                             </MultiBinding>
@@ -726,7 +720,7 @@
                     </Button>
                     <Button Width="100.063" Height="31.896"    Command="{Binding DeleteFrameCommand}" Style="{DynamicResource ButtonStyle1}" Margin="789.5,228.583,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"   RenderTransformOrigin="0.5,0.5">
                         <Button.IsEnabled>
-                            <MultiBinding Converter="{StaticResource MultiValueConverter}" >
+                            <MultiBinding Converter="{StaticResource MultiValueConverterInstance}" >
                                 <Binding Path="RemoveFrame"/>
                                 <Binding Path="Outgif"/>
                             </MultiBinding>
@@ -749,7 +743,7 @@
 
                     <Button Width="81.917" Height="26.417"  Command="{Binding ChangeCursorCommand }"   CommandParameter="{x:Static enum:CursorEnum.MOVE}" Style="{DynamicResource ButtonStyle1}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="55.75,25.833,0,0"   RenderTransformOrigin="0.5,0.5">
                         <Button.IsEnabled>
-                            <MultiBinding Converter="{StaticResource MultiValueConverter}" >
+                            <MultiBinding Converter="{StaticResource MultiValueConverterInstance}" >
                                 <Binding Path="StartLive"/>
                                 <Binding Path="Outgif"/>
                             </MultiBinding>
@@ -770,7 +764,7 @@
 
                     <Button x:Name="button" Width="90.167" Height="26.417"   Command="{Binding ChangeCursorCommand }"   CommandParameter="{x:Static enum:CursorEnum.Magic}" Style="{DynamicResource ButtonStyle1}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="153.833,25.833,0,0" RenderTransformOrigin="0.5,0.5">
                         <Button.IsEnabled>
-                            <MultiBinding Converter="{StaticResource MultiValueConverter}" >
+                            <MultiBinding Converter="{StaticResource MultiValueConverterInstance}" >
                                 <Binding Path="StartLive"/>
                                 <Binding Path="Outgif"/>
                             </MultiBinding>
@@ -790,7 +784,7 @@
                     </Button>
                     <Button Width="89.25" Height="26.417"   Command="{Binding ChangeCursorCommand }"   CommandParameter="{x:Static enum:CursorEnum.ERASE}"  Style="{DynamicResource ButtonStyle1}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="259.625,25.833,0,0"   RenderTransformOrigin="0.5,0.5">
                         <Button.IsEnabled>
-                            <MultiBinding Converter="{StaticResource MultiValueConverter}" >
+                            <MultiBinding Converter="{StaticResource MultiValueConverterInstance}" >
                                 <Binding Path="StartLive"/>
                                 <Binding Path="Outgif"/>
                             </MultiBinding>
@@ -815,11 +809,11 @@
 
 
                     <!--亮度 -->
-                    <viewmodel:SliderWithDebounce Width="238"  Maximum="255" Value="{Binding Luminance}" NewValueChanged="Slider_ValueChanged" SmallChange="1" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="White" Margin="325.833,258,0,0" Style="{DynamicResource SliderStyle1}"    RenderTransformOrigin="0.5,0.5"/>
+                    <viewmodel:SliderWithDebounce Width="238"  Maximum="255" Value="{Binding Luminance}" IsEnabled="{Binding SeedEnabled}"  NewValueChanged="Slider_ValueChanged" SmallChange="1" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="White" Margin="325.833,258,0,0" Style="{DynamicResource SliderStyle1}"    RenderTransformOrigin="0.5,0.5"/>
 
 
 
-                    <Button Width="57" Height="24"   Command="{Binding SendCloseSendMessageCommand}"   Visibility="{Binding Close}"  Style="{DynamicResource ButtonStyle1}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="379,197,0,0"    RenderTransformOrigin="0.5,0.5">
+                    <Button Width="57" Height="24"   Command="{Binding SendCloseSendMessageCommand}"   Visibility="{Binding Close}" IsEnabled="{Binding SeedEnabled}"  Style="{DynamicResource ButtonStyle1}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="379,197,0,0"    RenderTransformOrigin="0.5,0.5">
 
                         <Button.RenderTransform>
                             <TransformGroup>
@@ -835,7 +829,7 @@
 
                         <Image Source="img/UI/开关按钮.png" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="-25,0,0,0" Width="18"></Image>
                     </Button>
-                    <Button Width="57" Height="24"   Command="{Binding SendOpenSendMessageCommand}"  Visibility="{Binding Open}"    Style="{DynamicResource ButtonStyle1}"  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="379,197,0,0"    RenderTransformOrigin="0.5,0.5">
+                    <Button Width="57" Height="24"   Command="{Binding SendOpenSendMessageCommand}"  Visibility="{Binding Open}" IsEnabled="{Binding SeedEnabled}"    Style="{DynamicResource ButtonStyle1}"  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="379,197,0,0"    RenderTransformOrigin="0.5,0.5">
 
                         <Button.RenderTransform>
                             <TransformGroup>
@@ -881,7 +875,7 @@
                             <ImageBrush ImageSource="img/UI/主题-预览结束.png"/>
                         </Button.Background>
                     </Button>
-                    <Button x:Name="button1" Width="68.75" Height="24.584"   Command="{Binding SendOnepackageCommandTwo}"   Style="{DynamicResource ButtonStyle1}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="984.167,9.569,0,0" RenderTransformOrigin="0.5,0.5">
+                    <Button x:Name="button1" Width="68.75" Height="24.584"   Command="{Binding SendOnepackageCommandTwo}"  IsEnabled="{Binding SeedEnabled}"  Style="{DynamicResource ButtonStyle1}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="984.167,9.569,0,0" RenderTransformOrigin="0.5,0.5">
                         <Button.RenderTransform>
                             <TransformGroup>
                                 <ScaleTransform />
@@ -894,6 +888,9 @@
                             <ImageBrush ImageSource="img/UI/主题-应用.png"/>
                         </Button.Background>
                     </Button>
+                    <Grid x:Name="button1mask" Width="68.75" Height="24.584" Visibility="Collapsed" Background="#01000000"  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="984.167,9.569,0,0" RenderTransformOrigin="0.5,0.5">
+                        
+                    </Grid>
 
                     <Button Width="69.25" Height="22.903" IsEnabled="{Binding Outgif}"  Command="{Binding SaveCommand}"  Style="{DynamicResource ButtonStyle1}"  Margin="1071.25,11.25,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"     RenderTransformOrigin="0.5,0.5">
 
@@ -915,20 +912,26 @@
 
 
 
-
-
-                <Grid  Width="83" Height="24" Margin="896,19,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" MouseDown="Grid_MouseDown">
+           
+                <Grid  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="821,51,0,0" Width="241" Height="155" Grid.RowSpan="3" x:Name="Logoutgrip" MouseLeave="Logoutgrip_MouseLeave" Visibility="Collapsed">
                     <Grid.Background>
-                        <ImageBrush ImageSource="img/Login/退出登录.png"/>
+                        <ImageBrush ImageSource="img/Login/退出登录背景.png"/>
                     </Grid.Background>
+
+                    <Grid  Width="83" Height="24" Margin="0,0,0,30" HorizontalAlignment="Center" VerticalAlignment="Bottom" MouseDown="Grid_MouseDown" Grid.Row="1">
+                        <Grid.Background>
+                            <ImageBrush ImageSource="img/Login/退出登录.png"/>
+                        </Grid.Background>
+
+                    </Grid>
 
                 </Grid>
 
 
             </Grid>
-            <Grid Width="959" Height="65" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.ColumnSpan="2" Cursor="Cross" MouseLeftButtonDown="Grid_MouseLeftButtonDown" Background="#021FBF1F"></Grid>
+          
             <myview:Login x:Name="Login"  HorizontalAlignment="Left" VerticalAlignment="Top" Grid.ColumnSpan="2" Visibility="Collapsed" ></myview:Login>
-
+            <Grid Width="959" Height="65" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.ColumnSpan="2" Cursor="Cross" MouseLeftButtonDown="Grid_MouseLeftButtonDown" Background="#021FBF1F"></Grid>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="1125,0,0,0" Width="200" Height="100">
                 <Button Style="{DynamicResource ButtonStyle1}"   HorizontalAlignment="Left" VerticalAlignment="Top" Width="59" Height="40"  Click="Button_Click" RenderTransformOrigin="0.5,0.5" Margin="3,11,0,0">
                     <Button.RenderTransform>

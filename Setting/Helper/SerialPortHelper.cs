@@ -20,10 +20,9 @@ namespace Setting.Helper
 {
     public class SerialPortHelper
     {
-
+        private Dictionary<string, string> devNoComNo = new Dictionary<string, string>();
         private MYSerialDevice MYSerialDevice { get; set; }
         private Dictionary<DeviceWatcher, String> mapDeviceWatchersToDeviceSelector;
-        private List<DeviceListEntry> listOfDevices;
 
         public List<string> ScanDeviceComportsAsync()
         {
@@ -55,29 +54,94 @@ namespace Setting.Helper
 
         private SerialPortHelper()
         {
-            listOfDevices = new List<DeviceListEntry>();
+           
             // 设置WMI查询来监听串口设备的添加和移除事件
             mapDeviceWatchersToDeviceSelector = new Dictionary<DeviceWatcher, String>();
             timer = new System.Timers.Timer();
             timer.Elapsed += Timer_Tick; ; // 订阅Tick事件
             timer.Interval = 1000; // 设置计时器的时间间隔为1秒
-            timer.AutoReset = true;
-            timer.Enabled = true;
             t = new Thread(TimerRead_Tick);
             t.Start();
             InitializeDeviceWatchers();
             StartDeviceWatchers();
+            Messenger.Default.Register<ScreenClickedEvent>(this, HandleScreenClickedEvent);
+            Messenger.Default.Register<ScreenReConnactEvent>(this, HandleScreenReConnactEvent);
+            
         }
-        private Boolean watchersStarted;
 
-        // Has all the devices enumerated by the device watcher?
-        private Boolean isAllDevicesEnumerated;
+        private void HandleScreenReConnactEvent(ScreenReConnactEvent obj)
+        {
+            CurrentCOMID = "";
+            if (MYSerialDevice != null)
+            {
+                MYSerialDevice.COMID = obj.ComId;
+                MYSerialDevice?.SerialDevice?.Dispose();
+                MYSerialDevice.IsConnect = false;
+            }
+            if (!string.IsNullOrEmpty(obj.ComId))
+            {
+                MYSerialDevice.SerialDevice = SerialDevice.FromIdAsync(obj.ComId).GetAwaiter().GetResult();
+                CurrentCOMID = obj.ComId;
+                if (MYSerialDevice.SerialDevice != null)
+                {
+                    MYSerialDevice.SerialDevice.BaudRate = 115200;
+                    MYSerialDevice.SerialDevice.Handshake = SerialHandshake.None;
+                    MYSerialDevice.SerialDevice.Parity = SerialParity.None;
+                    MYSerialDevice.SerialDevice.DataBits = 8;
+                    MYSerialDevice.SerialDevice.StopBits = SerialStopBitCount.One;
+                    MYSerialDevice.SerialDevice.ReadTimeout = TimeSpan.FromSeconds(0.1);
+                    MYSerialDevice.SerialDevice.WriteTimeout = TimeSpan.FromSeconds(10);
+                    MYSerialDevice.SerialDevice.IsRequestToSendEnabled = false;
+                    MYSerialDevice.SerialDevice.IsDataTerminalReadyEnabled = true;
+                    MYSerialDevice.IsConnect = true;
+                }
+            }
+            Messenger.Default.Send(new DebugInfoEvent($"串口重连"));
+        }
+
+        private void HandleScreenClickedEvent(ScreenClickedEvent obj)
+        {
+            if (!obj.fromScreen)
+            {
+                CurrentCOMID = "";
+                if (MYSerialDevice != null)
+                {
+                    MYSerialDevice.COMID = obj.ComId;
+                    MYSerialDevice?.SerialDevice?.Dispose();
+                    MYSerialDevice.IsConnect = false;
+                }
+
+                if (!string.IsNullOrEmpty(obj.ComId))
+                {
+                    Messenger.Default.Send(new DebugInfoEvent($"串口切换1"));
+                    CurrentCOMID = obj.ComId;
+                    if (!string.IsNullOrEmpty(obj.ComId))
+                    {
+                        MYSerialDevice.SerialDevice = SerialDevice.FromIdAsync(CurrentCOMID).GetAwaiter().GetResult();
+                    }
+                    Messenger.Default.Send(new DebugInfoEvent($"串口切换2"));
+                    if (MYSerialDevice.SerialDevice != null)
+                    {
+                        MYSerialDevice.SerialDevice.BaudRate = 115200;
+                        MYSerialDevice.SerialDevice.Handshake = SerialHandshake.None;
+                        MYSerialDevice.SerialDevice.Parity = SerialParity.None;
+                        MYSerialDevice.SerialDevice.DataBits = 8;
+                        MYSerialDevice.SerialDevice.StopBits = SerialStopBitCount.One;
+                        MYSerialDevice.SerialDevice.ReadTimeout = TimeSpan.FromSeconds(0.1);
+                        MYSerialDevice.SerialDevice.WriteTimeout = TimeSpan.FromSeconds(10);
+                        MYSerialDevice.SerialDevice.IsRequestToSendEnabled = false;
+                        MYSerialDevice.SerialDevice.IsDataTerminalReadyEnabled = true;
+                        MYSerialDevice.IsConnect = true;
+                    }
+                }
+                Messenger.Default.Send(new DebugInfoEvent($"串口切换"));
+            }
+            
+        }
+
         private void StartDeviceWatchers()
         {
             // Start all device watchers
-            watchersStarted = true;
-            isAllDevicesEnumerated = false;
-
             foreach (DeviceWatcher deviceWatcher in mapDeviceWatchersToDeviceSelector.Keys)
             {
                 if ((deviceWatcher.Status != DeviceWatcherStatus.Started)
@@ -104,10 +168,15 @@ namespace Setting.Helper
 
         private void OnDeviceRemoved(DeviceWatcher sender, DeviceInformationUpdate args)
         {
-           
+            if (devNoComNo.ContainsKey(args.Id))
+            {
+                Messenger.Default.Send(new LostScreenEvent { isLocal = true, DeviceInfos = new List<Webapi.DeviceInfo>() { new Webapi.DeviceInfo() { DevNo = devNoComNo[args.Id], BlueNo =args.Id } } }); ;
+
+            }
             if (args.Id == CurrentCOMID)
             {
                 MYSerialDevice.SerialDevice.Dispose();
+                CurrentCOMID = "";
                 MYSerialDevice.IsConnect = false;
                 Messenger.Default.Send(new DebugInfoEvent($"串口扫描==> 连接断开"));
             }
@@ -136,7 +205,7 @@ namespace Setting.Helper
             if (string.IsNullOrEmpty(CurrentCOMID))
             {
                 Messenger.Default.Send(new DebugInfoEvent($"串口扫描==> 新串口自动扫描"));
-                AutoConnect();
+                ReAutoConnect();
             }
         }
        
@@ -293,7 +362,17 @@ namespace Setting.Helper
                                 //CurrentCOMID = MYSerialDevice.COMID;
 
                                 var devNo = getMacmsg.data.Replace(":", "");
-                                Messenger.Default.Send(new FindScreenEvent { DeviceInfos = new List<Webapi.DeviceInfo>() { new Webapi.DeviceInfo() { DevNo = devNo, Name = "新屏幕" } } });
+
+                                if (devNoComNo.ContainsKey(MYSerialDevice.COMID))
+                                {
+                                    devNoComNo[MYSerialDevice.COMID] = devNo;
+                                }
+                                else
+                                {
+                                    devNoComNo.Add(MYSerialDevice.COMID, devNo);
+                                }
+
+                                Messenger.Default.Send(new FindScreenEvent { isLocal = true ,DeviceInfos = new List<Webapi.DeviceInfo>() { new Webapi.DeviceInfo() { DevNo = devNo, Name = "新屏幕" ,BlueNo = MYSerialDevice.COMID} } }); ;
                                 Messenger.Default.Send(new DebugInfoEvent("串口扫描=>  " + MYSerialDevice.SerialDevice.PortName + "连接成功"));
                             }
                             else
@@ -376,16 +455,28 @@ namespace Setting.Helper
             if (COMindex >= DeviceIdList.Count)
             {
                 timer.Stop();
-                Messenger.Default.Send(new InitEndEvent() { endName = "findScreen" });
+                if (MYSerialDevice != null)
+                {
+                    MYSerialDevice.IsConnect = false;
+                    MYSerialDevice.SerialDevice.Dispose();
+
+                }
+
+                Messenger.Default.Send(new CanChangeScreenEvent());
+               
+                    Messenger.Default.Send(new InitEndEvent() { endName = "findScreen" });
+                
+
                 Messenger.Default.Send(new DebugInfoEvent($"串口扫描结束"));
                 return;
             }
+
             if (DeviceIdList.Count == 0)
             {
                 return;
             }
             InitCOM(DeviceIdList[COMindex]);
-            //   SendgetMacSendMessage();
+       
         }
 
 
@@ -396,16 +487,28 @@ namespace Setting.Helper
             timer.Elapsed -= Timer_Tick;
             timer?.Stop();
         }
+        private bool isReAutoConnect;
         public void AutoConnect()
         {
 
-
+            isReAutoConnect = false;
             timer.Start(); // 启动计时器
             DeviceIdList = ScanDeviceComportsAsync();
             Messenger.Default.Send(new DebugInfoEvent($"串口扫描==>  发现{DeviceIdList.Count}个串口，串口列表：{String.Join(",", DeviceIdList)}"));
-            COMindex = -1;
+            COMindex = 0;
         }
 
+        public void ReAutoConnect()
+        {
+
+            isReAutoConnect = true;
+            timer.Start(); // 启动计时器
+            DeviceIdList = ScanDeviceComportsAsync();
+            Messenger.Default.Send(new DebugInfoEvent($"串口扫描==>  发现{DeviceIdList.Count}个串口，串口列表：{String.Join(",", DeviceIdList)}"));
+            COMindex = 0;
+
+        }
+  
 
         public bool ClosePort()
         {
@@ -435,7 +538,7 @@ namespace Setting.Helper
 
             var cmd = new getMacSend();
             currentCmd = cmd.cmd;
-            index = 0;
+            index = -1;
             msgList = new List<string>();
             string msg = JsonConvert.SerializeObject(cmd);
             if (MYSerialDevice != null)

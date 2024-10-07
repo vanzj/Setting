@@ -435,21 +435,36 @@
         "parameters": [
           {
             "name": "devId",
-            "in": "query",
+            "in": "formData",
             "description": "设备ID",
             "required": false,
             "type": "string"
           },
           {
             "name": "file",
-            "in": "query",
+            "in": "formData",
             "description": "文件",
+            "required": true,
+            "#" "文件应该是必须的",
+            "type": "file"
+          },
+          {
+            "name": "fileName",
+            "in": "formData",
+            "description": "文件名称：1帧.json",
             "required": false,
-            "type": "ref"
+            "type": "string"
+          },
+          {
+            "name": "resName",
+            "in": "formData",
+            "description": "文件用途：开机动画",
+            "required": false,
+            "type": "string"
           },
           {
             "name": "type",
-            "in": "query",
+            "in": "formData",
             "description": "类型：固定：9",
             "required": false,
             "type": "integer",
@@ -822,10 +837,20 @@
           "description": "创建时间",
           "refType": null
         },
+        "fileName": {
+          "type": "string",
+          "description": "文件名称：1帧.json",
+          "refType": null
+        },
         "id": {
           "type": "integer",
           "format": "int64",
           "description": "ID",
+          "refType": null
+        },
+        "resName": {
+          "type": "string",
+          "description": "文件用途：开机动画",
           "refType": null
         },
         "status": {

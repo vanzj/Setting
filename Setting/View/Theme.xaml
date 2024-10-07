@@ -101,8 +101,8 @@
                                 <ImageBrush ImageSource="/Setting;component/img/UI/主题修改弹窗.png"/>
                             </StackPanel.Background>
                             <Button Width="40"  Height="33" Command="{Binding CopyCommand}" CommandParameter="{Binding}"  IsEnabled="{Binding Copy}"  Style="{DynamicResource ButtonStyle1}">拷贝</Button>
-                            <Button Width="40" Height="33" Command="{Binding ReMoveCommand}"  CommandParameter="{Binding}" IsEnabled="{Binding Delete}"  Style="{DynamicResource ButtonStyle1}">删除</Button>
-                            <Button Width="40" Height="33"  Command="{Binding BeginRenameCommand}" Visibility="{Binding  Read}" IsEnabled="{Binding CanRename}" CommandParameter="{Binding}"  Style="{DynamicResource ButtonStyle1}">重命名</Button>
+                            <Button Width="40" Height="33" Command="{Binding ReMoveCommand}"  CommandParameter="{Binding}"  IsEnabled="False"  Style="{DynamicResource ButtonStyle1}">删除</Button>
+                            <Button Width="40" Height="33"  Command="{Binding BeginRenameCommand}" Visibility="{Binding  Read}"  IsEnabled="False"  CommandParameter="{Binding}"  Style="{DynamicResource ButtonStyle1}">重命名</Button>
                             <Button Width="40" Height="33" Command="{Binding EndRenameCommand}" Visibility="{Binding ReName}"  IsEnabled="{Binding CanRename}" CommandParameter="{Binding}" Style="{DynamicResource ButtonStyle1}" >保存</Button>
                         </StackPanel>
                     </Popup>

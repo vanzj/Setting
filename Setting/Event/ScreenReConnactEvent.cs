@@ -1,17 +1,15 @@
-﻿using Setting.Model;
-using Setting.ViewModel;
+﻿using Setting.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Webapi;
 
-namespace Setting.Helper
+namespace Setting.Event
 {
-   public class ThemeItemClickedEvent
+   public class ScreenReConnactEvent
     {
+        public string ComId { get; set; }
         public ScreenDeviceInfoViewModel CurrentDevInfo { get; set; }
-        public JsonFileInfo JsonFileInfo { get; set; }
     }
 }

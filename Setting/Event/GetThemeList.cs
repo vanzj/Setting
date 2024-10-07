@@ -1,4 +1,5 @@
 ﻿using Setting.Model;
+using Setting.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace Setting.Event
 {
   public  class GetThemeListEvent
     {
-        public DeviceInfo device { get; set; }
+        public ScreenDeviceInfoViewModel device { get; set; }
         public List<JsonFileInfo> jsonFileInfos { get; set; }
     }
 }

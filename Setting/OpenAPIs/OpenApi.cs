@@ -971,38 +971,29 @@ namespace Webapi
         /// <summary>10.上传文件</summary>
         /// <param name="devId">设备ID</param>
         /// <param name="file">文件</param>
+        /// <param name="fileName">文件名称：1帧.json</param>
+        /// <param name="resName">文件用途：开机动画</param>
         /// <param name="type">类型：固定：9</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<AddfileRes> AddUsingPOSTAsync(string devId, object file, int? type)
+        public System.Threading.Tasks.Task<AddfileRes> AddUsingPOSTAsync(string devId, FileParameter file, string fileName, string resName, int? type)
         {
-            return AddUsingPOSTAsync(devId, file, type, System.Threading.CancellationToken.None);
+            return AddUsingPOSTAsync(devId, file, fileName, resName, type, System.Threading.CancellationToken.None);
         }
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>10.上传文件</summary>
         /// <param name="devId">设备ID</param>
         /// <param name="file">文件</param>
+        /// <param name="fileName">文件名称：1帧.json</param>
+        /// <param name="resName">文件用途：开机动画</param>
         /// <param name="type">类型：固定：9</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<AddfileRes> AddUsingPOSTAsync(string devId, object file, int? type, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<AddfileRes> AddUsingPOSTAsync(string devId, FileParameter file, string fileName, string resName, int? type, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/smart/api/dotpc/addfile?");
-            if (devId != null) 
-            {
-                urlBuilder_.Append(System.Uri.EscapeDataString("devId") + "=").Append(System.Uri.EscapeDataString(ConvertToString(devId, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
-            }
-            if (file != null) 
-            {
-                urlBuilder_.Append(System.Uri.EscapeDataString("file") + "=").Append(System.Uri.EscapeDataString(ConvertToString(file, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
-            }
-            if (type != null) 
-            {
-                urlBuilder_.Append(System.Uri.EscapeDataString("type") + "=").Append(System.Uri.EscapeDataString(ConvertToString(type, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
-            }
-            urlBuilder_.Length--;
+            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/smart/api/dotpc/addfile");
     
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -1010,7 +1001,36 @@ namespace Webapi
             {
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
                 {
-                    request_.Content = new System.Net.Http.StringContent(string.Empty, System.Text.Encoding.UTF8, "*/*");
+                    var boundary_ = System.Guid.NewGuid().ToString();
+                    var content_ = new System.Net.Http.MultipartFormDataContent(boundary_);
+                    content_.Headers.Remove("Content-Type");
+                    content_.Headers.TryAddWithoutValidation("Content-Type", "multipart/form-data; boundary=" + boundary_);
+                    if (devId != null)
+                    {
+                        content_.Add(new System.Net.Http.StringContent(ConvertToString(devId, System.Globalization.CultureInfo.InvariantCulture)), "devId");
+                    }
+                    if (file == null)
+                        throw new System.ArgumentNullException("file");
+                    else
+                    {
+                        var content_file_ = new System.Net.Http.StreamContent(file.Data);
+                        if (!string.IsNullOrEmpty(file.ContentType))
+                            content_file_.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse(file.ContentType);
+                        content_.Add(content_file_, "file", file.FileName ?? "file");
+                    }
+                    if (fileName != null)
+                    {
+                        content_.Add(new System.Net.Http.StringContent(ConvertToString(fileName, System.Globalization.CultureInfo.InvariantCulture)), "fileName");
+                    }
+                    if (resName != null)
+                    {
+                        content_.Add(new System.Net.Http.StringContent(ConvertToString(resName, System.Globalization.CultureInfo.InvariantCulture)), "resName");
+                    }
+                    if (type != null)
+                    {
+                        content_.Add(new System.Net.Http.StringContent(ConvertToString(type, System.Globalization.CultureInfo.InvariantCulture)), "type");
+                    }
+                    request_.Content = content_;
                     request_.Method = new System.Net.Http.HttpMethod("POST");
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("*/*"));
     
@@ -1542,9 +1562,17 @@ namespace Webapi
         [Newtonsoft.Json.JsonProperty("createDate", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string CreateDate { get; set; }
     
+        /// <summary>文件名称：1帧.json</summary>
+        [Newtonsoft.Json.JsonProperty("fileName", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string FileName { get; set; }
+    
         /// <summary>ID</summary>
         [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public long? Id { get; set; }
+    
+        /// <summary>文件用途：开机动画</summary>
+        [Newtonsoft.Json.JsonProperty("resName", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string ResName { get; set; }
     
         /// <summary>状态 1：正常 2：解绑</summary>
         [Newtonsoft.Json.JsonProperty("status", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -1603,6 +1631,33 @@ namespace Webapi
         public string Msg { get; set; }
     
     
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.8.2.0 (NJsonSchema v10.2.1.0 (Newtonsoft.Json v11.0.0.0))")]
+    public partial class FileParameter
+    {
+        public FileParameter(System.IO.Stream data)
+            : this (data, null, null)
+        {
+        }
+
+        public FileParameter(System.IO.Stream data, string fileName)
+            : this (data, fileName, null)
+        {
+        }
+
+        public FileParameter(System.IO.Stream data, string fileName, string contentType)
+        {
+            Data = data;
+            FileName = fileName;
+            ContentType = contentType;
+        }
+
+        public System.IO.Stream Data { get; private set; }
+
+        public string FileName { get; private set; }
+
+        public string ContentType { get; private set; }
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.8.2.0 (NJsonSchema v10.2.1.0 (Newtonsoft.Json v11.0.0.0))")]

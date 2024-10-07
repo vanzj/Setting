@@ -10,9 +10,9 @@ using System.Threading.Tasks;
 
 namespace Setting.Model
 {
-    public class JsonFileInfo 
-    {
-        public string FileId { get; set; }
+    public class JsonFileInfo
+    { 
+        public long? Id { get; set; }
 
         private string name;
 
