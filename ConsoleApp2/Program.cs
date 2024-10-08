@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Threading;
 using LibreHardwareMonitor.Hardware;
+using Newtonsoft.Json;
+using NLog;
 
 namespace PPSU_hwmonitor_c
 {
     class Program
     {
+        private static Logger logger = LogManager.GetCurrentClassLogger();
         /**
          *  Define vars to hold stats
          **/
@@ -48,9 +51,12 @@ namespace PPSU_hwmonitor_c
 
         static void ReportSystemInfo()
         {
+            JsonSerializerSettings settings = new JsonSerializerSettings();
+            settings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
             foreach (var hardware in c.Hardware)
             {
 
+               
                 if (hardware.HardwareType == HardwareType.Cpu)
                 {
                     // only fire the update when found
@@ -63,9 +69,7 @@ namespace PPSU_hwmonitor_c
                         {
                             Console.WriteLine($"{hardware.Name}-{sensor.Name}-{sensor.SensorType}-{sensor.Value.GetValueOrDefault()}");
 
-                        }
-                        else if (sensor.SensorType == SensorType.Load && sensor.Name.Contains("CPU Total"))
-                        {
+                    logger.Info($"CPU info: {JsonConvert.SerializeObject(hardware, settings)}");
 
                             Console.WriteLine($"{hardware.Name}-{sensor.Name}-{sensor.SensorType}-{sensor.Value.GetValueOrDefault()}");
 
@@ -85,33 +89,16 @@ namespace PPSU_hwmonitor_c
                 {
                     // only fire the update when found
                     hardware.Update();
-                   
-                    // loop through the data
-                    foreach (var sensor in hardware.Sensors)
-                    {
-                        if (sensor.SensorType == SensorType.Temperature && sensor.Name.Contains("GPU Core"))
-                        {
-                            Console.WriteLine($"{hardware.Name}-{sensor.Name}-{sensor.SensorType}-{sensor.Value.GetValueOrDefault()}");
-                        }
-                        else if (sensor.SensorType == SensorType.Load && sensor.Name.Contains("GPU Core"))
-                        {
-                            // store
-                            Console.WriteLine($"{hardware.Name}-{sensor.Name}-{sensor.SensorType}-{sensor.Value.GetValueOrDefault()}");
-                        }
-                      
-                    }
-
+                    logger.Info($"CPU info: {JsonConvert.SerializeObject(hardware, settings)}");
                 }
                 if (hardware.HardwareType == HardwareType.Network )
                 {
                     // only fire the update when found
                     hardware.Update();
 
-                    // loop through the data
-                    foreach (var sensor in hardware.Sensors)
-                    {
-                        Console.WriteLine($"{hardware.Name}-{sensor.Name}-{sensor.SensorType}-{sensor.Value.GetValueOrDefault()}");
-                    }
+                    logger.Info($"CPU info: {JsonConvert.SerializeObject(hardware, settings)}");
+
+
 
                 }
                 // ... you can access any other system information you want here
