@@ -4,11 +4,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Setting.Helper
-{
-    public class HardInfoEvent
+
+    namespace Setting.Helper
     {
-       public int Use { get; set; }
-       public int Temp { get; set; }
+        public class HardInfoEvent
+        {
+            public int GPUUse { get; set; }
+            public int GPUTemp { get; set; }
+        public int GPUCoreUse { get; set; }
+ 
+        public int CPUUse { get; set; }
+            public int CPUTemp { get; set; }
+            public int DownLoad { get; set; }
+            public int UpLoad { get; set; }
+        }
     }
-}
+

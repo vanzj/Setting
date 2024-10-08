@@ -486,9 +486,10 @@
                 </Button>
                 <Grid Grid.Row="2">
 
-                    <Border BorderThickness="1" BorderBrush="White" Width="1134" Height="84" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="21,40,0,0" CornerRadius="5">
-                        <myview:PointList  HorizontalAlignment="Center" VerticalAlignment="Center"  Width="1120" Height="70"/>
+                    <Border BorderThickness="1" BorderBrush="White"  Width="1134" Height="84" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="21,40,0,0" CornerRadius="5">
+                        <myview:PointList  HorizontalAlignment="Center"  VerticalAlignment="Center"  Width="1120" Height="70"/>
                     </Border>
+
 
 
 
