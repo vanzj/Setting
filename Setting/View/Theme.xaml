@@ -82,15 +82,15 @@
         <ListView.ItemTemplate>
             <DataTemplate>
                 <StackPanel  Orientation="Horizontal" Width="111"  Height="54" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="40,0,0,0"  >
-           
-                    <Button Style="{DynamicResource ButtonStyle1}" Width="111"  Height="54"  Command="{Binding ChangeThemeCommand}" CommandParameter="{Binding}"
+
+                    <Button Style="{DynamicResource ButtonStyle1}" Width="111"  Height="50"  Command="{Binding ChangeThemeCommand}" CommandParameter="{Binding}" BorderThickness="{Binding Thickness}"   BorderBrush="White"
                             Content="{Binding JsonFileInfo.Name }" Visibility="{Binding Read}">
                         <Button.Background>
                             <ImageBrush ImageSource="/Setting;component/img/UI/背景-主题.png"/>
                         </Button.Background>
                     </Button>
-                    <Grid  Width="111" Height="54"  Visibility="{Binding ReName}" Background="White">
-                        <TextBox   Text="{Binding JsonFileInfo.Name}"  BorderThickness="0" HorizontalAlignment="Center" VerticalAlignment="Center" >
+                    <Grid  Width="111" Height="50"  Visibility="{Binding ReName}" Background="White">
+                        <TextBox   Text="{Binding JsonFileInfo.Name ,Mode=TwoWay}"  BorderThickness="0" HorizontalAlignment="Center" VerticalAlignment="Center" >
                         </TextBox>
                     </Grid>
                 
@@ -100,10 +100,11 @@
                             <StackPanel.Background>
                                 <ImageBrush ImageSource="/Setting;component/img/UI/主题修改弹窗.png"/>
                             </StackPanel.Background>
-                            <Button Width="40"  Height="33" Command="{Binding CopyCommand}" CommandParameter="{Binding}"  IsEnabled="{Binding Copy}"  Style="{DynamicResource ButtonStyle1}">拷贝</Button>
-                            <Button Width="40" Height="33" Command="{Binding ReMoveCommand}"  CommandParameter="{Binding}" IsEnabled="{Binding Delete}"  Style="{DynamicResource ButtonStyle1}">删除</Button>
-                            <Button Width="40" Height="33"  Command="{Binding BeginRenameCommand}" Visibility="{Binding  Read}" IsEnabled="{Binding CanRename}" CommandParameter="{Binding}"  Style="{DynamicResource ButtonStyle1}">重命名</Button>
-                            <Button Width="40" Height="33" Command="{Binding EndRenameCommand}" Visibility="{Binding ReName}"  IsEnabled="{Binding CanRename}" CommandParameter="{Binding}" Style="{DynamicResource ButtonStyle1}" >保存</Button>
+                            <Button Width="40"  Height="22" Command="{Binding CopyCommand}" CommandParameter="{Binding}"  IsEnabled="{Binding Copy}"  Style="{DynamicResource ButtonStyle1}">拷贝</Button>
+                            <Button Width="40" Height="22" Command="{Binding ReMoveCommand}"  CommandParameter="{Binding}" IsEnabled="{Binding Delete}"  Style="{DynamicResource ButtonStyle1}">删除</Button>
+                            <Button Width="40"  Height="22" Command="{Binding InputCommand}" CommandParameter="{Binding}"   Style="{DynamicResource ButtonStyle1}">导入</Button>
+                            <Button Width="40" Height="22"  Command="{Binding BeginRenameCommand}" Visibility="{Binding  Read}" IsEnabled="{Binding CanRename}" CommandParameter="{Binding}"  Style="{DynamicResource ButtonStyle1}">重命名</Button>
+                            <Button Width="40" Height="22" Command="{Binding EndRenameCommand}" Visibility="{Binding ReName}"  IsEnabled="{Binding CanRename}" CommandParameter="{Binding}" Style="{DynamicResource ButtonStyle1}" >保存</Button>
                         </StackPanel>
                     </Popup>
                     

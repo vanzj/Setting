@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Setting.Model
 {
-    public class JsonFileInfo 
+    public class JsonFileInfo : ViewModelBase
     {
 
 
@@ -23,6 +23,7 @@ namespace Setting.Model
             {
                
                     name = value;
+                RaisePropertyChanged();
             }
         }
 

@@ -104,6 +104,7 @@ namespace Setting.Helper
             if (!string.IsNullOrEmpty( jsonFileInfo.NewFileName))
             {
                 SaveFileName(jsonFileInfo);
+                jsonFileInfo.FileName = jsonFileInfo.NewFileName;
                 File.Delete(jsonfile);
                 jsonfile = GetThemDir() + "\\" + jsonFileInfo.NewFileName + Extension;
             }

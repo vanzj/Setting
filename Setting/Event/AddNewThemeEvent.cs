@@ -15,6 +15,12 @@ namespace Setting.Helper
     {
         public JsonFileInfo JsonFileInfo { get; set; }
     }
+
+        public class InputThemeEvent
+    {
+        public JsonFileInfo JsonFileInfo { get; set; }
+    }
+    
     public class NewThemeEvent
     {
         public JsonFileInfo JsonFileInfo { get; set; }

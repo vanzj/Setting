@@ -25,6 +25,7 @@ using ColorConverter = System.Windows.Media.ColorConverter;
 using NLog;
 using Setting.Event;
 using Setting.Model.CMDModel;
+using AnimatedGif;
 
 namespace Setting.ViewModel
 {
@@ -161,8 +162,7 @@ namespace Setting.ViewModel
         #endregion
 
 
-        private CPUHelper CPUHelper { get; set; }
-        private GPUHelper GPUHelper { get; set; }
+
         private LiveShowHelper LiveShowHelper { get; set; }
         public int xIndex = 85;
         public int yIndex = 5;
@@ -181,82 +181,7 @@ namespace Setting.ViewModel
             }
         }
 
-        public RelayCommand SendCommand
-        {
-            get
-            {
-                return new RelayCommand(() =>
-                {
-                    if (jsonFileInfo == null)
-                    {
-                        return;
-                    }
-                    var fileName = string.IsNullOrEmpty(JsonFileInfo.NewFileName) ? JsonFileInfo.FileName : JsonFileInfo.NewFileName;
-                    if (JsonFileInfo.IsDynamic)
-                    {
-                        if (jsonFileInfo.FileName =="cpu")
-                        {
-                            if (CPUHelper == null)
-                            {
-                                CPUHelper = new CPUHelper();
-                            }
-                            CPUHelper.Start();
-
-                            //Task.Run(() =>
-                            //{
-                            SerialPortHelper.Instance.SendThemeDynamicSendMessage();
-                            //}
-                            //);
-                            IsSend = true;
-                        }
-                        if (jsonFileInfo.FileName == "gpu")
-                        {
-                            if (GPUHelper == null)
-                            {
-                                GPUHelper = new GPUHelper();
-                            }
-                            GPUHelper.Start();
-
-                            //Task.Run(() =>
-                            //{
-                            SerialPortHelper.Instance.SendThemeDynamicSendMessage();
-                            //}
-                            //);
-                            IsSend = true;
-                        }
-                        if (jsonFileInfo.FileName == "wifi")
-                        {
-
-                            //Task.Run(() =>
-                            //{
-                            SerialPortHelper.Instance.SendThemeDynamicSendMessage();
-                            //}
-                            //);
-                            IsSend = true;
-                        }
-
-                    }
-                    else
-                    {
-
-                        var msg = MessageHelper.Build(AllPonitList, xIndex, yIndex, fileName);
-
-                        //Task.Run(() =>
-                        //{
-                        SerialPortHelper.Instance.SendThemeCirculateSendMessage(msg);
-                        //}
-                        //);
-
-                    }
-
-                })
-                {
-
-                };
-            }
-        }
-
-        
+  
                public RelayCommand SendOnepackageCommandTwo
         {
             get
@@ -292,28 +217,8 @@ namespace Setting.ViewModel
                         templist.Add(JsonConvert.SerializeObject(themeSend));
                         templist.Add(JsonConvert.SerializeObject(themeSendStartSend));
                         SerialPortHelper.Instance.SendThemeDynamicSendMessage(templist);
-                        if (jsonFileInfo.FileName == "cpu")
-                        {
-                            if (CPUHelper == null)
-                            {
-                                CPUHelper = new CPUHelper();
-                            }
-                            CPUHelper.Start();
-                        }
-                        if (jsonFileInfo.FileName == "gpu")
-                        {
-                            if (GPUHelper == null)
-                            {
-                                GPUHelper = new GPUHelper();
-                            }
-                            GPUHelper.Start();
-                        }
-                        if (jsonFileInfo.FileName == "wifi")
-                        {
 
-
-                        }
-                        
+                        HardHelper.Instance.Start();
                         IsSend = true;
                     }
                     else
@@ -335,51 +240,7 @@ namespace Setting.ViewModel
                 };
             }
         }
-        public RelayCommand SendOnepackageCommand
-        {
-            get
-            {
-                return new RelayCommand(() =>
-                {
-                    if (jsonFileInfo == null)
-                    {
-                        return;
-                    }
-                    var fileName = string.IsNullOrEmpty(JsonFileInfo.NewFileName) ? JsonFileInfo.FileName : JsonFileInfo.NewFileName;
-                    if (JsonFileInfo.IsDynamic)
-                    {
-                        if (CPUHelper == null)
-                        {
-                            CPUHelper = new CPUHelper();
-                        }
-                        CPUHelper.Start();
 
-                        //Task.Run(() =>
-                        //{
-                        SerialPortHelper.Instance.SendThemeDynamicSendMessage();
-                        //}
-                        //);
-                        IsSend = true;
-                    }
-                    else
-                    {
-
-                        var msg = MessageHelper.BuildOnePackage(AllPonitList, xIndex, yIndex, fileName);
-
-                        //Task.Run(() =>
-                        //{
-                        SerialPortHelper.Instance.SendThemeCirculateSendMessage(msg);
-                        //}
-                        //);
-
-                    }
-
-                })
-                {
-
-                };
-            }
-        }
         public RelayCommand OutPutGIFCommand
         {
             get
@@ -418,6 +279,17 @@ namespace Setting.ViewModel
 
         private void ExecuteOpenFileCommand()
         {
+            ExecuteOpenFileMethod();
+            
+        }
+
+        private void ExecuteOpenFileMethod(JsonFileInfo newJsonFileInfo = null)
+        {
+            bool isadd  = false;
+            if (newJsonFileInfo == null)
+            {
+                isadd = true;
+            }
 
             // 创建一个OpenFileDialog实例
             var openFileDialog = new Microsoft.Win32.OpenFileDialog
@@ -433,25 +305,30 @@ namespace Setting.ViewModel
             {
                 // 获取用户选择的文件路径
                 string file = openFileDialog.FileName;
-                var ThemeName = "新建模板" + DateTime.Now.ToString("YYMMddHHmmssms");
-                var TempJsonFileInfo = new JsonFileInfo()
+
+                if (newJsonFileInfo == null)
                 {
-                    Name = ThemeName,
-                    FileName = Guid.NewGuid().ToString("N")
-                };
+                    var ThemeName = "新建模板" + DateTime.Now.ToString("YYMMddHHmmssms");
+                    newJsonFileInfo = new JsonFileInfo()
+                    {
+                        Name = ThemeName,
+                        FileName = Guid.NewGuid().ToString("N")
+                    };
+                }
+
                 InputGIF inputGIF = new InputGIF();
-                var ImgInfo = inputGIF.OPENGIF(file, xIndex, yIndex, TempJsonFileInfo.FileName);
+                var ImgInfo = inputGIF.OPENGIF(file, xIndex, yIndex, newJsonFileInfo.FileName);
 
 
-                FramesCount = int.Parse(ImgInfo[0].frameCount)>110?110: int.Parse(ImgInfo[0].frameCount);
+                FramesCount = int.Parse(ImgInfo[0].frameCount) > 110 ? 110 : int.Parse(ImgInfo[0].frameCount);
 
                 AllPonitList = new Dictionary<int, List<PointItem>>();
                 int i = 0;
                 foreach (var Oneseg in ImgInfo)
                 {
-                    if (i>=110)
+                    if (i >= 110)
                     {
-                      
+
                         continue;
                     }
                     var oneframePointList = new List<PointItem>();
@@ -470,11 +347,11 @@ namespace Setting.ViewModel
                         }
 
                     }
-                   
+
                     AllPonitList.Add(int.Parse(Oneseg.pointList[0].frameIndex), oneframePointList);
                     i++;
                 }
-               
+
                 CurrentFrame = 0;
                 BuildShowInit(CurrentFrame);
                 AddFrame = true;
@@ -484,14 +361,19 @@ namespace Setting.ViewModel
                 {
                     RemoveFrame = false;
                 }
-                if (FramesCount>=110)
+                if (FramesCount >= 110)
                 {
                     AddFrame = false;
                 }
-                FileHelper.SaveThemeName(TempJsonFileInfo);
-                FileHelper.Save(JsonConvert.SerializeObject(AllPonitList), TempJsonFileInfo);
-                JsonFileInfo = TempJsonFileInfo;
-                Messenger.Default.Send(new InputNewThemeEvent { JsonFileInfo = TempJsonFileInfo });
+                FileHelper.SaveThemeName(newJsonFileInfo);
+                FileHelper.Save(JsonConvert.SerializeObject(AllPonitList), newJsonFileInfo);
+                JsonFileInfo = newJsonFileInfo;
+
+                if (isadd)
+                {
+                    Messenger.Default.Send(new InputNewThemeEvent { JsonFileInfo = newJsonFileInfo });
+                }
+              
             }
         }
         private void BuildShow(int frameIndex)
@@ -1046,25 +928,8 @@ namespace Setting.ViewModel
             RemoveFrame = false;
             if (JsonFileInfo.IsDynamic)
             {
-                if (jsonFileInfo.FileName == "cpu")
-                {
-                    if (CPUHelper == null)
-                    {
-
-                        CPUHelper = new CPUHelper();
-                    }
-                    CPUHelper.Start();
-                }
-                if (jsonFileInfo.FileName == "gpu")
-                {
-                    if (GPUHelper == null)
-                    {
-
-                        GPUHelper = new GPUHelper();
-                    }
-                    GPUHelper.Start();
-                }
-
+  
+                HardHelper.Instance.Start();
             }
             else
             {
@@ -1091,9 +956,18 @@ namespace Setting.ViewModel
 
         private void LiveShowEnd()
         {
+
             if (JsonFileInfo == null)
             {
                 return;
+            }
+            if (JsonFileInfo.IsDynamic)
+            {
+                HardHelper.Instance.End();
+            }
+            else
+            {
+                LiveShowHelper.End();
             }
             Messenger.Default.Send(new HistroyInitEvent
             {
@@ -1122,15 +996,7 @@ namespace Setting.ViewModel
                 AddFrame = false;
 
             }
-            if (JsonFileInfo.IsDynamic)
-            {
-                GPUHelper?.End();
-                CPUHelper?.End();
-            }
-            else
-            {
-                LiveShowHelper.End();
-            }
+
         }
         #endregion
 
@@ -1208,6 +1074,7 @@ namespace Setting.ViewModel
 
         public PointListViewModel()
         {
+            Messenger.Default.Register<InputThemeEvent>(this, HandlInputThemeEvent);
             Messenger.Default.Register<PonitClickedEvent>(this, HandlePonitClickedEvent);
             Messenger.Default.Register<HardInfoEvent>(this, HandleCpuInfoEvent);
 
@@ -1225,6 +1092,11 @@ namespace Setting.ViewModel
             CursorEnum = CursorEnum.MOVE;
             ChangeColor = new SolidColorBrush((System.Windows.Media.Color)ColorConverter.ConvertFromString(ColorConst.BackGroupColor));
             DebugInfo = "*********************************************调试信息******************" + "\r\n";
+        }
+
+        private void HandlInputThemeEvent(InputThemeEvent obj)
+        {
+            ExecuteOpenFileMethod(obj.JsonFileInfo);
         }
 
         private void HandleLumianceChangeEventt(LumianceChangeEvent obj)
@@ -1288,8 +1160,8 @@ namespace Setting.ViewModel
         private void HandleNewThemeEvent(NewThemeEvent obj)
         {
             LiveShowHelper?.End();
-            CPUHelper?.End();
-            GPUHelper?.End();
+            HardHelper.Instance.End();
+         
             CurrentFrame = 0;
             FramesCount = 1;
             AllPonitList = new Dictionary<int, List<PointItem>>();
@@ -1409,6 +1281,7 @@ namespace Setting.ViewModel
         }
         private void HandleChangeTheMeEvent(ThemeItemClickedEvent obj)
         {
+            
             LiveShowEnd();
             CurrentFrame = 0;
             IsSend = false;
@@ -1454,14 +1327,14 @@ namespace Setting.ViewModel
         }
         private void HandleCpuInfoEvent(HardInfoEvent obj)
         {
-            if (JsonFileInfo.IsDynamic)
+            if (JsonFileInfo.IsDynamic && jsonFileInfo.FileName == "cpu")
             {
                 AllPonitList[CurrentFrame] = AllPonitList[currFrame].Where(c => c.X >= 0 && c.X < xIndex && c.Y >= 0 && c.Y < yIndex).ToList();
                 AllPonitList[CurrentFrame].ForEach(c => c.Fill = new SolidColorBrush((System.Windows.Media.Color)ColorConverter.ConvertFromString(ColorConst.BackGroupColor)));
                 XMoveCommand(AllPonitList[CurrentFrame], 1);
                 AllPonitList[CurrentFrame].ForEach(c => c.X += 5);
                 AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, ABCEnum.celsius, (System.Windows.Media.Color)ColorConverter.ConvertFromString(ColorConst.AbcColor)));
-                var cpucelsius = (int)obj.Temp;
+                var cpucelsius = (int)obj.CPUTemp;
 
                 do
                 {
@@ -1471,15 +1344,15 @@ namespace Setting.ViewModel
                     AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, (ABCEnum)remainder, (System.Windows.Media.Color)ColorConverter.ConvertFromString(ColorConst.AbcColor)));
                     cpucelsius = cpucelsius / 10;
                 } while (cpucelsius >= 1);
-                if (obj.Temp<100&&obj.Temp>=10)
+                if (obj.CPUTemp < 100 && obj.CPUTemp >= 10)
                 {
                     XMoveCommand(AllPonitList[CurrentFrame], 4);
                 }
-                else if (obj.Temp < 10 && obj.Temp > 0)
+                else if (obj.CPUTemp < 10 && obj.CPUTemp > 0)
                 {
-                    XMoveCommand(AllPonitList[CurrentFrame], 8);
+                    XMoveCommand(AllPonitList[CurrentFrame], 4);
                 }
-                else if (obj.Temp == 0)
+                else if (obj.CPUTemp == 0)
                 {
                     XMoveCommand(AllPonitList[CurrentFrame], 1);
                     AllPonitList[CurrentFrame].ForEach(c => c.X += 3);
@@ -1492,7 +1365,7 @@ namespace Setting.ViewModel
                 XMoveCommand(AllPonitList[CurrentFrame], 1);
                 AllPonitList[CurrentFrame].ForEach(c => c.X += 5);
                 AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, ABCEnum.percent, (System.Windows.Media.Color)ColorConverter.ConvertFromString(ColorConst.AbcColor)));
-                var cpu = (int)obj.Use;
+                var cpu = (int)obj.CPUUse;
 
                 do
                 {
@@ -1503,19 +1376,93 @@ namespace Setting.ViewModel
                     cpu = cpu / 10;
                 } while (cpu >= 1);
 
-                if (obj.Use < 100 && obj.Use >= 10)
+                if (obj.CPUUse < 100 && obj.CPUUse >= 10)
                 {
                     XMoveCommand(AllPonitList[CurrentFrame], 4);
                 }
-                else if (obj.Use < 10 && obj.Use > 0)
+                else if (obj.CPUUse < 10 && obj.CPUUse > 0)
                 {
                     XMoveCommand(AllPonitList[CurrentFrame], 8);
                 }
-                else if (obj.Use == 0)
+                else if (obj.CPUUse == 0)
                 {
                     XMoveCommand(AllPonitList[CurrentFrame], 1);
                     AllPonitList[CurrentFrame].ForEach(c => c.X += 3);
                     AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, (ABCEnum)0, (System.Windows.Media.Color)ColorConverter.ConvertFromString(ColorConst.AbcColor)));
+                    XMoveCommand(AllPonitList[CurrentFrame], 4);
+                }
+                XMoveCommand(AllPonitList[CurrentFrame], 22);
+
+                AllPonitList[currFrame].Sort();
+                BuildShowPreView(CurrentFrame);
+
+                if (IsSend)
+                {
+                    var fileName = string.IsNullOrEmpty(JsonFileInfo.NewFileName) ? JsonFileInfo.FileName : JsonFileInfo.NewFileName;
+                    var msg = MessageHelper.BuildDynamic(AllPonitList, xIndex, yIndex, fileName);
+
+                    SerialPortHelper.Instance.SendThemeSegmentSendMessage(msg);
+                }
+            }
+            if (JsonFileInfo.IsDynamic && jsonFileInfo.FileName == "gpu")
+            {
+                AllPonitList[CurrentFrame] = AllPonitList[currFrame].Where(c => c.X >= 0 && c.X < xIndex && c.Y >= 0 && c.Y < yIndex).ToList();
+                AllPonitList[CurrentFrame].ForEach(c => c.Fill = new SolidColorBrush((System.Windows.Media.Color)ColorConverter.ConvertFromString(ColorConst.BackGroupColor)));
+                XMoveCommand(AllPonitList[CurrentFrame], 1);
+                AllPonitList[CurrentFrame].ForEach(c => c.X += 5);
+                AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, ABCEnum.celsius, (System.Windows.Media.Color)ColorConverter.ConvertFromString(ColorConst.AbcColor)));
+                var gpucelsius = (int)obj.GPUTemp;
+
+                do
+                {
+                    int remainder = gpucelsius % 10;
+                    XMoveCommand(AllPonitList[CurrentFrame], 1);
+                    AllPonitList[CurrentFrame].ForEach(c => c.X += 3);
+                    AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, (ABCEnum)remainder, (System.Windows.Media.Color)ColorConverter.ConvertFromString(ColorConst.AbcColor)));
+                    gpucelsius = gpucelsius / 10;
+                } while (gpucelsius >= 1);
+                if (obj.GPUTemp < 100 && obj.GPUTemp >= 10)
+                {
+                    XMoveCommand(AllPonitList[CurrentFrame], 4);
+                }
+                else if (obj.GPUTemp < 10 && obj.GPUTemp > 0)
+                {
+                    XMoveCommand(AllPonitList[CurrentFrame], 8);
+                }
+                else if (obj.GPUTemp == 0)
+                {
+                    XMoveCommand(AllPonitList[CurrentFrame], 1);
+                    AllPonitList[CurrentFrame].ForEach(c => c.X += 3);
+                    AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, (ABCEnum)0, (System.Windows.Media.Color)ColorConverter.ConvertFromString(ColorConst.AbcColor)));
+                    XMoveCommand(AllPonitList[CurrentFrame], 4);
+                }
+                XMoveCommand(AllPonitList[CurrentFrame], 1);
+                AllPonitList[CurrentFrame].ForEach(c => c.X += 5);
+                AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, ABCEnum.lianjiexian, (System.Windows.Media.Color)ColorConverter.ConvertFromString(ColorConst.AbcColor)));
+                XMoveCommand(AllPonitList[CurrentFrame], 1);
+                AllPonitList[CurrentFrame].ForEach(c => c.X += 5);
+                AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, ABCEnum.percent, (System.Windows.Media.Color)ColorConverter.ConvertFromString(ColorConst.AbcColor)));
+                var gpu = (int)obj.GPUUse;
+
+                do
+                {
+                    int remainder = gpu % 10;
+                    XMoveCommand(AllPonitList[CurrentFrame], 1);
+                    AllPonitList[CurrentFrame].ForEach(c => c.X += 3);
+                    AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, (ABCEnum)remainder, (System.Windows.Media.Color)ColorConverter.ConvertFromString(ColorConst.AbcColor)));
+                    gpu = gpu / 10;
+                } while (gpu >= 1);
+
+                if (obj.GPUUse < 100 && obj.GPUUse >= 10)
+                {
+                    XMoveCommand(AllPonitList[CurrentFrame], 4);
+                }
+                else if (obj.GPUUse < 10 && obj.GPUUse > 0)
+                {
+                    XMoveCommand(AllPonitList[CurrentFrame], 8);
+                }
+                else if (obj.GPUUse == 0)
+                {
                     XMoveCommand(AllPonitList[CurrentFrame], 8);
                 }
                 XMoveCommand(AllPonitList[CurrentFrame], 22);
@@ -1531,7 +1478,92 @@ namespace Setting.ViewModel
                     SerialPortHelper.Instance.SendThemeSegmentSendMessage(msg);
                 }
             }
+            if (JsonFileInfo.IsDynamic && jsonFileInfo.FileName == "wifi")
+            {
+                AllPonitList[CurrentFrame] = AllPonitList[currFrame].Where(c => c.X >= 0 && c.X < xIndex && c.Y >= 0 && c.Y < yIndex).ToList();
+                AllPonitList[CurrentFrame].ForEach(c => c.Fill = new SolidColorBrush((System.Windows.Media.Color)ColorConverter.ConvertFromString(ColorConst.BackGroupColor)));
 
+                var wificelsius = (int)obj.DownLoad;
+                Console.WriteLine($"下行{obj.DownLoad},上行{obj.UpLoad}");
+                XMoveCommand(AllPonitList[CurrentFrame], 1);
+                AllPonitList[CurrentFrame].ForEach(c => c.X += 3);
+                AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, ABCEnum.Down, (System.Windows.Media.Color)ColorConverter.ConvertFromString(ColorConst.AbcColor)));
+
+
+                XMoveCommand(AllPonitList[CurrentFrame], 1);
+                AllPonitList[CurrentFrame].ForEach(c => c.X += 19);
+                AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, obj.DownLoadflag, (System.Windows.Media.Color)ColorConverter.ConvertFromString(ColorConst.AbcColor)));
+                
+                var tempwificelsius = wificelsius;
+                do
+                {
+                    int remainder = tempwificelsius % 10;
+                    XMoveCommand(AllPonitList[CurrentFrame], 1);
+                    AllPonitList[CurrentFrame].ForEach(c => c.X += 3);
+                    AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, (ABCEnum)remainder, (System.Windows.Media.Color)ColorConverter.ConvertFromString(ColorConst.AbcColor)));
+                    tempwificelsius = tempwificelsius / 10;
+                } while (tempwificelsius >= 1);
+
+
+                if (wificelsius < 1000 && wificelsius >= 100)
+                {
+                    XMoveCommand(AllPonitList[CurrentFrame], 4);
+                }
+                else if (wificelsius < 100 && wificelsius >= 10)
+                {
+                    XMoveCommand(AllPonitList[CurrentFrame], 8);
+                }
+                else if (wificelsius < 10 && wificelsius >= 0)
+                {
+                    XMoveCommand(AllPonitList[CurrentFrame], 12);
+                }
+                XMoveCommand(AllPonitList[CurrentFrame], 1);
+                AllPonitList[CurrentFrame].ForEach(c => c.X += 1);
+                AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, ABCEnum.fengexian, (System.Windows.Media.Color)ColorConverter.ConvertFromString(ColorConst.AbcColor)));
+                var upload = (int)obj.UpLoad;
+
+                 XMoveCommand(AllPonitList[CurrentFrame], 1);
+                AllPonitList[CurrentFrame].ForEach(c => c.X += 19);
+                AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, obj.UpLoadflag, (System.Windows.Media.Color)ColorConverter.ConvertFromString(ColorConst.AbcColor)));
+                
+                var tempupload = upload;
+                do
+                {
+                    int remainder = tempupload % 10;
+                    XMoveCommand(AllPonitList[CurrentFrame], 1);
+                    AllPonitList[CurrentFrame].ForEach(c => c.X += 3);
+                    AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, (ABCEnum)remainder, (System.Windows.Media.Color)ColorConverter.ConvertFromString(ColorConst.AbcColor)));
+                    tempupload = tempupload / 10;
+                } while (tempupload >= 1);
+
+
+                if (upload < 1000 && upload >= 100)
+                {
+                    XMoveCommand(AllPonitList[CurrentFrame], 4);
+                }
+                else if (upload < 100 && upload >= 10)
+                {
+                    XMoveCommand(AllPonitList[CurrentFrame], 8);
+                }
+                else if (upload < 10 && upload >= 0)
+                {
+                    XMoveCommand(AllPonitList[CurrentFrame], 12);
+                }
+                XMoveCommand(AllPonitList[CurrentFrame], 1);
+                AllPonitList[CurrentFrame].ForEach(c => c.X += 3);
+                AllPonitList[currFrame].AddRange(ABCHelper.GetPonitItems(0, 0, 0, ABCEnum.Up, (System.Windows.Media.Color)ColorConverter.ConvertFromString(ColorConst.AbcColor)));
+                XMoveCommand(AllPonitList[CurrentFrame], 2);
+                AllPonitList[currFrame].Sort();
+                BuildShowPreView(CurrentFrame);
+
+                if (IsSend)
+                {
+                    var fileName = string.IsNullOrEmpty(JsonFileInfo.NewFileName) ? JsonFileInfo.FileName : JsonFileInfo.NewFileName;
+                    var msg = MessageHelper.BuildDynamic(AllPonitList, xIndex, yIndex, fileName.Replace(".json", ""));
+
+                    SerialPortHelper.Instance.SendThemeSegmentSendMessage(msg);
+                }
+            }
         }
         private void HandlePonitClickedEvent(PonitClickedEvent item)
         {
