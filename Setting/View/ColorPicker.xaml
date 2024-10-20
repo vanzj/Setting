@@ -132,6 +132,12 @@
 
                     </Grid>
                     <Grid Grid.Column="1" Margin="16,0,0,0">
+                        <Grid.Background>
+                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                <GradientStop Color="Black" Offset="0"/>
+                                <GradientStop Color="White" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Grid.Background>
                         <Rectangle RadiusX="2" RadiusY="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
                             <Rectangle.Fill >
                                 <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
@@ -150,11 +156,13 @@
                     </Grid>
 
                     <Grid Grid.Column="2">
-                        <TextBox IsReadOnly="True" x:Name="TextR" LostFocus="TextBox_LostFocus" VerticalAlignment="Top" Width="70" HorizontalAlignment="Left" Margin="52,-3,0,0" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="White" SelectionBrush="{x:Null}" FontSize="16" >255</TextBox>
-                        <TextBox IsReadOnly="True" x:Name="TextG" LostFocus="TextBox_LostFocus" VerticalAlignment="Top" Width="70" HorizontalAlignment="Left" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="White" SelectionBrush="{x:Null}"  FontSize="16" Margin="52,37,0,0" >255</TextBox>
-                        <TextBox IsReadOnly="True" x:Name="TextB" LostFocus="TextBox_LostFocus" VerticalAlignment="Top" Width="70" HorizontalAlignment="Left" Background="{x:Null}" BorderBrush="{x:Null}" SelectionBrush="{x:Null}" Foreground="White"  FontSize="16" Margin="52,72,0,0" >255</TextBox>
-                        <TextBox  IsReadOnly="True" x:Name="TextA" LostFocus="TextBox_LostFocus" VerticalAlignment="Top" Width="70" HorizontalAlignment="Left" Background="{x:Null}" BorderBrush="{x:Null}" SelectionBrush="{x:Null}" Foreground="White"  FontSize="16" Margin="52,72,0,0" Visibility="Collapsed" >255</TextBox>
-                        <TextBox  IsReadOnly="True" Width="75.333" x:Name="TextHex" LostFocus="HexTextLostFocus" Text="FFFFFF" HorizontalAlignment="Left" VerticalAlignment="Top" Background="{x:Null}" BorderBrush="{x:Null}" SelectionBrush="{x:Null}" Foreground="White"  FontSize="16" Margin="141,-3,-5.333,0" />
+
+                        <TextBox   x:Name="TextR" TextChanged="TextR_TextChanged" LostFocus="TextBox_LostFocus"  VerticalAlignment="Top" Width="70" HorizontalAlignment="Left" Margin="52,-3,0,0" Background="#01000000" BorderBrush="{x:Null}" Foreground="White" SelectionBrush="{x:Null}" FontSize="16" >255</TextBox>
+                        <TextBox   x:Name="TextG" TextChanged="TextR_TextChanged" LostFocus="TextBox_LostFocus" VerticalAlignment="Top" Width="70" HorizontalAlignment="Left"  Background="#01000000" BorderBrush="{x:Null}" Foreground="White" SelectionBrush="{x:Null}"  FontSize="16" Margin="52,37,0,0" >255</TextBox>
+                        <TextBox   x:Name="TextB" TextChanged="TextR_TextChanged" LostFocus="TextBox_LostFocus" VerticalAlignment="Top" Width="70" HorizontalAlignment="Left"  Background="#01000000" BorderBrush="{x:Null}" SelectionBrush="{x:Null}" Foreground="White"  FontSize="16" Margin="52,72,0,0" >255</TextBox>
+                        <TextBox   x:Name="TextA" TextChanged="TextR_TextChanged" LostFocus="TextBox_LostFocus" VerticalAlignment="Top" Width="70" HorizontalAlignment="Left"  Background="#01000000" BorderBrush="{x:Null}" SelectionBrush="{x:Null}" Foreground="White"  FontSize="16" Margin="52,72,0,0" Visibility="Collapsed" >255</TextBox>
+                        <TextBox   Width="75.333" x:Name="TextHex"   TextChanged="TextHex_TextChanged"  LostFocus="HexTextLostFocus" Text="FFFFFF" HorizontalAlignment="Left" VerticalAlignment="Top"  Background="#01000000" BorderBrush="{x:Null}" SelectionBrush="{x:Null}" Foreground="White"  FontSize="16" Margin="141,-3,-5.333,0" />
+                        
                     </Grid>
 
 

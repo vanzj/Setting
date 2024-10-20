@@ -506,6 +506,7 @@
                         <Button.Background>
                             <ImageBrush ImageSource="img/UI/gif新建.png"/>
                         </Button.Background>
+                        <TextBlock FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="43,13,0,0" > 新增</TextBlock>
                     </Button>
                     <Button Width="76.917" Height="35.75"    Command="{Binding OpenFileCommand}" Style="{DynamicResource ButtonStyle1 }" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="267.583,4.25,0,0" RenderTransformOrigin="0.5,0.5">
                         <Button.RenderTransform>
@@ -519,6 +520,7 @@
                         <Button.Background>
                             <ImageBrush ImageSource="img/UI/gif导入.png"/>
                         </Button.Background>
+                        <TextBlock FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="43,13,0,0" > 导入</TextBlock>
                     </Button>
                     <Button Width="74.625" Height="34.6"  IsEnabled="{Binding Outgif}"  Command="{Binding OutPutGIFCommand}"  Style="{DynamicResource ButtonStyle1}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="376.3,5.3,0,0"   RenderTransformOrigin="0.5,0.5">
                         <Button.RenderTransform>
@@ -532,6 +534,7 @@
                         <Button.Background>
                             <ImageBrush ImageSource="img/UI/gif导出.png"/>
                         </Button.Background>
+                        <TextBlock FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="43,13,0,0" > 导出</TextBlock>
                     </Button>
                     <Button Width="81" Height="27.75"   Command="{Binding  ReBackHistoryCommand }"  IsEnabled="{Binding ReBackIsEnabled}"  DataContext="{Binding Path=HistoryList,Source={StaticResource Locator}}" Style="{DynamicResource ButtonStyle1}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="483.6,10,0,0" RenderTransformOrigin="0.5,0.5">
                         <Button.RenderTransform>
@@ -545,6 +548,7 @@
                         <Button.Background>
                             <ImageBrush ImageSource="img/UI/操作-撤销.png"/>
                         </Button.Background>
+                        <TextBlock FontSize="16" HorizontalAlignment="Left" Foreground="White" VerticalAlignment="Top" Margin="43,7,0,0" > 撤销</TextBlock>
                     </Button>
                     <Button Width="80.1" Height="28.2"   Command="{Binding  CancelHistoryCommand}" CommandParameter="{Binding}"  IsEnabled="{Binding CancelIsEnabled }"  DataContext="{Binding Path=HistoryList,Source={StaticResource Locator}}"  Style="{DynamicResource ButtonStyle1}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="597.2,9.9,0,0"    RenderTransformOrigin="0.5,0.5">
                         <Button.RenderTransform>
@@ -558,6 +562,7 @@
                         <Button.Background>
                             <ImageBrush ImageSource="img/UI/操作-回退.png"/>
                         </Button.Background>
+                        <TextBlock FontSize="16" HorizontalAlignment="Left" Foreground="White" VerticalAlignment="Top" Margin="43,7,0,0" > 恢复</TextBlock>
                     </Button>
                     <Button Width="79" Height="29"   Command="{Binding RedoHistoryCommand}" CommandParameter="{Binding}" IsEnabled="{Binding ReBackIsEnabled}"   DataContext="{Binding Path=HistoryList,Source={StaticResource Locator}}"  Style="{DynamicResource ButtonStyle1}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="709.4,9,0,0"   RenderTransformOrigin="0.5,0.5">
                         <Button.RenderTransform>
@@ -571,6 +576,7 @@
                         <Button.Background>
                             <ImageBrush ImageSource="img/UI/操作-重做.png"/>
                         </Button.Background>
+                        <TextBlock FontSize="16" HorizontalAlignment="Left" Foreground="White" VerticalAlignment="Top" Margin="43,7,0,0" > 重做</TextBlock>
                     </Button>
                     <Button Width="82" Height="35"  Command="{Binding CleanComand}" CommandParameter="{Binding}"    Style="{DynamicResource ButtonStyle1}" DataContext="{Binding Path=PointList,Source={StaticResource Locator}}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="822,4.2,0,0"   RenderTransformOrigin="0.5,0.5">
                         <Button.RenderTransform>
@@ -590,6 +596,7 @@
                         <Button.Background>
                             <ImageBrush ImageSource="img/UI/操作-清空.png"/>
                         </Button.Background>
+                        <TextBlock FontSize="16" HorizontalAlignment="Left" Foreground="White" VerticalAlignment="Top" Margin="43,7,0,0" > 清空</TextBlock>
                     </Button>
 
                 </Grid>
@@ -710,6 +717,7 @@
                         <Button.Background>
                             <ImageBrush ImageSource="img/UI/帧操作@2x 上一帧.png"/>
                         </Button.Background>
+                        <TextBlock FontSize="18" HorizontalAlignment="Left" Foreground="White" VerticalAlignment="Top" Margin="-22,0,0,0" >上一帧</TextBlock>
                     </Button>
                     <Button Width="100.063" Height="31.896"  Command="{Binding RightframeCommand}" Style="{DynamicResource ButtonStyle1}" Margin="789.5,181.169,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"   RenderTransformOrigin="0.5,0.5">
                         <Button.IsEnabled>
@@ -729,6 +737,7 @@
                         <Button.Background>
                             <ImageBrush ImageSource="img/UI/帧操作@2x 下一帧.png"/>
                         </Button.Background>
+                        <TextBlock FontSize="18" HorizontalAlignment="Left" Foreground="White" VerticalAlignment="Top" Margin="-22,0,0,0" >下一帧</TextBlock>
                     </Button>
                     <Button Width="100.063" Height="31.896"    Command="{Binding AddRightFrameCommand}" Style="{DynamicResource ButtonStyle1}" Margin="671.417,228.583,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"   RenderTransformOrigin="0.5,0.5">
                         <Button.IsEnabled>
@@ -748,6 +757,7 @@
                         <Button.Background>
                             <ImageBrush ImageSource="img/UI/帧操作@2x 加一帧.png"/>
                         </Button.Background>
+                        <TextBlock FontSize="18" HorizontalAlignment="Left" Foreground="White" VerticalAlignment="Top" Margin="-19,0,0,0" >添加一帧</TextBlock>
                     </Button>
                     <Button Width="100.063" Height="31.896"    Command="{Binding DeleteFrameCommand}" Style="{DynamicResource ButtonStyle1}" Margin="789.5,228.583,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"   RenderTransformOrigin="0.5,0.5">
                         <Button.IsEnabled>
@@ -767,6 +777,7 @@
                         <Button.Background>
                             <ImageBrush ImageSource="img/UI/帧操作@2x 减一帧.png"/>
                         </Button.Background>
+                        <TextBlock FontSize="18" HorizontalAlignment="Left" Foreground="White" VerticalAlignment="Top" Margin="-15,0,0,0" >删除一帧</TextBlock>
                     </Button>
 
 
@@ -790,7 +801,7 @@
                         <Button.Background>
                             <ImageBrush ImageSource="img/UI/鼠标-选择@2x.png"/>
                         </Button.Background>
-
+                        <TextBlock FontSize="16" HorizontalAlignment="Left" Foreground="White" VerticalAlignment="Top" Margin="22,0,0,0" > 选择</TextBlock>
                     </Button>
 
                     <Button x:Name="button" Width="90.167" Height="26.417"   Command="{Binding ChangeCursorCommand }"   CommandParameter="{x:Static enum:CursorEnum.Magic}" Style="{DynamicResource ButtonStyle1}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="153.833,25.833,0,0" RenderTransformOrigin="0.5,0.5">
@@ -811,7 +822,7 @@
                         <Button.Background>
                             <ImageBrush ImageSource="img/UI/鼠标-着色@2x.png"/>
                         </Button.Background>
-
+                        <TextBlock FontSize="16" HorizontalAlignment="Left" Foreground="White" VerticalAlignment="Top" Margin="26,0,0,0" > 着色</TextBlock>
                     </Button>
                     <Button Width="89.25" Height="26.417"   Command="{Binding ChangeCursorCommand }"   CommandParameter="{x:Static enum:CursorEnum.ERASE}"  Style="{DynamicResource ButtonStyle1}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="259.625,25.833,0,0"   RenderTransformOrigin="0.5,0.5">
                         <Button.IsEnabled>
@@ -831,7 +842,7 @@
                         <Button.Background>
                             <ImageBrush ImageSource="img/UI/鼠标-擦除@2x.png"/>
                         </Button.Background>
-
+                        <TextBlock FontSize="16" HorizontalAlignment="Left" Foreground="White" VerticalAlignment="Top" Margin="22,0,0,0" >擦除</TextBlock>
 
                     </Button>
 
@@ -876,6 +887,15 @@
                         <Image Source="img/UI/开关按钮.png" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="32,0,0,0" Width="18"></Image>
                     </Button>
 
+                    <TextBlock FontSize="14" HorizontalAlignment="Left" Foreground="White" VerticalAlignment="Top" Margin="54,87,0,0" >当前颜色</TextBlock>
+                    <TextBlock FontSize="16" HorizontalAlignment="Left" Foreground="White" VerticalAlignment="Top" Margin="274,124,0,0" >R:</TextBlock>
+                    <TextBlock FontSize="16" HorizontalAlignment="Left" Foreground="White" VerticalAlignment="Top" Margin="274,166,0,0" >G:</TextBlock>
+                    <TextBlock FontSize="16" HorizontalAlignment="Left" Foreground="White" VerticalAlignment="Top" Margin="274,203,0,0" >B:</TextBlock>
+                    <TextBlock FontSize="10" HorizontalAlignment="Left" Foreground="White" VerticalAlignment="Top" Margin="404,145,0,0" >HEX COLOR</TextBlock>
+                    <TextBlock FontSize="16" HorizontalAlignment="Left" Foreground="White" VerticalAlignment="Top" Margin="450,201,0,0" >屏幕开/关</TextBlock>
+                    <TextBlock FontSize="16" HorizontalAlignment="Left" Foreground="White" VerticalAlignment="Top" Margin="287,255,0,0" >亮度</TextBlock>
+                    <TextBlock FontSize="18" HorizontalAlignment="Left" Foreground="White" VerticalAlignment="Top" Margin="656,58,0,0" >画面控制</TextBlock>
+                    <TextBlock FontSize="13" HorizontalAlignment="Left" Foreground="White" VerticalAlignment="Top" Margin="952,119,0,0" >整体移动</TextBlock>
                 </Grid>
                 <Grid Grid.Row="5">
                     <Button Width="71" Height="27.75"   IsEnabled="{Binding StartLive }" Command="{Binding LiveShowStartComand}"  Style="{DynamicResource ButtonStyle1}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="774.5,7,0,0"    RenderTransformOrigin="0.5,0.5">
@@ -891,6 +911,7 @@
                         <Button.Background>
                             <ImageBrush ImageSource="img/UI/主题-预览开始.png"/>
                         </Button.Background>
+                        <TextBlock FontSize="14" HorizontalAlignment="Left" Foreground="White" VerticalAlignment="Top" Margin="40,0,0,0" >预览</TextBlock>
                     </Button>
                     <Button Width="104.166" Height="27.75"  IsEnabled="{Binding EndLive }" Command="{Binding LiveShowEndComand}"  Style="{DynamicResource ButtonStyle1}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="862.667,7,0,0"    RenderTransformOrigin="0.5,0.5">
 
@@ -905,6 +926,7 @@
                         <Button.Background>
                             <ImageBrush ImageSource="img/UI/主题-预览结束.png"/>
                         </Button.Background>
+                        <TextBlock FontSize="14" HorizontalAlignment="Left" Foreground="White" VerticalAlignment="Top" Margin="36,0,0,0" >停止预览</TextBlock>
                     </Button>
                     <Button x:Name="button1" Width="68.75" Height="24.584"   Command="{Binding SendOnepackageCommandTwo}"   Style="{DynamicResource ButtonStyle1}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="984.167,9.569,0,0" RenderTransformOrigin="0.5,0.5">
                         <Button.RenderTransform>
@@ -918,6 +940,7 @@
                         <Button.Background>
                             <ImageBrush ImageSource="img/UI/主题-应用.png"/>
                         </Button.Background>
+                        <TextBlock FontSize="14" HorizontalAlignment="Left" Foreground="White" VerticalAlignment="Top" Margin="38,0,0,0" >应用</TextBlock>
                     </Button>
 
                     <Button Width="69.25" Height="22.903" IsEnabled="{Binding Outgif}"  Command="{Binding SaveCommand}"  Style="{DynamicResource ButtonStyle1}"  Margin="1071.25,11.25,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"     RenderTransformOrigin="0.5,0.5">
@@ -933,6 +956,7 @@
                         <Button.Background>
                             <ImageBrush ImageSource="img/UI/主题-保存.png"/>
                         </Button.Background>
+                        <TextBlock FontSize="14" HorizontalAlignment="Left" Foreground="White" VerticalAlignment="Top" Margin="38,0,0,0" >保存</TextBlock>
                     </Button>
 
                     <ScrollViewer  Visibility="Collapsed" x:Name="degbug"  Width="500" Height="300" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,-250,0,0" >

@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -124,21 +125,43 @@ namespace Setting.View
             RgbaColor Hcolor = new RgbaColor(R, G, _B, A);
             PointList.ChangeColor = Hcolor.SolidColorBrush;
 
-            TextHex.Text = Hcolor.HexString;
-
+            if (Hcolor.HexString.Length == 9)
+            {
+                TextHex.Text = Hcolor.HexString.Substring(3, 6);
+            }
+            else
+            {
+                TextHex.Text = Hcolor.HexString;
+            }
         }
 
         private void HexTextLostFocus(object sender, RoutedEventArgs e)
         {
-
-            RgbaColor Hcolor = new RgbaColor("#FF"+TextHex.Text);
-
-            PointList.ChangeColor = Hcolor.SolidColorBrush;
-
-            TextR.Text = Hcolor.R.ToString();
-            TextG.Text = Hcolor.G.ToString();
-            TextB.Text = Hcolor.B.ToString();
-            TextA.Text = Hcolor.A.ToString();
+            string pattern = @"^[0-9A-Fa-f]{6}$";
+            string input = TextHex.Text;
+            bool isMatch = Regex.IsMatch(input, pattern);
+            if (isMatch)
+            {
+                RgbaColor Hcolor = new RgbaColor("#FF" + TextHex.Text);
+                PointList.ChangeColor = Hcolor.SolidColorBrush;
+                TextR.Text = Hcolor.R.ToString();
+                TextG.Text = Hcolor.G.ToString();
+                TextB.Text = Hcolor.B.ToString();
+                TextA.Text = Hcolor.A.ToString();
+            }
+            else
+            {
+                RgbaColor Hcolor = new RgbaColor(R, G, _B, A);
+                PointList.ChangeColor = Hcolor.SolidColorBrush;
+                if (Hcolor.HexString.Length == 9)
+                {
+                    TextHex.Text = Hcolor.HexString.Substring(3, 6);
+                }
+                else
+                {
+                    TextHex.Text = Hcolor.HexString;
+                }
+            }
         }
 
         private void ColorChange(RgbaColor Hcolor)
@@ -150,6 +173,66 @@ namespace Setting.View
 
             TextHex.Text = Hcolor.HexString;
         }
+
+        private void TextR_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            TextBox textBox = sender as TextBox;
+            string text = textBox.Text;
+            if (TextR ==null || TextG==null || TextB == null || TextA == null|| TextHex==null)
+            {
+                return;
+            }
+            //错误的数据，则使用上次的正确数据
+            if (!int.TryParse(TextR.Text, out int Rvalue) || (Rvalue > 255 || Rvalue < 0)|| TextR==null)
+            {
+                return;
+            }
+
+            if (!int.TryParse(TextG.Text, out int Gvalue) || (Gvalue > 255 || Gvalue < 0) || TextG == null)
+            {
+                return;
+            }
+
+            if (!int.TryParse(TextB.Text, out int Bvalue) || (Bvalue > 255 || Bvalue < 0) || TextB == null)
+            {
+                return;
+            }
+            if (!int.TryParse(TextA.Text, out int Avalue) || (Avalue > 255 || Avalue < 0) || TextA == null)
+            {
+                return;
+            }
+            R = Rvalue; G = Gvalue; _B = Bvalue; A = Avalue;
+
+
+            RgbaColor Hcolor = new RgbaColor(R, G, _B, A);
+            PointList.ChangeColor = Hcolor.SolidColorBrush;
+            if (Hcolor.HexString.Length==9)
+            {
+                TextHex.Text = Hcolor.HexString.Substring(3, 6);
+            }
+            else
+            {
+                TextHex.Text = Hcolor.HexString;
+            }
+        }
+
+        private void TextHex_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            string pattern = @"^[0-9A-Fa-f]{6}$";
+            string input = TextHex.Text;
+            bool isMatch = Regex.IsMatch(input, pattern);
+            if (isMatch)
+            {
+                RgbaColor Hcolor = new RgbaColor("#FF" + TextHex.Text);
+                PointList.ChangeColor = Hcolor.SolidColorBrush;
+                TextR.Text = Hcolor.R.ToString();
+                TextG.Text = Hcolor.G.ToString();
+                TextB.Text = Hcolor.B.ToString();
+                TextA.Text = Hcolor.A.ToString();
+            }
+        }
+
+
 
         //private void btn_Click(object sender, RoutedEventArgs e)
         //{
