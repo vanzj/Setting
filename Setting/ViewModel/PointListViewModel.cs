@@ -251,23 +251,37 @@ namespace Setting.ViewModel
                     {
                         return;
                     }
-                    var GIFName = JsonFileInfo.Name;
+
 
                     var fileName = string.IsNullOrEmpty(JsonFileInfo.NewFileName) ? JsonFileInfo.FileName : JsonFileInfo.NewFileName;
 
-                    var templist = MessageHelper.Buildgif(AllPonitList, xIndex, yIndex, fileName);
-
-                    OutPutGIF outPutGIF = new OutPutGIF();
-
-                    if (!Directory.Exists(Environment.CurrentDirectory + "//OutPut"))
+                    // 创建一个OpenFileDialog实例
+                    var SaveFileDialog = new Microsoft.Win32.SaveFileDialog
                     {
-                        Directory.CreateDirectory(
-                                     Environment.CurrentDirectory + "//OutPut"
-                           );
+                        // 设置一些基本属性，如过滤器
+                        Filter = "Text files | *.gif",
+                        FileName = fileName,
+                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
+            };
 
+
+                    // 显示对话框
+                    // 注意：ShowDialog方法将返回一个可空的bool值，当用户选择文件并点击“打开”时为true
+                    if (SaveFileDialog.ShowDialog() == true)
+                    { 
+                    // 获取用户选择的文件路径
+                    string file = SaveFileDialog.FileName;
+           
+                        var GIFName = JsonFileInfo.Name;
+
+                        var templist = MessageHelper.Buildgif(AllPonitList, xIndex, yIndex, fileName);
+
+                        OutPutGIF outPutGIF = new OutPutGIF();
+
+
+                        outPutGIF.Output(templist, xIndex, yIndex, 20, file);
 
                     }
-                    outPutGIF.Output(templist, xIndex, yIndex, 20, Environment.CurrentDirectory + "//OutPut//" + GIFName + ".gif");
 
                 })
                 {

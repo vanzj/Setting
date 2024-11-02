@@ -973,7 +973,7 @@
 
             </Grid>
             <Grid Width="959" Height="65" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.ColumnSpan="2" Cursor="Cross" MouseLeftButtonDown="Grid_MouseLeftButtonDown" Background="#021FBF1F"></Grid>
-
+            <myview:ErrorInfo Grid.ColumnSpan="2" Visibility="Collapsed"></myview:ErrorInfo>
         </Grid>
     </Viewbox>
 

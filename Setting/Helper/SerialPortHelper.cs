@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 using System.Timers;
+using System.Windows;
 using System.Windows.Threading;
 using Windows.Devices.Enumeration;
 using Windows.Devices.SerialCommunication;
@@ -110,6 +111,9 @@ namespace Setting.Helper
                 MYSerialDevice.SerialDevice.Dispose();
                 MYSerialDevice.IsConnect = false;
                 Messenger.Default.Send(new DebugInfoEvent($"串口扫描==> 连接断开"));
+
+                Messenger.Default.Send(new LostScreenEvent());
+
             }
         }
 
@@ -132,6 +136,8 @@ namespace Setting.Helper
                     MYSerialDevice.IsConnect = true;
                 }
                 Messenger.Default.Send(new DebugInfoEvent($"串口扫描==> 恢复连接"));
+
+                Messenger.Default.Send(new ReConnectScreenEvent());
             }
             if (string.IsNullOrEmpty(CurrentCOMID))
             {

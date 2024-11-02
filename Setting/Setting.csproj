@@ -124,6 +124,7 @@
     <Compile Include="Event\LiveStartEvent.cs" />
     <Compile Include="Event\LoadedEvent.cs" />
     <Compile Include="Event\LumianceChangeEvent.cs" />
+    <Compile Include="Event\LostScreenEvent.cs" />
     <Compile Include="Event\SendStartEvent.cs" />
     <Compile Include="Event\ThemeLotFocusEvent.cs" />
     <Resource Include="img\UI\画面上%402x.png" />
@@ -152,7 +153,6 @@
     <Resource Include="img\UI\主题-下一页.png" />
     <Resource Include="img\UI\主题上一页.png" />
     <Resource Include="img\UI\主题修改弹窗.png" />
-    <Resource Include="img\UI\背景-主题.png" />
     <Resource Include="img\UI\背景-编辑界面%402x.png" />
     <Resource Include="img\UI\开关-底.png" />
     <Resource Include="img\UI\开关按钮.png" />
@@ -160,6 +160,7 @@
     <Resource Include="img\UI\窗口-x.png" />
     <Resource Include="img\UI\窗口-口.png" />
     <Resource Include="abvss-4lnyk-001.ico" />
+    <Resource Include="img\UI\背景-主题.png" />
     <Content Include="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -215,6 +216,9 @@
     <Compile Include="View\ColorPicker.xaml.cs">
       <DependentUpon>ColorPicker.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\ErrorInfo.xaml.cs">
+      <DependentUpon>ErrorInfo.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\PointList.xaml.cs">
       <DependentUpon>PointList.xaml</DependentUpon>
     </Compile>
@@ -234,6 +238,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="View\ColorPicker.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ErrorInfo.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
