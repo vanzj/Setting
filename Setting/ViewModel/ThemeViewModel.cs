@@ -124,7 +124,12 @@ namespace Setting.ViewModel
 
             Messenger.Default.Register<KeyDownEvent>(this, HandleKeyDownEvent);
 
+       
+            
+
         }
+
+
 
         private void HandleKeyDownEvent(KeyDownEvent obj)
         {
@@ -707,7 +712,6 @@ namespace Setting.ViewModel
             {
                 return new RelayCommand<ThemeItem>(item =>
                 {
-                    Thickness = 0;
                     PopupOpen = false;
                     Messenger.Default.Send(new InputThemeEvent { JsonFileInfo = item.JsonFileInfo });
                 });

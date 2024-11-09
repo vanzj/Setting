@@ -12,6 +12,7 @@ namespace Setting.Model
 {
     public class JsonFileInfo : ViewModelBase
     {
+        public long? Id { get; set; }
 
 
         private string name;

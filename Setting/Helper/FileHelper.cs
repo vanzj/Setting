@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -242,5 +243,45 @@ namespace Setting.Helper
           
 
         }
+        /// <summary>
+        /// 异步下载 JSON 文件并保存到指定路径。
+        /// </summary>
+        /// <param name="url">JSON 文件的 URL。</param>
+        /// <param name="filePath">要保存的文件路径。</param>
+        /// <returns>返回一个表示异步操作的任务。</returns>
+        public static async Task DownloadJsonFileAsync(string url, string filePath)
+        {
+            using (HttpClient httpClient = new HttpClient())
+            {
+                try
+                {
+                    // 发送 GET 请求以获取 JSON 数据
+                    HttpResponseMessage response = await httpClient.GetAsync(url, HttpCompletionOption.ResponseHeadersRead);
+
+                    // 确保请求成功
+                    response.EnsureSuccessStatusCode();
+
+                    // 读取响应内容并写入文件
+                    using (Stream contentStream = await response.Content.ReadAsStreamAsync(),
+                                  fileStream = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.None, bufferSize: 8192, useAsync: true))
+                    {
+                        await contentStream.CopyToAsync(fileStream);
+                    }
+                }
+                catch (HttpRequestException e)
+                {
+                    Console.WriteLine($"请求错误: {e.Message}");
+                }
+                catch (IOException e)
+                {
+                    Console.WriteLine($"文件 I/O 错误: {e.Message}");
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine($"未知错误: {e.Message}");
+                }
+            }
+        }
+
     }
 }

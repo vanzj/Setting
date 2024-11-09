@@ -5,14 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace Setting.Helper
+namespace Setting.Event
 {
-    public class LostScreenEvent
-    {
-        public bool isLocal { get; set; }
-        public List<DeviceInfo> DeviceInfos { get; set; }
-    }
-    public class ReConnectScreenEvent
+  public  class FindScreenEvent
     {
         public bool isLocal { get; set; }
         public List<DeviceInfo> DeviceInfos { get; set; }

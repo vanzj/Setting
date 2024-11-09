@@ -1083,6 +1083,29 @@ namespace Setting.ViewModel
 
 
 
+        private string accountName;
+        public string AccountName
+        {
+            get { return accountName; }
+            set
+            {
+                accountName = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+
+        private string screenName;
+        public string ScreenName
+        {
+            get { return screenName; }
+            set
+            {
+                screenName = value;
+                RaisePropertyChanged();
+            }
+        }
 
 
 
@@ -1091,7 +1114,8 @@ namespace Setting.ViewModel
             Messenger.Default.Register<InputThemeEvent>(this, HandlInputThemeEvent);
             Messenger.Default.Register<PonitClickedEvent>(this, HandlePonitClickedEvent);
             Messenger.Default.Register<HardInfoEvent>(this, HandleCpuInfoEvent);
-
+            Messenger.Default.Register<ScreenNameEvent>(this, HandleScreenNameEvent);
+            Messenger.Default.Register<AccountEvent>(this, HandleAccountEvent);
             Messenger.Default.Register<InitFromHistroyEvent>(this, HanderInitFromHistroyEvent);
             Messenger.Default.Register<ThemeItemClickedEvent>(this, HandleChangeTheMeEvent);
             Messenger.Default.Register<NewThemeEvent>(this, HandleNewThemeEvent);
@@ -1106,6 +1130,16 @@ namespace Setting.ViewModel
             CursorEnum = CursorEnum.MOVE;
             ChangeColor = new SolidColorBrush((System.Windows.Media.Color)ColorConverter.ConvertFromString(ColorConst.BackGroupColor));
             DebugInfo = "*********************************************调试信息******************" + "\r\n";
+        }
+
+        private void HandleAccountEvent(AccountEvent obj)
+        {
+            AccountName = obj.Name;
+        }
+
+        private void HandleScreenNameEvent(ScreenNameEvent obj)
+        {
+            ScreenName = obj.Name;
         }
 
         private void HandlInputThemeEvent(InputThemeEvent obj)

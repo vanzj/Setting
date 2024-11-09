@@ -19,6 +19,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+
 namespace Setting
 {
     /// <summary>
@@ -34,7 +35,8 @@ namespace Setting
             Messenger.Default.Register<SendStartEvent>(this, HandleSendStartEvent);
             Messenger.Default.Register<SendEndEvent>(this, HandleSendEndEvent);
 
-            SerialPortHelper.Instance.AutoConnect();
+       
+            this.Login.Visibility = Visibility.Visible;
 
         }
 
@@ -77,6 +79,7 @@ namespace Setting
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+         SerialPortScanHelper.Instance.ClosePort();
             SerialPortHelper.Instance.ClosePort();
         }
 
@@ -127,6 +130,10 @@ namespace Setting
         {
             this.DragMove();
         }
+        private void ScreenList_MouseLeave(object sender, MouseEventArgs e)
+        {
+            Messenger.Default.Send(new ScreenLotFocusEvent { });
+        }
 
         private void Button_Click_3(object sender, RoutedEventArgs e)
         {
@@ -139,7 +146,13 @@ namespace Setting
                 this.degbug.Visibility = Visibility.Visible;
             }
         }
+        private void Button_Click_send(object sender, RoutedEventArgs e)
+        {
+           
+            JdClient jdClient = new JdClient(HttpClientHelper.Instance.GetHttpClient());
 
+            
+        }
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
 
@@ -171,10 +184,41 @@ namespace Setting
         {
 
         }
+        private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            Task.Run(() =>
+            {
+                JdClient jdClient = new JdClient(HttpClientHelper.Instance.GetHttpClient());
+
+                var result = jdClient.LogoutUsingPOSTAsync();
+                // Restart current process Method 1
+
+                this.Dispatcher.Invoke(() =>
+                {
+                    System.Windows.Forms.Application.Restart();
+                    Application.Current.Shutdown();
+
+                });
+
+
+
+            });
+
+        }
 
         private void Storyboard_Completed(object sender, EventArgs e)
         {
             this.button1.IsEnabled = true;
+        }
+
+        private void Logoutgrip_MouseLeave(object sender, MouseEventArgs e)
+        {
+            this.Logoutgrip.Visibility = Visibility.Collapsed;
+        }
+
+        private void Grid_MouseDown_1(object sender, MouseButtonEventArgs e)
+        {
+            this.Logoutgrip.Visibility = Visibility.Visible;
         }
     }
 

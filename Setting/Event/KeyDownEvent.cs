@@ -18,4 +18,10 @@ namespace Setting.Event
         public string FileName { get; set; }
         public Key Key { get; set; }
     }
+    public class KeyDownEventScreen
+    {
+
+        public string DevNo { get; set; }
+        public Key Key { get; set; }
+    }
 }

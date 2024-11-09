@@ -9,7 +9,6 @@ namespace Setting.Helper
 {
    public class MYSerialDevice
     {
-        public string COMID { get; set; }
         public bool IsConnect { get; set; }
         public SerialDevice SerialDevice { get; set; }
     }
