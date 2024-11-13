@@ -57,7 +57,7 @@ namespace Setting.Helper
                 try
                 {
 
-                    if (MYSerialDevice != null && MYSerialDevice != null )
+                    if (MYSerialDevice != null   )
                     {
                         var count = MYSerialDevice.BytesReceived;
                         var rBuffer = MYSerialDevice.InputStream.ReadAsync(new Windows.Storage.Streams.Buffer(50), 50, InputStreamOptions.None).GetAwaiter().GetResult(); ;
@@ -134,16 +134,18 @@ namespace Setting.Helper
         {
             try
             {
+              
                 if (string.IsNullOrEmpty(COMID))
                 {
                     CurrentComId = COMID;
                     return false;
                 }
+
                 if (CurrentComId == COMID&& !ReConnect)
                 {
                     return false;
                 }
-           
+                Messenger.Default.Send(new ConnectScreenEvent());
                 try
                 {
                     CurrentComId = COMID;
@@ -161,6 +163,12 @@ namespace Setting.Helper
                         MYSerialDevice.WriteTimeout = TimeSpan.FromSeconds(10);
                         MYSerialDevice.IsRequestToSendEnabled = false;
                         MYSerialDevice.IsDataTerminalReadyEnabled = true;
+                        Messenger.Default.Send(new DebugInfoEvent($"串口扫描==> 打开成功:{COMID}"));
+                    }
+                    else
+                    {
+                        Messenger.Default.Send(new DebugInfoEvent($"串口扫描==> 打开失败:{COMID}"));
+                        CurrentComId = "";
                     }
                 }
                 catch (Exception ex)
@@ -169,7 +177,7 @@ namespace Setting.Helper
                       CurrentComId = "";
                     throw new Exception(ex.Message);
                 }
-                Messenger.Default.Send(new DebugInfoEvent($"串口扫描==> 打开{COMID}成功"));
+        
                 return true;
             }
             catch (Exception ex)
@@ -185,7 +193,7 @@ namespace Setting.Helper
 
             try
             {
-                Messenger.Default.Send(new DebugInfoEvent("接收消息<==  " + MYSerialDevice.PortName + "  " + msgreturn));
+                Messenger.Default.Send(new DebugInfoEvent("接收消息<==  " + MYSerialDevice?.PortName + "  " + msgreturn));
                 var msgobject = JsonConvert.DeserializeObject<ReturnBase<string>>(msgreturn);
                 switch (msgobject.cmd)
                 {
@@ -197,11 +205,11 @@ namespace Setting.Helper
                             var getMacmsg = JsonConvert.DeserializeObject<getMacRetrun>(msgreturn);
                             if (!string.IsNullOrEmpty(getMacmsg.data))
                             {
-                                Messenger.Default.Send(new DebugInfoEvent("串口扫描=>  " + MYSerialDevice.PortName + "连接成功"));
+                                Messenger.Default.Send(new DebugInfoEvent("串口扫描=>  " + MYSerialDevice?.PortName + "连接成功"));
                             }
                             else
                             {
-                                Messenger.Default.Send(new DebugInfoEvent("串口扫描+==  " + MYSerialDevice.PortName + "未返回mac地址未能自动连接"));
+                                Messenger.Default.Send(new DebugInfoEvent("串口扫描+==  " + MYSerialDevice?.PortName + "未返回mac地址未能自动连接"));
                             }
 
 
@@ -209,9 +217,13 @@ namespace Setting.Helper
 
                         break;
                     case "open":
+                        Messenger.Default.Send(new MsgEvent("屏幕开启成功")); ;
+                        break;
                     case "close":
+                        Messenger.Default.Send(new MsgEvent("屏幕关闭成功")); 
+                        break;
                     case "luminance":
-                        ;
+                        Messenger.Default.Send(new MsgEvent("亮度调节成功")); 
                         break;
                     case "theme":
                         if (msgobject.cmd == currentCmd)
@@ -254,6 +266,7 @@ namespace Setting.Helper
                             }
                             if (index >= msgList.Count)
                             {
+                                Messenger.Default.Send(new MsgEvent("主题应用成功"));
                                 Messenger.Default.Send(new SendEndEvent());
                             }
                         }
@@ -294,7 +307,7 @@ namespace Setting.Helper
             {
 
                 InitCOM(COMID,true);
-                Messenger.Default.Send(new ReConnectScreenEvent());
+
                 return;
             }
         }
@@ -369,7 +382,7 @@ namespace Setting.Helper
                         var sw = MYSerialDevice.OutputStream.WriteAsync(wBuffer).GetAwaiter().GetResult();
 
 
-                        Messenger.Default.Send(new DebugInfoEvent("发送消息==>  " + MYSerialDevice.PortName + Sendmsg + "**"));
+                        Messenger.Default.Send(new DebugInfoEvent("发送消息==>  " + MYSerialDevice?.PortName + Sendmsg + "**"));
 
 
                     }
@@ -380,7 +393,7 @@ namespace Setting.Helper
                 }
                 else
                 {
-                    Messenger.Default.Send(new DebugInfoEvent("发送消息==>  失败串口忙" + MYSerialDevice.PortName + Sendmsg + "**"));
+                    Messenger.Default.Send(new DebugInfoEvent("发送消息==>  失败串口忙" + MYSerialDevice?.PortName + Sendmsg + "**"));
                 }
 
             }

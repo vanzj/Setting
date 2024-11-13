@@ -151,7 +151,7 @@
                 <Grid.Background>
                     <ImageBrush ImageSource="/Setting;component/img/Login/loading背景.png"/>
                 </Grid.Background>
-                <TextBox x:Name="mobile" HorizontalAlignment="Left" VerticalAlignment="Top" TextChanged="mobile_TextChanged"  Text="" FontSize="32"  Width="295" Margin="191,34,0,0" Height="39" Background="#422D31"  BorderThickness="0" Foreground="White">
+                <TextBox x:Name="mobile" HorizontalAlignment="Left" VerticalAlignment="Top" TextChanged="mobile_TextChanged"   FontSize="32"  Width="295" Margin="191,34,0,0" Height="39" Background="#422D31"   BorderThickness="0" Foreground="White">
                     <TextBox.Clip>
                         <PathGeometry>
                             <PathFigure StartPoint="0,5">
@@ -169,7 +169,7 @@
 
 
 
-                <PasswordBox  x:Name="password" HorizontalAlignment="Left" PasswordChanged="password_PasswordChanged"  VerticalAlignment="Top" FontSize="32"  Width="295" Margin="191,98,0,0" Height="39" Background="#422D31" BorderThickness="0" Foreground="White">
+                <PasswordBox  x:Name="password" HorizontalAlignment="Left" PasswordChanged="password_PasswordChanged"  VerticalAlignment="Top" FontSize="32"  Width="295" Margin="191,98,0,0" Height="39" Background="#422D31"  BorderThickness="0" Foreground="White">
                     <PasswordBox.Clip>
                         <PathGeometry>
                             <PathFigure StartPoint="0,5">
@@ -521,7 +521,7 @@
 
                 <Label x:Name="手机号" Foreground="White" FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="61,170,0,0">手机号码</Label>
                 <Label x:Name="密码" Foreground="White" FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="109,234,0,0">密码</Label>
-                <TextBox x:Name="pwsmobile"  HorizontalAlignment="Left" TextChanged="pwsmobile_TextChanged"  VerticalAlignment="Top" FontSize="32"  Width="295" Margin="172,170,0,0" Height="39" Background="#422D31"  Text=""  BorderThickness="0" Foreground="White">
+                <TextBox x:Name="pwsmobile"  HorizontalAlignment="Left" TextChanged="pwsmobile_TextChanged"  VerticalAlignment="Top" FontSize="32"  Width="295" Margin="172,170,0,0" Height="39" Background="#422D31" BorderThickness="0" Foreground="White">
                     <TextBox.Clip>
                         <PathGeometry>
                             <PathFigure StartPoint="0,5">
@@ -538,7 +538,7 @@
                 <Label x:Name="pwsmobileerror" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="red" Margin="172,209,0,0" FontSize="12" Content="" />
 
 
-                <PasswordBox x:Name="pwspassword"  FontSize="32" PasswordChanged="pwspassword_PasswordChanged"  HorizontalAlignment="Left" VerticalAlignment="Top" Width="295" Margin="172,234,0,0" Height="39" Background="#422D31" BorderThickness="0" Password=""  Foreground="White">
+                <PasswordBox x:Name="pwspassword"  FontSize="32" PasswordChanged="pwspassword_PasswordChanged"  HorizontalAlignment="Left" VerticalAlignment="Top" Width="295" Margin="172,234,0,0" Height="39" Background="#422D31" BorderThickness="0" Foreground="White">
                     <PasswordBox.Clip>
                         <PathGeometry>
                             <PathFigure StartPoint="0,5">

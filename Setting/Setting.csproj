@@ -133,6 +133,7 @@
     <Compile Include="Event\LoadedEvent.cs" />
     <Compile Include="Event\LumianceChangeEvent.cs" />
     <Compile Include="Event\LostScreenEvent.cs" />
+    <Compile Include="Event\MsgEvent.cs" />
     <Compile Include="Event\RemoveScreenInfoEvent.cs" />
     <Compile Include="Event\ScreenClickedEvent.cs" />
     <Compile Include="Event\ScreenLotFocusEvent.cs" />
@@ -201,6 +202,7 @@
     <Compile Include="Helper\ABCHelper.cs" />
     <Compile Include="Event\AddNewThemeEvent.cs" />
     <Compile Include="Helper\BitmapHelper.cs" />
+    <Compile Include="Helper\CommandBehavior.cs" />
     <Compile Include="Helper\Const.cs" />
     <Compile Include="Helper\HardHelper.cs" />
     <Compile Include="Event\HardInfoEvent.cs" />
@@ -242,6 +244,7 @@
     <Compile Include="OpenAPIs\Openapi.cs" />
     <Compile Include="ViewModel\HistoryViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
+    <Compile Include="ViewModel\MessageViewModel.cs" />
     <Compile Include="ViewModel\PointListViewModel.cs" />
     <Compile Include="ViewModel\ScreenInfoViewModel.cs" />
     <Compile Include="ViewModel\SliderWithDebounce.cs" />

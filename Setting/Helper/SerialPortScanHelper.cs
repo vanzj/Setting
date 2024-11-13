@@ -65,15 +65,18 @@ namespace Setting.Helper
             }
             else
             {//所有
-                if (isInit)
-                {
-                    isInit = false;
-                    Messenger.Default.Send(new FindScreenEvent { isLocal = true, DeviceInfos = new List<DeviceInfo>() {} }); ;
 
-                }
                 MYSerialDevice?.Dispose();
                 MYSerialDevice = null;
                 ScanTimer.Stop();
+
+                Thread.Sleep(1000);
+                if (isInit)
+                {
+                    isInit = false;
+                    Messenger.Default.Send(new FindScreenEvent { isLocal = true, DeviceInfos = new List<DeviceInfo>() { } }); ;
+
+                }
             }
         }
         private void StartDeviceWatchers()
@@ -129,8 +132,15 @@ namespace Setting.Helper
                     ScanTimer.Start();
                 }
             }
+            else
+            {
+               
+            }
             var tempCominfo = COMInfoList.First(c => c.Id == args.Id);
-
+            if (tempCominfo.IsScreen ==false)
+            {
+                tempCominfo.IsScreen = null;
+            }
             if (tempCominfo.IsScreen == true)
             {   // 连接过的串口
                //todo  重新连接。
@@ -279,14 +289,16 @@ namespace Setting.Helper
 
                             if (!string.IsNullOrEmpty(getMacmsg.data))
                             {
-                                Messenger.Default.Send(new FindScreenEvent { isLocal = true, DeviceInfos = new List<DeviceInfo>() { new DeviceInfo() { DevNo = getMacmsg.data.Replace(":", ""), Name = "新屏幕", BlueNo = CurrentCom.Id } } }); ;
-                                Messenger.Default.Send(new DebugInfoEvent("串口扫描=>  " + MYSerialDevice?.PortName + "连接成功"));
+
+                                MYSerialDevice?.Dispose();
+                                MYSerialDevice = null;
                                 if (CurrentCom !=null)
                                 {
                                     CurrentCom.IsScreen = true;
                                     CurrentCom.Mac = getMacmsg.data.Replace(":","");
                                 }
-
+                                Messenger.Default.Send(new FindScreenEvent { isLocal = true, DeviceInfos = new List<DeviceInfo>() { new DeviceInfo() { DevNo = getMacmsg.data.Replace(":", ""), Name = "新屏幕", BlueNo = CurrentCom.Id } } }); ;
+                                Messenger.Default.Send(new DebugInfoEvent("串口扫描=>  " + MYSerialDevice?.PortName + "连接成功"));
                             }
                             else
                             {

@@ -25,27 +25,9 @@ namespace Setting.View
         public ErrorInfo()
         {
             InitializeComponent();
-            Messenger.Default.Register<LostScreenEvent>(this, HandleLostScreenEvent); 
-            Messenger.Default.Register<ReConnectScreenEvent>(this, HandleReConnectScreenEvent);
+         
         }
 
-        private void HandleReConnectScreenEvent(ReConnectScreenEvent obj)
-        {
-            this.Dispatcher.Invoke(()=>{
-                this.Visibility = Visibility.Collapsed;
-            });
-        }
-
-        private void HandleLostScreenEvent(LostScreenEvent obj)
-        {
-            this.Dispatcher.Invoke(() => {
-                this.Visibility = Visibility.Visible;
-            });
-        }
-
-        private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            this.Visibility = Visibility.Collapsed;
-        }
+      
     }
 }

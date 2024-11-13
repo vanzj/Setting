@@ -44,9 +44,7 @@ namespace Setting
         {
             this.Dispatcher.Invoke(() =>
             {
-                this.button1.IsEnabled = true;
                 Storyboard sb = (Storyboard)this.FindResource("SendStory");
-
                 sb.Stop();
             });
          
@@ -55,7 +53,6 @@ namespace Setting
         private void HandleSendStartEvent(SendStartEvent obj)
         {
             Storyboard sb = (Storyboard)this.FindResource("SendStory");
-
             sb.Begin();
         }
 
@@ -206,10 +203,7 @@ namespace Setting
 
         }
 
-        private void Storyboard_Completed(object sender, EventArgs e)
-        {
-            this.button1.IsEnabled = true;
-        }
+
 
         private void Logoutgrip_MouseLeave(object sender, MouseEventArgs e)
         {

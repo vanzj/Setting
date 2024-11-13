@@ -340,6 +340,10 @@ namespace Setting.ViewModel
                 }
                 }
                 Messenger.Default.Send(new InitEndEvent() { endName = "findScreen" });
+                if (CurrentDevInfo == null)
+                {
+                    ChangeScreen(null);
+                }
             }
         }
 

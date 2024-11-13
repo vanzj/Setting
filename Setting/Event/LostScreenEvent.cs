@@ -12,7 +12,7 @@ namespace Setting.Helper
         public bool isLocal { get; set; }
         public List<DeviceInfo> DeviceInfos { get; set; }
     }
-    public class ReConnectScreenEvent
+    public class ConnectScreenEvent
     {
         public bool isLocal { get; set; }
         public List<DeviceInfo> DeviceInfos { get; set; }

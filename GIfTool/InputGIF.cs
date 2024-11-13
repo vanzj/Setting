@@ -72,10 +72,17 @@ namespace GIfTool
                             }
                             else
                             {
-                                OneFrame.frameRGB.Add(ColorConst.BackGroupColor.Replace("#FF", ""));
+           
+                                if (true)
+                                {
+                                    OneFrame.frameRGB.Add(ColorConst.BackGroupColor.Replace("#FF", ""));
+                                }
+                                else
+                                {
+                                    var tempcolor = BitmapHelper.GetPixelColor(t, x - CurrentImgxIndex, y, OneStep);
+                                    OneFrame.frameRGB.Add(tempcolor.Value.ToString().Replace("#FF", ""));
+                                }
                             }
-
-
                         }
                     }
                     oneseg.pointList = new List<ThemeSegmentDataPoint>() { OneFrame };

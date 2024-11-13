@@ -47,8 +47,19 @@ namespace Setting.ViewModel
             SimpleIoc.Default.Register<MainViewModel>();
             SimpleIoc.Default.Register<ThemeListViewModel>();
             SimpleIoc.Default.Register<ScreenInfoListViewModel>();
+            SimpleIoc.Default.Register<MessageViewModel>();
+
+        }
 
 
+        public MessageViewModel MessageList
+
+        {
+            get
+            {
+                var a = ServiceLocator.Current.GetInstance<MessageViewModel>();
+                return a;
+            }
         }
         public ScreenInfoListViewModel ScreenInfoList
 
@@ -93,7 +104,7 @@ namespace Setting.ViewModel
                 return ServiceLocator.Current.GetInstance<MainViewModel>();
             }
         }
-        
+
         public static void Cleanup()
         {
             // TODO Clear the ViewModels
