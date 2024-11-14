@@ -164,6 +164,7 @@ namespace Setting.Helper
                         MYSerialDevice.IsRequestToSendEnabled = false;
                         MYSerialDevice.IsDataTerminalReadyEnabled = true;
                         Messenger.Default.Send(new DebugInfoEvent($"串口扫描==> 打开成功:{COMID}"));
+                        SendGetInfoSendMessage();
                     }
                     else
                     {
@@ -215,6 +216,14 @@ namespace Setting.Helper
 
                         }
 
+                        break;
+                    case "getInfo":
+                        if (msgobject.cmd == "getInfo")
+                        {
+
+                            var GetInfoRetrun = JsonConvert.DeserializeObject<GetInfoRetrun>(msgreturn);
+                            Messenger.Default.Send(new ScreenInfoEvent() { IsOpen = GetInfoRetrun.data.status == "open", lum = int.Parse(GetInfoRetrun.data.luminance) });
+                        }
                         break;
                     case "open":
                         Messenger.Default.Send(new MsgEvent("屏幕开启成功")); ;
@@ -345,19 +354,6 @@ namespace Setting.Helper
         }
 
 
-        public void SendgetMacSendMessage()
-        {
-
-            var cmd = new getMacSend();
-            currentCmd = cmd.cmd;
-            index = 0;
-            msgList = new List<string>();
-            string msg = JsonConvert.SerializeObject(cmd);
-            if (MYSerialDevice != null)
-            {
-                Write(msg);
-            }
-        }
 
         bool isSending = false;
         private void Write(string Sendmsg)
@@ -411,6 +407,16 @@ namespace Setting.Helper
         public void SendLuminanceSendMessage(int arge)
         {
             var cmd = new LuminanceSend(arge.ToString());
+            currentCmd = cmd.cmd;
+            index = 0;
+            msgList = new List<string>();
+            string msg = JsonConvert.SerializeObject(cmd);
+            Write(msg);
+        }
+
+        public void SendGetInfoSendMessage( )
+        {
+            var cmd = new GetInfoSend();
             currentCmd = cmd.cmd;
             index = 0;
             msgList = new List<string>();

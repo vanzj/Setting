@@ -521,7 +521,7 @@
 
                 <Label x:Name="手机号" Foreground="White" FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="61,170,0,0">手机号码</Label>
                 <Label x:Name="密码" Foreground="White" FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="109,234,0,0">密码</Label>
-                <TextBox x:Name="pwsmobile"  HorizontalAlignment="Left" TextChanged="pwsmobile_TextChanged"  VerticalAlignment="Top" FontSize="32"  Width="295" Margin="172,170,0,0" Height="39" Background="#422D31" BorderThickness="0" Foreground="White">
+                <TextBox x:Name="pwsmobile"  HorizontalAlignment="Left" TextChanged="pwsmobile_TextChanged"  VerticalAlignment="Top" FontSize="32"  Width="295" Margin="172,170,0,0" Height="39" Background="#422D31" BorderThickness="0"  Foreground="White">
                     <TextBox.Clip>
                         <PathGeometry>
                             <PathFigure StartPoint="0,5">

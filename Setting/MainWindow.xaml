@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Setting"
+
         xmlns:myview="clr-namespace:Setting.View" xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:local1="clr-namespace:Setting.Convert" xmlns:enum="clr-namespace:Setting.Enum" 
         xmlns:viewmodel="clr-namespace:Setting.ViewModel" d:DataContext="{d:DesignInstance Type=viewmodel:ThemeListViewModel}"
@@ -44,8 +45,8 @@
             <Setter Property="VerticalContentAlignment" Value="Center"/>
             <Setter Property="Padding" Value="1"/>
             <Setter Property="Template">
-        
-   
+
+
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
                         <Border x:Name="border"   BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}"  SnapsToDevicePixels="true">
@@ -65,13 +66,13 @@
                         <Storyboard>
                             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(Button.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" >
                                 <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="1.1">
-                                  
+
                                 </EasingDoubleKeyFrame>
 
                             </DoubleAnimationUsingKeyFrames>
                             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(Button.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" >
                                 <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="1.1">
-                                   
+
                                 </EasingDoubleKeyFrame>
 
                             </DoubleAnimationUsingKeyFrames>
@@ -84,13 +85,13 @@
                             <Storyboard>
                                 <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(Button.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" >
                                     <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="1">
-                                       
+
                                     </EasingDoubleKeyFrame>
 
                                 </DoubleAnimationUsingKeyFrames>
                                 <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(Button.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" >
                                     <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="1">
-                                        
+
                                     </EasingDoubleKeyFrame>
 
                                 </DoubleAnimationUsingKeyFrames>
@@ -354,7 +355,7 @@
                 </Trigger>
                 <Trigger Property="IsEnabled" Value="False">
                     <Setter Property="Opacity" Value=" 0.3"></Setter>
-                    
+
                 </Trigger>
             </Style.Triggers>
         </Style>
@@ -816,13 +817,14 @@
 
                     <myview:ColorPicker Margin="53,86,-367,-181.5" HorizontalAlignment="Left" VerticalAlignment="Top" Width="414" Height="195.5"></myview:ColorPicker>
 
-
+           
                     <!--亮度 -->
                     <viewmodel:SliderWithDebounce  IsEnabled="{Binding SeedEnabled}"  Width="238"  Maximum="255" Value="{Binding Luminance}" NewValueChanged="Slider_ValueChanged" SmallChange="1" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="White" Margin="325.833,258,0,0" Style="{DynamicResource SliderStyle1}"    RenderTransformOrigin="0.5,0.5"/>
 
 
 
-                    <Button Width="57" Height="24"   Command="{Binding SendCloseSendMessageCommand}" IsEnabled="{Binding SeedEnabled}"    Visibility="{Binding Close}"  Style="{DynamicResource ButtonStyle1}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="379,197,0,0"    RenderTransformOrigin="0.5,0.5">
+                    <Button Width="57" Height="24"   Command="{Binding SendCloseSendMessageCommand}" IsEnabled="{Binding SeedEnabled}"    Visibility="{Binding Close}"
+                            Style="{DynamicResource ButtonStyle1}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="379,197,0,0"    RenderTransformOrigin="0.5,0.5">
 
                         <Button.RenderTransform>
                             <TransformGroup>
@@ -914,7 +916,7 @@
                     </Grid>
 
                     <Button Width="69.25" Height="22.903" IsEnabled="{Binding Outgif}"  Command="{Binding SaveCommand}"  Style="{DynamicResource ButtonStyle1}"  Margin="1071.25,11.25,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"     RenderTransformOrigin="0.5,0.5">
-                        
+
                         <Button.RenderTransform>
                             <TransformGroup>
                                 <ScaleTransform />
@@ -929,7 +931,7 @@
                         <TextBlock FontSize="14" HorizontalAlignment="Left" Foreground="White" VerticalAlignment="Top" Margin="38,0,0,0" >保存</TextBlock>
                     </Button>
 
-                  
+
                 </Grid>
 
 
@@ -1000,10 +1002,10 @@
                 <TextBox Text="{Binding DebugInfo}"></TextBox>
             </ScrollViewer>
 
-            <Button HorizontalAlignment="Left" Height="40" Margin="500,0,0,0" Click="Button_Click_3" VerticalAlignment="Bottom" Grid.Column="1">调试</Button>
+            <Button HorizontalAlignment="Left" Height="40" Margin="500,0,0,0" Click="Button_Click_3" VerticalAlignment="Bottom" Grid.Column="1">调试11</Button>
             <Button Margin="540,0,0,0" HorizontalAlignment="Left" Height="40" Command="{Binding CleanDebugInfoCommand}" VerticalAlignment="Bottom"  Grid.Column="1" >清除</Button>
             <!--<Button HorizontalAlignment="Left" Height="40" Margin="580,0,0,0" Click="Button_Click_send" VerticalAlignment="Bottom" Grid.Column="1">发送</Button>-->
-            <myview:ErrorInfo HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="440" Margin="0,0,0,246"></myview:ErrorInfo>
+            <myview:ErrorInfo HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="175" Margin="0,0,0,511" ></myview:ErrorInfo>
         </Grid>
     </Viewbox>
 

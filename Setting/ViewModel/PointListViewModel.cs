@@ -1125,7 +1125,8 @@ namespace Setting.ViewModel
             Messenger.Default.Register<ThemeItemClickedEvent>(this, HandleChangeTheMeEvent);
             Messenger.Default.Register<NewThemeEvent>(this, HandleNewThemeEvent);
             Messenger.Default.Register<DebugInfoEvent>(this, HandleDebugInfoEvent);
-
+            Messenger.Default.Register<ScreenInfoEvent>(this, HandleScreenInfoEvent);
+            
             Messenger.Default.Register<NextFrameEvent>(this, HandleNextFrameEvent);
             Messenger.Default.Register<LumianceChangeEvent>(this, HandleLumianceChangeEventt);
 
@@ -1139,6 +1140,21 @@ namespace Setting.ViewModel
             CursorEnum = CursorEnum.MOVE;
             ChangeColor = new SolidColorBrush((System.Windows.Media.Color)ColorConverter.ConvertFromString(ColorConst.BackGroupColor));
             DebugInfo = "*********************************************调试信息******************" + "\r\n";
+        }
+
+        private void HandleScreenInfoEvent(ScreenInfoEvent obj)
+        {
+            Luminance = obj.lum;
+            if (obj.IsOpen)
+            {
+                Close = Visibility.Visible;
+                Open = Visibility.Collapsed;
+            }
+            else
+            {
+                Open = Visibility.Visible;
+                Close = Visibility.Collapsed;
+            }
         }
 
         private void HandleReConnectScreenEvent(ConnectScreenEvent obj)

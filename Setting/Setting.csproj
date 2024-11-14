@@ -202,6 +202,7 @@
     <Compile Include="Helper\ABCHelper.cs" />
     <Compile Include="Event\AddNewThemeEvent.cs" />
     <Compile Include="Helper\BitmapHelper.cs" />
+    <Compile Include="Helper\LoginInfoHelper.cs" />
     <Compile Include="Helper\CommandBehavior.cs" />
     <Compile Include="Helper\Const.cs" />
     <Compile Include="Helper\HardHelper.cs" />
@@ -218,6 +219,7 @@
     <Compile Include="Event\NextFrameEvent.cs" />
     <Compile Include="Convert\MultiValueConverter.cs" />
     <Compile Include="Helper\MYSerialDevice.cs" />
+    <Compile Include="Event\ScreenInfoEvent.cs" />
     <Compile Include="Helper\SerialPortScanHelper.cs" />
     <Compile Include="Helper\SerialPortHelper.cs" />
     <Compile Include="Event\ThemeClickedEvent.cs" />

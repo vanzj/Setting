@@ -25,7 +25,7 @@ namespace Setting.Model.CMDModel
     public class GetInfoRetrunData
     {
         public string mac { get; set; }
-        public string brightness { get; set; }
-        public string themeName { get; set; }
+        public string luminance { get; set; }
+        public string status { get; set; }
     }
 }

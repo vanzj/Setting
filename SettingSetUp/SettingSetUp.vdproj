@@ -3857,7 +3857,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Setting, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:Setting, Version=1.0.0.2, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_1D22E015623149D38072B607E2A251CB"
@@ -9208,15 +9208,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:SettingSetUp"
-        "ProductCode" = "8:{F10D2557-6AA0-43D0-BF91-6F1A7369A524}"
-        "PackageCode" = "8:{32D3C9D2-26EA-4EB1-AE78-E566A26E1762}"
+        "ProductCode" = "8:{007EFD11-19AF-4527-9460-40B401B83F5D}"
+        "PackageCode" = "8:{ADA81E5E-F57B-45F1-AF95-7A802C36B1CF}"
         "UpgradeCode" = "8:{20C0321C-FD30-46A3-BA10-A51EA755A6AA}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.0.18"
+        "ProductVersion" = "8:1.0.23"
         "Manufacturer" = "8:van"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
@@ -9346,7 +9346,7 @@
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_6C4E2F083D3A475FAB65B578A3C81603"
             {
             "Name" = "8:SettingUnInstall.exe"
-            "Arguments" = "8:/X {F10D2557-6AA0-43D0-BF91-6F1A7369A524}"
+            "Arguments" = "8:/X {007EFD11-19AF-4527-9460-40B401B83F5D}"
             "Description" = "8:"
             "ShowCmd" = "3:1"
             "IconIndex" = "3:0"

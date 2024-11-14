@@ -51,7 +51,7 @@ namespace Setting.ViewModel
         {
             Application.Current.Dispatcher.Invoke(() =>
             {
-                if (MsgList.Count>=5)
+                if (MsgList.Count>=3)
                 {
                     MsgList.RemoveAt(0);
                 }

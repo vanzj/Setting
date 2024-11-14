@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Setting.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +21,26 @@ namespace Setting.View
     /// </summary>
     public partial class PointList : UserControl
     {
+    
         public PointList()
         {
             InitializeComponent();
+        }
+
+
+
+        private void OnMouseEnter(object sender, MouseEventArgs e)
+        {
+
+            if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl))
+            {
+                var item = sender as ListViewItem;
+                if (item != null && item.Content is PointItem model)
+                {
+                    model.ChangeColorCommand.Execute(model);
+                }
+            }
+
         }
     }
 }

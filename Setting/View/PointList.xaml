@@ -70,6 +70,9 @@
                         </ControlTemplate>
                     </Setter.Value>
                 </Setter>
+        
+                <EventSetter Event="MouseEnter" Handler="OnMouseEnter"/>
+
             </Style>
         </ListBox.ItemContainerStyle>
         <ListView.ItemTemplate>

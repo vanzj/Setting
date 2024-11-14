@@ -126,6 +126,33 @@ namespace Setting.View
             else
             {
                 this.msgCodeerror.Content = "注册成功";
+                RegGird.Visibility = Visibility.Collapsed;
+                MsgCodeGrid.Visibility = Visibility.Collapsed;
+                PWDGrid.Visibility = Visibility.Visible;
+
+                this.pwsmobile.Text = this.mobile.Text;
+                this.pwspassword.Password = this.password.Password;
+
+                LoginReq LoginReq = new LoginReq()
+                {
+                    Mobile = pwsmobile.Text,
+                    Password = pwspassword.Password,
+                };
+                var res = client.LoginUsingPOSTAsync(LoginReq).GetAwaiter().GetResult();
+                if (res.Code != 0)
+                {
+                    this.pwspassworderror.Content = res.Msg;
+                    return;
+                }
+                else
+                {
+                    this.pwspassworderror.Content = "";
+                }
+                var temp = res.Data.ToString();
+                var tokenJson = JsonConvert.DeserializeObject<Tokenjson>(temp);
+                HttpClientHelper.Instance.setToken(tokenJson.Token);
+                Messenger.Default.Send(new AccountEvent() { Name = pwsmobile.Text });
+                Init();
             }
         }
 
@@ -154,11 +181,39 @@ namespace Setting.View
         {
             if (this.msgCodeimg.Source == null)
             {
-          
-
                 RegGird.Visibility = Visibility.Collapsed;
                 MsgCodeGrid.Visibility = Visibility.Collapsed;
                 PWDGrid.Visibility = Visibility.Visible;
+                var login = LoginInfoHelper.Open();
+                this.pwsmobile.Text = login.UserName;
+                this.pwspassword.Password = login.Password;
+                if (login.isAutoLogin)
+                {
+                    JdClient client = new JdClient(HttpClientHelper.Instance.GetHttpClient());
+                    LoginReq req = new LoginReq()
+                    {
+                        Mobile = pwsmobile.Text,
+                        Password = pwspassword.Password,
+                    };
+                    var res = client.LoginUsingPOSTAsync(req).GetAwaiter().GetResult();
+                    if (res.Code != 0)
+                    {
+                        this.pwspassworderror.Content = res.Msg;
+                        return;
+                    }
+                    else
+                    {
+                        this.pwspassworderror.Content = "";
+                    }
+                    var temp = res.Data.ToString();
+                    var tokenJson = JsonConvert.DeserializeObject<Tokenjson>(temp);
+                    HttpClientHelper.Instance.setToken(tokenJson.Token);
+                    Messenger.Default.Send(new AccountEvent() { Name = pwsmobile.Text });
+                    Init();
+                }
+
+
+
             }
 
         }
@@ -337,6 +392,8 @@ namespace Setting.View
         private bool ScanHardSoft = false;
         private void Init()
         {
+            LoginInfoHelper.Save(new LoginModel() { Password = this.pwspassword.Password, UserName = this.pwsmobile.Text, isAutoLogin = true });
+            this.Visibility = Visibility.Hidden;
             this.PWDGrid.Visibility = Visibility.Collapsed;
             this.MsgCodeGrid.Visibility = Visibility.Collapsed;
             this.Loading.Visibility = Visibility.Visible;

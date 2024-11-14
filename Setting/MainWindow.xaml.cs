@@ -188,6 +188,9 @@ namespace Setting
                 JdClient jdClient = new JdClient(HttpClientHelper.Instance.GetHttpClient());
 
                 var result = jdClient.LogoutUsingPOSTAsync();
+
+                LoginInfoHelper.DisableAutoLogin();
+
                 // Restart current process Method 1
 
                 this.Dispatcher.Invoke(() =>
@@ -213,6 +216,11 @@ namespace Setting
         private void Grid_MouseDown_1(object sender, MouseButtonEventArgs e)
         {
             this.Logoutgrip.Visibility = Visibility.Visible;
+        }
+
+        private void ColorPicker_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<Color?> e)
+        {
+
         }
     }
 
