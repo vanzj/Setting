@@ -194,6 +194,8 @@
     <Resource Include="img\Login\验证码倒计时背景.png" />
     <Resource Include="img\预览-关闭_preview-close.png" />
     <Resource Include="img\预览-打开_preview-open.png" />
+    <Resource Include="img\Linkbreak.png" />
+    <Resource Include="img\Linkusb.png" />
     <Content Include="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

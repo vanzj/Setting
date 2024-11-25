@@ -18,9 +18,22 @@ namespace Setting.ViewModel
         private ObservableCollection<MsgInfo> msgList;
         public ObservableCollection<MsgInfo> MsgList { get => msgList; set => Set(ref msgList, value); }
 
+ 
+
+        private Visibility visibility;
+        public Visibility Visibility
+        {
+            get { return visibility; }
+            set
+            {
+                visibility = value;
+                RaisePropertyChanged();
+            }
+        }
 
         public MessageViewModel()
         {
+            Visibility = Visibility.Collapsed;
             MsgList = new ObservableCollection<MsgInfo>();
             timer = new DispatcherTimer();
             timer.Interval = new TimeSpan(0, 0, 1);
@@ -44,6 +57,14 @@ namespace Setting.ViewModel
             foreach (var item in RemoveIndexList)
             {
                 MsgList.RemoveAt(item);
+            }
+            if (MsgList.Count==0)
+            {
+                Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                Visibility = Visibility.Visible;
             }
         }
 

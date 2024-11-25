@@ -772,7 +772,8 @@
                         <TextBlock FontSize="16" HorizontalAlignment="Left" Foreground="White" VerticalAlignment="Top" Margin="22,0,0,0" > 选择</TextBlock>
                     </Button>
 
-                    <Button x:Name="button" Width="90.167" Height="26.417"   Command="{Binding ChangeCursorCommand }"   CommandParameter="{x:Static enum:CursorEnum.Magic}" Style="{DynamicResource ButtonStyle1}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="153.833,25.833,0,0" RenderTransformOrigin="0.5,0.5">
+        
+                    <Button x:Name="button" Width="90.167" Height="26.417" ToolTip="点击可以单个着色，按住Ctrl鼠标移动可以批量着色"  Command="{Binding ChangeCursorCommand }"   CommandParameter="{x:Static enum:CursorEnum.Magic}" Style="{DynamicResource ButtonStyle1}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="153.833,25.833,0,0" RenderTransformOrigin="0.5,0.5">
                         <Button.IsEnabled>
                             <MultiBinding Converter="{StaticResource MultiValueConverter}" >
                                 <Binding Path="StartLive"/>
@@ -790,9 +791,10 @@
                         <Button.Background>
                             <ImageBrush ImageSource="img/UI/鼠标-着色@2x.png"/>
                         </Button.Background>
+                   
                         <TextBlock FontSize="16" HorizontalAlignment="Left" Foreground="White" VerticalAlignment="Top" Margin="26,0,0,0" > 着色</TextBlock>
                     </Button>
-                    <Button Width="89.25" Height="26.417"   Command="{Binding ChangeCursorCommand }"   CommandParameter="{x:Static enum:CursorEnum.ERASE}"  Style="{DynamicResource ButtonStyle1}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="259.625,25.833,0,0"   RenderTransformOrigin="0.5,0.5">
+                    <Button Width="89.25" Height="26.417" ToolTip="点击可以单个擦除，按住Ctrl鼠标移动可以批量擦除"   Command="{Binding ChangeCursorCommand }"   CommandParameter="{x:Static enum:CursorEnum.ERASE}"  Style="{DynamicResource ButtonStyle1}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="259.625,25.833,0,0"   RenderTransformOrigin="0.5,0.5">
                         <Button.IsEnabled>
                             <MultiBinding Converter="{StaticResource MultiValueConverter}" >
                                 <Binding Path="StartLive"/>

@@ -185,6 +185,43 @@ namespace Setting.ViewModel
             Messenger.Default.Register<ScreenLotFocusEvent>(this, HandleScreenLotFocusEvent);
 
             Messenger.Default.Register<CanChangeScreenEvent>(this, HandleCanChangeScreenEvent);
+
+            Messenger.Default.Register<LostScreenEvent>(this, HandleLostScreenEvent);
+            Messenger.Default.Register<ConnectScreenEvent>(this, HandleConnectScreenEvent);
+        }
+
+        private void HandleConnectScreenEvent(ConnectScreenEvent obj)
+        {
+            foreach (var device in obj.DeviceInfos)
+            {
+                foreach (var item in AllScreen)
+                {
+                    if (item.ComId == device.BlueNo)
+                    {
+                        item.LinkUSB = Visibility.Visible;
+                        item.LinkBreak = Visibility.Collapsed;
+                    }
+        
+                }
+            }
+        }
+
+        private void HandleLostScreenEvent(LostScreenEvent obj)
+        {
+            foreach (var device in obj.DeviceInfos)
+            {
+                foreach (var item in AllScreen)
+                {
+                    if (item.ComId == device.BlueNo)
+                    {
+
+                        item.LinkUSB = Visibility.Collapsed;
+                        item.LinkBreak = Visibility.Visible;
+                    }
+
+                }
+
+            }
         }
 
         private void HandleCanChangeScreenEvent(CanChangeScreenEvent obj)
@@ -207,7 +244,7 @@ namespace Setting.ViewModel
         {
 
             ChangeScreen(obj.CurrentDevInfo);
-           
+
 
 
 
@@ -315,6 +352,8 @@ namespace Setting.ViewModel
                     else
                     {
                         deviceScreen.ComId = device.BlueNo;
+                        deviceScreen.LinkUSB = Visibility.Visible;
+                        deviceScreen.LinkBreak = Visibility.Collapsed;
                     }
                 }
 
@@ -332,17 +371,30 @@ namespace Setting.ViewModel
                 else
                 {
                     foreach (var device in obj.DeviceInfos)
-                {
-                    if (AllScreen.All(c => c.DeviceInfo.DevNo != device.DevNo))
                     {
-                        AllScreen.Add(new ScreenDeviceInfoViewModel(device, ""));
+                        if (AllScreen.All(c => c.DeviceInfo.DevNo != device.DevNo))
+                        {
+                            var deviceScreen = new ScreenDeviceInfoViewModel(device, "");
+                            deviceScreen.LinkUSB = Visibility.Visible;
+                            deviceScreen.LinkBreak = Visibility.Collapsed;
+                            AllScreen.Add(deviceScreen);
+                        }
                     }
-                }
                 }
                 Messenger.Default.Send(new InitEndEvent() { endName = "findScreen" });
                 if (CurrentDevInfo == null)
                 {
                     ChangeScreen(null);
+                }
+                foreach (var device in obj.DeviceInfos)
+                {
+                    var deviceScreen = AllScreen.FirstOrDefault(c => c.DeviceInfo.DevNo == device.DevNo);
+                    if (deviceScreen != null)
+                    {
+                        deviceScreen.ComId = device.BlueNo;
+                        deviceScreen.LinkUSB = Visibility.Visible;
+                        deviceScreen.LinkBreak = Visibility.Collapsed;
+                    }
                 }
             }
         }
@@ -362,7 +414,7 @@ namespace Setting.ViewModel
                 }
                 else
                 {
-                    CurrentDevInfo = AllScreen.FirstOrDefault(c => c.DeviceInfo.BlueNo == firstCom.Id||c.ComId == firstCom.Id);
+                    CurrentDevInfo = AllScreen.FirstOrDefault(c => c.DeviceInfo.BlueNo == firstCom.Id || c.ComId == firstCom.Id);
                 }
 
             }
@@ -480,6 +532,28 @@ namespace Setting.ViewModel
                 RaisePropertyChanged();
             }
         }
+        private Visibility linkUSB;
+
+        public Visibility LinkUSB
+        {
+            get { return linkUSB; }
+            set
+            {
+                linkUSB = value;
+                RaisePropertyChanged();
+            }
+        }
+        private Visibility linkBreak;
+
+        public Visibility LinkBreak
+        {
+            get { return linkBreak; }
+            set
+            {
+                linkBreak = value;
+                RaisePropertyChanged();
+            }
+        }
         private int thickness;
 
 
@@ -537,7 +611,7 @@ namespace Setting.ViewModel
                     Read = IsReName ? Visibility.Collapsed : Visibility.Visible;
                     JdClient jdClient = new JdClient(HttpClientHelper.Instance.GetHttpClient());
                     var temp = jdClient.ModifyNameUsingGETAsync(this.DeviceInfo.Id, this.DeviceInfo.Name).GetAwaiter().GetResult();
-                    if (temp.Code==0)
+                    if (temp.Code == 0)
                     {
 
                     }
@@ -557,6 +631,9 @@ namespace Setting.ViewModel
             IsReName = false;
             ReName = IsReName ? Visibility.Visible : Visibility.Collapsed;
             Read = IsReName ? Visibility.Collapsed : Visibility.Visible;
+
+            LinkBreak = Visibility.Visible;
+            LinkUSB = Visibility.Collapsed;
 
         }
         private void HandleKeyDownEventScreen(KeyDownEventScreen obj)

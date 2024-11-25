@@ -1130,8 +1130,8 @@ namespace Setting.ViewModel
             Messenger.Default.Register<NextFrameEvent>(this, HandleNextFrameEvent);
             Messenger.Default.Register<LumianceChangeEvent>(this, HandleLumianceChangeEventt);
 
-            Messenger.Default.Register<LostScreenEvent>(this, HandleLostScreenEvent);
-            Messenger.Default.Register<ConnectScreenEvent>(this, HandleReConnectScreenEvent);
+            Messenger.Default.Register<LostCurrentScreenEvent>(this, HandleLostScreenEvent);
+            Messenger.Default.Register<ConnectCurrentScreenEvent>(this, HandleReConnectScreenEvent);
 
             SeedEnabled = false;
             Open = Visibility.Visible;
@@ -1157,13 +1157,13 @@ namespace Setting.ViewModel
             }
         }
 
-        private void HandleReConnectScreenEvent(ConnectScreenEvent obj)
+        private void HandleReConnectScreenEvent(ConnectCurrentScreenEvent obj)
         {
             Messenger.Default.Send(new MsgEvent("屏幕连接成功"));
             SeedEnabled = true;
         }
 
-        private void HandleLostScreenEvent(LostScreenEvent obj)
+        private void HandleLostScreenEvent(LostCurrentScreenEvent obj)
         {
             Messenger.Default.Send(new MsgEvent("屏幕断开连接"));
             SeedEnabled = false;
@@ -1222,12 +1222,12 @@ namespace Setting.ViewModel
                 if (obj.Msg.Contains("发送消息"))
                 {
 
-                    DebugInfo += "发送消息 ==> themeSegment " + "\r\n";
+                    DebugInfo +=$"{ DateTime.Now.ToString("O")}" +"发送消息 ==> themeSegment " + "\r\n";
                 }
                 else if (obj.Msg.Contains("接收消息"))
                 {
 
-                    DebugInfo += "接收消息<==  themeSegment " + "\r\n";
+                    DebugInfo += $"{ DateTime.Now.ToString("O")}" + "接收消息<==  themeSegment " + "\r\n";
                 }
 
             }
@@ -1237,7 +1237,7 @@ namespace Setting.ViewModel
                 {
                     DebugInfo = DebugInfo.Substring(3000);
                 }
-                DebugInfo += obj.Msg;
+                DebugInfo += $"{ DateTime.Now.ToString("O")}" + obj.Msg;
             }
 
         }

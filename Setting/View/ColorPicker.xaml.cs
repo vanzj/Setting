@@ -164,18 +164,25 @@ namespace Setting.View
             }
         }
 
+        private bool isColorChange = false;
         private void ColorChange(RgbaColor Hcolor)
         {
+            isColorChange = true;
             TextR.Text = Hcolor.R.ToString();
             TextG.Text = Hcolor.G.ToString();
             TextB.Text = Hcolor.B.ToString();
             TextA.Text = Hcolor.A.ToString();
 
             TextHex.Text = Hcolor.HexString;
+            isColorChange = false;
         }
 
         private void TextR_TextChanged(object sender, TextChangedEventArgs e)
         {
+            if (isColorChange)
+            {
+                return;
+            }
             TextBox textBox = sender as TextBox;
             string text = textBox.Text;
             if (TextR ==null || TextG==null || TextB == null || TextA == null|| TextHex==null)
@@ -218,12 +225,32 @@ namespace Setting.View
 
         private void TextHex_TextChanged(object sender, TextChangedEventArgs e)
         {
+            if (isColorChange)
+            {
+                return;
+            }
             string pattern = @"^[0-9A-Fa-f]{6}$";
             string input = TextHex.Text;
             bool isMatch = Regex.IsMatch(input, pattern);
             if (isMatch)
             {
+
                 RgbaColor Hcolor = new RgbaColor("#FF" + TextHex.Text);
+
+                HsbaColor hsbaColor = new HsbaColor(Hcolor.R, Hcolor.G, Hcolor.B);
+                H = hsbaColor.H;
+                S = hsbaColor.S;
+                B = hsbaColor.B;
+
+
+                // public double Xpercent { get { return (Left + Xoffset) / ActualWidth; } }
+                // public double Ypercent { get { return (Top + Yoffset) / ActualHeight; } }
+               // S = xpercent;
+                //B = 1 - ypercent;
+                viewSelectColor.Fill = Hcolor.SolidColorBrush;
+                this.thumbH.Top = thumbH.ActualHeight * (H / 360) - thumbH.Yoffset;
+                this.thumbSB.Top = thumbSB.ActualHeight * (1-B) - thumbSB.Yoffset;
+                this.thumbSB.Left = thumbSB.ActualWidth * (S) - thumbSB.Xoffset;
                 PointList.ChangeColor = Hcolor.SolidColorBrush;
                 TextR.Text = Hcolor.R.ToString();
                 TextG.Text = Hcolor.G.ToString();

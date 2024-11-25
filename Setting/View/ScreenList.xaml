@@ -89,6 +89,8 @@
                             <ImageBrush ImageSource="/Setting;component/img/Login/屏幕背景.png" Stretch="Uniform"/>
                         </Button.Background>
                         <Grid  Width="130"  Height="89" >
+                            <Image  Visibility="{Binding LinkUSB}" Source="/Setting;component/img/Linkusb.png" Width="30" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,0,20,0">  </Image>
+                            <Image Visibility="{Binding LinkBreak}" Source="/Setting;component/img/Linkbreak.png" Width="25" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,3,23,0"></Image>
                             <Label   Content="{Binding DeviceInfo.Name }" FontSize="14" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,4" ></Label>
                         </Grid>
 

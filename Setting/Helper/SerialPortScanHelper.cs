@@ -48,7 +48,7 @@ namespace Setting.Helper
             ScanTimer.Interval = 1000; // 设置计时器的时间间隔为1秒
             ScanTimer.AutoReset = true;
             ScanTimer.Enabled = true;
-     
+            ScanTimer.Start();
             InitializeDeviceWatchers();
             StartDeviceWatchers();
         }
@@ -60,17 +60,16 @@ namespace Setting.Helper
             MYSerialDevice = null;
             if (CurrentCom != null)
             {
-                InitCOM(CurrentCom.Id);
                 CurrentCom.IsScreen = false;
+                InitCOM(CurrentCom.Id);
+
             }
             else
             {//所有
 
                 MYSerialDevice?.Dispose();
                 MYSerialDevice = null;
-                ScanTimer.Stop();
-
-                Thread.Sleep(1000);
+                Thread.Sleep(100);
                 if (isInit)
                 {
                     isInit = false;
@@ -107,34 +106,32 @@ namespace Setting.Helper
             mapDeviceWatchersToDeviceSelector.Add(deviceWatcher, deviceSelector);
         }
 
-        private void OnDeviceRemoved(DeviceWatcher sender, DeviceInformationUpdate args)
+        private void OnDeviceRemoved(DeviceWatcher sender, DeviceInformationUpdate args) 
         {
-            Messenger.Default.Send(new DebugInfoEvent($"OnDeviceRemoved{args.Id}"));
+            Messenger.Default.Send(new  DebugInfoEvent($"扫描：OnDeviceRemoved{args.Id}"));
             var tempCominfo = COMInfoList.First(c => c.Id == args.Id);
 
             if (tempCominfo != null)
             {
                 tempCominfo.Connected = false;
-                Messenger.Default.Send(new DebugInfoEvent($"串口扫描==> 连接断开"));
-
+                Messenger.Default.Send(new  DebugInfoEvent($"扫描：串口扫描==> 连接断开"));
+                Messenger.Default.Send(new LostScreenEvent() { DeviceInfos = new List<DeviceInfo>() { new DeviceInfo() { BlueNo = args.Id } } });
                 SerialPortHelper.Instance.Lost(args.Id);
             }
         }
 
         private void OnDeviceAdded(DeviceWatcher sender, DeviceInformation args)
         {
-            Messenger.Default.Send(new DebugInfoEvent($"OnDeviceA   dded{args.Id}"));
+            if (!args.Name.Contains("ESP32-S3"))
+            {
+                return;
+            }
+
+            Messenger.Default.Send(new  DebugInfoEvent($"扫描：OnDeviceA   dded{args.Id}"));
+            Messenger.Default.Send(new ConnectScreenEvent() { DeviceInfos = new List<DeviceInfo>() { new DeviceInfo() { BlueNo = args.Id } } });
             if (COMInfoList.All(c => c.Id != args.Id))
             {
                 COMInfoList.Add(new COMInfo() { Id = args.Id });
-                if (!ScanTimer.Enabled)
-                {
-                    ScanTimer.Start();
-                }
-            }
-            else
-            {
-               
             }
             var tempCominfo = COMInfoList.First(c => c.Id == args.Id);
             if (tempCominfo.IsScreen ==false)
@@ -144,7 +141,7 @@ namespace Setting.Helper
             if (tempCominfo.IsScreen == true)
             {   // 连接过的串口
                //todo  重新连接。
-                Messenger.Default.Send(new DebugInfoEvent($"串口扫描==> 恢复连接"));
+                Messenger.Default.Send(new  DebugInfoEvent($"扫描：串口扫描==> 恢复连接"));
                 SerialPortHelper.Instance.ReConnect(args.Id);
             }
         }
@@ -260,13 +257,13 @@ namespace Setting.Helper
                 {
                     throw new Exception(ex.Message);
                 }
-                Messenger.Default.Send(new DebugInfoEvent($"串口扫描==> 打开{COMID}成功"));
+                Messenger.Default.Send(new  DebugInfoEvent($"扫描：串口扫描==> 打开{COMID}成功"));
                 return true;
             }
             catch (Exception ex)
             {
                 Messenger.Default.Send(new SendEndEvent());
-                Messenger.Default.Send(new DebugInfoEvent($"串口扫描==> 打开{COMID}失败，失败原因：{ex.Message}"));
+                Messenger.Default.Send(new  DebugInfoEvent($"扫描：串口扫描==> 打开{COMID}失败，失败原因：{ex.Message}"));
                 return false;
             }
         }
@@ -276,7 +273,7 @@ namespace Setting.Helper
 
             try
             {
-                Messenger.Default.Send(new DebugInfoEvent("接收消息<==  " + MYSerialDevice.PortName + "  " + msgreturn));
+                Messenger.Default.Send(new  DebugInfoEvent("扫描：接收消息<==  " + MYSerialDevice.PortName + "  " + msgreturn));
                 var msgobject = JsonConvert.DeserializeObject<ReturnBase<string>>(msgreturn);
                 switch (msgobject.cmd)
                 {
@@ -297,12 +294,12 @@ namespace Setting.Helper
                                     CurrentCom.IsScreen = true;
                                     CurrentCom.Mac = getMacmsg.data.Replace(":","");
                                 }
-                                Messenger.Default.Send(new FindScreenEvent { isLocal = true, DeviceInfos = new List<DeviceInfo>() { new DeviceInfo() { DevNo = getMacmsg.data.Replace(":", ""), Name = "新屏幕", BlueNo = CurrentCom.Id } } }); ;
-                                Messenger.Default.Send(new DebugInfoEvent("串口扫描=>  " + MYSerialDevice?.PortName + "连接成功"));
+                                Messenger.Default.Send(new FindScreenEvent { isLocal = true, DeviceInfos = new List<DeviceInfo>() { new DeviceInfo() { DevNo = getMacmsg.data.Replace(":", ""), Name = "新屏幕"+ CurrentCom.Mac.Substring(0,4), BlueNo = CurrentCom.Id } } }); ;
+                                Messenger.Default.Send(new  DebugInfoEvent("扫描：串口扫描=>  " + MYSerialDevice?.PortName + "连接成功"));
                             }
                             else
                             {
-                                Messenger.Default.Send(new DebugInfoEvent("串口扫描+==  " + MYSerialDevice.PortName + "未返回mac地址未能自动连接"));
+                                Messenger.Default.Send(new  DebugInfoEvent("扫描：串口扫描+==  " + MYSerialDevice.PortName + "未返回mac地址未能自动连接"));
                             }
 
 
@@ -310,7 +307,7 @@ namespace Setting.Helper
 
                         break;
                     default:
-                        Messenger.Default.Send(new DebugInfoEvent("串口未连接成功"));
+                        Messenger.Default.Send(new  DebugInfoEvent("扫描：串口未连接成功"));
                         break;
                 }
             }
@@ -377,31 +374,31 @@ namespace Setting.Helper
 
                         // send request cmd 
                         var sendDatas = Encoding.UTF8.GetBytes(str);
-                        Messenger.Default.Send(new DebugInfoEvent($"发送消息==>  长度{sendDatas.Length}"));
+                        Messenger.Default.Send(new  DebugInfoEvent($"扫描：发送消息==>  长度{sendDatas.Length}"));
                         var wBuffer = CryptographicBuffer.CreateFromByteArray(sendDatas);
 
                         var sw = MYSerialDevice.OutputStream.WriteAsync(wBuffer).GetAwaiter().GetResult();
 
 
-                        Messenger.Default.Send(new DebugInfoEvent("发送消息==>  " + MYSerialDevice.PortName + Sendmsg + "**"));
+                        Messenger.Default.Send(new  DebugInfoEvent("扫描：发送消息==>  " + MYSerialDevice.PortName + Sendmsg + "**"));
 
 
                     }
                     else
                     {
-                        Messenger.Default.Send(new DebugInfoEvent("发送消息==>  失败串口关闭" + MYSerialDevice?.PortName + Sendmsg + "**"));
+                        Messenger.Default.Send(new  DebugInfoEvent("扫描：发送消息==>  失败串口关闭" + MYSerialDevice?.PortName + Sendmsg + "**"));
                     }
                 }
                 else
                 {
-                    Messenger.Default.Send(new DebugInfoEvent("发送消息==>  失败串口忙" + MYSerialDevice.PortName + Sendmsg + "**"));
+                    Messenger.Default.Send(new  DebugInfoEvent("扫描：发送消息==>  失败串口忙" + MYSerialDevice.PortName + Sendmsg + "**"));
                 }
 
             }
             catch (Exception ex)
             {
 
-                Messenger.Default.Send(new DebugInfoEvent($"发送消息失败 ：{ex.ToString()}"));
+                Messenger.Default.Send(new  DebugInfoEvent($"扫描：发送消息失败 ：{ex.ToString()}"));
             }
             finally
             {
