@@ -41,14 +41,9 @@ namespace Setting.Helper
         private SerialPortHelper()
         {
 
-               // 设置WMI查询来监听串口设备的添加和移除事件
-            t = new Thread(TimerRead_Tick);
-            t.Start();
-
-        }
-
        
 
+        }
 
         private string ReadMsg { get; set; }
         private void TimerRead_Tick()
@@ -127,10 +122,7 @@ namespace Setting.Helper
                 return instance;
             }
         }
-        public void Init()
-        {
 
-        }
         public bool InitCOM(string COMID,bool ReConnect = false)
         {
             try
@@ -166,6 +158,8 @@ namespace Setting.Helper
                         MYSerialDevice.IsDataTerminalReadyEnabled = true;
                         Messenger.Default.Send(new  DebugInfoEvent($"通信：串口扫描==> 打开成功:{COMID}"));
                         SendGetInfoSendMessage();
+                        t = new Thread(TimerRead_Tick);
+                        t.Start();
                     }
                     else
                     {
@@ -305,7 +299,9 @@ namespace Setting.Helper
             }
             if (CurrentComId == COMID)
             {
-
+                MYSerialDevice.Dispose();
+                MYSerialDevice = null;
+                t.Abort();
                 Messenger.Default.Send(new LostCurrentScreenEvent());
                 return ;
             }

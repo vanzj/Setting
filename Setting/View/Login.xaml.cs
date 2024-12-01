@@ -81,13 +81,6 @@ namespace Setting.View
             {
 
             }
-            else if (obj.endName == "findScreen")
-            {
-                this.Dispatcher.Invoke(() =>
-                {
-                    this.findScreen = false;
-                });
-            }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -387,9 +380,7 @@ namespace Setting.View
             PWDGrid.Visibility = Visibility.Visible;
         }
 
-        private bool findScreen = false;
         private bool LoadScreenTheme = false;
-        private bool ScanHardSoft = false;
         private void Init()
         {
             LoginInfoHelper.Save(new LoginModel() { Password = this.pwspassword.Password, UserName = this.pwsmobile.Text, isAutoLogin = true });
@@ -414,13 +405,9 @@ namespace Setting.View
                 {
                     Messenger.Default.Send(new FindScreenEvent { DeviceInfos = devList.Data.ToList() });
                 }
-                // 获取本地屏幕
-                findScreen = true;
-                SerialPortScanHelper.Instance.Init();
-                while (findScreen)
-                {
-                    Thread.Sleep(100);
-                }
+
+                var temp =  SerialPortScanHelper.Instance;
+           
                 this.Dispatcher.Invoke(() =>
                 {
                     this.LoadingInfo.Children.Add(new LoadingInfoItem("2、屏幕资源获取"));

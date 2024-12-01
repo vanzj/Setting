@@ -269,9 +269,9 @@ namespace Setting.ViewModel
                     if (AllScreen.All(c => c.DeviceInfo.DevNo != dev.DevNo))
                     {
                         string comid = "";
-                        if (SerialPortScanHelper.Instance.COMInfoList.Any(c => c.Mac == obj.CurrentDevInfo.DeviceInfo.DevNo))
+                        if (SerialPortScanHelper.Instance.SerialPortList.Any(c => c.Mac == obj.CurrentDevInfo.DeviceInfo.DevNo))
                         {
-                            comid = SerialPortScanHelper.Instance.COMInfoList.First(c => c.Mac == obj.CurrentDevInfo.DeviceInfo.DevNo).Id;
+                            comid = SerialPortScanHelper.Instance.SerialPortList.First(c => c.Mac == obj.CurrentDevInfo.DeviceInfo.DevNo).Id;
                         }
                         AllScreen.Add(new ScreenDeviceInfoViewModel(dev, comid));
                     }
@@ -333,7 +333,8 @@ namespace Setting.ViewModel
                 {
                     if (AllScreen.All(c => c.DeviceInfo.DevNo != item.DevNo))
                     {
-                        AllScreen.Add(new ScreenDeviceInfoViewModel(item, ""));
+                        var temp =  SerialPortScanHelper.Instance.SerialPortList.FirstOrDefault(c => c.Mac == item.DevNo);
+                        AllScreen.Add(new ScreenDeviceInfoViewModel(item, temp == null ? "":temp.Id)) ;
                     }
                 }
             }
@@ -344,10 +345,11 @@ namespace Setting.ViewModel
                 foreach (var device in obj.DeviceInfos)
                 {
                     var deviceScreen = AllScreen.FirstOrDefault(c => c.DeviceInfo.DevNo == device.DevNo);
-
+                    SerialPortHelper.Instance.InitCOM(device.BlueNo);
                     if (deviceScreen == null)
                     {
                         var temp = client.AddUsingGETAsync(device.DevNo, device.Name, "9").GetAwaiter().GetResult();
+
                     }
                     else
                     {
@@ -364,7 +366,8 @@ namespace Setting.ViewModel
                     {
                         if (AllScreen.All(c => c.DeviceInfo.DevNo != item.DevNo))
                         {
-                            AllScreen.Add(new ScreenDeviceInfoViewModel(item, ""));
+                            var temp = SerialPortScanHelper.Instance.SerialPortList.FirstOrDefault(c => c.Mac == item.DevNo);
+                            AllScreen.Add(new ScreenDeviceInfoViewModel(item, temp == null ? "" : temp.Id));
                         }
                     }
                 }
@@ -381,7 +384,6 @@ namespace Setting.ViewModel
                         }
                     }
                 }
-                Messenger.Default.Send(new InitEndEvent() { endName = "findScreen" });
                 if (CurrentDevInfo == null)
                 {
                     ChangeScreen(null);
@@ -407,7 +409,7 @@ namespace Setting.ViewModel
             string JsonDir = Environment.CurrentDirectory + "\\Json\\Theme\\";
             if (device == null)
             {//未指定屏幕
-                var firstCom = SerialPortScanHelper.Instance.COMInfoList.FirstOrDefault(c => c.Connected);
+                var firstCom = SerialPortScanHelper.Instance.SerialPortList.FirstOrDefault(c => c.Connected);
                 if (firstCom == null)
                 {
                     CurrentDevInfo = AllScreen.FirstOrDefault();
@@ -462,7 +464,7 @@ namespace Setting.ViewModel
                 });
 
             }
-            var tempComId = SerialPortScanHelper.Instance.COMInfoList.FirstOrDefault(c => c.Mac == CurrentDevInfo?.DeviceInfo.DevNo)?.Id;
+            var tempComId = SerialPortScanHelper.Instance.SerialPortList.FirstOrDefault(c => c.Mac == CurrentDevInfo?.DeviceInfo.DevNo)?.Id;
 
             SerialPortHelper.Instance.InitCOM(tempComId);
             foreach (var item in AllScreen)
