@@ -1371,6 +1371,18 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_BDBE35D577761DB7A0DA2D91EF7D6B4B"
+        "OwnerKey" = "8:_1D22E015623149D38072B607E2A251CB"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_BDBE35D577761DB7A0DA2D91EF7D6B4B"
+        "OwnerKey" = "8:_68C8FECAFABB4CE7B70C46554CE841A2"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_C22E60B975FF52C19D5EC3714F03DAEB"
         "OwnerKey" = "8:_68C8FECAFABB4CE7B70C46554CE841A2"
         "MsmSig" = "8:_UNDEFINED"
@@ -2003,6 +2015,12 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_1D22E015623149D38072B607E2A251CB"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_BDBE35D577761DB7A0DA2D91EF7D6B4B"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -3857,7 +3875,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Setting, Version=1.0.0.4, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:Setting, Version=1.0.0.35, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_1D22E015623149D38072B607E2A251CB"
@@ -7566,6 +7584,37 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_BDBE35D577761DB7A0DA2D91EF7D6B4B"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:AutoUpdater.NET, Version=1.9.2.0, Culture=neutral, PublicKeyToken=501435c91b35f4bc, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_BDBE35D577761DB7A0DA2D91EF7D6B4B"
+                    {
+                    "Name" = "8:AutoUpdater.NET.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:AutoUpdater.NET.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_D505915E8C304C3AA854310A9410DEA7"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_C22E60B975FF52C19D5EC3714F03DAEB"
             {
             "AssemblyRegister" = "3:1"
@@ -9208,15 +9257,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:SettingSetUp"
-        "ProductCode" = "8:{C35698B4-516F-472F-8220-06A9BF008108}"
-        "PackageCode" = "8:{11C9B31F-E520-4776-8625-903A3FE8D8C7}"
+        "ProductCode" = "8:{DE9ABD1B-3F7C-4E9B-90E3-05E0DBCA3059}"
+        "PackageCode" = "8:{F55A642D-224E-4757-8723-E721DA7D3DB2}"
         "UpgradeCode" = "8:{20C0321C-FD30-46A3-BA10-A51EA755A6AA}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.0.25"
+        "ProductVersion" = "8:1.0.36"
         "Manufacturer" = "8:van"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
@@ -9346,7 +9395,7 @@
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_6C4E2F083D3A475FAB65B578A3C81603"
             {
             "Name" = "8:SettingUnInstall.exe"
-            "Arguments" = "8:/X {C35698B4-516F-472F-8220-06A9BF008108}"
+            "Arguments" = "8:/X {DE9ABD1B-3F7C-4E9B-90E3-05E0DBCA3059}"
             "Description" = "8:"
             "ShowCmd" = "3:1"
             "IconIndex" = "3:0"

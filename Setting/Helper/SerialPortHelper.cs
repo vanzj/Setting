@@ -123,14 +123,24 @@ namespace Setting.Helper
             }
         }
 
-        public bool InitCOM(string COMID,bool ReConnect = false)
+        public bool InitCOM(string DevNo,bool ReConnect = false)
         {
+            string COMID = "";
             try
             {
-              
+
+                COMID = SerialPortScanHelper.Instance.SerialPortList.FirstOrDefault(c => c.DevNo == DevNo)?.Id;
+
                 if (string.IsNullOrEmpty(COMID))
                 {
+                    if (!string.IsNullOrEmpty(CurrentComId))
+                    {
+                        Messenger.Default.Send(new LostCurrentScreenEvent());
+                    }
                     CurrentComId = COMID;
+                    MYSerialDevice?.Dispose();
+                    MYSerialDevice = null;
+                    t?.Abort();
                     return false;
                 }
 
@@ -141,12 +151,14 @@ namespace Setting.Helper
                 Messenger.Default.Send(new ConnectCurrentScreenEvent());
                 try
                 {
-                    CurrentComId = COMID;
+
+                 
    
                     MYSerialDevice = SerialDevice.FromIdAsync(COMID).GetAwaiter().GetResult(); ;
             
                     if (MYSerialDevice != null)
                     {
+                        CurrentComId = COMID;
                         MYSerialDevice.BaudRate = 115200;
                         MYSerialDevice.Handshake = SerialHandshake.None;
                         MYSerialDevice.Parity = SerialParity.None;
@@ -333,7 +345,7 @@ namespace Setting.Helper
                     {
                         MYSerialDevice?.Dispose();
                     }
-                    t.Abort();
+                    t?.Abort();
                 }
 
                else if (CurrentComId == COMID)

@@ -1,4 +1,5 @@
-﻿using GalaSoft.MvvmLight.Messaging;
+﻿using AutoUpdaterDotNET;
+using GalaSoft.MvvmLight.Messaging;
 using Setting.Event;
 using Setting.Helper;
 using Setting.Model;
@@ -152,11 +153,31 @@ namespace Setting
         }
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-
+         //  AutoUpdater.ReportErrors = true; 
+            AutoUpdater.ExecutablePath = "SettingSetUp.msi"; 
+            AutoUpdater.RunUpdateAsAdmin = true;
             Messenger.Default.Send(new LoadedEvent { });
 
             this.KeyDown += new KeyEventHandler(MainWindow_KeyDown);
 
+            JdClient jdClient = new JdClient(HttpClientHelper.Instance.GetHttpClient());
+            try
+            {
+              var result =  jdClient.VersionUsingGETAsync().GetAwaiter().GetResult();
+                if (result.Code == 0)
+                {
+                    var xmlInfo = result.Data.ToString();
+                    AutoUpdater.Start("http://localhost/AutoUpdaterTest.xml");
+
+                }
+               
+            }
+            catch (Exception)
+            {
+
+                
+            }
+            
         }
 
         private void MainWindow_KeyDown(object sender, KeyEventArgs e)
@@ -222,6 +243,73 @@ namespace Setting
         {
 
         }
+
+        private void VersionCheck_Click(object sender, RoutedEventArgs e)
+        {
+            JdClient jdClient = new JdClient(HttpClientHelper.Instance.GetHttpClient());
+            try
+            {
+                var result = jdClient.VersionUsingGETAsync().GetAwaiter().GetResult();
+                if (result.Code == 0)
+                {
+                    var xmlInfo = result.Data.ToString();
+                    AutoUpdater.Start("http://localhost/AutoUpdaterTest.xml"); 
+                    if (isfirstCheckUpater )
+                    {
+                        isfirstCheckUpater = false;//防止重复绑定事件。
+                        AutoUpdater.CheckForUpdateEvent += AutoUpdaterOnCheckForUpdateEvent;
+                    }
+
+                }
+
+            }
+            catch (Exception)
+            {
+
+
+            }
+        }
+        bool isfirstCheckUpater = true;
+
+    
+private void AutoUpdaterOnCheckForUpdateEvent(UpdateInfoEventArgs args)
+        {
+            if (args != null)
+            {
+                if (args.IsUpdateAvailable)
+                {
+                    MessageBoxResult result;
+                     result = MessageBox.Show("有新的版本需要更新？", "更新提示", MessageBoxButton.OKCancel, MessageBoxImage.None, MessageBoxResult.Cancel);
+
+                    if (result == MessageBoxResult.OK)
+                    {
+                        try
+                        {
+                            if (AutoUpdater.DownloadUpdate(args))
+                            {
+                                System.Environment.Exit(0);
+                            }
+                        }
+                        catch (Exception exception)
+                        {
+                            MessageBox.Show(exception.Message, exception.GetType().ToString(), MessageBoxButton.OKCancel, MessageBoxImage.None, MessageBoxResult.Cancel);
+                        }
+                    }
+                    
+                }
+                else
+                {
+                    MessageBox.Show("无版本更新，请稍后重试", "无版本更新", MessageBoxButton.OKCancel, MessageBoxImage.None, MessageBoxResult.Cancel);
+                }
+            }
+            else
+            {
+                MessageBox.Show("更新异常，请稍后重试", "更新异常", MessageBoxButton.OKCancel, MessageBoxImage.None, MessageBoxResult.Cancel);
+
+            }
+        }
+
+
     }
 
 }

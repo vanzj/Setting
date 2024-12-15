@@ -66,7 +66,8 @@ namespace Setting.Helper
             var tempCominfo = SerialPortList.FirstOrDefault(c => c.Id == args.Id);
             if (tempCominfo != null)
             {
-                Messenger.Default.Send(new LostScreenEvent() { DeviceInfos = new List<DeviceInfo>() { new DeviceInfo() { BlueNo = args.Id } } });
+               var mac = SerialPortList.FirstOrDefault(c => c.Id == args.Id)?.DevNo;
+                Messenger.Default.Send(new LostScreenEvent() { DeviceInfos = new List<DeviceInfo>() { new DeviceInfo() { DevNo = mac } } });
                 tempCominfo.DeviceRemoved();
             }
         }
@@ -79,7 +80,8 @@ namespace Setting.Helper
             }
 
             Messenger.Default.Send(new  DebugInfoEvent($"扫描：OnDeviceA   dded{args.Id}"));
-            Messenger.Default.Send(new ConnectScreenEvent() { DeviceInfos = new List<DeviceInfo>() { new DeviceInfo() { BlueNo = args.Id } } });
+            var mac = SerialPortList.FirstOrDefault(c => c.Id == args.Id)?.DevNo;
+            Messenger.Default.Send(new ConnectScreenEvent() { DeviceInfos = new List<DeviceInfo>() { new DeviceInfo() { DevNo = mac } } });
             if (SerialPortList.All(c => c.Id != args.Id))
             {
                 SerialPortList.Add(new MYSerialPort(args.Id));

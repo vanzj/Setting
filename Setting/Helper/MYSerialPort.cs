@@ -24,7 +24,7 @@ namespace Setting.Helper
         /// <summary>
         ///  屏幕mac地址
         /// </summary>
-        public string Mac { get; set; }
+        public string DevNo { get; set; }
         /// <summary>
         /// 是否是屏幕
         /// </summary>
@@ -184,9 +184,9 @@ namespace Setting.Helper
                                 SerialDevice?.Dispose();
                                 SerialDevice = null;
                                 IsScreen = true;
-                                Mac = getMacmsg.data.Replace(":", "");
+                                DevNo = getMacmsg.data.Replace(":", "");
 
-                                Messenger.Default.Send(new FindScreenEvent { isLocal = true, DeviceInfos = new List<DeviceInfo>() { new DeviceInfo() { DevNo = getMacmsg.data.Replace(":", ""), Name = "新屏幕" + Mac.Substring(0, 4), BlueNo = Id } } }); ;
+                                Messenger.Default.Send(new FindScreenEvent { isLocal = true, DeviceInfos = new List<DeviceInfo>() { new DeviceInfo() { DevNo = getMacmsg.data.Replace(":", ""), Name = "新屏幕" + DevNo.Substring(0, 4) } } }); ;
                                 Messenger.Default.Send(new DebugInfoEvent("扫描：串口扫描=>  " + SerialDevice?.PortName + "连接成功"));
                             }
                             else

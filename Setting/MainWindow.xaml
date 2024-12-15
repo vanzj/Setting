@@ -378,7 +378,7 @@
             </Grid.Background>
 
             <Grid >
-                <myview:ScreenList HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,106,0,0" Width="230" Height="570" MouseLeave="ScreenList_MouseLeave"></myview:ScreenList>
+                <myview:ScreenList HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,106,0,0" Width="230" Height="570" MouseLeave="ScreenList_MouseLeave"  Background="#02000000"></myview:ScreenList>
                 <Button Style="{DynamicResource ButtonStyle1}" Visibility="{Binding VisibilityRight }" Command="{Binding RightCommand }" DataContext="{Binding Path=ScreenInfoList,Source={StaticResource Locator}}"  HorizontalAlignment="Left" VerticalAlignment="Top" Width="22" Height="12"  RenderTransformOrigin="0.5,0.5" Margin="56,729,0,0">
                     <Button.RenderTransform>
                         <TransformGroup>
@@ -423,7 +423,19 @@
                 <Grid Margin="889,3,0,0" Width="100" HorizontalAlignment="Left" VerticalAlignment="Center" Background="#01000000" MouseDown="Grid_MouseDown_1">
                     <Label HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" FontSize="16">我的账号</Label>
                 </Grid>
-
+                <Button Style="{DynamicResource ButtonStyle1}" ToolTip="检测版本" Visibility="Hidden"  x:Name="VersionCheck"   HorizontalAlignment="Left" VerticalAlignment="Top" Width="40" Height="40"  Click="VersionCheck_Click"  RenderTransformOrigin="0.5,0.5" Margin="776,10,0,0">
+                    <Button.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform />
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Button.RenderTransform>
+                    <Button.Background>
+                        <ImageBrush ImageSource="img/UI/刷新_refresh.png"/>
+                    </Button.Background>
+                </Button>
 
                 <myview:Theme  Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,54,0,0"  MouseLeave="Theme_MouseLeave" Height="100" Grid.RowSpan="2" Background="#02000000"></myview:Theme>
                 <Button Style="{DynamicResource ButtonStyle1}" Visibility="{Binding VisibilityRight }" Command="{Binding RightCommand }" DataContext="{Binding Path=ThemeList,Source={StaticResource Locator}}"  HorizontalAlignment="Left" VerticalAlignment="Top"  Grid.Row="1" Width="20" Height="75" Margin="1103,44,0,0"  RenderTransformOrigin="0.5,0.5">
@@ -772,7 +784,7 @@
                         <TextBlock FontSize="16" HorizontalAlignment="Left" Foreground="White" VerticalAlignment="Top" Margin="22,0,0,0" > 选择</TextBlock>
                     </Button>
 
-        
+
                     <Button x:Name="button" Width="90.167" Height="26.417" ToolTip="点击可以单个着色，按住Ctrl鼠标移动可以批量着色"  Command="{Binding ChangeCursorCommand }"   CommandParameter="{x:Static enum:CursorEnum.Magic}" Style="{DynamicResource ButtonStyle1}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="153.833,25.833,0,0" RenderTransformOrigin="0.5,0.5">
                         <Button.IsEnabled>
                             <MultiBinding Converter="{StaticResource MultiValueConverter}" >
@@ -791,7 +803,7 @@
                         <Button.Background>
                             <ImageBrush ImageSource="img/UI/鼠标-着色@2x.png"/>
                         </Button.Background>
-                   
+
                         <TextBlock FontSize="16" HorizontalAlignment="Left" Foreground="White" VerticalAlignment="Top" Margin="26,0,0,0" > 着色</TextBlock>
                     </Button>
                     <Button Width="89.25" Height="26.417" ToolTip="点击可以单个擦除，按住Ctrl鼠标移动可以批量擦除"   Command="{Binding ChangeCursorCommand }"   CommandParameter="{x:Static enum:CursorEnum.ERASE}"  Style="{DynamicResource ButtonStyle1}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="259.625,25.833,0,0"   RenderTransformOrigin="0.5,0.5">
@@ -819,7 +831,7 @@
 
                     <myview:ColorPicker Margin="53,86,-367,-181.5" HorizontalAlignment="Left" VerticalAlignment="Top" Width="414" Height="195.5"></myview:ColorPicker>
 
-           
+
                     <!--亮度 -->
                     <viewmodel:SliderWithDebounce  IsEnabled="{Binding SeedEnabled}"  Width="238"  Maximum="255" Value="{Binding Luminance}" NewValueChanged="Slider_ValueChanged" SmallChange="1" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="White" Margin="325.833,258,0,0" Style="{DynamicResource SliderStyle1}"    RenderTransformOrigin="0.5,0.5"/>
 
@@ -955,7 +967,7 @@
 
             </Grid>
             <myview:Login x:Name="Login"  HorizontalAlignment="Left" VerticalAlignment="Top" Grid.ColumnSpan="2" Visibility="Collapsed" ></myview:Login>
-            <Grid Width="959" Height="65" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.ColumnSpan="2" Cursor="Cross" MouseLeftButtonDown="Grid_MouseLeftButtonDown" Background="#021FBF1F"></Grid>
+            <Grid Width="902" Height="65" HorizontalAlignment="Left" VerticalAlignment="Top" Cursor="Cross" MouseLeftButtonDown="Grid_MouseLeftButtonDown" Background="#021FBF1F"/>
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="1125,0,0,0" Width="200" Height="100">
                 <Button Style="{DynamicResource ButtonStyle1}"   HorizontalAlignment="Left" VerticalAlignment="Top" Width="59" Height="40"  Click="Button_Click" RenderTransformOrigin="0.5,0.5" Margin="3,11,0,0">
@@ -1004,7 +1016,7 @@
                 <TextBox Text="{Binding DebugInfo}"></TextBox>
             </ScrollViewer>
 
-            <Button HorizontalAlignment="Left" Height="40" Margin="500,0,0,0" Click="Button_Click_3" VerticalAlignment="Bottom" Grid.Column="1">调试11</Button>
+            <Button HorizontalAlignment="Left" Height="40" Margin="500,0,0,0" Click="Button_Click_3" VerticalAlignment="Bottom" Grid.Column="1">调试14</Button>
             <Button Margin="540,0,0,0" HorizontalAlignment="Left" Height="40" Command="{Binding CleanDebugInfoCommand}" VerticalAlignment="Bottom"  Grid.Column="1" >清除</Button>
             <!--<Button HorizontalAlignment="Left" Height="40" Margin="580,0,0,0" Click="Button_Click_send" VerticalAlignment="Bottom" Grid.Column="1">发送</Button>-->
             <myview:ErrorInfo HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="175" Margin="0,0,0,511" ></myview:ErrorInfo>
