@@ -187,6 +187,32 @@ namespace Setting.Helper
             templist.Add(JsonConvert.SerializeObject(themeSegmentSend));
             return templist;
         }
+        public static List<string> BuildOnePackageGIFURL(List<ThemeSegmentData> data, int xindex, int yIndex, string filename)
+
+        {
+            var templist = new List<string>();
+            //循环模式
+            ThemeSend ThemeSend = new ThemeSend();
+            ThemeSend.data = new ThemeData() { model = Const.CMDModelCirulate, name = filename };
+
+            templist.Add(JsonConvert.SerializeObject(ThemeSend));
+            //开始
+            ThemeSendStartSend themeSendStartSend = new ThemeSendStartSend();
+            themeSendStartSend.data = new ThemeSendStartData()
+            {
+                name = filename,
+                count = "1",
+                frameCount = data.Count.ToString(),
+                frameRate = "30",
+                brightness = 255
+            };
+            templist.Add(JsonConvert.SerializeObject(themeSendStartSend));
+            //帧
+            ThemeSegmentSend themeSegmentSend = new ThemeSegmentSend();
+            themeSegmentSend.data = data;
+            templist.Add(JsonConvert.SerializeObject(themeSegmentSend));
+            return templist;
+        }
 
         public static List<string> BuildDynamic(Dictionary<int, List<PointItem>> AllPonitList, int xindex, int yIndex, string filename)
 

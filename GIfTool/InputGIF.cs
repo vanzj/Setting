@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using System.Drawing.Imaging;
 using System.Windows.Media;
 using System.Configuration;
+using System.Net.Http;
 
 namespace GIfTool
 {
@@ -89,6 +90,75 @@ namespace GIfTool
                     result.Add(oneseg);
                 }
 
+            }
+            return result;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <param name="xIndex"></param>
+        /// <param name="yIndex"></param>
+        /// <param name="filename"></param>
+        /// <returns></returns>
+        public List<ThemeSegmentData> OPENGIFURL(string imageUrl, int xIndex, int yIndex, string filename)
+        {
+            var result = new List<ThemeSegmentData>();
+            using (HttpClient client = new HttpClient())
+            using (var response =  client.GetAsync(imageUrl).GetAwaiter().GetResult())
+            using (var stream =  response.Content.ReadAsStreamAsync().GetAwaiter().GetResult())
+            {
+                if (response.IsSuccessStatusCode)
+                {
+
+                    System.Drawing.Image imgGif = Image.FromStream(stream); // 获取图片对象
+                    if (ImageAnimator.CanAnimate(imgGif))
+                    {
+                        FrameDimension imgFrmDim = new FrameDimension(imgGif.FrameDimensionsList[0]);
+                        var FramesCount = imgGif.GetFrameCount(imgFrmDim)*3; // 获取帧数
+
+                        var oneseg = new ThemeSegmentData()
+                        {
+                            name = filename,
+                            count = "1",
+                            frameCount = FramesCount.ToString(),
+                            frameRate = 30,
+                            brightness = 255,
+                            index = "1",
+                        };
+                        oneseg.pointList = new List<ThemeSegmentDataPoint>() {  };
+                        for (int i = 0; i < FramesCount; i++)
+                        {
+                            // 把每一帧保存为jpg图片
+                            imgGif.SelectActiveFrame(imgFrmDim,i==0?0:i/3);
+                            Bitmap t = new Bitmap(imgGif);
+                            var pw = t.Width;
+                            var ph = t.Height;
+                            
+                            var OneFrame = new ThemeSegmentDataPoint();
+                            OneFrame.frameRGB = new List<string>();
+                            OneFrame.frameIndex = i.ToString();
+                            for (int y = 0; y < yIndex; y++)
+                            {
+                                for (int x = 0; x < xIndex; x++)
+                                {
+                                    if (x < pw)
+                                    {
+                                        var tempcolor = BitmapHelper.GetPixelMediaColorAt(t, x, y);
+                                        OneFrame.frameRGB.Add(tempcolor.Value.ToString().Replace("#FF", ""));
+                                    }
+                                    else
+                                    {
+                                            OneFrame.frameRGB.Add(ColorConst.BackGroupColor.Replace("#FF", ""));
+                                    }
+                                }
+                            }
+                            oneseg.pointList.Add(OneFrame);
+
+                        }
+                        result.Add(oneseg);
+                    }
+                }
             }
             return result;
         }

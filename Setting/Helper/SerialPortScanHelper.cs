@@ -23,13 +23,13 @@ namespace Setting.Helper
     {
 
         private Dictionary<DeviceWatcher, String> mapDeviceWatchersToDeviceSelector;
-        public List<MYSerialPort> SerialPortList;//
+        public List<ScanSerialPort> SerialPortList;//
         static readonly object _object = new object();
 
         private SerialPortScanHelper()
         {   // 设置WMI查询来监听串口设备的添加和移除事件
             mapDeviceWatchersToDeviceSelector = new Dictionary<DeviceWatcher, String>();
-            SerialPortList = new List<MYSerialPort>();
+            SerialPortList = new List<ScanSerialPort>();
             InitializeDeviceWatchers();
             StartDeviceWatchers();
         }
@@ -78,19 +78,20 @@ namespace Setting.Helper
             {
                 return;
             }
-
             Messenger.Default.Send(new  DebugInfoEvent($"扫描：OnDeviceA   dded{args.Id}"));
-            var mac = SerialPortList.FirstOrDefault(c => c.Id == args.Id)?.DevNo;
-            Messenger.Default.Send(new ConnectScreenEvent() { DeviceInfos = new List<DeviceInfo>() { new DeviceInfo() { DevNo = mac } } });
             if (SerialPortList.All(c => c.Id != args.Id))
             {
-                SerialPortList.Add(new MYSerialPort(args.Id));
+                SerialPortList.Add(new ScanSerialPort(args.Id));
             }
             else
             {
-                var tempCominfo = SerialPortList.First(c => c.Id == args.Id);
-                tempCominfo.DeviceReConnect();
+                //var tempCominfo = SerialPortList.First(c => c.Id == args.Id);
+                //tempCominfo.DeviceReConnect();
+                var SerialPort = SerialPortList.FirstOrDefault(c => c.Id == args.Id);
+                SerialPort.Connected = true;
+                Messenger.Default.Send(new ConnectScreenEvent() { DeviceInfos = new List<DeviceInfo>() { new DeviceInfo() { DevNo = SerialPort.DevNo } } });
             }
+
         }
 
 

@@ -220,7 +220,7 @@ namespace Setting.ViewModel
                         var templist = new List<string>();
                         templist.Add(JsonConvert.SerializeObject(themeSend));
                         templist.Add(JsonConvert.SerializeObject(themeSendStartSend));
-                        SerialPortHelper.Instance.SendThemeDynamicSendMessage(templist);
+                        SerialPortSendMsgHelper.Instance.SendThemeDynamicSendMessage(templist);
 
                         HardHelper.Instance.Start();
                         IsSend = true;
@@ -232,7 +232,7 @@ namespace Setting.ViewModel
 
                         //Task.Run(() =>
                         //{
-                        SerialPortHelper.Instance.SendThemeCirculateSendMessage(msg);
+                        SerialPortSendMsgHelper.Instance.SendThemeCirculateSendMessage(msg);
                         //}
                         //);
 
@@ -1050,7 +1050,7 @@ namespace Setting.ViewModel
             {
                 return new RelayCommand(() =>
                 {
-                    SerialPortHelper.Instance.SendOpenSendMessage();
+                    SerialPortSendMsgHelper.Instance.SendOpenSendMessage();
                     Close = Visibility.Visible;
                     Open = Visibility.Collapsed;
                 }
@@ -1065,7 +1065,7 @@ namespace Setting.ViewModel
             {
                 return new RelayCommand(() =>
                 {
-                    SerialPortHelper.Instance.SendCloseSendMessage();
+                    SerialPortSendMsgHelper.Instance.SendCloseSendMessage();
                     Open = Visibility.Visible;
                     Close = Visibility.Collapsed;
                 }
@@ -1078,7 +1078,7 @@ namespace Setting.ViewModel
             {
                 return new RelayCommand(() =>
                 {
-                    SerialPortHelper.Instance.SendLuminanceSendMessage(Luminance);
+                    SerialPortSendMsgHelper.Instance.SendLuminanceSendMessage(Luminance);
                 }
                 );
             }
@@ -1186,7 +1186,7 @@ namespace Setting.ViewModel
 
         private void HandleLumianceChangeEventt(LumianceChangeEvent obj)
         {
-            SerialPortHelper.Instance.SendLuminanceSendMessage(Luminance);
+            SerialPortSendMsgHelper.Instance.SendLuminanceSendMessage(Luminance);
         }
 
         public RelayCommand CleanDebugInfoCommand
@@ -1487,7 +1487,7 @@ namespace Setting.ViewModel
                     var fileName = string.IsNullOrEmpty(JsonFileInfo.NewFileName) ? JsonFileInfo.FileName : JsonFileInfo.NewFileName;
                     var msg = MessageHelper.BuildDynamic(AllPonitList, xIndex, yIndex, fileName);
 
-                    SerialPortHelper.Instance.SendThemeSegmentSendMessage(msg);
+                    SerialPortSendMsgHelper.Instance.SendThemeSegmentSendMessage(msg);
                 }
             }
             if (JsonFileInfo.IsDynamic && jsonFileInfo.FileName == "gpu")
@@ -1561,7 +1561,7 @@ namespace Setting.ViewModel
                     var fileName = string.IsNullOrEmpty(JsonFileInfo.NewFileName) ? JsonFileInfo.FileName : JsonFileInfo.NewFileName;
                     var msg = MessageHelper.BuildDynamic(AllPonitList, xIndex, yIndex, fileName);
 
-                    SerialPortHelper.Instance.SendThemeSegmentSendMessage(msg);
+                    SerialPortSendMsgHelper.Instance.SendThemeSegmentSendMessage(msg);
                 }
             }
             if (JsonFileInfo.IsDynamic && jsonFileInfo.FileName == "wifi")
@@ -1647,7 +1647,7 @@ namespace Setting.ViewModel
                     var fileName = string.IsNullOrEmpty(JsonFileInfo.NewFileName) ? JsonFileInfo.FileName : JsonFileInfo.NewFileName;
                     var msg = MessageHelper.BuildDynamic(AllPonitList, xIndex, yIndex, fileName.Replace(".json", ""));
 
-                    SerialPortHelper.Instance.SendThemeSegmentSendMessage(msg);
+                    SerialPortSendMsgHelper.Instance.SendThemeSegmentSendMessage(msg);
                 }
             }
         }

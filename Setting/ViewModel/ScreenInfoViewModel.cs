@@ -192,17 +192,29 @@ namespace Setting.ViewModel
 
         private void HandleConnectScreenEvent(ConnectScreenEvent obj)
         {
-            foreach (var device in obj.DeviceInfos)
-            {
+
                 foreach (var item in AllScreen)
                 {
-                    var temp = SerialPortScanHelper.Instance.SerialPortList.FirstOrDefault(c => c.DevNo == item.DeviceInfo.DevNo);
+                    var temp = SerialPortScanHelper.Instance.SerialPortList.FirstOrDefault(c => c.DevNo == item.DeviceInfo.DevNo&& c.Connected);
                     if (temp!=null )
                     {
                         item.LinkUSB = Visibility.Visible;
                         item.LinkBreak = Visibility.Collapsed;
                     }
         
+                }
+
+
+
+            if (obj!=null && obj.DeviceInfos!=null && obj.DeviceInfos.Count>0)
+            {
+                var DeviceInfo = obj.DeviceInfos.First();
+               var tempScreen = AllScreen.FirstOrDefault(c => c.DeviceInfo.DevNo == DeviceInfo.DevNo);
+                if (tempScreen!=null)
+                {
+
+                    ChangeScreen(tempScreen);
+       
                 }
             }
         }
@@ -341,7 +353,7 @@ namespace Setting.ViewModel
                 foreach (var device in obj.DeviceInfos)
                 {
                     var deviceScreen = AllScreen.FirstOrDefault(c => c.DeviceInfo.DevNo == device.DevNo);
-                    SerialPortHelper.Instance.InitCOM(device.DevNo);
+                    SerialPortSendMsgHelper.Instance.InitCOM(device.DevNo);
                     if (deviceScreen == null)
                     {
                         var temp = client.AddUsingGETAsync(device.DevNo, device.Name, "9").GetAwaiter().GetResult();
@@ -412,7 +424,7 @@ namespace Setting.ViewModel
         private void ChangeScreen(ScreenDeviceInfoViewModel device)
         {
 
-
+            bool isReConnect = false;
             string JsonDir = Environment.CurrentDirectory + "\\Json\\Theme\\";
             if (device == null)
             {//未指定屏幕
@@ -430,6 +442,10 @@ namespace Setting.ViewModel
             }
             else
             {//指定屏幕
+                if (CurrentDevInfo.DeviceInfo.DevNo == device.DeviceInfo.DevNo)
+                {//相同屏幕退出
+                    isReConnect = true;
+                }
                 CurrentDevInfo = device;
             }
             JdClient client = new JdClient(HttpClientHelper.Instance.GetHttpClient());
@@ -474,7 +490,7 @@ namespace Setting.ViewModel
             }
            
 
-            SerialPortHelper.Instance.InitCOM(CurrentDevInfo?.DeviceInfo.DevNo);
+            SerialPortSendMsgHelper.Instance.InitCOM(CurrentDevInfo?.DeviceInfo.DevNo);
             foreach (var item in AllScreen)
             {
                 if (item.DeviceInfo.DevNo != CurrentDevInfo?.DeviceInfo.DevNo)

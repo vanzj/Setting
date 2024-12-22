@@ -19,7 +19,7 @@ using Windows.Storage.Streams;
 
 namespace Setting.Helper
 {
-    public class SerialPortHelper
+    public class SerialPortSendMsgHelper
     {
 
         private SerialDevice MYSerialDevice { get; set; }
@@ -38,7 +38,7 @@ namespace Setting.Helper
         Thread t;
 
 
-        private SerialPortHelper()
+        private SerialPortSendMsgHelper()
         {
 
        
@@ -103,8 +103,8 @@ namespace Setting.Helper
         }
 
 
-        private static SerialPortHelper instance = null;
-        public static SerialPortHelper Instance
+        private static SerialPortSendMsgHelper instance = null;
+        public static SerialPortSendMsgHelper Instance
         {
             get
             {
@@ -115,7 +115,7 @@ namespace Setting.Helper
                         if (instance == null)
                         {
 
-                            instance = new SerialPortHelper();
+                            instance = new SerialPortSendMsgHelper();
                         }
                     }
                 }
@@ -123,9 +123,12 @@ namespace Setting.Helper
             }
         }
 
-        public bool InitCOM(string DevNo,bool ReConnect = false)
+        public bool InitCOM(string DevNo)
         {
             string COMID = "";
+            MYSerialDevice?.Dispose();
+            MYSerialDevice = null;
+            t?.Abort();
             try
             {
 
@@ -137,14 +140,10 @@ namespace Setting.Helper
                     {
                         Messenger.Default.Send(new LostCurrentScreenEvent());
                     }
-                    CurrentComId = COMID;
-                    MYSerialDevice?.Dispose();
-                    MYSerialDevice = null;
-                    t?.Abort();
                     return false;
                 }
 
-                if (CurrentComId == COMID&& !ReConnect)
+                if (CurrentComId == COMID&& MYSerialDevice!=null)
                 {
                     return false;
                 }
@@ -152,10 +151,7 @@ namespace Setting.Helper
                 try
                 {
 
-                 
-   
                     MYSerialDevice = SerialDevice.FromIdAsync(COMID).GetAwaiter().GetResult(); ;
-            
                     if (MYSerialDevice != null)
                     {
                         CurrentComId = COMID;
@@ -168,21 +164,23 @@ namespace Setting.Helper
                         MYSerialDevice.WriteTimeout = TimeSpan.FromSeconds(10);
                         MYSerialDevice.IsRequestToSendEnabled = false;
                         MYSerialDevice.IsDataTerminalReadyEnabled = true;
-                        Messenger.Default.Send(new  DebugInfoEvent($"通信：串口扫描==> 打开成功:{COMID}"));
-                        SendGetInfoSendMessage();
+                        Messenger.Default.Send(new  DebugInfoEvent($"通信：==> 打开成功:{COMID}"));
                         t = new Thread(TimerRead_Tick);
                         t.Start();
+                        SendGetInfoSendMessage();
                     }
                     else
                     {
-                        Messenger.Default.Send(new  DebugInfoEvent($"通信：串口扫描==> 打开失败:{COMID}"));
+                        Messenger.Default.Send(new  DebugInfoEvent($"通信：==> 打开失败:{COMID}"));
                         CurrentComId = "";
                     }
                 }
                 catch (Exception ex)
                 {
                     MYSerialDevice?.Dispose();
-                      CurrentComId = "";
+                    MYSerialDevice = null;
+                    t?.Abort();
+                    CurrentComId = "";
                     throw new Exception(ex.Message);
                 }
         
@@ -191,7 +189,10 @@ namespace Setting.Helper
             catch (Exception ex)
             {
                 Messenger.Default.Send(new SendEndEvent());
-                Messenger.Default.Send(new  DebugInfoEvent($"通信：串口扫描==> 打开{COMID}失败，失败原因：{ex.Message}"));
+                Messenger.Default.Send(new  DebugInfoEvent($"通信：==> 打开{COMID}失败，失败原因：{ex.Message}"));
+                MYSerialDevice?.Dispose();
+                MYSerialDevice = null;
+                t.Abort();
                 return false;
             }
         }
@@ -311,7 +312,7 @@ namespace Setting.Helper
             }
             if (CurrentComId == COMID)
             {
-                MYSerialDevice.Dispose();
+                MYSerialDevice?.Dispose();
                 MYSerialDevice = null;
                 t.Abort();
                 Messenger.Default.Send(new LostCurrentScreenEvent());
@@ -319,43 +320,22 @@ namespace Setting.Helper
             }
 
         }
-        public void ReConnect(string COMID)
-        {
-            if (string.IsNullOrEmpty(COMID))
-            {
-                return;
-            }
-            if (CurrentComId == COMID)
-            {
-
-                InitCOM(COMID,true);
-
-                return;
-            }
-        }
 
 
-        public bool ClosePort(string COMID= null)
+        public bool ClosePort(string COMID="")
         {
             try
             {
-                if (COMID == null)
+                if (CurrentComId == COMID)
                 {
-                    if (MYSerialDevice != null)
-                    {
-                        MYSerialDevice?.Dispose();
-                    }
-                    t?.Abort();
+                    Messenger.Default.Send(new LostCurrentScreenEvent());
                 }
-
-               else if (CurrentComId == COMID)
+                CurrentComId = "";
+                if (MYSerialDevice != null)
                 {
-                    if (MYSerialDevice != null)
-                    {
-                        MYSerialDevice?.Dispose();
-                    }
-                    t.Abort();
+                    MYSerialDevice?.Dispose();
                 }
+                t?.Abort();
             }
             catch (Exception ex)
             {

@@ -5,7 +5,6 @@ using Setting.Helper;
 using Setting.Model;
 using System;
 using System.Collections.Generic;
-using System.IO.Ports;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -53,8 +52,13 @@ namespace Setting
 
         private void HandleSendStartEvent(SendStartEvent obj)
         {
-            Storyboard sb = (Storyboard)this.FindResource("SendStory");
-            sb.Begin();
+            this.Dispatcher.Invoke(() =>
+            {
+                Storyboard sb = (Storyboard)this.FindResource("SendStory");
+                sb.Begin();
+
+            });
+        
         }
 
         private void HandleCursorModelChangeEvent(CursorModelChangeEvent obj)
@@ -78,7 +82,7 @@ namespace Setting
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
          SerialPortScanHelper.Instance.ClosePort();
-            SerialPortHelper.Instance.ClosePort();
+            SerialPortSendMsgHelper.Instance.ClosePort();
         }
 
 
@@ -156,6 +160,7 @@ namespace Setting
          //  AutoUpdater.ReportErrors = true; 
             AutoUpdater.ExecutablePath = "SettingSetUp.msi"; 
             AutoUpdater.RunUpdateAsAdmin = true;
+         var tcp =   TcpDefaultHelper.Instance;
             Messenger.Default.Send(new LoadedEvent { });
 
             this.KeyDown += new KeyEventHandler(MainWindow_KeyDown);
@@ -163,14 +168,8 @@ namespace Setting
             JdClient jdClient = new JdClient(HttpClientHelper.Instance.GetHttpClient());
             try
             {
-              var result =  jdClient.VersionUsingGETAsync().GetAwaiter().GetResult();
-                if (result.Code == 0)
-                {
-                    var xmlInfo = result.Data.ToString();
-                    AutoUpdater.Start("http://localhost/AutoUpdaterTest.xml");
+                AutoUpdater.Start("http://localhost/AutoUpdaterTest.xml");
 
-                }
-               
             }
             catch (Exception)
             {
@@ -249,19 +248,12 @@ namespace Setting
             JdClient jdClient = new JdClient(HttpClientHelper.Instance.GetHttpClient());
             try
             {
-                var result = jdClient.VersionUsingGETAsync().GetAwaiter().GetResult();
-                if (result.Code == 0)
-                {
-                    var xmlInfo = result.Data.ToString();
-                    AutoUpdater.Start("http://localhost/AutoUpdaterTest.xml"); 
+                    AutoUpdater.Start("http://localhost/AutoUpdaterTest.xml");
                     if (isfirstCheckUpater )
                     {
                         isfirstCheckUpater = false;//防止重复绑定事件。
                         AutoUpdater.CheckForUpdateEvent += AutoUpdaterOnCheckForUpdateEvent;
                     }
-
-                }
-
             }
             catch (Exception)
             {

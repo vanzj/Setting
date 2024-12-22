@@ -19,7 +19,7 @@ using Windows.Storage.Streams;
 using Timer = System.Timers.Timer;
 namespace Setting.Helper
 {
-    public class MYSerialPort
+    public class ScanSerialPort
     {
         /// <summary>
         ///  屏幕mac地址
@@ -42,7 +42,7 @@ namespace Setting.Helper
         private SerialDevice SerialDevice { get; set; }
         Thread t;
   
-        public MYSerialPort(string id)
+        public ScanSerialPort(string id)
         {
             this.Id = id;
             InitCOM();
@@ -113,17 +113,9 @@ namespace Setting.Helper
             SerialDevice = null;
             Connected = false;
             t.Abort();
-            SerialPortHelper.Instance.Lost(Id);
+            SerialPortSendMsgHelper.Instance.ClosePort(Id);
         }
-        public void DeviceReConnect()
-        {
-            //扫描过的屏幕暂时不再次扫描
-            if (IsScreen==true)
-            {
-                Messenger.Default.Send(new DebugInfoEvent($"扫描：串口扫描==> 恢复连接"));
-                SerialPortHelper.Instance.ReConnect(Id);
-            }
-        }
+
         private bool InitCOM()
         {
             try
@@ -143,15 +135,16 @@ namespace Setting.Helper
                         SerialDevice.IsRequestToSendEnabled = false;
                         SerialDevice.IsDataTerminalReadyEnabled = true;
                     }
-                    SendgetMacSendMessage();
+                    Messenger.Default.Send(new DebugInfoEvent($"扫描：串口扫描==> 打开{Id}成功"));
                     t = new Thread(TimerRead);
                     t.Start();
+                    SendgetMacSendMessage();
                 }
                 catch (Exception ex)
                 {
                     throw new Exception(ex.Message);
                 }
-                Messenger.Default.Send(new DebugInfoEvent($"扫描：串口扫描==> 打开{Id}成功"));
+
                 return true;
             }
             catch (Exception ex)

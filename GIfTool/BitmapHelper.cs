@@ -38,7 +38,15 @@ namespace GIfTool
        Convert.ToByte(BList.Average()));
             return temp;
         }
-     
+        public static System.Windows.Media.Color? GetPixelMediaColorAt(Bitmap bitmapSource, int pixelX, int pixelY)
+        {
+            var rgb = GetPixelColorAt(bitmapSource, pixelX, pixelY);
+            var temp = System.Windows.Media.Color.FromArgb(Convert.ToByte(255),
+       Convert.ToByte(rgb.Value.R),
+       Convert.ToByte(rgb.Value.G),
+       Convert.ToByte(rgb.Value.B));
+            return temp;
+        }
         public static System.Drawing.Color? GetPixelColorAt(Bitmap bitmapSource, int pixelX, int pixelY)
         {
             // 检查像素位置有效性
