@@ -973,7 +973,7 @@
 
 
 
-                <Grid  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="821,51,0,0" Width="241" Height="155" Grid.RowSpan="3" x:Name="Logoutgrip" MouseLeave="Logoutgrip_MouseLeave" Visibility="Collapsed">
+                <Grid  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="898,48,0,0" Width="242" Height="155" Grid.RowSpan="2" x:Name="Logoutgrip" MouseLeave="Logoutgrip_MouseLeave" Visibility="Visible">
                     <Grid.Background>
                         <ImageBrush ImageSource="img/Login/退出登录背景.png"/>
                     </Grid.Background>

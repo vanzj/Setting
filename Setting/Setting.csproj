@@ -331,6 +331,7 @@
     <Resource Include="img\Linkusb.png" />
     <Resource Include="img\UI\刷新_refresh.png" />
     <Resource Include="img\UI\参考背景.png" />
+    <Resource Include="img\Login\登录参考.png" />
     <Content Include="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
