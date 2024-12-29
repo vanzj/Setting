@@ -4,18 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Management; // 需要添加对 System.Management 的引用
+using GalaSoft.MvvmLight.Messaging;
+
 namespace Setting.Helper
 {
     public static class CommandBuilder
     {
-        private static string mac = "";
-
-        public static byte[] BuildHeartCmd()
+     
+        public static byte[] BuildHeartCmd(string mac)
         {
-            if (string.IsNullOrEmpty(mac))
-            {
-                mac = GetBiosUUID12();
-            }
+            Messenger.Default.Send(new DebugInfoEvent($"TCP：==> BuildHeartCmd:?HEART#{mac}**"));
 
             return System.Text.Encoding.ASCII.GetBytes($"?HEART#{mac}**");
 
@@ -24,12 +22,9 @@ namespace Setting.Helper
         }
 
 
-        public static byte[] BuildGIFSuccessCmd()
+        public static byte[] BuildGIFSuccessCmd(string mac)
         {
-            if (string.IsNullOrEmpty(mac))
-            {
-                mac = GetBiosUUID12();
-            }
+            Messenger.Default.Send(new DebugInfoEvent($"TCP：==> BuildGIFSuccessCmd:!TRANSPARENTDATA#{mac}#00**"));
 
             return System.Text.Encoding.ASCII.GetBytes($"!TRANSPARENTDATA#{mac}#00**");
 
@@ -37,40 +32,14 @@ namespace Setting.Helper
 
         }
 
-        public static string GetBiosUUID12()
+        public static byte[] BuildGIFFailCmd(string mac)
         {
-            var uuid = GetBiosUUID();
-            if (uuid == null || uuid == "FFFFFFFF-FFFF-FFFF-FFFF-FFFFFFFFFFFF" || uuid.Length<12)
-            {
-                Guid guid = new Guid();
-                // Step 2: Convert to string without hyphens (optional)
-                string guidString = guid.ToString("N"); // "N" format specifier removes hyphens
+            Messenger.Default.Send(new DebugInfoEvent($"TCP：==> BuildGIFFailCmd:!TRANSPARENTDATA#{mac}#00**"));
 
-                // Step 3: Extract the last 12 characters
-                return  guidString.Substring(guidString.Length - 12);
-            }
-            return uuid.Substring(uuid.Length - 12);
+            return System.Text.Encoding.ASCII.GetBytes($"!TRANSPARENTDATA#{mac}#01**");
+
+
+
         }
-        public static string GetBiosUUID()
-        {
-            try
-            {
-                using (ManagementObjectSearcher searcher = new ManagementObjectSearcher("SELECT UUID FROM Win32_BIOS"))
-                {
-                    foreach (ManagementObject bios in searcher.Get())
-                    {
-                        return bios["UUID"]?.ToString();
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error occurred while getting BIOS UUID: {ex.Message}");
-            }
-
-            return null; // 如果没有找到或发生错误，则返回 null
-        }
-
-
     }
 }

@@ -488,8 +488,7 @@ namespace Setting.ViewModel
                 });
 
             }
-           
-
+            TcpDefaultHelper.Instance.ChangeMac(CurrentDevInfo?.DeviceInfo.DevNo);
             SerialPortSendMsgHelper.Instance.InitCOM(CurrentDevInfo?.DeviceInfo.DevNo);
             foreach (var item in AllScreen)
             {

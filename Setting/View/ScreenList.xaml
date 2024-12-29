@@ -59,7 +59,8 @@
         </Style>
     </UserControl.Resources>
 
-    <ListView   ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Hidden" BorderThickness="0"   Height="550" Width="130" ItemsSource="{Binding DeviceInfoShowList}" Background="#02FFFFFF" VerticalAlignment="Top"   Margin="0,10,0,10" HorizontalAlignment="Left">
+    <ListView   ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Hidden" BorderThickness="0"   Height="550" Width="110" ItemsSource="{Binding DeviceInfoShowList}"
+                Background="#02FFFFFF" VerticalAlignment="Top"   Margin="0,10,0,10" HorizontalAlignment="Left">
         <ListView.ItemsPanel>
             <ItemsPanelTemplate>
                 <WrapPanel ></WrapPanel>
@@ -81,21 +82,21 @@
         </ListBox.ItemContainerStyle>
         <ListView.ItemTemplate>
             <DataTemplate>
-                <StackPanel  Orientation="Vertical" Width="130"  Height="89" HorizontalAlignment="Left" VerticalAlignment="Top"  Margin="0,10,0,10"   >
+                <StackPanel  Orientation="Vertical" Width="110"  Height="75" HorizontalAlignment="Left" VerticalAlignment="Top"  Margin="0,10,0,10"   >
 
-                    <Button Style="{DynamicResource ButtonStyle1}" Width="123"  Height="89"  Command="{Binding ChangeDeviceInfo}" CommandParameter="{Binding}" BorderThickness="{Binding Thickness}"   BorderBrush="White"
+                    <Button Style="{DynamicResource ButtonStyle1}" Width="107"  Height="75"  Command="{Binding ChangeDeviceInfo}" CommandParameter="{Binding}" BorderThickness="{Binding Thickness}"   BorderBrush="White"
                           Visibility="{Binding Read}">
                         <Button.Background>
                             <ImageBrush ImageSource="/Setting;component/img/Login/屏幕背景.png" Stretch="Uniform"/>
                         </Button.Background>
-                        <Grid  Width="130"  Height="89" >
-                            <Image  Visibility="{Binding LinkUSB}" Source="/Setting;component/img/Linkusb.png" Width="30" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,0,20,0">  </Image>
-                            <Image Visibility="{Binding LinkBreak}" Source="/Setting;component/img/Linkbreak.png" Width="25" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,3,23,0"></Image>
+                        <Grid  Width="110"  Height="75" >
+                            <Image  Visibility="{Binding LinkUSB}" Source="/Setting;component/img/Linkusb.png" Width="30" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,0,10,0">  </Image>
+                            <Image Visibility="{Binding LinkBreak}" Source="/Setting;component/img/Linkbreak.png" Width="25" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,3,13,0"></Image>
                             <Label   Content="{Binding DeviceInfo.Name }" FontSize="14" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,4" ></Label>
                         </Grid>
 
                     </Button>
-                    <Grid  Width="130" Height="89"  Visibility="{Binding ReName}" Background="White">
+                    <Grid  Width="110" Height="75"  Visibility="{Binding ReName}" Background="White">
                         <TextBox   Text="{Binding DeviceInfo.Name }"  BorderThickness="0" HorizontalAlignment="Center" VerticalAlignment="Center" >
                         </TextBox>
                     </Grid>

@@ -90,10 +90,11 @@
         </Style>
 
     </UserControl.Resources>
-    <Grid>
+    <Grid Margin="0,0,-126,0">
 
         <Image Width="1300" Height="750" Source="/Setting;component/img/UI/软件ui 3.png" Margin="-181,-481,-844,29.5" HorizontalAlignment="Left" VerticalAlignment="Top" Visibility="Collapsed"/>
-        <Grid x:Name="btn"  Width="19.375" Height="19.812" Background="{Binding ChangeColor}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="65.5,0.5,0,0" >
+        <Grid x:Name="btn"  Width="20" Height="20" Background="{Binding ChangeColor}" HorizontalAlignment="Left" VerticalAlignment="Top" 
+              Margin="288,41,0,0" RenderTransformOrigin="1.526,1.3" >
 
         </Grid>
 
@@ -156,13 +157,8 @@
                     </Grid>
 
                     <Grid Grid.Column="2">
+                        <TextBox   Width="76" x:Name="TextHex"   TextChanged="TextHex_TextChanged"  LostFocus="HexTextLostFocus" Text="FFFFFF" HorizontalAlignment="Left" VerticalAlignment="Top"  Background="#01000000" BorderBrush="{x:Null}" SelectionBrush="{x:Null}" Foreground="White"  FontSize="16" Margin="42,62,0,0" />
 
-                        <TextBox   x:Name="TextR" TextChanged="TextR_TextChanged" LostFocus="TextBox_LostFocus"  VerticalAlignment="Top" Width="70" HorizontalAlignment="Left" Margin="52,-3,0,0" Background="#01000000" BorderBrush="{x:Null}" Foreground="White" SelectionBrush="{x:Null}" FontSize="16" >255</TextBox>
-                        <TextBox   x:Name="TextG" TextChanged="TextR_TextChanged" LostFocus="TextBox_LostFocus" VerticalAlignment="Top" Width="70" HorizontalAlignment="Left"  Background="#01000000" BorderBrush="{x:Null}" Foreground="White" SelectionBrush="{x:Null}"  FontSize="16" Margin="52,37,0,0" >255</TextBox>
-                        <TextBox   x:Name="TextB" TextChanged="TextR_TextChanged" LostFocus="TextBox_LostFocus" VerticalAlignment="Top" Width="70" HorizontalAlignment="Left"  Background="#01000000" BorderBrush="{x:Null}" SelectionBrush="{x:Null}" Foreground="White"  FontSize="16" Margin="52,72,0,0" >255</TextBox>
-                        <TextBox   x:Name="TextA" TextChanged="TextR_TextChanged" LostFocus="TextBox_LostFocus" VerticalAlignment="Top" Width="70" HorizontalAlignment="Left"  Background="#01000000" BorderBrush="{x:Null}" SelectionBrush="{x:Null}" Foreground="White"  FontSize="16" Margin="52,72,0,0" Visibility="Collapsed" >255</TextBox>
-                        <TextBox   Width="75.333" x:Name="TextHex"   TextChanged="TextHex_TextChanged"  LostFocus="HexTextLostFocus" Text="FFFFFF" HorizontalAlignment="Left" VerticalAlignment="Top"  Background="#01000000" BorderBrush="{x:Null}" SelectionBrush="{x:Null}" Foreground="White"  FontSize="16" Margin="141,-3,-5.333,0" />
-                        
                     </Grid>
 
 

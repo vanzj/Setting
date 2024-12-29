@@ -103,6 +103,7 @@ namespace GIfTool
         /// <returns></returns>
         public List<ThemeSegmentData> OPENGIFURL(string imageUrl, int xIndex, int yIndex, string filename)
         {
+            int speed =5;
             var result = new List<ThemeSegmentData>();
             using (HttpClient client = new HttpClient())
             using (var response =  client.GetAsync(imageUrl).GetAwaiter().GetResult())
@@ -115,8 +116,11 @@ namespace GIfTool
                     if (ImageAnimator.CanAnimate(imgGif))
                     {
                         FrameDimension imgFrmDim = new FrameDimension(imgGif.FrameDimensionsList[0]);
-                        var FramesCount = imgGif.GetFrameCount(imgFrmDim)*3; // 获取帧数
-
+                        var FramesCount = imgGif.GetFrameCount(imgFrmDim)* speed; // 获取帧数
+                        if (FramesCount>110)
+                        {
+                            throw new Exception("内容太长了");
+                        }
                         var oneseg = new ThemeSegmentData()
                         {
                             name = filename,
@@ -130,7 +134,7 @@ namespace GIfTool
                         for (int i = 0; i < FramesCount; i++)
                         {
                             // 把每一帧保存为jpg图片
-                            imgGif.SelectActiveFrame(imgFrmDim,i==0?0:i/3);
+                            imgGif.SelectActiveFrame(imgFrmDim,i==0?0:i/ speed);
                             Bitmap t = new Bitmap(imgGif);
                             var pw = t.Width;
                             var ph = t.Height;

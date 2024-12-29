@@ -17,6 +17,8 @@ namespace Setting.Helper
     {
         string ip = "119.3.5.23";
         int port = 1010;
+
+        private string _mac = "";
         private string ReadMsg { get; set; }
         static Timer timer = null;
         Socket client;
@@ -45,11 +47,12 @@ namespace Setting.Helper
             t.Start();
             try
             {
-                var heartMsg = CommandBuilder.BuildHeartCmd();
-           
-                client.Connect(ipEndpoint);
-                client.Send(heartMsg);
-
+                if (!string.IsNullOrEmpty(_mac))
+                {
+                    client.Connect(ipEndpoint);
+                    var heartMsg = CommandBuilder.BuildHeartCmd(_mac);
+                    client.Send(heartMsg);
+                }
             }
             catch (Exception ex)
             {
@@ -97,7 +100,7 @@ namespace Setting.Helper
                     Thread.Sleep(1000);
                 }
             } while (true);
-          
+           
                
 
          
@@ -113,29 +116,42 @@ namespace Setting.Helper
         }
         private void DataReceived(string v)
         {
-            if (v.StartsWith("!WTRANSPARENTDATA"))
+            
+            if (v.StartsWith("?WTRANSPARENTDATA"))
             {
-                string pattern = @"#"; // 正则表达式中的两个星号需要用反斜杠转义
-                string[] result = Regex.Split(v, pattern);
-                if (result.Length ==3)
+                try
                 {
-                   var hexString = result[2].Replace("**", "");
-                    hexString = hexString.Replace("0901", "");
-
-                    string gifUrl = HexToString(hexString);
-                    if (gifUrl.EndsWith(".gif"))
+                    string pattern = @"#"; // 正则表达式中的两个星号需要用反斜杠转义
+                    string[] result = Regex.Split(v, pattern);
+                    if (result.Length == 3)
                     {
+                        var hexString = result[2].Replace("**", "");
+                        hexString = hexString.Replace("09010000", "");
 
-                        InputGIF inputGIF = new InputGIF();
-                        var ImgInfo = inputGIF.OPENGIFURL(gifUrl, 85, 5,"gifword");
-                        Messenger.Default.Send(new SendStartEvent());
-                        var data = MessageHelper.BuildOnePackageGIFURL(ImgInfo, 85, 5, "gifword");
-                        SerialPortSendMsgHelper.Instance.SendThemeCirculateSendMessage(data);
-                        var msg = CommandBuilder.BuildGIFSuccessCmd();
-                        client.Send(msg);
+                        string gifUrl = HexToString(hexString);
+                        if (gifUrl.EndsWith(".gif"))
+                        {
+
+                            InputGIF inputGIF = new InputGIF();
+                            var ImgInfo = inputGIF.OPENGIFURL(gifUrl, 85, 5, "gifword");
+                            Messenger.Default.Send(new SendStartEvent());
+                            var data = MessageHelper.BuildOnePackageGIFURL(ImgInfo, 85, 5, "gifword");
+                            SerialPortSendMsgHelper.Instance.SendThemeCirculateSendMessage(data);
+                            var msg = CommandBuilder.BuildGIFSuccessCmd(_mac);
+                            client.Send(msg);
+                            Messenger.Default.Send(new DebugInfoEvent($"TCP：==> gif下发成功:{v}"));
+                        }
                     }
                 }
+                catch (Exception)
+                {
+                    Messenger.Default.Send(new DebugInfoEvent($"TCP：==> gif下发失败:{v}"));
+                    var msg = CommandBuilder.BuildGIFFailCmd(_mac);
+                    client.Send(msg);
+                }
+               
             }
+            Messenger.Default.Send(new DebugInfoEvent($"TCP：==> 心跳或其他:{v}"));
             return;
         }
 
@@ -143,24 +159,7 @@ namespace Setting.Helper
         {
             try
             {
-                //心跳包
-                if (client.Connected)
-                {
-                    var heartMsg = CommandBuilder.BuildHeartCmd();
-                    client.Send(heartMsg);
-                }
-                //断线重连
-                else
-                {
-                    client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-                    IPAddress ipAdress = IPAddress.Parse(ip);
-                    //网络端点：为待请求连接的IP地址和端口号
-                    IPEndPoint ipEndpoint = new IPEndPoint(ipAdress, port);
-                    //connect()向服务端发出连接请求。客户端不需要bind()绑定ip和端口号，
-                    //因为系统会自动生成一个随机的地址（具体应该为本机IP+随机端口号）
-                    client.Connect(ipEndpoint);
-
-                }
+                Heart();
             }
             catch (Exception ex)
             {
@@ -169,7 +168,43 @@ namespace Setting.Helper
             } 
            
         }
+        public void ChangeMac(string mac)
+        {
+            _mac = mac;
+            Heart();
+        }
+        public void Heart()
+        {
+            //心跳包
+            if (client.Connected)
+            {
+                if (!string.IsNullOrEmpty(_mac))
+                {
+                    var heartMsg = CommandBuilder.BuildHeartCmd(_mac);
+                   
+                    client.Send(heartMsg);
+                }
 
+            }
+            //断线重连
+            else
+            {
+                client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                IPAddress ipAdress = IPAddress.Parse(ip);
+                //网络端点：为待请求连接的IP地址和端口号
+                IPEndPoint ipEndpoint = new IPEndPoint(ipAdress, port);
+                //connect()向服务端发出连接请求。客户端不需要bind()绑定ip和端口号，
+                //因为系统会自动生成一个随机的地址（具体应该为本机IP+随机端口号）
+           
+                client.Connect(ipEndpoint);
+                if (!string.IsNullOrEmpty(_mac))
+                {
+                    var heartMsg = CommandBuilder.BuildHeartCmd(_mac);
+                    client.Send(heartMsg);
+                }
+
+            }
+        }
         private static TcpDefaultHelper instance = null;
     public static TcpDefaultHelper Instance
     {

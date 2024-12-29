@@ -96,32 +96,8 @@ namespace Setting.View
             TextBox textBox = sender as TextBox;
             string text = textBox.Text;
 
-            //错误的数据，则使用上次的正确数据
-            if (!int.TryParse(TextR.Text, out int Rvalue) || (Rvalue > 255 || Rvalue < 0))
-            {
-                TextR.Text = R.ToString();
-                return;
-            }
-
-            if (!int.TryParse(TextG.Text, out int Gvalue) || (Gvalue > 255 || Gvalue < 0))
-            {
-                TextG.Text = G.ToString();
-                return;
-            }
-
-            if (!int.TryParse(TextB.Text, out int Bvalue) || (Bvalue > 255 || Bvalue < 0))
-            {
-                TextB.Text = _B.ToString();
-                return;
-            }
-            if (!int.TryParse(TextA.Text, out int Avalue) || (Avalue > 255 || Avalue < 0))
-            {
-                TextA.Text = A.ToString();
-                return;
-            }
-            R = Rvalue; G = Gvalue; _B = Bvalue; A = Avalue;
-
-
+          
+        
             RgbaColor Hcolor = new RgbaColor(R, G, _B, A);
             PointList.ChangeColor = Hcolor.SolidColorBrush;
 
@@ -144,10 +120,7 @@ namespace Setting.View
             {
                 RgbaColor Hcolor = new RgbaColor("#FF" + TextHex.Text);
                 PointList.ChangeColor = Hcolor.SolidColorBrush;
-                TextR.Text = Hcolor.R.ToString();
-                TextG.Text = Hcolor.G.ToString();
-                TextB.Text = Hcolor.B.ToString();
-                TextA.Text = Hcolor.A.ToString();
+    
             }
             else
             {
@@ -168,10 +141,7 @@ namespace Setting.View
         private void ColorChange(RgbaColor Hcolor)
         {
             isColorChange = true;
-            TextR.Text = Hcolor.R.ToString();
-            TextG.Text = Hcolor.G.ToString();
-            TextB.Text = Hcolor.B.ToString();
-            TextA.Text = Hcolor.A.ToString();
+      
 
             TextHex.Text = Hcolor.HexString;
             isColorChange = false;
@@ -185,31 +155,12 @@ namespace Setting.View
             }
             TextBox textBox = sender as TextBox;
             string text = textBox.Text;
-            if (TextR ==null || TextG==null || TextB == null || TextA == null|| TextHex==null)
+            if ( TextHex==null)
             {
                 return;
             }
-            //错误的数据，则使用上次的正确数据
-            if (!int.TryParse(TextR.Text, out int Rvalue) || (Rvalue > 255 || Rvalue < 0)|| TextR==null)
-            {
-                return;
-            }
-
-            if (!int.TryParse(TextG.Text, out int Gvalue) || (Gvalue > 255 || Gvalue < 0) || TextG == null)
-            {
-                return;
-            }
-
-            if (!int.TryParse(TextB.Text, out int Bvalue) || (Bvalue > 255 || Bvalue < 0) || TextB == null)
-            {
-                return;
-            }
-            if (!int.TryParse(TextA.Text, out int Avalue) || (Avalue > 255 || Avalue < 0) || TextA == null)
-            {
-                return;
-            }
-            R = Rvalue; G = Gvalue; _B = Bvalue; A = Avalue;
-
+           
+            
 
             RgbaColor Hcolor = new RgbaColor(R, G, _B, A);
             PointList.ChangeColor = Hcolor.SolidColorBrush;
@@ -252,10 +203,6 @@ namespace Setting.View
                 this.thumbSB.Top = thumbSB.ActualHeight * (1-B) - thumbSB.Yoffset;
                 this.thumbSB.Left = thumbSB.ActualWidth * (S) - thumbSB.Xoffset;
                 PointList.ChangeColor = Hcolor.SolidColorBrush;
-                TextR.Text = Hcolor.R.ToString();
-                TextG.Text = Hcolor.G.ToString();
-                TextB.Text = Hcolor.B.ToString();
-                TextA.Text = Hcolor.A.ToString();
             }
         }
 

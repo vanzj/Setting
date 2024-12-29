@@ -330,6 +330,7 @@
     <Resource Include="img\Linkbreak.png" />
     <Resource Include="img\Linkusb.png" />
     <Resource Include="img\UI\刷新_refresh.png" />
+    <Resource Include="img\UI\参考背景.png" />
     <Content Include="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -340,7 +341,6 @@
     <Compile Include="Helper\BitmapHelper.cs" />
     <Compile Include="Helper\CommandBuilder.cs" />
     <Compile Include="Helper\TcpDefaultHelper.cs" />
-    <Compile Include="Helper\TcpHelper.cs" />
     <Compile Include="Helper\LoginInfoHelper.cs" />
     <Compile Include="Helper\CommandBehavior.cs" />
     <Compile Include="Helper\Const.cs" />
@@ -486,6 +486,7 @@
     </None>
     <None Include="Design\projectGuides.guides" />
     <None Include="Dll\Windows.winmd" />
+    <Resource Include="font\ROGFontsv1.6.ttf" />
     <None Include="Json\Base\1 - 复制%2810%29.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
