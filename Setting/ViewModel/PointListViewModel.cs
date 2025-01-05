@@ -214,7 +214,7 @@ namespace Setting.ViewModel
                             name = jsonFileInfo.FileName,
                             count = AllPonitList.Count.ToString(),
                             frameCount = AllPonitList.Count.ToString(),
-                            frameRate = "30",
+                            frameRate = "20",
                             brightness = 255
                         };
                         var templist = new List<string>();
@@ -887,24 +887,29 @@ namespace Setting.ViewModel
             {
                 return new RelayCommand(() =>
                 {
-                    if (JsonFileInfo == null)
-                    {
-                        return;
-                    }
-                    Dictionary<int, List<PointItem>> saveInfo = new Dictionary<int, List<PointItem>>();
-                    foreach (var item in AllPonitList)
-                    {
-                        var templist = item.Value.Where(c => c.X >= 0 && c.X < xIndex && c.Y >= 0 && c.Y < yIndex).ToList();
-                        templist.Sort();
-                        saveInfo.Add(item.Key, templist);
-                    }
-                    FileHelper.Save(JsonConvert.SerializeObject(saveInfo), JsonFileInfo);
-
+                    Save();
                 }
                 );
             }
         }
 
+
+        private void Save()
+        {
+            if (JsonFileInfo == null)
+            {
+                return;
+            }
+            Dictionary<int, List<PointItem>> saveInfo = new Dictionary<int, List<PointItem>>();
+            foreach (var item in AllPonitList)
+            {
+                var templist = item.Value.Where(c => c.X >= 0 && c.X < xIndex && c.Y >= 0 && c.Y < yIndex).ToList();
+                templist.Sort();
+                saveInfo.Add(item.Key, templist);
+            }
+            FileHelper.Save(JsonConvert.SerializeObject(saveInfo), JsonFileInfo);
+
+        }
 
 
         public RelayCommand CleanComand
@@ -1132,7 +1137,8 @@ namespace Setting.ViewModel
 
             Messenger.Default.Register<LostCurrentScreenEvent>(this, HandleLostScreenEvent);
             Messenger.Default.Register<ConnectCurrentScreenEvent>(this, HandleReConnectScreenEvent);
-
+            Messenger.Default.Register<RedoSaveEvent>(this, HandleRedoSaveEvent);
+            Messenger.Default.Register<FrameChangeEvent>(this, HandleFrameChangeEvent);
             SeedEnabled = false;
             Open = Visibility.Visible;
             Close = Visibility.Collapsed;
@@ -1140,6 +1146,16 @@ namespace Setting.ViewModel
             CursorEnum = CursorEnum.MOVE;
             ChangeColor = new SolidColorBrush((System.Windows.Media.Color)ColorConverter.ConvertFromString(ColorConst.BackGroupColor));
             DebugInfo = "*********************************************调试信息******************" + "\r\n";
+        }
+
+        private void HandleFrameChangeEvent(FrameChangeEvent @event)
+        {
+            BuildShowInit(CurrentFrame);
+        }
+
+        private void HandleRedoSaveEvent(RedoSaveEvent @event)
+        {
+            Save();
         }
 
         private void HandleScreenInfoEvent(ScreenInfoEvent obj)
@@ -1655,13 +1671,22 @@ namespace Setting.ViewModel
         {
             if (CursorEnum == CursorEnum.Magic)
             {
-                AllPonitList[CurrentFrame].Find(c => c.Y == item.Y && c.X == item.X).Fill = ChangeColor;
-                BuildShow(CurrentFrame);
+                var currentpoint = AllPonitList[CurrentFrame].Find(c => c.Y == item.Y && c.X == item.X);
+                    if (currentpoint.Fill!= changeColor)
+                {
+                    currentpoint.Fill = ChangeColor;
+                    BuildShow(CurrentFrame);
+                }
+             
             }
             else if (CursorEnum == CursorEnum.ERASE)
             {
-                AllPonitList[CurrentFrame].Find(c => c.Y == item.Y && c.X == item.X).Fill = new SolidColorBrush((System.Windows.Media.Color)ColorConverter.ConvertFromString(ColorConst.BackGroupColor));
-                BuildShow(CurrentFrame);
+                var currentpoint = AllPonitList[CurrentFrame].Find(c => c.Y == item.Y && c.X == item.X);
+                if (currentpoint.Fill != new SolidColorBrush((System.Windows.Media.Color)ColorConverter.ConvertFromString(ColorConst.BackGroupColor)))
+                {
+                    currentpoint.Fill = new SolidColorBrush((System.Windows.Media.Color)ColorConverter.ConvertFromString(ColorConst.BackGroupColor));
+                    BuildShow(CurrentFrame);
+                }
             }
         }
         #endregion

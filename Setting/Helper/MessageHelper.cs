@@ -29,7 +29,7 @@ namespace Setting.Helper
                 name = filename,
                 count = AllPonitList.Count.ToString(),
                 frameCount = AllPonitList.Count.ToString(),
-                frameRate = "30",
+                frameRate = "20",
                 brightness = 255
             };
             templist.Add(JsonConvert.SerializeObject(themeSendStartSend));
@@ -51,7 +51,7 @@ namespace Setting.Helper
                     name = filename,
                     count = AllPonitList.Count.ToString(),
                     frameCount = AllPonitList.Count.ToString(),
-                    frameRate = 30,
+                    frameRate = 20,
                     brightness = 255,
                     index = (i + 1).ToString(),
 
@@ -86,7 +86,7 @@ namespace Setting.Helper
                 name = filename,
                 count = "1",
                 frameCount = AllPonitList.Count.ToString(),
-                frameRate = "30",
+                frameRate = "20",
                 brightness = 255
             };
             templist.Add(JsonConvert.SerializeObject(themeSendStartSend));
@@ -109,7 +109,7 @@ namespace Setting.Helper
                     name = filename,
                     count = "1",
                     frameCount = AllPonitList.Count.ToString(),
-                    frameRate = 30,
+                    frameRate = 20,
                     brightness = 255,
                     index = (i + 1).ToString(),
 
@@ -144,7 +144,7 @@ namespace Setting.Helper
                 name = filename,
                 count = "1",
                 frameCount = AllPonitList.Count.ToString(),
-                frameRate = "30",
+                frameRate = "20",
                 brightness = 255
             };
             templist.Add(JsonConvert.SerializeObject(themeSendStartSend));
@@ -159,7 +159,7 @@ namespace Setting.Helper
                 name = filename,
                 count = "1",
                 frameCount = AllPonitList.Count.ToString(),
-                frameRate = 30,
+                frameRate = 20,
                 brightness = 255,
                 index = "1",
 
@@ -203,7 +203,7 @@ namespace Setting.Helper
                 name = filename,
                 count = "1",
                 frameCount = data.Count.ToString(),
-                frameRate = "30",
+                frameRate = "20",
                 brightness = 255
             };
             templist.Add(JsonConvert.SerializeObject(themeSendStartSend));
@@ -236,7 +236,7 @@ namespace Setting.Helper
                     name = filename,
                     count = AllPonitList.Count.ToString(),
                     frameCount = AllPonitList.Count.ToString(),
-                    frameRate = 30,
+                    frameRate = 20,
                     brightness = 255,
                     index = (i + 1).ToString(),
 
@@ -274,7 +274,7 @@ namespace Setting.Helper
                     name = filename,
                     count = AllPonitList.Count.ToString(),
                     frameCount = AllPonitList.Count.ToString(),
-                    frameRate = 30,
+                    frameRate = 20,
                     brightness = 255,
                     index = (i + 1).ToString(),
 

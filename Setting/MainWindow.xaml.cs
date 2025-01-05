@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -157,9 +158,9 @@ namespace Setting
         }
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-         //  AutoUpdater.ReportErrors = true; 
-            AutoUpdater.ExecutablePath = "SettingSetUp.msi"; 
+
             AutoUpdater.RunUpdateAsAdmin = true;
+            AutoUpdater.ApplicationExitEvent += AutoUpdater_ApplicationExitEvent;
          var tcp =   TcpDefaultHelper.Instance;
             Messenger.Default.Send(new LoadedEvent { });
 
@@ -177,6 +178,12 @@ namespace Setting
                 
             }
             
+        }
+
+        private void AutoUpdater_ApplicationExitEvent()
+        {
+            Thread.Sleep(5000);
+            System.Environment.Exit(0);
         }
 
         private void MainWindow_KeyDown(object sender, KeyEventArgs e)
@@ -301,7 +308,13 @@ private void AutoUpdaterOnCheckForUpdateEvent(UpdateInfoEventArgs args)
             }
         }
 
-
+        private void Slider_ValueChanged_1(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (e.OldValue != e.NewValue)
+            {
+                Messenger.Default.Send(new FrameChangeEvent { CurrentFrame = (int)e.NewValue });
+            }
+        }
     }
 
 }

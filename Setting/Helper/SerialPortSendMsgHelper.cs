@@ -36,7 +36,7 @@ namespace Setting.Helper
         static readonly object _object = new object();
 
         Thread t;
-
+        Thread SendGetInfoSendMessageT;
 
         private SerialPortSendMsgHelper()
         {
@@ -46,6 +46,7 @@ namespace Setting.Helper
         }
 
         private string ReadMsg { get; set; }
+   
         private void TimerRead_Tick()
         {
             do
@@ -77,8 +78,10 @@ namespace Setting.Helper
                             ReadMsg = templist[templist.Length - 1];
                         }
                     }
-
+                   
                     Thread.Sleep(100);
+            
+              
                 }
                 catch (Exception ex)
                 {
@@ -129,6 +132,7 @@ namespace Setting.Helper
             MYSerialDevice?.Dispose();
             MYSerialDevice = null;
             t?.Abort();
+            SendGetInfoSendMessageT?.Abort();
             try
             {
 
@@ -166,8 +170,18 @@ namespace Setting.Helper
                         MYSerialDevice.IsDataTerminalReadyEnabled = true;
                         Messenger.Default.Send(new  DebugInfoEvent($"通信：==> 打开成功:{COMID}"));
                         t = new Thread(TimerRead_Tick);
+                        SendGetInfoSendMessageT = new Thread(() =>
+                        {
+                            do
+                            {
+                                SendGetInfoSendMessage();
+                                Thread.Sleep(5000);
+
+                            } while (true);
+                         
+                        });
                         t.Start();
-                        SendGetInfoSendMessage();
+                        SendGetInfoSendMessageT.Start();
                     }
                     else
                     {
@@ -180,6 +194,7 @@ namespace Setting.Helper
                     MYSerialDevice?.Dispose();
                     MYSerialDevice = null;
                     t?.Abort();
+                    SendGetInfoSendMessageT?.Abort();
                     CurrentComId = "";
                     throw new Exception(ex.Message);
                 }
@@ -193,6 +208,7 @@ namespace Setting.Helper
                 MYSerialDevice?.Dispose();
                 MYSerialDevice = null;
                 t.Abort();
+                SendGetInfoSendMessageT?.Abort();
                 return false;
             }
         }
@@ -315,6 +331,7 @@ namespace Setting.Helper
                 MYSerialDevice?.Dispose();
                 MYSerialDevice = null;
                 t.Abort();
+                SendGetInfoSendMessageT?.Abort();
                 Messenger.Default.Send(new LostCurrentScreenEvent());
                 return ;
             }
@@ -336,6 +353,7 @@ namespace Setting.Helper
                     MYSerialDevice?.Dispose();
                 }
                 t?.Abort();
+                SendGetInfoSendMessageT?.Abort();
             }
             catch (Exception ex)
             {

@@ -1,6 +1,8 @@
-﻿using System;
+﻿using AnimatedGif;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Threading;
 using System.Windows;
@@ -28,7 +30,7 @@ namespace GIfTool
             {
                 int index = 0;
                 Bitmap bmpImage = new System.Drawing.Bitmap(xindex * scale, yindex * scale);
-
+              
                 foreach (var rgb in ThemeSegmentData.pointList[0].frameRGB)
                 {
 
@@ -45,12 +47,12 @@ namespace GIfTool
             {
                 gEnc.Frames.Add(bitmap);
             }
-
             using (FileStream fs = new FileStream(FilePath, FileMode.Create))
             {
                 gEnc.Save(fs);
             }
         }
+
 
         private void setPeixs(Bitmap bitmap, int index, int xindex, int yindex, int scale, string rgb)
         {

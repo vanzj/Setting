@@ -50,7 +50,7 @@ namespace GIfTool
                         name = filename,
                         count = FramesCount.ToString(),
                         frameCount = FramesCount.ToString(),
-                        frameRate = 30,
+                        frameRate = 20,
                         brightness = 255,
                         index = (i + 1).ToString(),
 
@@ -103,7 +103,7 @@ namespace GIfTool
         /// <returns></returns>
         public List<ThemeSegmentData> OPENGIFURL(string imageUrl, int xIndex, int yIndex, string filename)
         {
-            int speed =5;
+         
             var result = new List<ThemeSegmentData>();
             using (HttpClient client = new HttpClient())
             using (var response =  client.GetAsync(imageUrl).GetAwaiter().GetResult())
@@ -116,7 +116,7 @@ namespace GIfTool
                     if (ImageAnimator.CanAnimate(imgGif))
                     {
                         FrameDimension imgFrmDim = new FrameDimension(imgGif.FrameDimensionsList[0]);
-                        var FramesCount = imgGif.GetFrameCount(imgFrmDim)* speed; // 获取帧数
+                        var FramesCount = imgGif.GetFrameCount(imgFrmDim); // 获取帧数
                         if (FramesCount>110)
                         {
                             throw new Exception("内容太长了");
@@ -126,7 +126,7 @@ namespace GIfTool
                             name = filename,
                             count = "1",
                             frameCount = FramesCount.ToString(),
-                            frameRate = 30,
+                            frameRate = 6,
                             brightness = 255,
                             index = "1",
                         };
@@ -134,7 +134,7 @@ namespace GIfTool
                         for (int i = 0; i < FramesCount; i++)
                         {
                             // 把每一帧保存为jpg图片
-                            imgGif.SelectActiveFrame(imgFrmDim,i==0?0:i/ speed);
+                            imgGif.SelectActiveFrame(imgFrmDim,i==0?0:i);
                             Bitmap t = new Bitmap(imgGif);
                             var pw = t.Width;
                             var ph = t.Height;

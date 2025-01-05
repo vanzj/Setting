@@ -144,6 +144,9 @@ namespace Setting.ViewModel
                     CancelIsEnabled = false;
                     ReBackIsEnabled = false;
                     Messenger.Default.Send<InitFromHistroyEvent>(new InitFromHistroyEvent() { HistoryItem =InitItem,HistoryEnum = HistoryEnum.Redo });
+                    Messenger.Default.Send<RedoSaveEvent>(new RedoSaveEvent() { });
+
+                    
                 });
             }
         }

@@ -244,7 +244,7 @@ namespace Setting.ViewModel
             page--;
             ThemeItemShowList = new ObservableCollection<ThemeItem>();
 
-            for (int i = (page - 1) * size; i < size && i < AllThemeList.Count - ((page - 1) * size); i++)
+            for (int i = (page - 1) * size;  i < ((page - 1) * size)+size; i++)
             {
                 ThemeItemShowList.Add(AllThemeList[i]);
             }
@@ -317,6 +317,7 @@ namespace Setting.ViewModel
         private void HandleThemeItemClickedEvent(ThemeItemClickedEvent obj)
         {
             CurrJsonFileInfo = obj.JsonFileInfo;
+            CurrJsonFileInfo.BakName  = obj.JsonFileInfo.Name;
             foreach (var item in ThemeItemShowList)
             {
                 if (item.JsonFileInfo.FileName != obj.JsonFileInfo.FileName)
@@ -657,6 +658,8 @@ namespace Setting.ViewModel
                     PopupOpen = true;
                     Thickness = 2;
                     Messenger.Default.Send(new ThemeItemClickedEvent { JsonFileInfo = item.JsonFileInfo });
+                    Messenger.Default.Send(new CursorModelChangeEvent { model = Enum.CursorEnum.MOVE });
+                    
                 });
             }
         }
@@ -668,8 +671,7 @@ namespace Setting.ViewModel
             {
                 return new RelayCommand<ThemeItem>(item =>
                 {
-                    JsonFileInfo.BakName = JsonFileInfo.Name;
-                   
+           
                     IsReName = true;
                     ReName = IsReName ? Visibility.Visible : Visibility.Collapsed;
                     Read = IsReName ? Visibility.Collapsed : Visibility.Visible;

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.32510.428
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35327.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Setting", "Setting\Setting.csproj", "{DCF740BB-917E-44F4-A107-90B4DAA84927}"
 EndProject
@@ -9,9 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GIfTool", "GIfTool\GIfTool.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp2", "ConsoleApp2\ConsoleApp2.csproj", "{2E8BC5AF-3869-49FB-A8B0-F62303B28EE8}"
 EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "SettingSetUp", "SettingSetUp\SettingSetUp.vdproj", "{036CF44F-C874-48DB-B4CE-6C8BB8E1EA9F}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dome", "Dome\Dome.csproj", "{21D589E8-A7A1-4B01-A38B-7A17763AAF45}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Setup", "Setup\Setup.vdproj", "{20D73415-2DA0-49E5-B13B-E2619C9D16C3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -87,26 +87,6 @@ Global
 		{2E8BC5AF-3869-49FB-A8B0-F62303B28EE8}.Release|x64.Build.0 = Release|Any CPU
 		{2E8BC5AF-3869-49FB-A8B0-F62303B28EE8}.Release|x86.ActiveCfg = Release|Any CPU
 		{2E8BC5AF-3869-49FB-A8B0-F62303B28EE8}.Release|x86.Build.0 = Release|Any CPU
-		{036CF44F-C874-48DB-B4CE-6C8BB8E1EA9F}.Debug|Any CPU.ActiveCfg = Debug
-		{036CF44F-C874-48DB-B4CE-6C8BB8E1EA9F}.Debug|Any CPU.Build.0 = Debug
-		{036CF44F-C874-48DB-B4CE-6C8BB8E1EA9F}.Debug|ARM.ActiveCfg = Debug
-		{036CF44F-C874-48DB-B4CE-6C8BB8E1EA9F}.Debug|ARM.Build.0 = Debug
-		{036CF44F-C874-48DB-B4CE-6C8BB8E1EA9F}.Debug|ARM64.ActiveCfg = Debug
-		{036CF44F-C874-48DB-B4CE-6C8BB8E1EA9F}.Debug|ARM64.Build.0 = Debug
-		{036CF44F-C874-48DB-B4CE-6C8BB8E1EA9F}.Debug|x64.ActiveCfg = Debug
-		{036CF44F-C874-48DB-B4CE-6C8BB8E1EA9F}.Debug|x64.Build.0 = Debug
-		{036CF44F-C874-48DB-B4CE-6C8BB8E1EA9F}.Debug|x86.ActiveCfg = Debug
-		{036CF44F-C874-48DB-B4CE-6C8BB8E1EA9F}.Debug|x86.Build.0 = Debug
-		{036CF44F-C874-48DB-B4CE-6C8BB8E1EA9F}.Release|Any CPU.ActiveCfg = Release
-		{036CF44F-C874-48DB-B4CE-6C8BB8E1EA9F}.Release|Any CPU.Build.0 = Release
-		{036CF44F-C874-48DB-B4CE-6C8BB8E1EA9F}.Release|ARM.ActiveCfg = Release
-		{036CF44F-C874-48DB-B4CE-6C8BB8E1EA9F}.Release|ARM.Build.0 = Release
-		{036CF44F-C874-48DB-B4CE-6C8BB8E1EA9F}.Release|ARM64.ActiveCfg = Release
-		{036CF44F-C874-48DB-B4CE-6C8BB8E1EA9F}.Release|ARM64.Build.0 = Release
-		{036CF44F-C874-48DB-B4CE-6C8BB8E1EA9F}.Release|x64.ActiveCfg = Release
-		{036CF44F-C874-48DB-B4CE-6C8BB8E1EA9F}.Release|x64.Build.0 = Release
-		{036CF44F-C874-48DB-B4CE-6C8BB8E1EA9F}.Release|x86.ActiveCfg = Release
-		{036CF44F-C874-48DB-B4CE-6C8BB8E1EA9F}.Release|x86.Build.0 = Release
 		{21D589E8-A7A1-4B01-A38B-7A17763AAF45}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{21D589E8-A7A1-4B01-A38B-7A17763AAF45}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{21D589E8-A7A1-4B01-A38B-7A17763AAF45}.Debug|ARM.ActiveCfg = Debug|Any CPU
@@ -127,6 +107,16 @@ Global
 		{21D589E8-A7A1-4B01-A38B-7A17763AAF45}.Release|x64.Build.0 = Release|Any CPU
 		{21D589E8-A7A1-4B01-A38B-7A17763AAF45}.Release|x86.ActiveCfg = Release|Any CPU
 		{21D589E8-A7A1-4B01-A38B-7A17763AAF45}.Release|x86.Build.0 = Release|Any CPU
+		{20D73415-2DA0-49E5-B13B-E2619C9D16C3}.Debug|Any CPU.ActiveCfg = Debug
+		{20D73415-2DA0-49E5-B13B-E2619C9D16C3}.Debug|ARM.ActiveCfg = Debug
+		{20D73415-2DA0-49E5-B13B-E2619C9D16C3}.Debug|ARM64.ActiveCfg = Debug
+		{20D73415-2DA0-49E5-B13B-E2619C9D16C3}.Debug|x64.ActiveCfg = Debug
+		{20D73415-2DA0-49E5-B13B-E2619C9D16C3}.Debug|x86.ActiveCfg = Debug
+		{20D73415-2DA0-49E5-B13B-E2619C9D16C3}.Release|Any CPU.ActiveCfg = Release
+		{20D73415-2DA0-49E5-B13B-E2619C9D16C3}.Release|ARM.ActiveCfg = Release
+		{20D73415-2DA0-49E5-B13B-E2619C9D16C3}.Release|ARM64.ActiveCfg = Release
+		{20D73415-2DA0-49E5-B13B-E2619C9D16C3}.Release|x64.ActiveCfg = Release
+		{20D73415-2DA0-49E5-B13B-E2619C9D16C3}.Release|x86.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

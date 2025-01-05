@@ -144,17 +144,16 @@
     <Grid>
 
         <Grid.Background>
-            <ImageBrush ImageSource="/Setting;component/img/Login/登录参考.png"/>
+            <ImageBrush ImageSource="/img/Login/登录界面背景.png"/>
         </Grid.Background>
-
+        <Label HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,19,157,0" Foreground="White" FontSize="12" >未登录</Label>
         <Viewbox Stretch="Fill"   Margin="242,107,79,87" Width="991">
             <Grid Height="757" Width="1312">
+      
                 <Grid Width="531" Height="511" Margin="670,164,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" x:Name="RegGird"  Visibility="Visible" >
                     <Label HorizontalAlignment="Center" VerticalAlignment="Top" Foreground="White" Content="注册账号"  FontSize="48"/>
                     <Grid  HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="531" Height="439" >
-                        <Grid.Background>
-                            <ImageBrush ImageSource="/Setting;component/img/Login/loading背景.png"/>
-                        </Grid.Background>
+                        
                         <TextBox x:Name="mobile" HorizontalAlignment="Left" VerticalAlignment="Top" TextChanged="mobile_TextChanged"   FontSize="32"  Width="295" Margin="191,34,0,0" Height="39" Background="#422D31"   BorderThickness="0" Foreground="White">
                             <TextBox.Clip>
                                 <PathGeometry>
