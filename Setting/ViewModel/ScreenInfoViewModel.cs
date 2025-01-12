@@ -502,7 +502,7 @@ namespace Setting.ViewModel
                     item.Thickness = 2;
                 }
             }
-            Messenger.Default.Send(new ScreenNameEvent { Name = CurrentDevInfo?.DeviceInfo.Name });
+            Messenger.Default.Send(new ScreenNameEvent { Name = CurrentDevInfo?.DeviceInfoName });
         }
 
         private List<JsonFileInfo> GetDefualt()
@@ -608,7 +608,26 @@ namespace Setting.ViewModel
             }
         }
         public DeviceInfo DeviceInfo { get; set; }
-
+        private string deviceInfoName { get; set; }
+        private string deviceInfoOldName { get; set; }
+        public string DeviceInfoName
+        {
+            get { return deviceInfoName; }
+            set
+            {
+                deviceInfoName = value;
+                RaisePropertyChanged();
+            }
+        }
+        public string DeviceInfoOldName
+        {
+            get { return deviceInfoOldName; }
+            set
+            {
+                deviceInfoOldName = value;
+                RaisePropertyChanged();
+            }
+        }
 
         public RelayCommand<ScreenDeviceInfoViewModel> BeginRenameCommand
         {
@@ -634,12 +653,13 @@ namespace Setting.ViewModel
                     ReName = IsReName ? Visibility.Visible : Visibility.Collapsed;
                     Read = IsReName ? Visibility.Collapsed : Visibility.Visible;
                     JdClient jdClient = new JdClient(HttpClientHelper.Instance.GetHttpClient());
-                    var temp = jdClient.ModifyNameUsingGETAsync(this.DeviceInfo.Id, this.DeviceInfo.Name).GetAwaiter().GetResult();
+                    var temp = jdClient.ModifyNameUsingGETAsync(this.DeviceInfo.Id, this.DeviceInfoName).GetAwaiter().GetResult();
                     if (temp.Code == 0)
                     {
-
+                        DeviceInfo.Name = DeviceInfoName;
+                        DeviceInfoOldName = DeviceInfoName;
+                        Messenger.Default.Send(new ScreenNameEvent { Name = this.DeviceInfoName });
                     }
-                    Messenger.Default.Send(new ScreenNameEvent { Name = this.DeviceInfo.Name });
                     // FileHelper.SaveThemeName(this.JsonFileInfo, deviceInfo?.DeviceInfo?.Id?.ToString());
                 });
             }
@@ -650,6 +670,8 @@ namespace Setting.ViewModel
         {
      
             DeviceInfo = deviceInfo;
+            DeviceInfoOldName= deviceInfo.Name;
+            deviceInfoName = deviceInfo.Name;
             Messenger.Default.Register<KeyDownEventScreen>(this, HandleKeyDownEventScreen);
             Delete = true;
             IsReName = false;
@@ -671,16 +693,19 @@ namespace Setting.ViewModel
                     ReName = IsReName ? Visibility.Visible : Visibility.Collapsed;
                     Read = IsReName ? Visibility.Collapsed : Visibility.Visible;
                     JdClient jdClient = new JdClient(HttpClientHelper.Instance.GetHttpClient());
-                    var temp = jdClient.ModifyNameUsingGETAsync(this.DeviceInfo.Id, this.DeviceInfo.Name).GetAwaiter().GetResult();
+                    var temp = jdClient.ModifyNameUsingGETAsync(this.DeviceInfo.Id, this.DeviceInfoName).GetAwaiter().GetResult();
                     if (temp.Code == 0)
                     {
-
+                        DeviceInfo.Name = DeviceInfoName;
+                        DeviceInfoOldName = DeviceInfoName;
+                        Messenger.Default.Send(new ScreenNameEvent { Name = this.DeviceInfoName });
                     }
-                    Messenger.Default.Send(new ScreenNameEvent { Name = this.DeviceInfo.Name });
+                    
 
                 }
                 if (obj.Key == Key.Escape)
                 {
+                    DeviceInfoName = DeviceInfoOldName;
                     IsReName = false;
                     ReName = IsReName ? Visibility.Visible : Visibility.Collapsed;
                     Read = IsReName ? Visibility.Collapsed : Visibility.Visible;

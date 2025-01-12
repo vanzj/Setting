@@ -21,14 +21,14 @@ namespace Setting.Media
         /// <summary>
         /// 0 - 255
         /// </summary>
-        public int A { get { return a; } set { a = value < 0 ? 0 : value > 255 ? 255 : value; } }
+        public int A { get { return 255; } }
         /// <summary>
         /// 亮度 0 - 100
         /// </summary>
         public int Y { get { return Utility.GetBrightness(R, G, B); } }
 
-        public RgbaColor() { R = 255; G = 255; B = 255; A = 255; }
-        public RgbaColor(int r, int g, int b, int a = 255) { R = r; G = g; B = b; A = a; }
+        public RgbaColor() { R = 255; G = 255; B = 255;  }
+        public RgbaColor(int r, int g, int b, int a = 255) { R = r; G = g; B = b; }
         public RgbaColor(Brush brush)
         {
             if (brush != null)
@@ -36,11 +36,10 @@ namespace Setting.Media
                 R = ((SolidColorBrush)brush).Color.R;
                 G = ((SolidColorBrush)brush).Color.G;
                 B = ((SolidColorBrush)brush).Color.B;
-                A = ((SolidColorBrush)brush).Color.A;
             }
             else
             {
-                R = G = B = A = 255;
+                R = G = B  = 255;
             }
         }
         public RgbaColor(double h, double s, double b, double a = 1)
@@ -49,7 +48,7 @@ namespace Setting.Media
             R = rgba.R;
             G = rgba.G;
             B = rgba.B;
-            A = rgba.A;
+           
 
         }
         public RgbaColor(string hexColor)
@@ -62,7 +61,7 @@ namespace Setting.Media
                 R = color.R;
                 G = color.G;
                 B = color.B;
-                A = color.A;
+         
             }
             catch
             {

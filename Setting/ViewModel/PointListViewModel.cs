@@ -228,7 +228,7 @@ namespace Setting.ViewModel
                     else
                     {
 
-                        var msg = MessageHelper.BuildOnePackageModeTwo(AllPonitList, xIndex, yIndex, fileName);
+                        var msg = MessageHelper.BuildOnePackage(AllPonitList, xIndex, yIndex, fileName, Luminance);
 
                         //Task.Run(() =>
                         //{
@@ -278,7 +278,7 @@ namespace Setting.ViewModel
 
                         var GIFName = JsonFileInfo.Name;
 
-                        var templist = MessageHelper.Buildgif(AllPonitList, xIndex, yIndex, fileName);
+                        var templist = MessageHelper.Buildgif(AllPonitList, xIndex, yIndex, fileName, Luminance);
 
                         OutPutGIF outPutGIF = new OutPutGIF();
 
@@ -335,7 +335,7 @@ namespace Setting.ViewModel
                 }
 
                 InputGIF inputGIF = new InputGIF();
-                var ImgInfo = inputGIF.OPENGIF(file, xIndex, yIndex, newJsonFileInfo.FileName);
+                var ImgInfo = inputGIF.OPENGIFWithGifBitmapDecoder(file, xIndex, yIndex, newJsonFileInfo.FileName);
 
 
                 FramesCount = int.Parse(ImgInfo[0].frameCount) > 110 ? 110 : int.Parse(ImgInfo[0].frameCount);
@@ -452,6 +452,7 @@ namespace Setting.ViewModel
 
                 List<HistoryShowItemPoint> historyShowItemPoints = new List<HistoryShowItemPoint>();
                 var NewshowPonit = OnFrameAllPonitList.Where(c => c.X >= 0 && c.X < xIndex && c.Y >= 0 && c.Y < yIndex).ToList();
+
                 for (int i = 0; i < xIndex * yIndex; i++)
                 {
                     if (NewshowPonit[i].Fill != ShowPonitList[i].Fill)
@@ -610,7 +611,9 @@ namespace Setting.ViewModel
         }
         private void XMoveCommand(List<PointItem> OnFrameAllPonitList, int xMove)
         {
-
+            var maxy = OnFrameAllPonitList.Max(c => c.Y);
+            var miny = OnFrameAllPonitList.Min(c => c.Y);
+            var ylenght = maxy - miny + 1;
             OnFrameAllPonitList.ForEach(c => c.X = c.X + xMove);
             var minx = OnFrameAllPonitList.Min(c => c.X);
             var maxX = OnFrameAllPonitList.Max(c => c.X);
@@ -619,7 +622,7 @@ namespace Setting.ViewModel
                 //左边 加
                 for (int x = 0; x < minx; x++)
                 {
-                    for (int y = 0; y < yIndex; y++)
+                    for (int y = miny; y < ylenght; y++)
                     {
                         OnFrameAllPonitList.Add(new PointItem(x, y));
                     }
@@ -632,44 +635,50 @@ namespace Setting.ViewModel
             {//you边加
                 for (int x = maxX + 1; x < xIndex; x++)
                 {
-                    for (int y = 0; y < yIndex; y++)
+                    for (int y = miny; y < ylenght; y++) 
                     {
                         OnFrameAllPonitList.Add(new PointItem(x, y));
                     }
                 }
             }
             OnFrameAllPonitList.Sort();
+          
         }
         private void YMoveCommand(List<PointItem> OnFrameAllPonitList, int yMove)
         {
-
+            var minx = OnFrameAllPonitList.Min(c => c.X);
+            var maxX = OnFrameAllPonitList.Max(c => c.X);
+            var xlenght = maxX - minx + 1;
             OnFrameAllPonitList.ForEach(c => c.Y = c.Y + yMove);
-            var minY = OnFrameAllPonitList.Min(c => c.Y);
-            var maxY = OnFrameAllPonitList.Max(c => c.Y);
+            var miny = OnFrameAllPonitList.Min(c => c.Y);
+            var maxy = OnFrameAllPonitList.Max(c => c.Y);
 
-            if (minY > 0)
+
+            if (miny > 0)
             {
                 //上 加
-                for (int y = 0; y < minY; y++)
+                for (int y = 0; y < miny; y++)
                 {
-                    for (int x = 0; x < xIndex; x++)
+                    for (int x =minx; x < xlenght; x++)
                     {
                         OnFrameAllPonitList.Add(new PointItem(x, y));
                     }
                 }
             }
 
-            if (maxY + 1 < yIndex)
+            if (maxy + 1 < yIndex)
             {//
-                for (int y = maxY + 1; y < yIndex; y++)
+                for (int y = maxy + 1; y < yIndex; y++)
                 {
-                    for (int x = 0; x < xIndex; x++)
+                    for (int x = minx; x < xlenght; x++)
                     {
                         OnFrameAllPonitList.Add(new PointItem(x, y));
                     }
                 }
             }
             OnFrameAllPonitList.Sort();
+
+           
         }
         #endregion
 
@@ -1150,6 +1159,7 @@ namespace Setting.ViewModel
 
         private void HandleFrameChangeEvent(FrameChangeEvent @event)
         {
+            CurrentFrame = @event.CurrentFrame;
             BuildShowInit(CurrentFrame);
         }
 
@@ -1501,7 +1511,7 @@ namespace Setting.ViewModel
                 if (IsSend)
                 {
                     var fileName = string.IsNullOrEmpty(JsonFileInfo.NewFileName) ? JsonFileInfo.FileName : JsonFileInfo.NewFileName;
-                    var msg = MessageHelper.BuildDynamic(AllPonitList, xIndex, yIndex, fileName);
+                    var msg = MessageHelper.BuildDynamic(AllPonitList, xIndex, yIndex, fileName, Luminance);
 
                     SerialPortSendMsgHelper.Instance.SendThemeSegmentSendMessage(msg);
                 }
@@ -1575,7 +1585,7 @@ namespace Setting.ViewModel
                 if (IsSend)
                 {
                     var fileName = string.IsNullOrEmpty(JsonFileInfo.NewFileName) ? JsonFileInfo.FileName : JsonFileInfo.NewFileName;
-                    var msg = MessageHelper.BuildDynamic(AllPonitList, xIndex, yIndex, fileName);
+                    var msg = MessageHelper.BuildDynamic(AllPonitList, xIndex, yIndex, fileName, Luminance);
 
                     SerialPortSendMsgHelper.Instance.SendThemeSegmentSendMessage(msg);
                 }
@@ -1661,7 +1671,7 @@ namespace Setting.ViewModel
                 if (IsSend)
                 {
                     var fileName = string.IsNullOrEmpty(JsonFileInfo.NewFileName) ? JsonFileInfo.FileName : JsonFileInfo.NewFileName;
-                    var msg = MessageHelper.BuildDynamic(AllPonitList, xIndex, yIndex, fileName.Replace(".json", ""));
+                    var msg = MessageHelper.BuildDynamic(AllPonitList, xIndex, yIndex, fileName.Replace(".json", ""), Luminance);
 
                     SerialPortSendMsgHelper.Instance.SendThemeSegmentSendMessage(msg);
                 }

@@ -49,7 +49,7 @@ namespace Setting.View
 
 
 
-        private void ThumbPro_ValueChanged(double xpercent, double ypercent)
+        private void thumbHChanged(double xpercent, double ypercent)
         {
             H = 360 * ypercent;
             HsbaColor Hcolor = new HsbaColor(H, 1, 1, 1);
@@ -61,7 +61,7 @@ namespace Setting.View
             ColorChange(Hcolor.RgbaColor);
         }
 
-        private void ThumbPro_ValueChanged_1(double xpercent, double ypercent)
+        private void  thumbSBChanged(double xpercent, double ypercent)
         {
             S = xpercent;
             B = 1 - ypercent;
@@ -91,51 +91,9 @@ namespace Setting.View
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private void TextBox_LostFocus(object sender, RoutedEventArgs e)
-        {
-            TextBox textBox = sender as TextBox;
-            string text = textBox.Text;
 
-          
-        
-            RgbaColor Hcolor = new RgbaColor(R, G, _B, A);
-            PointList.ChangeColor = Hcolor.SolidColorBrush;
 
-            if (Hcolor.HexString.Length == 9)
-            {
-                TextHex.Text = Hcolor.HexString.Substring(3, 6);
-            }
-            else
-            {
-                TextHex.Text = Hcolor.HexString;
-            }
-        }
-
-        private void HexTextLostFocus(object sender, RoutedEventArgs e)
-        {
-            string pattern = @"^[0-9A-Fa-f]{6}$";
-            string input = TextHex.Text;
-            bool isMatch = Regex.IsMatch(input, pattern);
-            if (isMatch)
-            {
-                RgbaColor Hcolor = new RgbaColor("#FF" + TextHex.Text);
-                PointList.ChangeColor = Hcolor.SolidColorBrush;
-    
-            }
-            else
-            {
-                RgbaColor Hcolor = new RgbaColor(R, G, _B, A);
-                PointList.ChangeColor = Hcolor.SolidColorBrush;
-                if (Hcolor.HexString.Length == 9)
-                {
-                    TextHex.Text = Hcolor.HexString.Substring(3, 6);
-                }
-                else
-                {
-                    TextHex.Text = Hcolor.HexString;
-                }
-            }
-        }
+     
 
         private bool isColorChange = false;
         private void ColorChange(RgbaColor Hcolor)
@@ -147,32 +105,7 @@ namespace Setting.View
             isColorChange = false;
         }
 
-        private void TextR_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            if (isColorChange)
-            {
-                return;
-            }
-            TextBox textBox = sender as TextBox;
-            string text = textBox.Text;
-            if ( TextHex==null)
-            {
-                return;
-            }
-           
-            
 
-            RgbaColor Hcolor = new RgbaColor(R, G, _B, A);
-            PointList.ChangeColor = Hcolor.SolidColorBrush;
-            if (Hcolor.HexString.Length==9)
-            {
-                TextHex.Text = Hcolor.HexString.Substring(3, 6);
-            }
-            else
-            {
-                TextHex.Text = Hcolor.HexString;
-            }
-        }
 
         private void TextHex_TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -193,40 +126,25 @@ namespace Setting.View
                 S = hsbaColor.S;
                 B = hsbaColor.B;
 
-
-                // public double Xpercent { get { return (Left + Xoffset) / ActualWidth; } }
-                // public double Ypercent { get { return (Top + Yoffset) / ActualHeight; } }
-               // S = xpercent;
-                //B = 1 - ypercent;
-                viewSelectColor.Fill = Hcolor.SolidColorBrush;
                 this.thumbH.Top = thumbH.ActualHeight * (H / 360) - thumbH.Yoffset;
                 this.thumbSB.Top = thumbSB.ActualHeight * (1-B) - thumbSB.Yoffset;
                 this.thumbSB.Left = thumbSB.ActualWidth * (S) - thumbSB.Xoffset;
+           
+
+
+                    var newH = 360 * this.thumbH.Ypercent;
+                    HsbaColor Hcolornew = new HsbaColor(newH, 1, 1, 1);
+                    viewSelectColor.Fill = Hcolornew.SolidColorBrush;
+                
                 PointList.ChangeColor = Hcolor.SolidColorBrush;
             }
         }
 
-
-
-        //private void btn_Click(object sender, RoutedEventArgs e)
-        //{
-        //    pop.IsOpen = true;
-
-        //    PointList.ChangeColor = btn.Background as SolidColorBrush;
-
-        //    RgbaColor Hcolor = new RgbaColor(PointList.ChangeColor );
-        //    ColorChange(Hcolor);
-
-        //    var xpercent = Hcolor.HsbaColor.S;
-        //    var ypercent = 1 - Hcolor.HsbaColor.B;
-
-        //    var Ypercent = Hcolor.HsbaColor.H / 360;
-
-        //    thumbH.SetTopLeftByPercent(1, Ypercent);
-        //    thumbSB.SetTopLeftByPercent(xpercent, ypercent);
-
-
-        //}
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            TextHex.Text = "000000";
+            TextHex.Text = "FFFFFF";
+        }
     }
 
     /// <summary>

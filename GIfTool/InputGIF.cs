@@ -8,6 +8,7 @@ using System.Drawing.Imaging;
 using System.Windows.Media;
 using System.Configuration;
 using System.Net.Http;
+using System.Windows.Media.Imaging;
 
 namespace GIfTool
 {
@@ -91,6 +92,82 @@ namespace GIfTool
                 }
 
             }
+            return result;
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <param name="xIndex"></param>
+        /// <param name="yIndex"></param>
+        /// <param name="filename"></param>
+        /// <returns></returns>
+        public List<ThemeSegmentData> OPENGIFWithGifBitmapDecoder(string filePath, int xIndex, int yIndex, string filename)
+        {
+            var result = new List<ThemeSegmentData>();
+            Stream imageStreamSource = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read);
+            GifBitmapDecoder decoder = new GifBitmapDecoder(imageStreamSource, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.Default);
+
+            var FramesCount = decoder.Frames.Count; // 获取帧数
+
+
+         
+            for (int i = 0; i < FramesCount; i++)
+            {
+             
+                Bitmap t = BitmapHelper.BitmapFromSource(decoder.Frames[i]);
+                var pw = t.Width;
+                var ph = t.Height;
+                var phdouble = (double)ph;
+                var xindexdouble = (double)yIndex;
+                var CurrentImgxIndex = (int)(pw / (ph / xindexdouble));
+                var OneStep = phdouble / yIndex;
+                var oneseg = new ThemeSegmentData()
+                {
+                    name = filename,
+                    count = FramesCount.ToString(),
+                    frameCount = FramesCount.ToString(),
+                    frameRate = 20,
+                    brightness = 255,
+                    index = (i + 1).ToString(),
+
+                };
+                var OneFrame = new ThemeSegmentDataPoint();
+                OneFrame.frameRGB = new List<string>();
+                OneFrame.frameIndex = i.ToString();
+                for (int y = 0; y < yIndex; y++)
+                {
+                    for (int x = 0; x < xIndex; x++)
+                    {
+                        if (x < CurrentImgxIndex)
+                        {
+                            var tempcolor = BitmapHelper.GetPixelColor(t, x, y, OneStep);
+
+                            OneFrame.frameRGB.Add(tempcolor.Value.ToString().Replace("#FF", ""));
+                        }
+                        else
+                        {
+
+                            if (true)
+                            {
+                                OneFrame.frameRGB.Add(ColorConst.BackGroupColor.Replace("#FF", ""));
+                            }
+                            else
+                            {
+
+
+                                var tempcolor = BitmapHelper.GetPixelColor(t, x - CurrentImgxIndex, y, OneStep);
+                                OneFrame.frameRGB.Add(tempcolor.Value.ToString().Replace("#FF", ""));
+                            }
+                        }
+                    }
+                }
+                oneseg.pointList = new List<ThemeSegmentDataPoint>() { OneFrame };
+                result.Add(oneseg);
+            }
+            imageStreamSource.Close();
             return result;
         }
         /// <summary>

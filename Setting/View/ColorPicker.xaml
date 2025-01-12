@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Setting.View"
              mc:Ignorable="d" 
-                 d:DesignHeight="300" d:DesignWidth="300"   DataContext="{Binding Path=PointList,Source={StaticResource Locator}}">
+                 d:DesignHeight="300" d:DesignWidth="300" Loaded="UserControl_Loaded"  DataContext="{Binding Path=PointList,Source={StaticResource Locator}}">
     <UserControl.Resources>
         <Style x:Key="ThumbStyle1" TargetType="{x:Type local:ThumbPro}">
             <Setter Property="Stylus.IsPressAndHoldEnabled" Value="false"/>
@@ -112,7 +112,7 @@
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
                     <Grid >
-                        <Rectangle x:Name="viewSelectColor" RadiusX="2" Fill="#FF1AD186" RadiusY="2"/>
+                        <Rectangle x:Name="viewSelectColor" RadiusX="2" Fill="#FFFF0000" RadiusY="2"/>
                         <Rectangle x:Name="viewSelectColor1" RadiusX="2" RadiusY="2">
                             <Rectangle.Fill>
                                 <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
@@ -129,7 +129,7 @@
                                 </LinearGradientBrush>
                             </Rectangle.Fill>
                         </Rectangle>
-                        <local:ThumbPro x:Name="thumbSB" ValueChanged="ThumbPro_ValueChanged_1"  Style="{StaticResource ThumbStyle2}" Xoffset="10"  Yoffset="10"  />
+                        <local:ThumbPro x:Name="thumbSB" ValueChanged="thumbSBChanged"  Style="{StaticResource ThumbStyle2}" Xoffset="10"  Yoffset="10"  />
 
                     </Grid>
                     <Grid Grid.Column="1" Margin="16,0,0,0">
@@ -152,12 +152,24 @@
                                 </LinearGradientBrush>
                             </Rectangle.Fill>
                         </Rectangle>
-                        <local:ThumbPro x:Name="thumbH" ValueChanged="ThumbPro_ValueChanged"  Style="{StaticResource ThumbStyle1}" Xoffset="30"  VerticalOnly="True" Yoffset="5" />
+                        <local:ThumbPro x:Name="thumbH" ValueChanged="thumbHChanged"  Style="{StaticResource ThumbStyle1}" Xoffset="30"  VerticalOnly="True" Yoffset="5" />
 
                     </Grid>
 
                     <Grid Grid.Column="2">
-                        <TextBox   Width="76" x:Name="TextHex"   TextChanged="TextHex_TextChanged"  LostFocus="HexTextLostFocus" Text="FFFFFF" HorizontalAlignment="Left" VerticalAlignment="Top"  Background="#01000000" BorderBrush="{x:Null}" SelectionBrush="{x:Null}" Foreground="White"  FontSize="16" Margin="42,62,0,0" />
+                        <TextBox   Width="76" x:Name="TextHex"   TextChanged="TextHex_TextChanged"  Text="FFFFFF" HorizontalAlignment="Left" 
+                                   VerticalAlignment="Top"  Background="#01000000"  BorderThickness="0"
+                                   Foreground="White"  FontSize="16" Margin="49,61,0,0" >
+                            <TextBox.Clip>
+                                <PathGeometry>
+                                    <PathFigure StartPoint="0,0">
+                                        <LineSegment Point="76,0" />
+                                        <LineSegment Point="76,22" />
+                                        <LineSegment Point="0,22" />
+                                    </PathFigure>
+                                </PathGeometry>
+                            </TextBox.Clip>
+                        </TextBox>
 
                     </Grid>
 

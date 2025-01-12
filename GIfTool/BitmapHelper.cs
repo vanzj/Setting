@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -10,6 +12,25 @@ namespace GIfTool
 {
     public class BitmapHelper
     {
+
+
+        public static Bitmap BitmapFromSource(BitmapSource bitmapsource)
+        {
+            Bitmap bitmap;
+            using (var outStream = new MemoryStream())
+            {
+                BitmapEncoder enc = new BmpBitmapEncoder();
+                enc.Frames.Add(BitmapFrame.Create(bitmapsource));
+                enc.Save(outStream);
+                bitmap = new Bitmap(outStream);
+                outStream.Close();
+                outStream.Dispose();
+            }
+            return bitmap;
+        }
+
+
+
         public static System.Windows.Media.Color? GetPixelColor(Bitmap bitmapSource, int xindex, int yindex, double OneStep)
         {
 
@@ -59,8 +80,17 @@ namespace GIfTool
 
         }
 
-
+      
 
     }
+    [StructLayout(LayoutKind.Sequential)]
+    public struct PixelColor
+    {
+        public byte Blue;
+        public byte Green;
+        public byte Red;
+        public byte Alpha;
+    }
+
 }
 
