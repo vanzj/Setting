@@ -1,0 +1,73 @@
+﻿[
+  {
+    "Id": null,
+    "Name": "开机动画",
+    "BakName": null,
+    "Default": true,
+    "IsDynamic": false,
+    "FileName": "run",
+    "IsInDesignMode": false
+  },
+  {
+    "Id": null,
+    "Name": "彩虹浪",
+    "BakName": null,
+    "Default": true,
+    "IsDynamic": false,
+    "FileName": "rainbow",
+    "IsInDesignMode": false
+  },
+  {
+    "Id": null,
+    "Name": "充电动画",
+    "BakName": null,
+    "Default": true,
+    "IsDynamic": false,
+    "FileName": "charge",
+    "IsInDesignMode": false
+  },
+  {
+    "Id": null,
+    "Name": "激光咻咻",
+    "BakName": null,
+    "Default": true,
+    "IsDynamic": false,
+    "FileName": "xiuxiu",
+    "IsInDesignMode": false
+  },
+  {
+    "Id": null,
+    "Name": "音乐律动",
+    "BakName": null,
+    "Default": true,
+    "IsDynamic": false,
+    "FileName": "music",
+    "IsInDesignMode": false
+  },
+  {
+    "Id": null,
+    "Name": "CPU状态",
+    "BakName": null,
+    "Default": true,
+    "IsDynamic": true,
+    "FileName": "cpu",
+    "IsInDesignMode": false
+  },
+  {
+    "Id": null,
+    "Name": "GPU状态",
+    "BakName": null,
+    "Default": true,
+    "IsDynamic": true,
+    "FileName": "gpu",
+    "IsInDesignMode": false
+  },
+  {
+    "Id": null,
+    "Name": "网络状态",
+    "BakName": null,
+    "Default": true,
+    "IsDynamic": true,
+    "FileName": "wifi",
+    "IsInDesignMode": false
+  }]

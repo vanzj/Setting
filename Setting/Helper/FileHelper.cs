@@ -22,82 +22,52 @@ namespace Setting.Helper
 
             if (!File.Exists(sortPath))
             {
+                var DefaultThemeDir = GetDefaultThemeDir();
+                CopyFiles(DefaultThemeDir, GetThemDir());
+            }
 
-
-                var AllFile = new List<JsonFileInfo>()
-                {    new JsonFileInfo()
-                {
-                    Name = "开机动画",
-                    FileName = "run",
-                    Default= true,
-
-                },
-                    new JsonFileInfo()
-                {
-                    Name = "CPU状态",
-                    FileName = "cpu",
-                    Default= true,
-                    IsDynamic =true
-                },
-                      new JsonFileInfo()
-                {
-                    Name = "GPU状态",
-                    FileName = "gpu",
-                    Default= true,
-                    IsDynamic =true
-                },
-                        new JsonFileInfo()
-                {
-                    Name = "网速（待开发）",
-                    FileName = "wifi",
-                    Default= true,
-                    IsDynamic =true
-                },
-                        new JsonFileInfo()
-                                          {
-                    Name = "开机动画1",
-                    FileName = "run1",
-                    Default= true,
-
-                },  new JsonFileInfo()
-                                                          {
-                    Name = "开机动画2",
-                    FileName = "run2",
-                    Default= true,
-
-                },          new JsonFileInfo()        {
-                    Name = "开机动画3",
-                    FileName = "run3",
-                    Default= true,
-
-                },
-                    new JsonFileInfo()
-                {
-                    Name = "音乐律动",
-                    FileName = "e6ca8f3b29dc41fba84aa1ea40cb8e87",
-                    Default= true,
-                }
-
-            };
-                File.WriteAllText(sortPath, JsonConvert.SerializeObject(AllFile), System.Text.Encoding.UTF8);
-                return AllFile;         
-             }
-            else
-            {
                 var AllFileString = OpenByPath(sortPath);
                 var AllFile = JsonConvert.DeserializeObject<List<JsonFileInfo>>(AllFileString);
                 return AllFile;
-            }
+
 
         }
+        public static int CopyFiles(string sourceFolder, string destFolder)
+                {
+            try
+                {
+                if (!System.IO.Directory.Exists(destFolder))
+                {
+                    System.IO.Directory.CreateDirectory(destFolder);
+                }
 
+                string[] files = System.IO.Directory.GetFiles(sourceFolder);
+                foreach (string file in files)
+                                                          {
+                    string name = System.IO.Path.GetFileName(file);
+                    string dest = System.IO.Path.Combine(destFolder, name);
+                    System.IO.File.Copy(file, dest,true);
+                }
+                return 1;
+             }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return 0;
+            }
+        }
         private  static string GetThemDir()
         {
             var currentDir = Environment.CurrentDirectory;
             var ThemePath = "\\Json\\Theme";
             return  currentDir + ThemePath;
         }
-
+        private static string GetDefaultThemeDir()
+        {
+            var currentDir = Environment.CurrentDirectory;
+            var ThemePath = "\\Json\\DefaultTheme";
+            return currentDir + ThemePath;
+        }
         public static void Save(string json, JsonFileInfo jsonFileInfo)
         {
            

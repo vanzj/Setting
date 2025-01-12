@@ -182,7 +182,7 @@ namespace Setting
 
         private void AutoUpdater_ApplicationExitEvent()
         {
-            Thread.Sleep(5000);
+            Thread.Sleep(1000);
             System.Environment.Exit(0);
         }
 
