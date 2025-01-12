@@ -35,7 +35,7 @@ namespace Setting
             Messenger.Default.Register<CursorModelChangeEvent>(this, HandleCursorModelChangeEvent);
             Messenger.Default.Register<SendStartEvent>(this, HandleSendStartEvent);
             Messenger.Default.Register<SendEndEvent>(this, HandleSendEndEvent);
-
+            RGBToBrightNessHelper.Instance.Init();
        
             this.Login.Visibility = Visibility.Visible;
 
@@ -169,7 +169,7 @@ namespace Setting
             JdClient jdClient = new JdClient(HttpClientHelper.Instance.GetHttpClient());
             try
             {
-                AutoUpdater.Start("http://localhost/AutoUpdaterTest.xml");
+                AutoUpdater.Start("http://localhost/UpdaterStart.xml");
 
             }
             catch (Exception)

@@ -278,7 +278,7 @@ namespace Setting.ViewModel
 
                         var GIFName = JsonFileInfo.Name;
 
-                        var templist = MessageHelper.Buildgif(AllPonitList, xIndex, yIndex, fileName, Luminance);
+                        var templist = MessageHelper.Buildgif(AllPonitList, xIndex, yIndex, fileName);
 
                         OutPutGIF outPutGIF = new OutPutGIF();
 

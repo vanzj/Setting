@@ -357,6 +357,8 @@
     <Compile Include="Event\AddNewThemeEvent.cs" />
     <Compile Include="Helper\BitmapHelper.cs" />
     <Compile Include="Helper\CommandBuilder.cs" />
+    <Compile Include="Helper\InputGIF.cs" />
+    <Compile Include="Helper\RGBToBrightNessHelper.cs" />
     <Compile Include="Helper\TcpDefaultHelper.cs" />
     <Compile Include="Helper\LoginInfoHelper.cs" />
     <Compile Include="Helper\CommandBehavior.cs" />

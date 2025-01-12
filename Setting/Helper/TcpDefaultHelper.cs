@@ -17,7 +17,7 @@ namespace Setting.Helper
     {
         string ip = "119.3.5.23";
         int port = 1010;
-
+        public int brightness = 255;
         private string _mac = "";
         private string ReadMsg { get; set; }
         static Timer timer = null;
@@ -133,7 +133,7 @@ namespace Setting.Helper
                         {
 
                             InputGIF inputGIF = new InputGIF();
-                            var ImgInfo = inputGIF.OPENGIFURL(gifUrl, 85, 5, "gifword");
+                            var ImgInfo = inputGIF.OPENGIFURL(gifUrl, 85, 5, "gifword", brightness);
                             Messenger.Default.Send(new SendStartEvent());
                             var data = MessageHelper.BuildOnePackageGIFURL(ImgInfo, 85, 5, "gifword");
                             SerialPortSendMsgHelper.Instance.SendThemeCirculateSendMessage(data);

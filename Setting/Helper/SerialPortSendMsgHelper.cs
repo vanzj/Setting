@@ -246,6 +246,7 @@ namespace Setting.Helper
                         {
 
                             var GetInfoRetrun = JsonConvert.DeserializeObject<GetInfoRetrun>(msgreturn);
+                            TcpDefaultHelper.Instance.brightness =  int.Parse(GetInfoRetrun.data.luminance);
                             Messenger.Default.Send(new ScreenInfoEvent() { IsOpen = GetInfoRetrun.data.status == "open", lum = int.Parse(GetInfoRetrun.data.luminance) });
                         }
                         break;
@@ -302,6 +303,7 @@ namespace Setting.Helper
                                 if (index>1||isFrist)
                                 {
                                     isFrist = false;
+                                    currentCmd = "";
                                     Messenger.Default.Send(new MsgEvent("主题应用成功"));
                                 }
                                 Messenger.Default.Send(new SendEndEvent());
@@ -418,37 +420,29 @@ namespace Setting.Helper
         public void SendLuminanceSendMessage(int arge)
         {
             var cmd = new LuminanceSend(arge.ToString());
-            currentCmd = cmd.cmd;
-            index = 0;
-            msgList = new List<string>();
             string msg = JsonConvert.SerializeObject(cmd);
             Write(msg);
         }
 
         public void SendGetInfoSendMessage( )
         {
-            var cmd = new GetInfoSend();
-            currentCmd = cmd.cmd;
-            index = 0;
-            msgList = new List<string>();
-            string msg = JsonConvert.SerializeObject(cmd);
-            Write(msg);
+            if (string.IsNullOrEmpty(currentCmd))
+            {
+                var cmd = new GetInfoSend();
+                string msg = JsonConvert.SerializeObject(cmd);
+                Write(msg);
+            }
+       
         }
         public void SendOpenSendMessage()
         {
             var cmd = new OpenSend();
-            currentCmd = cmd.cmd;
-            index = 0;
-            msgList = new List<string>();
             string msg = JsonConvert.SerializeObject(cmd);
             Write(msg);
         }
         public void SendCloseSendMessage()
         {
             var cmd = new CloseSend();
-            currentCmd = cmd.cmd;
-            index = 0;
-            msgList = new List<string>();
             string msg = JsonConvert.SerializeObject(cmd);
             Write(msg);
         }

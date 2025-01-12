@@ -32,13 +32,14 @@ namespace Setting.Helper
                 count = "1",
                 frameCount = AllPonitList.Count.ToString(),
                 frameRate = "20",
-                brightness = brightness
             };
-            templist.Add(JsonConvert.SerializeObject(themeSendStartSend));
+          
             //帧
             ThemeSegmentSend themeSegmentSend = new ThemeSegmentSend();
 
             themeSegmentSend.data = new List<ThemeSegmentData>();
+
+            var MaxbrightnessAverage = RGBToBrightNessHelper.Instance.maxA;
 
 
             var oneseg = new ThemeSegmentData()
@@ -47,7 +48,6 @@ namespace Setting.Helper
                 count = "1",
                 frameCount = AllPonitList.Count.ToString(),
                 frameRate = 20,
-                brightness = 255,
                 index = "1",
 
             };
@@ -67,14 +67,23 @@ namespace Setting.Helper
                     frameRGB = show.Select(c => c.Fill.Color.ToString().Replace("#FF", "")).ToList(),
                     frameIndex = i.ToString()
                 };
+
+                var brightnessAverage = oneframe.frameRGB.Select(c => RGBToBrightNessHelper.Instance.Get(c)).Average();
+                if (MaxbrightnessAverage > brightnessAverage)
+                {
+                    MaxbrightnessAverage = brightnessAverage;
+                }
                 oneseg.pointList.Add(oneframe);
            
             }
+            oneseg.brightness = (int)(brightness * MaxbrightnessAverage);
+            themeSendStartSend.data .brightness = (int)(brightness * MaxbrightnessAverage);
             themeSegmentSend.data.Add(oneseg);
+            templist.Add(JsonConvert.SerializeObject(themeSendStartSend));
             templist.Add(JsonConvert.SerializeObject(themeSegmentSend));
             return templist;
         }
-        public static List<string> BuildOnePackageGIFURL(List<ThemeSegmentData> data, int xindex, int yIndex, string filename, int brightness)
+        public static List<string> BuildOnePackageGIFURL(List<ThemeSegmentData> data, int xindex, int yIndex, string filename)
 
         {
             var templist = new List<string>();
@@ -91,7 +100,7 @@ namespace Setting.Helper
                 count = "1",
                 frameCount = data.Count.ToString(),
                 frameRate = "20",
-                brightness = brightness
+                brightness = data.First().brightness,
             };
             templist.Add(JsonConvert.SerializeObject(themeSendStartSend));
             //帧
@@ -140,7 +149,7 @@ namespace Setting.Helper
             }
             return templist;
         }
-        public static List<ThemeSegmentData> Buildgif(Dictionary<int, List<PointItem>> AllPonitList, int xindex, int yIndex, string filename , int brightness)
+        public static List<ThemeSegmentData> Buildgif(Dictionary<int, List<PointItem>> AllPonitList, int xindex, int yIndex, string filename )
 
         {
             var result = new List<ThemeSegmentData>();
@@ -162,7 +171,6 @@ namespace Setting.Helper
                     count = AllPonitList.Count.ToString(),
                     frameCount = AllPonitList.Count.ToString(),
                     frameRate = 20,
-                    brightness = brightness,
                     index = (i + 1).ToString(),
 
                 };

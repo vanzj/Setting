@@ -9,6 +9,8 @@ using System.Windows.Media;
 using System.Configuration;
 using System.Net.Http;
 using System.Windows.Media.Imaging;
+using Setting.Helper;
+using System.Linq;
 
 namespace GIfTool
 {
@@ -178,7 +180,7 @@ namespace GIfTool
         /// <param name="yIndex"></param>
         /// <param name="filename"></param>
         /// <returns></returns>
-        public List<ThemeSegmentData> OPENGIFURL(string imageUrl, int xIndex, int yIndex, string filename)
+        public List<ThemeSegmentData> OPENGIFURL(string imageUrl, int xIndex, int yIndex, string filename, int brightness)
         {
          
             var result = new List<ThemeSegmentData>();
@@ -198,13 +200,14 @@ namespace GIfTool
                         {
                             throw new Exception("内容太长了");
                         }
+                        var MaxbrightnessAverage = RGBToBrightNessHelper.Instance.maxA;
                         var oneseg = new ThemeSegmentData()
                         {
                             name = filename,
                             count = "1",
                             frameCount = FramesCount.ToString(),
                             frameRate = 6,
-                            brightness = 255,
+                            brightness = brightness,
                             index = "1",
                         };
                         oneseg.pointList = new List<ThemeSegmentDataPoint>() {  };
@@ -234,9 +237,15 @@ namespace GIfTool
                                     }
                                 }
                             }
+                            var brightnessAverage = OneFrame.frameRGB.Select(c => RGBToBrightNessHelper.Instance.Get(c)).Average();
+                            if (MaxbrightnessAverage < brightnessAverage)
+                            {
+                                MaxbrightnessAverage = brightnessAverage;
+                            }
                             oneseg.pointList.Add(OneFrame);
 
                         }
+                        oneseg.brightness = (int)(brightness * MaxbrightnessAverage);
                         result.Add(oneseg);
                     }
                 }
