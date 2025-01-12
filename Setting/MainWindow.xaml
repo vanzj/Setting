@@ -1297,7 +1297,7 @@
                 <TextBox Text="{Binding DebugInfo}"></TextBox>
             </ScrollViewer>
 
-            <Button HorizontalAlignment="Left" Height="40" Margin="500,0,0,0" Click="Button_Click_3" VerticalAlignment="Bottom" Grid.Column="1">调试48</Button>
+            <Button HorizontalAlignment="Left" Height="40" Margin="500,0,0,0" Click="Button_Click_3" VerticalAlignment="Bottom" Grid.Column="1">调试54</Button>
             <Button Margin="540,0,0,0" HorizontalAlignment="Left" Height="40" Command="{Binding CleanDebugInfoCommand}" VerticalAlignment="Bottom"  Grid.Column="1" >清除</Button>
             <!--<Button HorizontalAlignment="Left" Height="40" Margin="580,0,0,0" Click="Button_Click_send" VerticalAlignment="Bottom" Grid.Column="1">发送</Button>-->
             <myview:ErrorInfo HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="175" Margin="0,0,0,511" ></myview:ErrorInfo>

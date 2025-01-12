@@ -158,10 +158,10 @@ namespace Setting
         }
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-
+            AutoUpdater.ExecutablePath = "Setup.msi";
             AutoUpdater.RunUpdateAsAdmin = true;
             AutoUpdater.ApplicationExitEvent += AutoUpdater_ApplicationExitEvent;
-         var tcp =   TcpDefaultHelper.Instance;
+            var tcp =   TcpDefaultHelper.Instance;
             Messenger.Default.Send(new LoadedEvent { });
 
             this.KeyDown += new KeyEventHandler(MainWindow_KeyDown);
@@ -169,7 +169,7 @@ namespace Setting
             JdClient jdClient = new JdClient(HttpClientHelper.Instance.GetHttpClient());
             try
             {
-                AutoUpdater.Start("http://localhost/UpdaterStart.xml");
+                AutoUpdater.Start("https://testsmart.9jodia.net/holocubic/dot/1/updaterStart.xml");
 
             }
             catch (Exception)
@@ -255,8 +255,8 @@ namespace Setting
             JdClient jdClient = new JdClient(HttpClientHelper.Instance.GetHttpClient());
             try
             {
-                    AutoUpdater.Start("http://localhost/AutoUpdaterTest.xml");
-                    if (isfirstCheckUpater )
+                AutoUpdater.Start("https://testsmart.9jodia.net/holocubic/dot/1/updaterStart.xml");
+                if (isfirstCheckUpater )
                     {
                         isfirstCheckUpater = false;//防止重复绑定事件。
                         AutoUpdater.CheckForUpdateEvent += AutoUpdaterOnCheckForUpdateEvent;
