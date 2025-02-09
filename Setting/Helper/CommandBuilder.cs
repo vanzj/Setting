@@ -13,8 +13,7 @@ namespace Setting.Helper
      
         public static byte[] BuildHeartCmd(string mac)
         {
-            Messenger.Default.Send(new DebugInfoEvent($"TCP：==> BuildHeartCmd:?HEART#{mac}**"));
-
+         
             return System.Text.Encoding.ASCII.GetBytes($"?HEART#{mac}**");
 
 
@@ -24,8 +23,7 @@ namespace Setting.Helper
 
         public static byte[] BuildGIFSuccessCmd(string mac)
         {
-            Messenger.Default.Send(new DebugInfoEvent($"TCP：==> BuildGIFSuccessCmd:!TRANSPARENTDATA#{mac}#00**"));
-
+           
             return System.Text.Encoding.ASCII.GetBytes($"!TRANSPARENTDATA#{mac}#00**");
 
 
@@ -34,8 +32,7 @@ namespace Setting.Helper
 
         public static byte[] BuildGIFFailCmd(string mac)
         {
-            Messenger.Default.Send(new DebugInfoEvent($"TCP：==> BuildGIFFailCmd:!TRANSPARENTDATA#{mac}#00**"));
-
+      
             return System.Text.Encoding.ASCII.GetBytes($"!TRANSPARENTDATA#{mac}#01**");
 
 

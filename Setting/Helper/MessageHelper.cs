@@ -15,7 +15,7 @@ namespace Setting.Helper
       
 
 
-        public static List<string> BuildOnePackage(Dictionary<int, List<PointItem>> AllPonitList, int xindex, int yIndex, string filename,int brightness)
+        public static List<string> BuildOnePackage(Dictionary<int, List<PointItem>> AllPonitList, int xindex, int yIndex, string filename,int brightness,int frameRate)
 
         {
             var templist = new List<string>();
@@ -31,7 +31,7 @@ namespace Setting.Helper
                 name = filename,
                 count = "1",
                 frameCount = AllPonitList.Count.ToString(),
-                frameRate = "20",
+                frameRate = frameRate.ToString(),
             };
           
             //帧
@@ -47,7 +47,7 @@ namespace Setting.Helper
                 name = filename,
                 count = "1",
                 frameCount = AllPonitList.Count.ToString(),
-                frameRate = 20,
+                frameRate = frameRate,
                 index = "1",
 
             };
@@ -83,7 +83,7 @@ namespace Setting.Helper
             templist.Add(JsonConvert.SerializeObject(themeSegmentSend));
             return templist;
         }
-        public static List<string> BuildOnePackageGIFURL(List<ThemeSegmentData> data, int xindex, int yIndex, string filename)
+        public static List<string> BuildOnePackageGIFURL(List<ThemeSegmentData> data, int xindex, int yIndex, string filename,int frameRate)
 
         {
             var templist = new List<string>();
@@ -99,7 +99,7 @@ namespace Setting.Helper
                 name = filename,
                 count = "1",
                 frameCount = data.Count.ToString(),
-                frameRate = "20",
+                frameRate = frameRate.ToString(),
                 brightness = data.First().brightness,
             };
             templist.Add(JsonConvert.SerializeObject(themeSendStartSend));
@@ -110,7 +110,7 @@ namespace Setting.Helper
             return templist;
         }
 
-        public static List<string> BuildDynamic(Dictionary<int, List<PointItem>> AllPonitList, int xindex, int yIndex, string filename,int brightness)
+        public static List<string> BuildDynamic(Dictionary<int, List<PointItem>> AllPonitList, int xindex, int yIndex, string filename,int brightness, int frameRate=10)
 
         {
 
@@ -132,7 +132,7 @@ namespace Setting.Helper
                     name = filename,
                     count = AllPonitList.Count.ToString(),
                     frameCount = AllPonitList.Count.ToString(),
-                    frameRate = 20,
+                    frameRate = frameRate,
                     brightness = brightness,
                     index = (i + 1).ToString(),
 
@@ -149,7 +149,7 @@ namespace Setting.Helper
             }
             return templist;
         }
-        public static List<ThemeSegmentData> Buildgif(Dictionary<int, List<PointItem>> AllPonitList, int xindex, int yIndex, string filename )
+        public static List<ThemeSegmentData> Buildgif(Dictionary<int, List<PointItem>> AllPonitList, int xindex, int yIndex, string filename, int frameRate)
 
         {
             var result = new List<ThemeSegmentData>();
@@ -170,7 +170,7 @@ namespace Setting.Helper
                     name = filename,
                     count = AllPonitList.Count.ToString(),
                     frameCount = AllPonitList.Count.ToString(),
-                    frameRate = 20,
+                    frameRate = frameRate,
                     index = (i + 1).ToString(),
 
                 };

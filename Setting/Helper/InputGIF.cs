@@ -26,6 +26,7 @@ namespace GIfTool
         /// <returns></returns>
         public List<ThemeSegmentData> OPENGIF(string filePath, int xIndex, int yIndex, string filename)
         {
+            var frameRate = GetFrameRate(filePath);
             var result = new List<ThemeSegmentData>();
             System.Drawing.Image imgGif = System.Drawing.Image.FromFile(filePath); // 获取图片对象
             if (ImageAnimator.CanAnimate(imgGif))
@@ -53,7 +54,7 @@ namespace GIfTool
                         name = filename,
                         count = FramesCount.ToString(),
                         frameCount = FramesCount.ToString(),
-                        frameRate = 20,
+                        frameRate = frameRate,
                         brightness = 255,
                         index = (i + 1).ToString(),
 
@@ -94,84 +95,103 @@ namespace GIfTool
                 }
 
             }
-            return result;
-        }
-
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="filePath"></param>
-        /// <param name="xIndex"></param>
-        /// <param name="yIndex"></param>
-        /// <param name="filename"></param>
-        /// <returns></returns>
-        public List<ThemeSegmentData> OPENGIFWithGifBitmapDecoder(string filePath, int xIndex, int yIndex, string filename)
-        {
-            var result = new List<ThemeSegmentData>();
-            Stream imageStreamSource = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read);
-            GifBitmapDecoder decoder = new GifBitmapDecoder(imageStreamSource, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.Default);
-
-            var FramesCount = decoder.Frames.Count; // 获取帧数
-
-
-         
-            for (int i = 0; i < FramesCount; i++)
+            else
             {
-             
-                Bitmap t = BitmapHelper.BitmapFromSource(decoder.Frames[i]);
-                var pw = t.Width;
-                var ph = t.Height;
-                var phdouble = (double)ph;
-                var xindexdouble = (double)yIndex;
-                var CurrentImgxIndex = (int)(pw / (ph / xindexdouble));
-                var OneStep = phdouble / yIndex;
-                var oneseg = new ThemeSegmentData()
-                {
-                    name = filename,
-                    count = FramesCount.ToString(),
-                    frameCount = FramesCount.ToString(),
-                    frameRate = 20,
-                    brightness = 255,
-                    index = (i + 1).ToString(),
+                Stream imageStreamSource = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read);
+                GifBitmapDecoder decoder = new GifBitmapDecoder(imageStreamSource, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.Default);
 
-                };
-                var OneFrame = new ThemeSegmentDataPoint();
-                OneFrame.frameRGB = new List<string>();
-                OneFrame.frameIndex = i.ToString();
-                for (int y = 0; y < yIndex; y++)
+                var FramesCount = decoder.Frames.Count; // 获取帧数
+
+
+
+                for (int i = 0; i < FramesCount; i++)
                 {
-                    for (int x = 0; x < xIndex; x++)
+
+                    Bitmap t = BitmapHelper.BitmapFromSource(decoder.Frames[i]);
+                    var pw = t.Width;
+                    var ph = t.Height;
+                    var phdouble = (double)ph;
+                    var xindexdouble = (double)yIndex;
+                    var CurrentImgxIndex = (int)(pw / (ph / xindexdouble));
+                    var OneStep = phdouble / yIndex;
+                    var oneseg = new ThemeSegmentData()
                     {
-                        if (x < CurrentImgxIndex)
-                        {
-                            var tempcolor = BitmapHelper.GetPixelColor(t, x, y, OneStep);
+                        name = filename,
+                        count = FramesCount.ToString(),
+                        frameCount = FramesCount.ToString(),
+                        frameRate = frameRate,
+                        brightness = 255,
+                        index = (i + 1).ToString(),
 
-                            OneFrame.frameRGB.Add(tempcolor.Value.ToString().Replace("#FF", ""));
-                        }
-                        else
+                    };
+                    var OneFrame = new ThemeSegmentDataPoint();
+                    OneFrame.frameRGB = new List<string>();
+                    OneFrame.frameIndex = i.ToString();
+                    for (int y = 0; y < yIndex; y++)
+                    {
+                        for (int x = 0; x < xIndex; x++)
                         {
-
-                            if (true)
+                            if (x < CurrentImgxIndex)
                             {
-                                OneFrame.frameRGB.Add(ColorConst.BackGroupColor.Replace("#FF", ""));
+                                var tempcolor = BitmapHelper.GetPixelColor(t, x, y, OneStep);
+
+                                OneFrame.frameRGB.Add(tempcolor.Value.ToString().Replace("#FF", ""));
                             }
                             else
                             {
 
+                                if (true)
+                                {
+                                    OneFrame.frameRGB.Add(ColorConst.BackGroupColor.Replace("#FF", ""));
+                                }
+                                else
+                                {
 
-                                var tempcolor = BitmapHelper.GetPixelColor(t, x - CurrentImgxIndex, y, OneStep);
-                                OneFrame.frameRGB.Add(tempcolor.Value.ToString().Replace("#FF", ""));
+
+                                    var tempcolor = BitmapHelper.GetPixelColor(t, x - CurrentImgxIndex, y, OneStep);
+                                    OneFrame.frameRGB.Add(tempcolor.Value.ToString().Replace("#FF", ""));
+                                }
                             }
                         }
                     }
+                    oneseg.pointList = new List<ThemeSegmentDataPoint>() { OneFrame };
+                    result.Add(oneseg);
                 }
-                oneseg.pointList = new List<ThemeSegmentDataPoint>() { OneFrame };
-                result.Add(oneseg);
+                imageStreamSource.Close();
+                return result;
             }
-            imageStreamSource.Close();
             return result;
         }
+
+
+
+        public  int GetFrameRate(string gifFilePath)
+        {
+            using (Image gif = Image.FromFile(gifFilePath))
+            {
+                // 获取GIF的第一帧
+                var frameDimensions = new FrameDimension(gif.FrameDimensionsList[0]);
+                gif.SelectActiveFrame(frameDimensions, 0);
+
+                // 获取帧的延迟时间（单位为0.1秒）
+                var delayTime = gif.GetPropertyItem(0x5100).Value[0];
+                var FrameRate = delayTime == 0 ? 0 : (int)(100 / delayTime);
+                if (FrameRate>30)
+                {
+                    FrameRate = 30;
+                }
+                if (FrameRate == 0)
+                {
+                    FrameRate = 20;
+                }
+                // GIF的帧率是100 / 延迟时间，但如果延迟时间为0则不是有效的GIF
+                return FrameRate;
+            }
+        }
+    
+
+
+        
         /// <summary>
         /// 
         /// </summary>
@@ -180,7 +200,7 @@ namespace GIfTool
         /// <param name="yIndex"></param>
         /// <param name="filename"></param>
         /// <returns></returns>
-        public List<ThemeSegmentData> OPENGIFURL(string imageUrl, int xIndex, int yIndex, string filename, int brightness)
+        public List<ThemeSegmentData> OPENGIFURL(string imageUrl, int xIndex, int yIndex, string filename, int brightness,int frameRate)
         {
          
             var result = new List<ThemeSegmentData>();
@@ -206,7 +226,7 @@ namespace GIfTool
                             name = filename,
                             count = "1",
                             frameCount = FramesCount.ToString(),
-                            frameRate = 6,
+                            frameRate = frameRate,
                             brightness = brightness,
                             index = "1",
                         };

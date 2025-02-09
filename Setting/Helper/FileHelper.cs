@@ -197,7 +197,13 @@ namespace Setting.Helper
             {
                 using (StreamReader file = File.OpenText(jsonfile))
                 {
-                    return File.ReadAllText(jsonfile);
+                    var json = File.ReadAllText(jsonfile);
+                    if (!json.Contains("AllPonitList"))
+                    {
+                        json = $"{{ \"FrameRate\":20,\"AllPonitList\":{json}}}";
+                    }
+                    return json;
+                  
                 }
             }
             return "";

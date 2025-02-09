@@ -397,7 +397,7 @@ namespace Setting.ViewModel
                     var JsonFileInfo = new JsonFileInfo()
                     {
                         FileName = Guid.NewGuid().ToString("N"),
-                        Name = "新建模板" + DateTime.Now.ToString("YYMMddHHmmssms")
+                        Name = "新建模板" + "-" + ThemeCountHelper.GetNextCount()
                     };
                     var temp = new ThemeItem(JsonFileInfo,true);
                     AllThemeList.Add(temp);

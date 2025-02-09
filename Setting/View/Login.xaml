@@ -541,7 +541,9 @@
                         <Label x:Name="pwsmobileerror" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="red" Margin="172,209,0,0" FontSize="12" Content="" />
 
 
-                        <PasswordBox x:Name="pwspassword"  FontSize="32" PasswordChanged="pwspassword_PasswordChanged"  HorizontalAlignment="Left" VerticalAlignment="Top" Width="295" Margin="172,234,0,0" Height="39" Background="#422D31" BorderThickness="0" Foreground="White">
+                        <PasswordBox x:Name="pwspassword"  FontSize="32" PasswordChanged="pwspassword_PasswordChanged"  HorizontalAlignment="Left" VerticalAlignment="Top"
+                                     
+                                     Width="295" Margin="172,234,0,0" Height="39" Background="#422D31" BorderThickness="0" Foreground="White">
                             <PasswordBox.Clip>
                                 <PathGeometry>
                                     <PathFigure StartPoint="0,5">

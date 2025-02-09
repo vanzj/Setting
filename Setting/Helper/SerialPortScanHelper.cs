@@ -69,6 +69,7 @@ namespace Setting.Helper
                var mac = SerialPortList.FirstOrDefault(c => c.Id == args.Id)?.DevNo;
                 Messenger.Default.Send(new LostScreenEvent() { DeviceInfos = new List<DeviceInfo>() { new DeviceInfo() { DevNo = mac } } });
                 tempCominfo.DeviceRemoved();
+                SerialPortList.Remove(tempCominfo);
             }
         }
 

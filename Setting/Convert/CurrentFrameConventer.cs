@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
 
-namespace Setting.Convert
+namespace Setting.WPFConvert
 {
     public class CurrentFrameConventer : IValueConverter
     {

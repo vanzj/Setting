@@ -90,7 +90,7 @@
                         </Button.Background>
                     </Button>
                     <Grid  Width="111" Height="50"  Visibility="{Binding ReName}" Background="White">
-                        <TextBox   Text="{Binding JsonFileInfo.Name ,Mode=TwoWay}"  BorderThickness="0" HorizontalAlignment="Center" VerticalAlignment="Center" >
+                        <TextBox   Text="{Binding JsonFileInfo.Name ,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  BorderThickness="0" HorizontalAlignment="Center" VerticalAlignment="Center" >
                         </TextBox>
                     </Grid>
                 

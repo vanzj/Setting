@@ -15,12 +15,6 @@
     {
         "Entry"
         {
-        "MsmKey" = "8:_0168279DA5404B4DBD9657FDF5C11740"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_018360443251FB2B87D2444BDD54B2E5"
         "OwnerKey" = "8:_6BBC5A26AA6F4F5995D21A196D6A08E1"
         "MsmSig" = "8:_UNDEFINED"
@@ -65,6 +59,12 @@
         {
         "MsmKey" = "8:_04A855C71B1491D54B05041C79A72092"
         "OwnerKey" = "8:_6BBC5A26AA6F4F5995D21A196D6A08E1"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_0650FAC950F24F96A53EA9BEE5A92F3F"
+        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -165,12 +165,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_155BFD853F464832A590515BFB6DDDC0"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_15A78AE23CB2EB65CF8F7928FB8155C7"
         "OwnerKey" = "8:_6BBC5A26AA6F4F5995D21A196D6A08E1"
         "MsmSig" = "8:_UNDEFINED"
@@ -191,12 +185,6 @@
         {
         "MsmKey" = "8:_18272CC38E267385264A6EA2B8611A1E"
         "OwnerKey" = "8:_6BBC5A26AA6F4F5995D21A196D6A08E1"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_18EA08CDB7B248448CABDDB44C301342"
-        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -297,12 +285,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_34AD9F29F0624B07BABBE3BD40410E24"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_39584F215611357C25AE07CBAE72911C"
         "OwnerKey" = "8:_6BBC5A26AA6F4F5995D21A196D6A08E1"
         "MsmSig" = "8:_UNDEFINED"
@@ -393,12 +375,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_4ADC3742C6874F9A98239AA0A62CB967"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_4B8DD1B0FF5088CBA856ADBE5AC7A2C7"
         "OwnerKey" = "8:_6BBC5A26AA6F4F5995D21A196D6A08E1"
         "MsmSig" = "8:_UNDEFINED"
@@ -431,6 +407,12 @@
         {
         "MsmKey" = "8:_4E950943E13504EB3630C5FFB306FBA1"
         "OwnerKey" = "8:_F84972A03F2A07D27CB0871E37E49A89"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_4F6B09F9E68A42CE82C60D251955BBA0"
+        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -509,12 +491,6 @@
         {
         "MsmKey" = "8:_56985D79B8E649B5ED65FC46FA9485C2"
         "OwnerKey" = "8:_6BBC5A26AA6F4F5995D21A196D6A08E1"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_56B7D250BEC14F2FADF819F52752535E"
-        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -603,6 +579,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_6318A04052BE45D2BF6C3157DC5096E6"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_63CC5689F9F4B5CDA9874C1DDBAC2348"
         "OwnerKey" = "8:_6BBC5A26AA6F4F5995D21A196D6A08E1"
         "MsmSig" = "8:_UNDEFINED"
@@ -615,14 +597,14 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_65BCE3BCAD393C3877A693B02AA74CCB"
-        "OwnerKey" = "8:_6BBC5A26AA6F4F5995D21A196D6A08E1"
+        "MsmKey" = "8:_65A6DBB83EC94C988866C02D99AE6E66"
+        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_66EED474950342599BD953DFF5C93C36"
-        "OwnerKey" = "8:_UNDEFINED"
+        "MsmKey" = "8:_65BCE3BCAD393C3877A693B02AA74CCB"
+        "OwnerKey" = "8:_6BBC5A26AA6F4F5995D21A196D6A08E1"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -753,6 +735,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_7E22942C208D48EA9EB549EEFD42B6CB"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_7FC8CBD7287B26FE3407CAE6F0716AA7"
         "OwnerKey" = "8:_B5534F4D25B6485257AEB210F206C859"
         "MsmSig" = "8:_UNDEFINED"
@@ -767,6 +755,12 @@
         {
         "MsmKey" = "8:_7FC8CBD7287B26FE3407CAE6F0716AA7"
         "OwnerKey" = "8:_E592E21F3CDE76ECE36218090CDB69FC"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_809D3EA987644F85AB916B8D7D3D3CD8"
+        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -833,6 +827,12 @@
         {
         "MsmKey" = "8:_8E1D995E2AA72ECCC422BB56F25F3608"
         "OwnerKey" = "8:_6BBC5A26AA6F4F5995D21A196D6A08E1"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_8E3E2250D97C4060ACFB95E41AD3E6E1"
+        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -927,8 +927,20 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_A490E5C53C6C4141B701F3F4401E086B"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_A725C35F5E597A805F4CB601AFDA19B4"
         "OwnerKey" = "8:_8166D916D23EF6BCDF8367170905DA2C"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_A849D386D99C442487DC4A16ABC7B098"
+        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -1025,12 +1037,6 @@
         {
         "MsmKey" = "8:_B55544951271A05B1DEA60F9F5BC44EF"
         "OwnerKey" = "8:_6BBC5A26AA6F4F5995D21A196D6A08E1"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_B5B83E9135EA4503881311A08420E7A8"
-        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -1421,12 +1427,6 @@
         {
         "MsmKey" = "8:_F3ABED956B606782D733365C18D743F8"
         "OwnerKey" = "8:_D4423C5700040BFC51D19AFC0E64EDD2"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_F40902B858C44E45974E01CE29F0165A"
-        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -2526,26 +2526,6 @@
         }
         "File"
         {
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_0168279DA5404B4DBD9657FDF5C11740"
-            {
-            "SourcePath" = "8:..\\Setting\\bin\\Debug\\Json\\Theme\\cpu.json"
-            "TargetName" = "8:cpu.json"
-            "Tag" = "8:"
-            "Folder" = "8:_538CD1A4E5574059A18F5D8248679C76"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_018360443251FB2B87D2444BDD54B2E5"
             {
             "AssemblyRegister" = "3:1"
@@ -2699,6 +2679,26 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_0650FAC950F24F96A53EA9BEE5A92F3F"
+            {
+            "SourcePath" = "8:..\\Setting\\bin\\Debug\\Json\\DefaultTheme\\rainbow.json"
+            "TargetName" = "8:rainbow.json"
+            "Tag" = "8:"
+            "Folder" = "8:_538CD1A4E5574059A18F5D8248679C76"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_0858E36A423282681E9AA240A41D246B"
@@ -3011,26 +3011,6 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_155BFD853F464832A590515BFB6DDDC0"
-            {
-            "SourcePath" = "8:..\\Setting\\bin\\Debug\\Json\\Theme\\music.json"
-            "TargetName" = "8:music.json"
-            "Tag" = "8:"
-            "Folder" = "8:_538CD1A4E5574059A18F5D8248679C76"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_15A78AE23CB2EB65CF8F7928FB8155C7"
             {
             "AssemblyRegister" = "3:1"
@@ -3153,26 +3133,6 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_18EA08CDB7B248448CABDDB44C301342"
-            {
-            "SourcePath" = "8:..\\Setting\\bin\\Debug\\Json\\Theme\\run.json"
-            "TargetName" = "8:run.json"
-            "Tag" = "8:"
-            "Folder" = "8:_538CD1A4E5574059A18F5D8248679C76"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_19D79D1229376FD9CB835A60F6566E15"
@@ -3578,26 +3538,6 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_34AD9F29F0624B07BABBE3BD40410E24"
-            {
-            "SourcePath" = "8:..\\Setting\\bin\\Debug\\Json\\Theme\\rainbow.json"
-            "TargetName" = "8:rainbow.json"
-            "Tag" = "8:"
-            "Folder" = "8:_538CD1A4E5574059A18F5D8248679C76"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_39584F215611357C25AE07CBAE72911C"
             {
             "AssemblyRegister" = "3:1"
@@ -3970,26 +3910,6 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_4ADC3742C6874F9A98239AA0A62CB967"
-            {
-            "SourcePath" = "8:..\\Setting\\bin\\Debug\\Json\\Theme\\sort.json"
-            "TargetName" = "8:sort.json"
-            "Tag" = "8:"
-            "Folder" = "8:_538CD1A4E5574059A18F5D8248679C76"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_4B8DD1B0FF5088CBA856ADBE5AC7A2C7"
             {
             "AssemblyRegister" = "3:1"
@@ -4112,6 +4032,26 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_4F6B09F9E68A42CE82C60D251955BBA0"
+            {
+            "SourcePath" = "8:..\\Setting\\bin\\Debug\\Json\\DefaultTheme\\charge.json"
+            "TargetName" = "8:charge.json"
+            "Tag" = "8:"
+            "Folder" = "8:_538CD1A4E5574059A18F5D8248679C76"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_50E34D495E9E62EB3116B97ED0B204A0"
@@ -4329,26 +4269,6 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_56B7D250BEC14F2FADF819F52752535E"
-            {
-            "SourcePath" = "8:..\\Setting\\bin\\Debug\\Json\\Theme\\charge.json"
-            "TargetName" = "8:charge.json"
-            "Tag" = "8:"
-            "Folder" = "8:_538CD1A4E5574059A18F5D8248679C76"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_572CBB48E53D8677D8257FAD08D2D492"
@@ -4661,6 +4581,26 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_6318A04052BE45D2BF6C3157DC5096E6"
+            {
+            "SourcePath" = "8:..\\Setting\\bin\\Debug\\Json\\DefaultTheme\\music.json"
+            "TargetName" = "8:music.json"
+            "Tag" = "8:"
+            "Folder" = "8:_538CD1A4E5574059A18F5D8248679C76"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_63CC5689F9F4B5CDA9874C1DDBAC2348"
             {
             "AssemblyRegister" = "3:1"
@@ -4723,6 +4663,26 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_65A6DBB83EC94C988866C02D99AE6E66"
+            {
+            "SourcePath" = "8:..\\Setting\\bin\\Debug\\Json\\DefaultTheme\\xiuxiu.json"
+            "TargetName" = "8:xiuxiu.json"
+            "Tag" = "8:"
+            "Folder" = "8:_538CD1A4E5574059A18F5D8248679C76"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_65BCE3BCAD393C3877A693B02AA74CCB"
             {
             "AssemblyRegister" = "3:1"
@@ -4752,26 +4712,6 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_66EED474950342599BD953DFF5C93C36"
-            {
-            "SourcePath" = "8:..\\Setting\\bin\\Debug\\Json\\Theme\\gpu.json"
-            "TargetName" = "8:gpu.json"
-            "Tag" = "8:"
-            "Folder" = "8:_538CD1A4E5574059A18F5D8248679C76"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_67407E0BCF99902F8AB5A2CC13DD2C05"
@@ -5208,6 +5148,26 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_7E22942C208D48EA9EB549EEFD42B6CB"
+            {
+            "SourcePath" = "8:..\\Setting\\bin\\Debug\\Json\\DefaultTheme\\gpu.json"
+            "TargetName" = "8:gpu.json"
+            "Tag" = "8:"
+            "Folder" = "8:_538CD1A4E5574059A18F5D8248679C76"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_7FC8CBD7287B26FE3407CAE6F0716AA7"
             {
             "AssemblyRegister" = "3:1"
@@ -5237,6 +5197,26 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_809D3EA987644F85AB916B8D7D3D3CD8"
+            {
+            "SourcePath" = "8:..\\Setting\\bin\\Debug\\Json\\DefaultTheme\\run.json"
+            "TargetName" = "8:run.json"
+            "Tag" = "8:"
+            "Folder" = "8:_538CD1A4E5574059A18F5D8248679C76"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_813D1A73EB76C9C94DEAF42EC0D2683A"
@@ -5578,6 +5558,26 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_8E3E2250D97C4060ACFB95E41AD3E6E1"
+            {
+            "SourcePath" = "8:..\\Setting\\bin\\Debug\\Json\\DefaultTheme\\cpu.json"
+            "TargetName" = "8:cpu.json"
+            "Tag" = "8:"
+            "Folder" = "8:_538CD1A4E5574059A18F5D8248679C76"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_8F5C7EFCE97F84A31C496127C34955CF"
@@ -6003,6 +6003,26 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_A490E5C53C6C4141B701F3F4401E086B"
+            {
+            "SourcePath" = "8:..\\Setting\\bin\\Debug\\Json\\DefaultTheme\\wifi.json"
+            "TargetName" = "8:wifi.json"
+            "Tag" = "8:"
+            "Folder" = "8:_538CD1A4E5574059A18F5D8248679C76"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_A725C35F5E597A805F4CB601AFDA19B4"
             {
             "AssemblyRegister" = "3:1"
@@ -6032,6 +6052,26 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_A849D386D99C442487DC4A16ABC7B098"
+            {
+            "SourcePath" = "8:..\\Setting\\bin\\Debug\\Json\\DefaultTheme\\sort.json"
+            "TargetName" = "8:sort.json"
+            "Tag" = "8:"
+            "Folder" = "8:_538CD1A4E5574059A18F5D8248679C76"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_A9F7B969D73CBAF397BBCA7D08D47823"
@@ -6435,26 +6475,6 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_B5B83E9135EA4503881311A08420E7A8"
-            {
-            "SourcePath" = "8:..\\Setting\\bin\\Debug\\Json\\Theme\\xiuxiu.json"
-            "TargetName" = "8:xiuxiu.json"
-            "Tag" = "8:"
-            "Folder" = "8:_538CD1A4E5574059A18F5D8248679C76"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_B6C3F370F990E6C105800379ADC33957"
@@ -7777,26 +7797,6 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_F40902B858C44E45974E01CE29F0165A"
-            {
-            "SourcePath" = "8:..\\Setting\\bin\\Debug\\Json\\Theme\\wifi.json"
-            "TargetName" = "8:wifi.json"
-            "Tag" = "8:"
-            "Folder" = "8:_538CD1A4E5574059A18F5D8248679C76"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_F84972A03F2A07D27CB0871E37E49A89"
             {
             "AssemblyRegister" = "3:1"
@@ -7970,7 +7970,7 @@
                         {
                             "{9EF0B969-E518-4E46-987F-47570745A589}:_538CD1A4E5574059A18F5D8248679C76"
                             {
-                            "Name" = "8:Theme"
+                            "Name" = "8:DefaultTheme"
                             "AlwaysCreate" = "11:FALSE"
                             "Condition" = "8:"
                             "Transitive" = "11:FALSE"
@@ -8010,15 +8010,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Setup"
-        "ProductCode" = "8:{9064D77C-97DE-4506-8F3C-6598D02EC7C8}"
-        "PackageCode" = "8:{28E3D2DE-B397-413D-A61E-1BD9FA845A45}"
+        "ProductCode" = "8:{7946903F-F40B-44F7-96C9-DF2D05C14C14}"
+        "PackageCode" = "8:{C48183F6-04FE-4B33-B3D0-4FE483D6BE96}"
         "UpgradeCode" = "8:{F262A701-B3AD-4B55-965D-C3C040243DAC}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
-        "RemovePreviousVersions" = "11:FALSE"
+        "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.0.55"
+        "ProductVersion" = "8:1.0.57"
         "Manufacturer" = "8:van"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
@@ -8134,7 +8134,7 @@
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_0174FC0ECB69458A9E88837FE7D6ECB1"
             {
             "Name" = "8:uninstall.exe"
-            "Arguments" = "8:/x {9064D77C-97DE-4506-8F3C-6598D02EC7C8}"
+            "Arguments" = "8:/x {7946903F-F40B-44F7-96C9-DF2D05C14C14}"
             "Description" = "8:"
             "ShowCmd" = "3:1"
             "IconIndex" = "3:0"

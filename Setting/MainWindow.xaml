@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Setting"
 
         xmlns:myview="clr-namespace:Setting.View" xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-        xmlns:local1="clr-namespace:Setting.Convert" xmlns:enum="clr-namespace:Setting.Enum" 
+        xmlns:local1="clr-namespace:Setting.WPFConvert" xmlns:enum="clr-namespace:Setting.Enum" 
         xmlns:viewmodel="clr-namespace:Setting.ViewModel" d:DataContext="{d:DesignInstance Type=viewmodel:ThemeListViewModel}"
         mc:Ignorable="d"
         Title="MainWindow" Height="758" Width="1308"  DataContext="{Binding Path=PointList,Source={StaticResource Locator}}" Closing="Window_Closing" Loaded="Window_Loaded"
@@ -1297,7 +1297,7 @@
                 <TextBox Text="{Binding DebugInfo}"></TextBox>
             </ScrollViewer>
 
-            <Button HorizontalAlignment="Left" Height="40" Margin="500,0,0,0" Click="Button_Click_3" VerticalAlignment="Bottom" Grid.Column="1">调试54</Button>
+            <Button HorizontalAlignment="Left" Height="40" Margin="500,0,0,0" Click="Button_Click_3" VerticalAlignment="Bottom" Grid.Column="1">调试57</Button>
             <Button Margin="540,0,0,0" HorizontalAlignment="Left" Height="40" Command="{Binding CleanDebugInfoCommand}" VerticalAlignment="Bottom"  Grid.Column="1" >清除</Button>
             <!--<Button HorizontalAlignment="Left" Height="40" Margin="580,0,0,0" Click="Button_Click_send" VerticalAlignment="Bottom" Grid.Column="1">发送</Button>-->
             <myview:ErrorInfo HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="175" Margin="0,0,0,511" ></myview:ErrorInfo>

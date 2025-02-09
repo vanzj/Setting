@@ -133,9 +133,10 @@ namespace Setting.Helper
                         {
 
                             InputGIF inputGIF = new InputGIF();
-                            var ImgInfo = inputGIF.OPENGIFURL(gifUrl, 85, 5, "gifword", brightness);
+                            int defaultFramerate = 6;
+                            var ImgInfo = inputGIF.OPENGIFURL(gifUrl, 85, 5, "gifword", brightness, defaultFramerate);
                             Messenger.Default.Send(new SendStartEvent());
-                            var data = MessageHelper.BuildOnePackageGIFURL(ImgInfo, 85, 5, "gifword");
+                            var data = MessageHelper.BuildOnePackageGIFURL(ImgInfo, 85, 5, "gifword", defaultFramerate);
                             SerialPortSendMsgHelper.Instance.SendThemeCirculateSendMessage(data);
                             var msg = CommandBuilder.BuildGIFSuccessCmd(_mac);
                             client.Send(msg);
@@ -170,8 +171,12 @@ namespace Setting.Helper
         }
         public void ChangeMac(string mac)
         {
-            _mac = mac;
-            Heart();
+            if(!string.IsNullOrEmpty(mac))
+            {
+                _mac = "PC" + mac.Substring(2);
+                Heart();
+            }
+
         }
         public void Heart()
         {
