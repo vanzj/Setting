@@ -6,10 +6,7 @@ using System.Threading.Tasks;
 
 namespace Setting.Event
 {
-    public class ScreenInfoEvent
+    public class MsgSendCloseEvent
     {
-        public bool IsOpen { get; set; }
-        public int lum { get; set; }
-        public bool IsRotate { get; set; }
     }
 }

@@ -754,7 +754,7 @@
                         </Grid>
 
                     </Button>
-                    <Button Width="39" Height="18" Padding="0" Background="#01000000" IsEnabled="{Binding Outgif}"  Command="{Binding OutPutGIFCommand}"  Style="{DynamicResource ButtonStyle1}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="121,7,0,0"   RenderTransformOrigin="0.5,0.5">
+                    <Button Width="39" Height="18" Padding="0" Background="#01000000" IsEnabled="{Binding seed}"  Command="{Binding OutPutGIFCommand}"  Style="{DynamicResource ButtonStyle1}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="121,7,0,0"   RenderTransformOrigin="0.5,0.5">
                         <Button.RenderTransform>
                             <TransformGroup>
                                 <ScaleTransform />
@@ -767,6 +767,22 @@
                         <Grid Width="39" Height="18" >
                             <Image Source="img/UI/gif导出.png" HorizontalAlignment="Left" Width="16" Margin="0"/>
                             <TextBlock FontSize="8" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="23,4,-1,0" > 导出</TextBlock>
+                        </Grid>
+
+                    </Button>
+                    <Button Width="39" Height="18" Padding="0" Background="#01000000" IsEnabled="{Binding SeedEnabled}"  Command="{Binding StartSendTextCommand}"  Style="{DynamicResource ButtonStyle1}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="170,7,0,0"   RenderTransformOrigin="0.5,0.5">
+                        <Button.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform />
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Button.RenderTransform>
+
+                        <Grid Width="39" Height="18" >
+                            <Image Source="img/sendmsg.png" HorizontalAlignment="Left" Width="18" Margin="-2,0,0,0"/>
+                            <TextBlock FontSize="8" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="23,4,-1,0" > 留言</TextBlock>
                         </Grid>
 
                     </Button>
@@ -1166,7 +1182,7 @@
 
 
                     <Button Width="57" Height="24"   Command="{Binding SendCloseSendMessageCommand}" IsEnabled="{Binding SeedEnabled}"    Visibility="{Binding Close}"
-                            Style="{DynamicResource ButtonStyle1}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="594,140,0,0"    RenderTransformOrigin="0.5,0.5">
+                            Style="{DynamicResource ButtonStyle1}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="594,100,0,0"    RenderTransformOrigin="0.5,0.5">
 
                         <Button.RenderTransform>
                             <TransformGroup>
@@ -1182,7 +1198,7 @@
 
                         <Image Source="img/UI/开关按钮.png" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="-25,0,0,0" Width="18"></Image>
                     </Button>
-                    <Button Width="57" Height="24"   Command="{Binding SendOpenSendMessageCommand}"  Visibility="{Binding Open}"    IsEnabled="{Binding SeedEnabled}"  Style="{DynamicResource ButtonStyle1}"  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="594,140,0,0"    RenderTransformOrigin="0.5,0.5">
+                    <Button Width="57" Height="24"   Command="{Binding SendOpenSendMessageCommand}"  Visibility="{Binding Open}"    IsEnabled="{Binding SeedEnabled}"  Style="{DynamicResource ButtonStyle1}"  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="594,100,0,0"    RenderTransformOrigin="0.5,0.5">
 
                         <Button.RenderTransform>
                             <TransformGroup>
@@ -1197,15 +1213,63 @@
                         </Button.Background>
                         <Image Source="img/UI/开关按钮.png" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="32,0,0,0" Width="18"></Image>
                     </Button>
+                    <Button Width="57" Height="24"   Command="{Binding SendDisableRotateCommand }" IsEnabled="{Binding SeedEnabled }"    Visibility="{Binding   DisenableRotate}"
+                            Style="{DynamicResource ButtonStyle1}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="594,130,0,0"    RenderTransformOrigin="0.5,0.5">
+
+                        <Button.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform />
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Button.RenderTransform>
+                        <Button.Background>
+                            <ImageBrush ImageSource="img/UI/开关-底.png"/>
+                        </Button.Background>
+
+                        <Image Source="img/UI/开关按钮.png" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="-25,0,0,0" Width="18"></Image>
+                    </Button>
+                    <Button Width="57" Height="24"   Command="{Binding  SendEnableRotateCommand}"  Visibility="{Binding EnableRotate }"    IsEnabled="{Binding SeedEnabled}"  Style="{DynamicResource ButtonStyle1}"  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="594,130,0,0"    RenderTransformOrigin="0.5,0.5">
+
+                        <Button.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform />
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Button.RenderTransform>
+                        <Button.Background>
+                            <ImageBrush ImageSource="img/UI/开关-底.png"/>
+                        </Button.Background>
+                        <Image Source="img/UI/开关按钮.png" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="32,0,0,0" Width="18"></Image>
+                    </Button>
+                    <Button Width="24" Height="24"   Command="{Binding SendNetWorkCommand}"    IsEnabled="{Binding SeedEnabled}"   Style="{DynamicResource ButtonStyle1}"  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="625,160 ,0,0"    RenderTransformOrigin="0.5,0.5">
+
+                        <Button.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform />
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Button.RenderTransform>
+                        <Button.Background>
+                            <ImageBrush ImageSource="img/network.png"/>
+                        </Button.Background>
+                    </Button>
 
                     <TextBlock FontSize="14" HorizontalAlignment="Left" Foreground="White" VerticalAlignment="Top" Margin="478,104,0,0" >当前颜色</TextBlock>
 
                     <TextBlock FontSize="16" HorizontalAlignment="Left" Foreground="White" VerticalAlignment="Top" Margin="479,163,0,0" >#</TextBlock>
 
                     <TextBlock FontSize="8" HorizontalAlignment="Left" Foreground="White" VerticalAlignment="Top" Margin="516,187,0,0" >HEX COLOR</TextBlock>
-                    <TextBlock FontSize="16" HorizontalAlignment="Left" Foreground="White" VerticalAlignment="Top" Margin="668,144,0,0" >屏幕开/关</TextBlock>
+                    <TextBlock FontSize="16" HorizontalAlignment="Left" Foreground="White" VerticalAlignment="Top" Margin="668,161,0,0" >蓝牙配网</TextBlock>
                     <TextBlock FontSize="16" HorizontalAlignment="Left" Foreground="White" VerticalAlignment="Top" Margin="483,229,0,0" >亮度</TextBlock>
                     <TextBlock FontSize="14" HorizontalAlignment="Left" Foreground="White" VerticalAlignment="Top" Margin="963,171,0,0" >画面移动</TextBlock>
+                    <TextBlock FontSize="16" HorizontalAlignment="Left" Foreground="White" VerticalAlignment="Top" Margin="668,101,0,0" ><Run Text="屏幕开/关"/></TextBlock>
+                    <TextBlock FontSize="16" HorizontalAlignment="Left" Foreground="White" VerticalAlignment="Top" Margin="668,131,0,0" ><Run Text="屏幕翻转"/></TextBlock>
                 </Grid>
                 <Grid Grid.Row="5">
 
@@ -1301,6 +1365,30 @@
             <Button x:Name="debugClear" Visibility="Collapsed"   Margin="540,0,0,0" HorizontalAlignment="Left" Height="40" Command="{Binding CleanDebugInfoCommand}" VerticalAlignment="Bottom"  Grid.Column="1" >清除</Button>
             <!--<Button HorizontalAlignment="Left" Height="40" Margin="580,0,0,0" Click="Button_Click_send" VerticalAlignment="Bottom" Grid.Column="1">发送</Button>-->
             <myview:ErrorInfo HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="175" Margin="0,0,0,511" ></myview:ErrorInfo>
+            <Grid Background="#aa333333" Visibility="{Binding MsgTextVisibility}"  MouseDown="Grid_MouseDown_2">
+                <StackPanel Orientation="Vertical"  HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <TextBox  Width="265" Height="220"  BorderThickness="0"  Foreground="White" Text="{Binding MsgText}" TextWrapping="Wrap" Padding="10" FontSize="20" MaxLength="50">
+                        <TextBox.Background>
+                            <ImageBrush ImageSource="/Setting;component/img/Login/loading背景.png"/>
+                        </TextBox.Background>
+                    </TextBox>
+                    <Button Width="60" Height="30" Margin="20" Style="{StaticResource ButtonStyle1}" Command="{Binding SendTextCommand}"   RenderTransformOrigin="0.5,0.5">
+                        <Button.Background>
+                            <ImageBrush ImageSource="/img/Login/主题背景.png"/>
+                        </Button.Background>
+                        <Label Foreground="White">发送</Label>
+                        <Button.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform />
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Button.RenderTransform>
+                    </Button>
+                </StackPanel>
+ 
+            </Grid>
         </Grid>
     </Viewbox>
 

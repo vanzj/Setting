@@ -247,7 +247,7 @@ namespace Setting.Helper
 
                             var GetInfoRetrun = JsonConvert.DeserializeObject<GetInfoRetrun>(msgreturn);
                             TcpDefaultHelper.Instance.brightness =  int.Parse(GetInfoRetrun.data.luminance);
-                            Messenger.Default.Send(new ScreenInfoEvent() { IsOpen = GetInfoRetrun.data.status == "open", lum = int.Parse(GetInfoRetrun.data.luminance) });
+                            Messenger.Default.Send(new ScreenInfoEvent() { IsOpen = GetInfoRetrun.data.status == "open", lum = int.Parse(GetInfoRetrun.data.luminance),IsRotate = GetInfoRetrun.data.rotate == "1" });
                         }
                         break;
                     case "open":
@@ -434,6 +434,25 @@ namespace Setting.Helper
             }
        
         }
+        public void SendNetWork()
+        {
+            var cmd = new getMacSend();
+            string msg = JsonConvert.SerializeObject(cmd);
+            Write(msg);
+        }
+        public void SendEnableRotateMessage()
+        {
+            var cmd = new RotateSend("0");
+            string msg = JsonConvert.SerializeObject(cmd);
+            Write(msg);
+        }
+        public void SendDisenableRotateMessage()
+        {
+            var cmd = new RotateSend("1");
+            string msg = JsonConvert.SerializeObject(cmd);
+            Write(msg);
+        }
+
         public void SendOpenSendMessage()
         {
             var cmd = new OpenSend();

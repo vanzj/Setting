@@ -27,5 +27,6 @@ namespace Setting.Model.CMDModel
         public string mac { get; set; }
         public string luminance { get; set; }
         public string status { get; set; }
+        public string rotate { get; set; }
     }
 }

@@ -75,10 +75,6 @@ namespace Setting.Helper
 
         private void OnDeviceAdded(DeviceWatcher sender, DeviceInformation args)
         {
-            if (!args.Name.Contains("ESP32-S3"))
-            {
-                return;
-            }
             Messenger.Default.Send(new  DebugInfoEvent($"扫描：OnDeviceA   dded{args.Id}"));
             if (SerialPortList.All(c => c.Id != args.Id))
             {

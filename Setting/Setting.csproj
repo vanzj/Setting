@@ -283,6 +283,7 @@
     <Compile Include="Event\LumianceChangeEvent.cs" />
     <Compile Include="Event\LostScreenEvent.cs" />
     <Compile Include="Event\MsgEvent.cs" />
+    <Compile Include="Event\MsgSendCloseEvent.cs" />
     <Compile Include="Event\RedoSaveEvent.cs" />
     <Compile Include="Event\RemoveScreenInfoEvent.cs" />
     <Compile Include="Event\ScreenClickedEvent.cs" />
@@ -351,6 +352,9 @@
     <Resource Include="img\Login\登录参考.png" />
     <Resource Include="img\UI\帧数控制图标.png" />
     <Resource Include="img\UI\帧数控制背景.png" />
+    <Resource Include="img\network.png" />
+    <Resource Include="img\sendmsg.png" />
+    <Content Include="img\路由器_router-one.svg" />
     <Content Include="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -393,6 +397,7 @@
     <Compile Include="Media\StreamObj.cs" />
     <Compile Include="Media\Utility.cs" />
     <Compile Include="Model\CMDModel\GetInfo.cs" />
+    <Compile Include="Model\CMDModel\Rotate.cs" />
     <Compile Include="Model\CMDModel\GetMac.cs" />
     <Compile Include="Model\CMDModel\Luminance.cs" />
     <Compile Include="Model\CMDModel\Close.cs" />

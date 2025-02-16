@@ -64,7 +64,24 @@ namespace Setting.ViewModel
             get { return debugInfo; }
             set { debugInfo = value; RaisePropertyChanged(); }
         }
-
+        private string msgText;
+        /// <summary>
+        /// 文件名
+        /// </summary>
+        public string MsgText
+        {
+            get { return msgText; }
+            set { msgText = value; RaisePropertyChanged(); }
+        }
+        private Visibility msgTextVisibility;
+        /// <summary>
+        /// 文件名
+        /// </summary>
+        public Visibility MsgTextVisibility
+        {
+            get { return msgTextVisibility; }
+            set { msgTextVisibility = value; RaisePropertyChanged(); }
+        }
 
         private CursorEnum CursorEnum { get; set; }
 
@@ -242,6 +259,43 @@ namespace Setting.ViewModel
                 {
 
                 };
+            }
+        }
+        public RelayCommand StartSendTextCommand
+        {
+            get
+            {
+                return new RelayCommand(() =>
+                {
+                    MsgText = "";
+                        MsgTextVisibility = Visibility.Visible;
+                    
+                });
+            }
+        }
+        public RelayCommand SendTextCommand
+        {
+            get
+            {
+                return new RelayCommand(() =>
+                {
+                    var text = MsgText;
+
+                    JdClient jdClient = new JdClient(HttpClientHelper.Instance.GetHttpClient());
+                    var temp = jdClient.TransferGifUsingGETAsync(10,8,text,10).GetAwaiter().GetResult();
+                    if (temp.Code == 0)
+                {       int brightness = 255;
+                        int defaultFramerate = 6;
+                        var url =  temp.Data.ToString();
+                        InputGIF inputGIF = new InputGIF();
+                        var ImgInfo = inputGIF.OPENGIFURL(url, 85, 5, "gifword", brightness, defaultFramerate);
+                        Messenger.Default.Send(new SendStartEvent());
+                        var data = MessageHelper.BuildOnePackageGIFURL(ImgInfo, 85, 5, "gifword", defaultFramerate);
+                        SerialPortSendMsgHelper.Instance.SendThemeCirculateSendMessage(data);
+                        MsgText = "";
+                        MsgTextVisibility = Visibility.Collapsed;
+                    }
+                });
             }
         }
 
@@ -1058,7 +1112,40 @@ namespace Setting.ViewModel
             }
         }
 
+        private Visibility disenableRotate;
+        public Visibility DisenableRotate
+        {
+            get { return disenableRotate; }
+            set
+            {
+                disenableRotate = value;
+                RaisePropertyChanged();
+            }
+        }
+        private Visibility enableRotate;
 
+        public Visibility EnableRotate
+        {
+            get { return enableRotate; }
+            set
+            {
+                enableRotate = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public RelayCommand SendNetWorkCommand
+        {
+            get
+            {
+                return new RelayCommand(() =>
+                {
+                    SerialPortSendMsgHelper.Instance.SendNetWork();
+
+                }
+                );
+            }
+        }
         public RelayCommand SendOpenSendMessageCommand
         {
             get
@@ -1072,8 +1159,6 @@ namespace Setting.ViewModel
                 );
             }
         }
-
-
         public RelayCommand SendCloseSendMessageCommand
         {
             get
@@ -1083,6 +1168,33 @@ namespace Setting.ViewModel
                     SerialPortSendMsgHelper.Instance.SendCloseSendMessage();
                     Open = Visibility.Visible;
                     Close = Visibility.Collapsed;
+                }
+                );
+            }
+        }
+        public RelayCommand SendEnableRotateCommand
+        {
+            get
+            {
+                return new RelayCommand(() =>
+                {
+                    SerialPortSendMsgHelper.Instance.SendEnableRotateMessage();
+
+                    DisenableRotate = Visibility.Visible;
+                    EnableRotate = Visibility.Collapsed;
+                }
+                );
+            }
+        }
+        public RelayCommand SendDisableRotateCommand
+        {
+            get
+            {
+                return new RelayCommand(() =>
+                {
+                    SerialPortSendMsgHelper.Instance.SendDisenableRotateMessage();
+                    EnableRotate = Visibility.Visible;
+                    DisenableRotate = Visibility.Collapsed;
                 }
                 );
             }
@@ -1141,7 +1253,10 @@ namespace Setting.ViewModel
             Messenger.Default.Register<NewThemeEvent>(this, HandleNewThemeEvent);
             Messenger.Default.Register<DebugInfoEvent>(this, HandleDebugInfoEvent);
             Messenger.Default.Register<ScreenInfoEvent>(this, HandleScreenInfoEvent);
+            Messenger.Default.Register<MsgSendCloseEvent>(this, HandleMsgSendCloseEvent);
             
+
+
             Messenger.Default.Register<NextFrameEvent>(this, HandleNextFrameEvent);
             Messenger.Default.Register<LumianceChangeEvent>(this, HandleLumianceChangeEventt);
 
@@ -1152,10 +1267,19 @@ namespace Setting.ViewModel
             SeedEnabled = false;
             Open = Visibility.Visible;
             Close = Visibility.Collapsed;
+            EnableRotate = Visibility.Visible;
+            DisenableRotate = Visibility.Collapsed;
+            MsgTextVisibility = Visibility.Collapsed;
             Luminance = 255;
             CursorEnum = CursorEnum.MOVE;
             ChangeColor = new SolidColorBrush((System.Windows.Media.Color)ColorConverter.ConvertFromString(ColorConst.BackGroupColor));
             DebugInfo = "*********************************************调试信息******************" + "\r\n";
+        }
+
+        private void HandleMsgSendCloseEvent(MsgSendCloseEvent @event)
+        {
+            MsgText = "";
+            MsgTextVisibility = Visibility.Collapsed;
         }
 
         private void HandleFrameChangeEvent(FrameChangeEvent @event)
@@ -1181,6 +1305,16 @@ namespace Setting.ViewModel
             {
                 Open = Visibility.Visible;
                 Close = Visibility.Collapsed;
+            }
+            if (obj.IsRotate)
+            {
+                EnableRotate = Visibility.Visible;
+                DisenableRotate = Visibility.Collapsed;
+            }
+            else
+            {
+                DisenableRotate = Visibility.Visible;
+                EnableRotate = Visibility.Collapsed;
             }
         }
 

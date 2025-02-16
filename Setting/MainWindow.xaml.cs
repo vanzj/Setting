@@ -323,6 +323,12 @@ private void AutoUpdaterOnCheckForUpdateEvent(UpdateInfoEventArgs args)
                 Messenger.Default.Send(new FrameChangeEvent { CurrentFrame = (int)e.NewValue });
             }
         }
+
+        private void Grid_MouseDown_2(object sender, MouseButtonEventArgs e)
+        {
+            Messenger.Default.Send(new MsgSendCloseEvent ());
+            
+        }
     }
 
 }

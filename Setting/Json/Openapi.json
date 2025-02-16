@@ -525,25 +525,53 @@
     },
     "/smart/api/dotpc/transferGif": {
       "get": {
-        "tags": [ "硬件-点阵屏PC接口" ],
+        "tags": [
+          "硬件-点阵屏PC接口"
+        ],
         "summary": "13.文字转gif",
-        "operationId": "transferGifUsingGET",
-        "produces": [ "*/*" ],
+        "operationId": "transferGifUsingGET_1",
+        "produces": [
+          "*/*"
+        ],
         "parameters": [
+          {
+            "name": "height",
+            "in": "query",
+            "description": "绘画一个字的高度",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "字体像素，通常比绘画的-2",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
           {
             "name": "text",
             "in": "query",
             "description": "文字",
             "required": false,
             "type": "string"
+          },
+          {
+            "name": "width",
+            "in": "query",
+            "description": "绘画一个字的宽度",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
           }
         ],
         "responses": {
           "200": {
             "description": "OK",
             "schema": {
-              "originalRef": "transferGifRes",
-              "$ref": "#/definitions/transferGifRes"
+              "originalRef": "响应",
+              "$ref": "#/definitions/响应"
             }
           },
           "401": {
