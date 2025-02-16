@@ -5,6 +5,7 @@ using Setting.Helper;
 using Setting.Model;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -28,6 +29,7 @@ namespace Setting
     /// </summary>
     public partial class MainWindow : Window
     {
+        bool isDebug = false;
         public MainWindow()
         {
             InitializeComponent();
@@ -38,7 +40,8 @@ namespace Setting
             RGBToBrightNessHelper.Instance.Init();
        
             this.Login.Visibility = Visibility.Visible;
-
+          var isdebugConfig =   ConfigurationManager.AppSettings["IsDebug"] ?? "0";
+            isDebug   = !(isdebugConfig == "0");
         }
 
         private void HandleSendEndEvent(SendEndEvent obj)
@@ -158,6 +161,11 @@ namespace Setting
         }
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            if (isDebug)
+            {
+                this.debugClear.Visibility = Visibility.Visible;
+                this.debugClick.Visibility = Visibility.Visible;
+            }
             AutoUpdater.ExecutablePath = "Setup.msi";
             AutoUpdater.RunUpdateAsAdmin = true;
             AutoUpdater.ApplicationExitEvent += AutoUpdater_ApplicationExitEvent;

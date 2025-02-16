@@ -555,6 +555,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_604D118BAC4B8B57B6508C659AD05BD3"
+        "OwnerKey" = "8:_6BBC5A26AA6F4F5995D21A196D6A08E1"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_618BFAD66C622ED755AA31DFDAE5276D"
         "OwnerKey" = "8:_6BBC5A26AA6F4F5995D21A196D6A08E1"
         "MsmSig" = "8:_UNDEFINED"
@@ -1475,6 +1481,12 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_65BCE3BCAD393C3877A693B02AA74CCB"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_604D118BAC4B8B57B6508C659AD05BD3"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -4440,6 +4452,37 @@
                     }
                 }
             "SourcePath" = "8:System.Threading.Tasks.Extensions.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_8886C3B437D24C06964337FA9B2C1B7F"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_604D118BAC4B8B57B6508C659AD05BD3"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:System.Security.Cryptography.Cng, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_604D118BAC4B8B57B6508C659AD05BD3"
+                    {
+                    "Name" = "8:System.Security.Cryptography.Cng.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:System.Security.Cryptography.Cng.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_8886C3B437D24C06964337FA9B2C1B7F"
@@ -8010,15 +8053,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Setup"
-        "ProductCode" = "8:{7946903F-F40B-44F7-96C9-DF2D05C14C14}"
-        "PackageCode" = "8:{C48183F6-04FE-4B33-B3D0-4FE483D6BE96}"
+        "ProductCode" = "8:{D20EB82F-D5FD-4B16-8183-9F56E58FF034}"
+        "PackageCode" = "8:{B267AC00-C3E8-45B7-8E11-C879BAF5569C}"
         "UpgradeCode" = "8:{F262A701-B3AD-4B55-965D-C3C040243DAC}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.0.57"
+        "ProductVersion" = "8:1.0.58"
         "Manufacturer" = "8:van"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
@@ -8134,7 +8177,7 @@
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_0174FC0ECB69458A9E88837FE7D6ECB1"
             {
             "Name" = "8:uninstall.exe"
-            "Arguments" = "8:/x {7946903F-F40B-44F7-96C9-DF2D05C14C14}"
+            "Arguments" = "8:/x {D20EB82F-D5FD-4B16-8183-9F56E58FF034}"
             "Description" = "8:"
             "ShowCmd" = "3:1"
             "IconIndex" = "3:0"
@@ -8147,7 +8190,7 @@
             }
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_8F0BB51A1C794225866C22B63D8F9160"
             {
-            "Name" = "8:Setting.exe"
+            "Name" = "8:ZZJMOD"
             "Arguments" = "8:"
             "Description" = "8:"
             "ShowCmd" = "3:1"
@@ -8161,7 +8204,7 @@
             }
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_C386D08A7D9D4D63B191510B48029F26"
             {
-            "Name" = "8:Setting.exe"
+            "Name" = "8:ZZJMOD"
             "Arguments" = "8:"
             "Description" = "8:"
             "ShowCmd" = "3:1"
