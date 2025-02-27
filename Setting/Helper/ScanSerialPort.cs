@@ -112,7 +112,7 @@ namespace Setting.Helper
             SerialDevice?.Dispose();
             SerialDevice = null;
             Connected = false;
-            t.Abort();
+            t?.Abort();
             SerialPortSendMsgHelper.Instance.ClosePort(Id);
         }
 
@@ -173,14 +173,14 @@ namespace Setting.Helper
 
                             if (!string.IsNullOrEmpty(getMacmsg.data))
                             {
-
+                                Messenger.Default.Send(new DebugInfoEvent("扫描：串口扫描=>  " + SerialDevice?.PortName + "连接成功"));
                                 SerialDevice?.Dispose();
                                 SerialDevice = null;
                                 IsScreen = true;
                                 DevNo = getMacmsg.data.Replace(":", "");
 
                                 Messenger.Default.Send(new FindScreenEvent { isLocal = true, DeviceInfos = new List<DeviceInfo>() { new DeviceInfo() { DevNo = getMacmsg.data.Replace(":", ""), Name = "新屏幕" + DevNo.Substring(0, 4) } } }); ;
-                                Messenger.Default.Send(new DebugInfoEvent("扫描：串口扫描=>  " + SerialDevice?.PortName + "连接成功"));
+                 
                             }
                             else
                             {

@@ -174,9 +174,10 @@ namespace Setting.Helper
                         {
                             do
                             {
-                                SendGetInfoSendMessage();
-                                Thread.Sleep(5000);
-
+                                
+                                    SendGetInfoSendMessage();
+                                    Thread.Sleep(5000);
+                               
                             } while (true);
                          
                         });
@@ -207,7 +208,7 @@ namespace Setting.Helper
                 Messenger.Default.Send(new  DebugInfoEvent($"通信：==> 打开{COMID}失败，失败原因：{ex.Message}"));
                 MYSerialDevice?.Dispose();
                 MYSerialDevice = null;
-                t.Abort();
+                t?.Abort();
                 SendGetInfoSendMessageT?.Abort();
                 return false;
             }

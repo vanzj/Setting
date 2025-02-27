@@ -282,7 +282,7 @@ namespace Setting.ViewModel
                     var text = MsgText;
 
                     JdClient jdClient = new JdClient(HttpClientHelper.Instance.GetHttpClient());
-                    var temp = jdClient.TransferGifUsingGETAsync(10,8,text,10).GetAwaiter().GetResult();
+                    var temp = jdClient.TransferGifUsingGETAsync(16,14,text,16).GetAwaiter().GetResult();
                     if (temp.Code == 0)
                 {       int brightness = 255;
                         int defaultFramerate = 6;
@@ -1364,15 +1364,17 @@ namespace Setting.ViewModel
 
         private void HandleNextFrameEvent(NextFrameEvent obj)
         {
-            if (!JsonFileInfo.IsDynamic)
-            {
-                CurrentFrame++;
-                if (CurrentFrame >= framesCount)
+           
+                if (!JsonFileInfo.IsDynamic)
                 {
-                    CurrentFrame = 0;
+                    CurrentFrame++;
+                    if (CurrentFrame >= framesCount)
+                    {
+                        CurrentFrame = 0;
+                    }
+                    BuildShowPreView(CurrentFrame);
                 }
-                BuildShowPreView(CurrentFrame);
-            }
+        
         }
 
         private void HandleDebugInfoEvent(DebugInfoEvent obj)

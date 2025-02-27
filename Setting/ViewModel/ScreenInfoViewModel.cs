@@ -221,18 +221,13 @@ namespace Setting.ViewModel
 
         private void HandleLostScreenEvent(LostScreenEvent obj)
         {
-            foreach (var device in obj.DeviceInfos)
+            foreach (var item in AllScreen)
             {
-                foreach (var item in AllScreen)
+                var temp = SerialPortScanHelper.Instance.SerialPortList.FirstOrDefault(c => c.DevNo == item.DeviceInfo.DevNo && c.Connected);
+                if (temp == null)
                 {
-                    var temp = SerialPortScanHelper.Instance.SerialPortList.FirstOrDefault(c => c.DevNo == item.DeviceInfo.DevNo);
-                    if (temp!=null)
-                    {
-
-                        item.LinkUSB = Visibility.Collapsed;
-                        item.LinkBreak = Visibility.Visible;
-                    }
-
+                    item.LinkUSB = Visibility. Collapsed;
+                    item.LinkBreak = Visibility.Visible;
                 }
 
             }

@@ -29,12 +29,22 @@ namespace Setting.Helper
         private SerialPortScanHelper()
         {   // 设置WMI查询来监听串口设备的添加和移除事件
             mapDeviceWatchersToDeviceSelector = new Dictionary<DeviceWatcher, String>();
+            Messenger.Default.Register<RemoveScreenInfoEvent>(this, HandleRemoveScreenInfoEvent);
             SerialPortList = new List<ScanSerialPort>();
             InitializeDeviceWatchers();
             StartDeviceWatchers();
         }
 
-        
+        private void HandleRemoveScreenInfoEvent(RemoveScreenInfoEvent @event)
+        {
+            
+            var tempCominfo = SerialPortList.FirstOrDefault(c => c.DevNo == @event.CurrentDevInfo.DeviceInfo.DevNo);
+            if (tempCominfo != null)
+            {
+                 SerialPortList.Remove(tempCominfo);
+            }
+        }
+
         private void StartDeviceWatchers()
         {
             foreach (DeviceWatcher deviceWatcher in mapDeviceWatchersToDeviceSelector.Keys)
@@ -66,10 +76,10 @@ namespace Setting.Helper
             var tempCominfo = SerialPortList.FirstOrDefault(c => c.Id == args.Id);
             if (tempCominfo != null)
             {
-               var mac = SerialPortList.FirstOrDefault(c => c.Id == args.Id)?.DevNo;
-                Messenger.Default.Send(new LostScreenEvent() { DeviceInfos = new List<DeviceInfo>() { new DeviceInfo() { DevNo = mac } } });
+
                 tempCominfo.DeviceRemoved();
-                SerialPortList.Remove(tempCominfo);
+              //  SerialPortList.Remove(tempCominfo);
+                Messenger.Default.Send(new LostScreenEvent() { DeviceInfos = new List<DeviceInfo>() { new DeviceInfo() { DevNo = tempCominfo.DevNo } } });
             }
         }
 

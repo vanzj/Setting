@@ -1,33 +1,28 @@
 ﻿using GalaSoft.MvvmLight.Messaging;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Timers;
 using System.Windows.Threading;
 
 namespace Setting.Helper
 {
    public class LiveShowHelper
     {
-        private DispatcherTimer timer;
+        private Timer timer;
         public void Start(int FramRate)
         {
             if (timer==null)
             {
-                timer = new DispatcherTimer();
-                timer.Interval = TimeSpan.FromMilliseconds(1000 / FramRate); // 设置计时器的时间间隔为1秒
-                timer.Tick += Timer_Tick; ; // 订阅Tick事件
+                timer = new Timer((1000 / FramRate));
+                timer.Elapsed += Timer_Elapsed; ; // 订阅Tick事件
             }
             timer.Start(); // 启动计时器
         }
 
-        private void Timer_Tick(object sender, EventArgs e)
+        private void Timer_Elapsed(object sender, ElapsedEventArgs e)
         {
-           
-                Messenger.Default.Send(new NextFrameEvent {  });
-              
+            Messenger.Default.Send(new NextFrameEvent { });
         }
+
 
         public void End()
         {
