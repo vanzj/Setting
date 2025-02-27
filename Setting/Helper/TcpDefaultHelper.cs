@@ -165,7 +165,7 @@ namespace Setting.Helper
             catch (Exception ex)
             {
 
-                ;
+             
             } 
            
         }
@@ -181,7 +181,7 @@ namespace Setting.Helper
         public void Heart()
         {
             //心跳包
-            if (client.Connected)
+            if (client!=null && client.Connected)
             {
                 if (!string.IsNullOrEmpty(_mac))
                 {

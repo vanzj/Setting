@@ -381,10 +381,11 @@ namespace Setting.ViewModel
                 if (newJsonFileInfo == null)
                 {
                     var ThemeName = "新建模板" +"-"+ ThemeCountHelper.GetNextCount();
+                    var guid = Guid.NewGuid().ToString("N");
                     newJsonFileInfo = new JsonFileInfo()
                     {
                         Name = ThemeName,
-                        FileName = Guid.NewGuid().ToString("N")
+                        FileName = guid.Substring(guid.Length - 6)
                     };
                 }
 
@@ -451,10 +452,10 @@ namespace Setting.ViewModel
         }
         private void BuildShow(int frameIndex)
         {
-
+            var guid = Guid.NewGuid().ToString("N");
             if (string.IsNullOrEmpty(JsonFileInfo.NewFileName))
             {
-                JsonFileInfo.NewFileName = Guid.NewGuid().ToString("N");
+                JsonFileInfo.NewFileName = guid.Substring(guid.Length - 6);
 
             }
 
@@ -494,10 +495,10 @@ namespace Setting.ViewModel
 
         private void BuildShowAdd(int frameIndex, addenum addenum)
         {
-
+            var guid = Guid.NewGuid().ToString("N");
             if (string.IsNullOrEmpty(JsonFileInfo.NewFileName))
             {
-                JsonFileInfo.NewFileName = Guid.NewGuid().ToString("N");
+                JsonFileInfo.NewFileName = guid.Substring(guid.Length - 6);
 
             }
 

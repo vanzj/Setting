@@ -301,10 +301,11 @@ namespace Setting.ViewModel
 
         private void HandleCopyThemeEvent(CopyThemeEvent obj)
         {
+            var guid = Guid.NewGuid().ToString("N");
             var temp = new ThemeItem(new JsonFileInfo()
             {
                 Name = obj.JsonFileInfo.Name + "副本",
-                FileName = Guid.NewGuid().ToString("N")
+                FileName = guid.Substring(guid.Length - 6)
             }, true);
 
             AllThemeList.Add(temp);
@@ -394,9 +395,10 @@ namespace Setting.ViewModel
             {
                 return new RelayCommand(() =>
                 {
+                    var guid = Guid.NewGuid().ToString("N");
                     var JsonFileInfo = new JsonFileInfo()
                     {
-                        FileName = Guid.NewGuid().ToString("N"),
+                         FileName = guid.Substring(guid.Length - 6),
                         Name = "新建模板" + "-" + ThemeCountHelper.GetNextCount()
                     };
                     var temp = new ThemeItem(JsonFileInfo,true);
