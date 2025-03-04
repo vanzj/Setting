@@ -5,6 +5,7 @@ using Setting.Model;
 using Setting.Model.CMDModel;
 using System;
 using System.Collections.Generic;
+using System.IO.Ports;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -80,6 +81,7 @@ namespace Setting.Helper
                 tempCominfo.DeviceRemoved();
               //  SerialPortList.Remove(tempCominfo);
                 Messenger.Default.Send(new LostScreenEvent() { DeviceInfos = new List<DeviceInfo>() { new DeviceInfo() { DevNo = tempCominfo.DevNo } } });
+
             }
         }
 
@@ -98,7 +100,7 @@ namespace Setting.Helper
                 SerialPort.Connected = true;
                 Messenger.Default.Send(new ConnectScreenEvent() { DeviceInfos = new List<DeviceInfo>() { new DeviceInfo() { DevNo = SerialPort.DevNo } } });
             }
-
+           
         }
 
 

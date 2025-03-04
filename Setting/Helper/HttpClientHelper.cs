@@ -15,7 +15,7 @@ namespace Setting.Helper
         private HttpClientHelper()
         {
             client = new HttpClient();
-            client.BaseAddress = new System.Uri("https://testsmart.9jodia.net");
+            client.BaseAddress = new System.Uri("https://smart.9jodia.net");
         }
 
         public void setToken (string token)

@@ -354,7 +354,7 @@
     <Resource Include="img\UI\帧数控制背景.png" />
     <Resource Include="img\network.png" />
     <Resource Include="img\sendmsg.png" />
-    <Content Include="img\路由器_router-one.svg" />
+    <Resource Include="img\networkbule.png" />
     <Content Include="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

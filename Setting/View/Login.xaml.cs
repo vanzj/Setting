@@ -165,7 +165,7 @@ namespace Setting.View
             MsgImgUUId = Guid.NewGuid().ToString();
             BitmapImage bitImage = new BitmapImage();
             bitImage.BeginInit();
-            bitImage.UriSource = new Uri($"https://testsmart.9jodia.net/smart/api/dotpc/captcha?uuid={MsgImgUUId}", UriKind.Absolute);
+            bitImage.UriSource = new Uri($"https://smart.9jodia.net/smart/api/dotpc/captcha?uuid={MsgImgUUId}", UriKind.Absolute);
             bitImage.EndInit();
             return bitImage;
 

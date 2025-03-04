@@ -71,7 +71,23 @@ namespace Setting.ViewModel
         public string MsgText
         {
             get { return msgText; }
-            set { msgText = value; RaisePropertyChanged(); }
+            set { 
+                msgText = value;
+                RaisePropertyChanged();
+                MsgTextLength = msgText.Length;
+            }
+        }
+
+
+        private int msgTextLength;
+        /// <summary>
+        /// 文件名
+        /// </summary>
+        public  int MsgTextLength
+
+        {
+            get { return msgTextLength; }
+            set { msgTextLength = value; RaisePropertyChanged(); }
         }
         private Visibility msgTextVisibility;
         /// <summary>
@@ -673,7 +689,11 @@ namespace Setting.ViewModel
             OnFrameAllPonitList.ForEach(c => c.X = c.X + xMove);
             var minx = OnFrameAllPonitList.Min(c => c.X);
             var maxX = OnFrameAllPonitList.Max(c => c.X);
-            if (minx > 0)
+
+
+
+
+             if (minx > 0)
             {
                 //左边 加
                 for (int x = 0; x < minx; x++)
@@ -691,12 +711,33 @@ namespace Setting.ViewModel
             {//you边加
                 for (int x = maxX + 1; x < xIndex; x++)
                 {
-                    for (int y = miny; y < ylenght; y++) 
+                    for (int y = miny; y < ylenght; y++)
                     {
                         OnFrameAllPonitList.Add(new PointItem(x, y));
                     }
                 }
             }
+             minx = OnFrameAllPonitList.Min(c => c.X);
+             maxX = OnFrameAllPonitList.Max(c => c.X);
+
+            // 补缺
+            for (int x = minx; x < maxX + 1; x++)
+            {
+                for(int y = miny;y < maxy + 1; y++)
+                {
+                    if (!OnFrameAllPonitList.Any(c=>c.X==x && c.Y == y))
+                    {
+                        OnFrameAllPonitList.Add(new PointItem(x, y));
+                    }
+                }
+            }
+
+
+
+
+
+            
+            
             OnFrameAllPonitList.Sort();
           
         }
@@ -732,6 +773,21 @@ namespace Setting.ViewModel
                     }
                 }
             }
+             miny = OnFrameAllPonitList.Min(c => c.Y);
+             maxy = OnFrameAllPonitList.Max(c => c.Y);
+            // 补缺
+            for (int x = minx; x < maxX + 1; x++)
+            {
+                for (int y = miny; y < maxy + 1; y++)
+                {
+                    if (!OnFrameAllPonitList.Any(c => c.X == x && c.Y == y))
+                    {
+                        OnFrameAllPonitList.Add(new PointItem(x, y));
+                    }
+                }
+            }
+
+
             OnFrameAllPonitList.Sort();
 
            
@@ -1142,7 +1198,7 @@ namespace Setting.ViewModel
                 return new RelayCommand(() =>
                 {
                     SerialPortSendMsgHelper.Instance.SendNetWork();
-
+                    Messenger.Default.Send(new SendNetworkStartEvent());
                 }
                 );
             }

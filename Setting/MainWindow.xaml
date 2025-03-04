@@ -366,6 +366,23 @@
                 <DiscreteObjectKeyFrame KeyTime="0:0:3" Value="{x:Static Visibility.Collapsed}"/>
             </ObjectAnimationUsingKeyFrames>
         </Storyboard>
+
+        <Storyboard x:Key="SendNetworkStory" >
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="button2mask">
+                <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
+                <DiscreteObjectKeyFrame KeyTime="0:0:3" Value="{x:Static Visibility.Collapsed}"/>
+            </ObjectAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames x:Name="doubleAnimationUsingKeyFrames" Storyboard.TargetName="button2mask" Storyboard.TargetProperty="(UIElement.Opacity)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="00:00:00.5000000" Value="1"/>
+                <EasingDoubleKeyFrame KeyTime="00:00:01" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="00:00:01.5000000" Value="1"/>
+                <EasingDoubleKeyFrame KeyTime="00:00:02" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="00:00:02.5000000" Value="1"/>
+                <EasingDoubleKeyFrame KeyTime="00:00:03" Value="0"/>
+
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
         <Style x:Key="RepeatButtonTransparent1" TargetType="{x:Type RepeatButton}">
             <Setter Property="OverridesDefaultStyle" Value="true"/>
             <Setter Property="Background" Value="Transparent"/>
@@ -395,9 +412,9 @@
                 <Grid.Background>
                     <ImageBrush ImageSource="/img/UI/帧数控制图标.png"/>
                 </Grid.Background>
-                
+
             </Grid>
-        
+
         </ControlTemplate>
         <ControlTemplate x:Key="SliderThumbHorizontalTop1" TargetType="{x:Type Thumb}">
             <Grid HorizontalAlignment="Center" UseLayoutRounding="True" VerticalAlignment="Center">
@@ -1012,12 +1029,12 @@
                                 Maximum="{Binding FramesCount,Converter={StaticResource decrementValueConverter}}" VerticalAlignment="Top" 
                                 Margin="65,3,0,0" HorizontalAlignment="Left" Height="21">
                             <Slider.IsEnabled>
- 
-                                    <MultiBinding Converter="{StaticResource MultiValueConverter}" >
-                                        <Binding Path="StartLive"/>
-                                        <Binding Path="Outgif"/>
-                                    </MultiBinding>
- 
+
+                                <MultiBinding Converter="{StaticResource MultiValueConverter}" >
+                                    <Binding Path="StartLive"/>
+                                    <Binding Path="Outgif"/>
+                                </MultiBinding>
+
                             </Slider.IsEnabled>
                         </Slider>
                         <Label Foreground="White" Width="40"  Height="30"  FontSize="14" Content="{Binding FramesCount}"   Background="#01000000" HorizontalAlignment="Left"
@@ -1245,7 +1262,7 @@
                         </Button.Background>
                         <Image Source="img/UI/开关按钮.png" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="32,0,0,0" Width="18"></Image>
                     </Button>
-                    <Button Width="24" Height="24"   Command="{Binding SendNetWorkCommand}"    IsEnabled="{Binding SeedEnabled}"   Style="{DynamicResource ButtonStyle1}"  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="625,160 ,0,0"    RenderTransformOrigin="0.5,0.5">
+                    <Button x:Name="button2" Width="24" Height="24"   Command="{Binding SendNetWorkCommand}"    IsEnabled="{Binding SeedEnabled}"   Style="{DynamicResource ButtonStyle1}"  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="625,160 ,0,0"    RenderTransformOrigin="0.5,0.5">
 
                         <Button.RenderTransform>
                             <TransformGroup>
@@ -1256,10 +1273,14 @@
                             </TransformGroup>
                         </Button.RenderTransform>
                         <Button.Background>
-                            <ImageBrush ImageSource="img/network.png"/>
+                            <ImageBrush x:Name="networkimage" ImageSource="/img/network.png"/>
                         </Button.Background>
                     </Button>
-
+                    <Grid x:Name="button2mask" Width="24" Height="24"   HorizontalAlignment="Left" VerticalAlignment="Top" Margin="625,160 ,0,0" Opacity="0" Visibility="Collapsed" >
+                        <Grid.Background>
+                            <ImageBrush ImageSource="/img/networkbule.png"/>
+                        </Grid.Background>
+                    </Grid>
                     <TextBlock FontSize="14" HorizontalAlignment="Left" Foreground="White" VerticalAlignment="Top" Margin="478,104,0,0" >当前颜色</TextBlock>
 
                     <TextBlock FontSize="16" HorizontalAlignment="Left" Foreground="White" VerticalAlignment="Top" Margin="479,163,0,0" >#</TextBlock>
@@ -1365,13 +1386,35 @@
             <Button x:Name="debugClear" Visibility="Collapsed"   Margin="540,0,0,0" HorizontalAlignment="Left" Height="40" Command="{Binding CleanDebugInfoCommand}" VerticalAlignment="Bottom"  Grid.Column="1" >清除</Button>
             <!--<Button HorizontalAlignment="Left" Height="40" Margin="580,0,0,0" Click="Button_Click_send" VerticalAlignment="Bottom" Grid.Column="1">发送</Button>-->
             <myview:ErrorInfo HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="175" Margin="0,0,0,511" ></myview:ErrorInfo>
-            <Grid Background="#aa333333" Visibility="{Binding MsgTextVisibility}"  MouseDown="Grid_MouseDown_2">
+            <Grid Background="#aa333333" Visibility="{Binding MsgTextVisibility}" MouseDown="Grid_MouseDown_2">
                 <StackPanel Orientation="Vertical"  HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <TextBox  Width="265" Height="220"  BorderThickness="0"  Foreground="White" Text="{Binding MsgText}" TextWrapping="Wrap" Padding="10" FontSize="20" MaxLength="50">
+                    <TextBox x:Name="msgtextBox" Width="265" Height="150" BorderThickness="0" Foreground="White" 
+                 Text="{Binding MsgText}" 
+                 TextWrapping="Wrap" Padding="10" FontSize="20" MaxLength="35">
                         <TextBox.Background>
                             <ImageBrush ImageSource="/Setting;component/img/Login/loading背景.png"/>
                         </TextBox.Background>
                     </TextBox>
+                    <Label x:Name="label" FontSize="12" HorizontalAlignment="Right" >
+                        <Label.Style>
+                            <Style TargetType="Label">
+                                <Setter Property="Foreground" Value="White"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Path=Text.Length, ElementName=msgtextBox}" Value="35">
+                                        <Setter Property="Foreground" Value="Red"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Label.Style>
+                        <!-- Corrected MultiBinding usage -->
+                        <Label.Content>
+                            <TextBlock>
+                                <TextBlock.Text>
+                                    <Binding Path="Text.Length" ElementName="msgtextBox" StringFormat="{}{0}/35"/>
+                                </TextBlock.Text>
+                            </TextBlock>
+                        </Label.Content>
+                    </Label>
                     <Button Width="60" Height="30" Margin="20" Style="{StaticResource ButtonStyle1}" Command="{Binding SendTextCommand}"   RenderTransformOrigin="0.5,0.5">
                         <Button.Background>
                             <ImageBrush ImageSource="/img/Login/主题背景.png"/>
@@ -1387,7 +1430,7 @@
                         </Button.RenderTransform>
                     </Button>
                 </StackPanel>
- 
+
             </Grid>
         </Grid>
     </Viewbox>

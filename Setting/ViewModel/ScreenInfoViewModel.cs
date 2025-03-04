@@ -419,7 +419,7 @@ namespace Setting.ViewModel
         private void ChangeScreen(ScreenDeviceInfoViewModel device)
         {
 
-            bool isReConnect = false;
+         
             string JsonDir = Environment.CurrentDirectory + "\\Json\\Theme\\";
             if (device == null)
             {//未指定屏幕
@@ -437,10 +437,7 @@ namespace Setting.ViewModel
             }
             else
             {//指定屏幕
-                if (CurrentDevInfo.DeviceInfo.DevNo == device.DeviceInfo.DevNo)
-                {//相同屏幕退出
-                    isReConnect = true;
-                }
+           
                 CurrentDevInfo = device;
             }
             JdClient client = new JdClient(HttpClientHelper.Instance.GetHttpClient());

@@ -12,7 +12,7 @@ namespace Setting.Helper
         public double Ag = 0.33;
         public double Ab = 0.33;
         public double maxA = 1;
-        public double minA = 0.5;
+        public double minA = 0.3;
 
 
         public Dictionary<string,double> keyValuePairs = new Dictionary<string,double>();

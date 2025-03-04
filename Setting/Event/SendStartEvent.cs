@@ -15,4 +15,9 @@ namespace Setting.Event
     {
 
     }
+
+    public class SendNetworkStartEvent
+    {
+
+    }
 }

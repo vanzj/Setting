@@ -151,7 +151,7 @@ namespace Setting.Helper
                 {
                     return false;
                 }
-                Messenger.Default.Send(new ConnectCurrentScreenEvent());
+               
                 try
                 {
 
@@ -183,6 +183,7 @@ namespace Setting.Helper
                         });
                         t.Start();
                         SendGetInfoSendMessageT.Start();
+                        Messenger.Default.Send(new ConnectCurrentScreenEvent());
                     }
                     else
                     {
