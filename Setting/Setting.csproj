@@ -284,6 +284,14 @@
     <Compile Include="Event\LostScreenEvent.cs" />
     <Compile Include="Event\MsgEvent.cs" />
     <Compile Include="Event\MsgSendCloseEvent.cs" />
+    <Compile Include="Event\MsgSendEvent\SendCloseSendMessageEvent.cs" />
+    <Compile Include="Event\MsgSendEvent\SendDisenableRotateMessageEvent.cs" />
+    <Compile Include="Event\MsgSendEvent\SendEnableRotateMessageEvent.cs" />
+    <Compile Include="Event\MsgSendEvent\SendLuminanceSendMessageEvent.cs" />
+    <Compile Include="Event\MsgSendEvent\SendNetWorkEvent.cs" />
+    <Compile Include="Event\MsgSendEvent\SendOpenSendMessageEvent.cs" />
+    <Compile Include="Event\MsgSendEvent\SendThemeCirculateSendMessageEvent.cs" />
+    <Compile Include="Event\MsgSendEvent\SendThemeDynamicSendMessageEvent.cs" />
     <Compile Include="Event\RedoSaveEvent.cs" />
     <Compile Include="Event\RemoveScreenInfoEvent.cs" />
     <Compile Include="Event\ScreenClickedEvent.cs" />
@@ -365,9 +373,11 @@
     <Compile Include="Helper\BitmapHelper.cs" />
     <Compile Include="Helper\CommandBuilder.cs" />
     <Compile Include="Helper\InputGIF.cs" />
+    <Compile Include="Helper\SerialPortSendMsg.cs" />
+    <Compile Include="Helper\TcpDefault.cs" />
+    <Compile Include="Helper\TcpDefaultHelper.cs" />
     <Compile Include="Helper\ThemeCountHelper.cs" />
     <Compile Include="Helper\RGBToBrightNessHelper.cs" />
-    <Compile Include="Helper\TcpDefaultHelper.cs" />
     <Compile Include="Helper\LoginInfoHelper.cs" />
     <Compile Include="Helper\CommandBehavior.cs" />
     <Compile Include="Helper\Const.cs" />
@@ -515,6 +525,7 @@
     <None Include="Design\projectGuides.guides" />
     <None Include="Dll\Windows.winmd" />
     <Resource Include="font\ROGFontsv1.6.ttf" />
+    <Compile Include="Event\MsgSendEvent\SendThemeSegmentSendMessageEvent.cs" />
     <None Include="Json\Base\1 - 复制%2810%29.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -602,6 +613,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Event\MsgReviceEvent\" />
     <Folder Include="Json\Theme\" />
   </ItemGroup>
   <ItemGroup>

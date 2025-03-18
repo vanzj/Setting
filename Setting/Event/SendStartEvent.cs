@@ -8,16 +8,32 @@ namespace Setting.Event
 {
     public class SendStartEvent
     {
+        public SendStartEvent(string devNo)
+        {
+            DevNo = devNo;
+        }
 
+        public string DevNo { get; set; }   
+        
     }
 
     public class SendEndEvent
     {
+        public string DevNo { get; set; }
 
+        public SendEndEvent(string devNo)
+        {
+            DevNo = devNo;
+        }
     }
-
-    public class SendNetworkStartEvent
+    public class SendStartStoryEvent
     {
 
     }
+
+    public class SendEndStoryEvent
+    {
+
+    }
+
 }

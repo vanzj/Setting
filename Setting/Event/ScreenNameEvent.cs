@@ -10,8 +10,10 @@ namespace Setting.Event
     /// <summary>
     /// 通知修改屏幕名称
     /// </summary>
-   public class ScreenNameEvent
+   public class ScreenNameAndDevNoEvent
     {
       public  string Name { get; set; }
+    
+      public string DevNo { get; set; }
     }
 }

@@ -2,6 +2,7 @@
 using GalaSoft.MvvmLight.Messaging;
 using HidSharp;
 using Setting.Event;
+using Setting.Event.MsgSendEvent;
 using Setting.Helper;
 using Setting.Model;
 using System;
@@ -38,9 +39,9 @@ namespace Setting
             InitializeComponent();
             this.Cursor = CursorHelper.MOVE();
             Messenger.Default.Register<CursorModelChangeEvent>(this, HandleCursorModelChangeEvent);
-            Messenger.Default.Register<SendStartEvent>(this, HandleSendStartEvent);
-            Messenger.Default.Register<SendEndEvent>(this, HandleSendEndEvent);
-            Messenger.Default.Register<SendNetworkStartEvent>(this, HandleSendNetworkStartEvent);
+            Messenger.Default.Register<SendStartStoryEvent>(this, HandleSendStartStoryEvent);
+            Messenger.Default.Register<SendEndStoryEvent>(this, HandleSendEndStoryEvent);
+            Messenger.Default.Register<SendNetWorkEvent>(this, HandleSendNetWorkEvent);
             RGBToBrightNessHelper.Instance.Init();
        
             this.Login.Visibility = Visibility.Visible;
@@ -48,7 +49,7 @@ namespace Setting
             isDebug   = !(isdebugConfig == "0");
         }
 
-        private void HandleSendNetworkStartEvent(SendNetworkStartEvent @event)
+        private void HandleSendNetWorkEvent(SendNetWorkEvent @event)
         {
             this.Dispatcher.Invoke(() =>
             {
@@ -58,7 +59,7 @@ namespace Setting
             });
         }
 
-        private void HandleSendEndEvent(SendEndEvent obj)
+        private void HandleSendEndStoryEvent(SendEndStoryEvent obj)
         {
             this.Dispatcher.Invoke(() =>
             {
@@ -68,7 +69,7 @@ namespace Setting
          
         }
 
-        private void HandleSendStartEvent(SendStartEvent obj)
+        private void HandleSendStartStoryEvent(SendStartStoryEvent obj)
         {
             this.Dispatcher.Invoke(() =>
             {
@@ -99,8 +100,8 @@ namespace Setting
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-         SerialPortScanHelper.Instance.ClosePort();
-            SerialPortSendMsgHelper.Instance.ClosePort();
+             SerialPortScanHelper.Instance.ClosePort();
+            SerialPortSendMsgHelper.Instance.CloseAllPort();
         }
 
 

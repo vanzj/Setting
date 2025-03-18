@@ -149,7 +149,7 @@ namespace Setting.Helper
             }
             catch (Exception ex)
             {
-                Messenger.Default.Send(new SendEndEvent());
+               // Messenger.Default.Send(new SendEndEvent());
                 Messenger.Default.Send(new DebugInfoEvent($"扫描：串口扫描==> 打开{Id}失败，失败原因：{ex.Message}"));
                 return false;
             }
