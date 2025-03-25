@@ -241,7 +241,7 @@
                                 </TransformGroup>
                             </Button.RenderTransform>
                             <Button.Background>
-                                <ImageBrush ImageSource="/Setting;component/img/预览-打开_preview-open.png"/>
+                                <ImageBrush ImageSource="/ZZJMOD;component/img/预览-打开_preview-open.png"/>
                             </Button.Background>
                         </Button>
                         <Label x:Name="Repassworderror" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="red" Margin="191,201,0,0" FontSize="12" Content="" />
@@ -256,7 +256,7 @@
                                 </TransformGroup>
                             </Button.RenderTransform>
                             <Button.Background>
-                                <ImageBrush ImageSource="/Setting;component/img/Login/立即注册按钮.png"/>
+                                <ImageBrush ImageSource="/ZZJMOD;component/img/Login/立即注册按钮.png"/>
                             </Button.Background>
                         </Button>
                         <Button x:Name="RepasswordChart" Width="20" Height="20" Margin="492,171,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"  Style="{DynamicResource ButtonStyle1}" Click="RepasswordChart_Click" RenderTransformOrigin="0.5,0.5">
@@ -270,7 +270,7 @@
                                 </TransformGroup>
                             </Button.RenderTransform>
                             <Button.Background>
-                                <ImageBrush ImageSource="/Setting;component/img/预览-打开_preview-open.png"/>
+                                <ImageBrush ImageSource="/ZZJMOD;component/img/预览-打开_preview-open.png"/>
                             </Button.Background>
                         </Button>
                         <Label HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="White" Margin="48,289,0,0" FontSize="24" Content="短信验证码" />
@@ -328,7 +328,7 @@
                                 </TransformGroup>
                             </Button.RenderTransform>
                             <Button.Background>
-                                <ImageBrush ImageSource="/Setting;component/img/Login/发送验证码按钮.png"/>
+                                <ImageBrush ImageSource="/ZZJMOD;component/img/Login/发送验证码按钮.png"/>
                             </Button.Background>
                         </Button>
                         <Grid  x:Name="regTimeOutGrip" HorizontalAlignment="Left" VerticalAlignment="Top"  Margin="388,290,0,0"  Background="#FF540000" Width="98" Height="39"  Visibility="Collapsed">
@@ -364,7 +364,7 @@
                     <Label HorizontalAlignment="Center" VerticalAlignment="Top" Foreground="White" Content="验证码登录"  FontSize="48"/>
                     <Grid HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="531" Height="439" >
                         <Grid.Background>
-                            <ImageBrush ImageSource="/Setting;component/img/Login/loading背景.png"/>
+                            <ImageBrush ImageSource="/ZZJMOD;component/img/Login/loading背景.png"/>
                         </Grid.Background>
 
                         <Border Height="50" Width="400" VerticalAlignment="Top" Background="#FF422D31" HorizontalAlignment="Center" Margin="0,27,0,0"  BorderThickness="1" BorderBrush="#FFFF001F" CornerRadius="5">
@@ -456,7 +456,7 @@
                                 </TransformGroup>
                             </Button.RenderTransform>
                             <Button.Background>
-                                <ImageBrush ImageSource="/Setting;component/img/Login/发送验证码按钮.png"/>
+                                <ImageBrush ImageSource="/ZZJMOD;component/img/Login/发送验证码按钮.png"/>
                             </Button.Background>
                         </Button>
                         <Grid  x:Name="regTimeOutmsgCodGrip" HorizontalAlignment="Left" VerticalAlignment="Top"   Margin="394,242,0,0"  Background="#FF540000" Width="98" Height="39" Visibility="Collapsed"  >
@@ -485,7 +485,7 @@
                                 </TransformGroup>
                             </Button.RenderTransform>
                             <Button.Background>
-                                <ImageBrush ImageSource="/Setting;component/img/Login/登录按钮.png"/>
+                                <ImageBrush ImageSource="/ZZJMOD;component/img/Login/登录按钮.png"/>
                             </Button.Background>
                         </Button>
                         <Label HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="White" Margin="37,241,0,0" FontSize="24" Content="手机验证码" />
@@ -498,7 +498,7 @@
                     <Label HorizontalAlignment="Center" VerticalAlignment="Top" Foreground="White" Content="账号密码登录"  FontSize="48"/>
                     <Grid   HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="531" Height="439"   >
                         <Grid.Background>
-                            <ImageBrush ImageSource="/Setting;component/img/Login/loading背景.png"/>
+                            <ImageBrush ImageSource="/ZZJMOD;component/img/Login/loading背景.png"/>
                         </Grid.Background>
 
                         <Border Height="50" Width="400" VerticalAlignment="Top" Background="#FF422D31" HorizontalAlignment="Center" Margin="0,27,0,0"  BorderThickness="1" BorderBrush="#FFFF001F" CornerRadius="5">
@@ -584,7 +584,7 @@
                                 </TransformGroup>
                             </Button.RenderTransform>
                             <Button.Background>
-                                <ImageBrush ImageSource="/Setting;component/img/预览-打开_preview-open.png"/>
+                                <ImageBrush ImageSource="/ZZJMOD;component/img/预览-打开_preview-open.png"/>
                             </Button.Background>
                         </Button>
 
@@ -599,7 +599,7 @@
                                 </TransformGroup>
                             </Button.RenderTransform>
                             <Button.Background>
-                                <ImageBrush ImageSource="/Setting;component/img/Login/登录按钮.png"/>
+                                <ImageBrush ImageSource="/ZZJMOD;component/img/Login/登录按钮.png"/>
                             </Button.Background>
                         </Button>
 
@@ -616,7 +616,7 @@
                     <Label HorizontalAlignment="Center" VerticalAlignment="Top" Foreground="White" Content="初始化加载"  FontSize="48"/>
                     <StackPanel x:Name="LoadingInfo" Orientation="Vertical"  HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="531" Height="439">
                         <StackPanel.Background>
-                            <ImageBrush ImageSource="/Setting;component/img/Login/loading背景.png"/>
+                            <ImageBrush ImageSource="/ZZJMOD;component/img/Login/loading背景.png"/>
                         </StackPanel.Background>
 
                     </StackPanel>

@@ -101,9 +101,13 @@ namespace Setting.Helper
         public bool ClosePort(string COMID)
         {
             var serialPortSendMsg = serialPortSendMsgs.FirstOrDefault(c => c.CurrentComId == COMID);
-            serialPortSendMsg?.ClosePort(COMID);
-            TcpDefaultHelper.Instance.DisConnect(serialPortSendMsg.CurrentDevNo);
-            serialPortSendMsgs.Remove(serialPortSendMsg);
+            if( serialPortSendMsg != null)
+            {
+                serialPortSendMsg?.ClosePort(COMID);
+                TcpDefaultHelper.Instance.DisConnect(serialPortSendMsg.CurrentDevNo);
+                serialPortSendMsgs.Remove(serialPortSendMsg);
+            }
+        
       
             return true;
         }

@@ -36,7 +36,7 @@
                         
                         <Grid Width="20" Height="13" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,2,5,2" >
                             <Grid.Background>
-                                <ImageBrush ImageSource="/Setting;component/img/UI/窗口-x.png"/>
+                                <ImageBrush ImageSource="/ZZJMOD;component/img/UI/窗口-x.png"/>
                             </Grid.Background>
                         </Grid>
                         <Label HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18"  Foreground="White" Content="{Binding Msg}"/>

@@ -1392,7 +1392,7 @@
                  Text="{Binding MsgText}" 
                  TextWrapping="Wrap" Padding="10" FontSize="20" MaxLength="35">
                         <TextBox.Background>
-                            <ImageBrush ImageSource="/Setting;component/img/Login/loading背景.png"/>
+                            <ImageBrush ImageSource="/ZZJMOD;component/img/Login/loading背景.png"/>
                         </TextBox.Background>
                     </TextBox>
                     <Label x:Name="label" FontSize="12" HorizontalAlignment="Right" >
