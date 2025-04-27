@@ -577,12 +577,12 @@ namespace Setting.View
             if (this.passwordTextBox.Visibility == Visibility.Visible)
             {
                 this.passwordTextBox.Visibility = Visibility.Collapsed;
-                brush.ImageSource = new BitmapImage(new Uri("pack://application:,,,/ZZJMOD;component/img/预览-打开_preview-open.png"));
+                brush.ImageSource = new BitmapImage(new Uri("pack://application:,,,/ZZJDMD;component/img/预览-打开_preview-open.png"));
             }
             else
             {
                 this.passwordTextBox.Visibility = Visibility.Visible;
-                brush.ImageSource = new BitmapImage(new Uri("pack://application:,,,/ZZJMOD;component/img/预览-关闭_preview-close.png"));
+                brush.ImageSource = new BitmapImage(new Uri("pack://application:,,,/ZZJDMD;component/img/预览-关闭_preview-close.png"));
             }
             this.passwordChart.Background = brush;
         }
@@ -594,12 +594,12 @@ namespace Setting.View
             if (this.RepasswordTextBox.Visibility == Visibility.Visible)
             {
                 this.RepasswordTextBox.Visibility = Visibility.Collapsed;
-                brush.ImageSource = new BitmapImage(new Uri("pack://application:,,,/ZZJMOD;component/img/预览-打开_preview-open.png"));
+                brush.ImageSource = new BitmapImage(new Uri("pack://application:,,,/ZZJDMD;component/img/预览-打开_preview-open.png"));
             }
             else
             {
                 this.RepasswordTextBox.Visibility = Visibility.Visible;
-                brush.ImageSource = new BitmapImage(new Uri("pack://application:,,,/ZZJMOD;component/img/预览-关闭_preview-close.png"));
+                brush.ImageSource = new BitmapImage(new Uri("pack://application:,,,/ZZJDMD;component/img/预览-关闭_preview-close.png"));
             }
             this.RepasswordChart.Background = brush;
         }
@@ -694,12 +694,12 @@ namespace Setting.View
             if (this.pwspasswordTextBox.Visibility == Visibility.Visible)
             {
                 this.pwspasswordTextBox.Visibility = Visibility.Collapsed;
-                brush.ImageSource = new BitmapImage(new Uri("pack://application:,,,/ZZJMOD;component/img/预览-打开_preview-open.png"));
+                brush.ImageSource = new BitmapImage(new Uri("pack://application:,,,/ZZJDMD;component/img/预览-打开_preview-open.png"));
             }
             else
             {
                 this.pwspasswordTextBox.Visibility = Visibility.Visible;
-                brush.ImageSource = new BitmapImage(new Uri("pack://application:,,,/ZZJMOD;component/img/预览-关闭_preview-close.png"));
+                brush.ImageSource = new BitmapImage(new Uri("pack://application:,,,/ZZJDMD;component/img/预览-关闭_preview-close.png"));
             }
             this.pwspasswordChart.Background = brush;
         }

@@ -86,7 +86,7 @@
                     <Button Style="{DynamicResource ButtonStyle1}" Width="111"  Height="50"  Command="{Binding ChangeThemeCommand}" CommandParameter="{Binding}" BorderThickness="{Binding Thickness}"   BorderBrush="White"
                             Content="{Binding JsonFileInfo.Name }" Visibility="{Binding Read}">
                         <Button.Background>
-                            <ImageBrush ImageSource="/ZZJMOD;component/img/UI/背景-主题.png"/>
+                            <ImageBrush ImageSource="/ZZJDMD;component/img/UI/背景-主题.png"/>
                         </Button.Background>
                     </Button>
                     <Grid  Width="111" Height="50"  Visibility="{Binding ReName}" Background="White">
@@ -98,7 +98,7 @@
 
                         <StackPanel Orientation="Vertical"  Width="100" Height="100" >
                             <StackPanel.Background>
-                                <ImageBrush ImageSource="/ZZJMOD;component/img/UI/主题修改弹窗.png"/>
+                                <ImageBrush ImageSource="/ZZJDMD;component/img/UI/主题修改弹窗.png"/>
                             </StackPanel.Background>
                             <Button Width="40"  Height="22" Command="{Binding CopyCommand}" CommandParameter="{Binding}"  IsEnabled="{Binding Copy}"  Style="{DynamicResource ButtonStyle1}">拷贝</Button>
                             <Button Width="40" Height="22" Command="{Binding ReMoveCommand}"  CommandParameter="{Binding}" IsEnabled="{Binding Delete}"  Style="{DynamicResource ButtonStyle1}">删除</Button>

@@ -9,7 +9,7 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
-using ZZJMOD.Properties;
+using ZZJDMD.Properties;
 
 namespace Setting
 {

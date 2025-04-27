@@ -98,7 +98,7 @@ namespace Setting.Helper
             return bytes;
         }
 
-
+     
        
 
         public bool InitCOM(string DevNo)
@@ -152,8 +152,8 @@ namespace Setting.Helper
                             {
                                 
                                     SendGetInfoSendMessage();
-                                    Thread.Sleep(5000);
-                               
+                                Thread.Sleep(5000);
+
                             } while (true);
                          
                         });

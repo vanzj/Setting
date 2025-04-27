@@ -1411,6 +1411,22 @@ namespace Setting.ViewModel
         private void HandleScreenNameAndDevNoEvent(ScreenNameAndDevNoEvent obj)
         {
             DevNo = obj.DevNo;
+           var temp = SerialPortScanHelper.Instance.SerialPortList.Where(c=>c.DevNo==obj.DevNo).FirstOrDefault();
+            if (temp is null)
+            {
+                SeedEnabled = false;
+            }
+            else
+            {
+                if (!temp.Connected)
+                {
+                    SeedEnabled = false;
+                }
+                else
+                {
+                    SeedEnabled = true;
+                }
+            } 
             ScreenName = obj.Name;
         }
 

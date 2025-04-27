@@ -96,7 +96,7 @@
     </UserControl.Resources>
     <Grid>
         <Grid.Background>
-            <ImageBrush ImageSource="/ZZJMOD;component/img/Login/验证码倒计时背景.png"/>
+            <ImageBrush ImageSource="/ZZJDMD;component/img/Login/验证码倒计时背景.png"/>
         </Grid.Background>
         <TextBlock x:Name="Msg"  Width="200" TextWrapping="Wrap" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" TextAlignment="Center">
             11111111111111111111
