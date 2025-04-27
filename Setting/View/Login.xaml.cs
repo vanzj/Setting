@@ -787,5 +787,64 @@ namespace Setting.View
 
             return true;
         }
+
+        private void Guest_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+
+                LoginInfoHelper.Save(new LoginModel() { Password = "", UserName = "", isAutoLogin = false });
+                this.Visibility = Visibility.Hidden;
+                this.PWDGrid.Visibility = Visibility.Collapsed;
+                this.MsgCodeGrid.Visibility = Visibility.Collapsed;
+                this.Loading.Visibility = Visibility.Visible;
+                this.RegGird.Visibility = Visibility.Collapsed;
+                Task.Run(() =>
+                {
+                    //this.Dispatcher.Invoke(() =>
+                    //{
+                    //    this.LoadingInfo.Children.Add(new LoadingInfoItem("1、屏幕信息获取"));
+
+                    //});
+
+
+                    ////获取设备列表，
+                    //JdClient client = new JdClient(HttpClientHelper.Instance.GetHttpClient());
+                    //var devList = client.MacListUsingGETAsync().GetAwaiter().GetResult();
+                    //if (devList.Code == 0)
+                    //{
+                    //    Messenger.Default.Send(new FindScreenEvent { DeviceInfos = devList.Data.ToList() });
+                    //}
+
+                    Messenger.Default.Send(new FindScreenEvent { DeviceInfos = new List<DeviceInfo>() });
+
+                    var temp = SerialPortScanHelper.Instance;
+
+                    //this.Dispatcher.Invoke(() =>
+                    //{
+                    //    this.LoadingInfo.Children.Add(new LoadingInfoItem("2、屏幕资源获取"));
+
+                    //});
+
+                    LoadScreenTheme = true;
+                    Messenger.Default.Send(new CanChangeScreenEvent { });
+
+                    while (LoadScreenTheme)
+                    {
+                        Thread.Sleep(100);
+                    }
+
+                    //this.Dispatcher.Invoke(() =>
+                    //{
+                    //    this.LoadingInfo.Children.Add(new LoadingInfoItem("3、电脑硬件信息读取"));
+
+                    //});
+
+
+                    this.Dispatcher.Invoke(() =>
+                    {
+                        this.Visibility = Visibility.Collapsed;
+                    });
+                });
+            
+        }
     }
 }

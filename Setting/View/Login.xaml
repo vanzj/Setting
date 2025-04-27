@@ -607,9 +607,14 @@
 
                     </Grid>
                 </Grid>
-                <StackPanel HorizontalAlignment="Left" Orientation="Horizontal" VerticalAlignment="Top" Width="100" Margin="879,687,0,0" >
+                <StackPanel HorizontalAlignment="Left" Orientation="Horizontal" VerticalAlignment="Top" Width="180" Margin="850,687,0,0" >
                     <Label x:Name="Reg" Foreground="Wheat" FontSize="20" MouseDown="Reg_MouseDown">注册</Label>
+                    <Label Foreground="Wheat" FontSize="20" >·</Label>
+
                     <Label x:Name="Loginlabel" Foreground="Wheat" FontSize="20" MouseDown="Login_MouseDown">登录</Label>
+                    <Label Foreground="Wheat" FontSize="20" >·</Label>
+
+                    <Label x:Name="Guest" Foreground="Wheat" FontSize="20" MouseDown="Guest_MouseDown"  Content="游客"/>
                 </StackPanel>
 
                 <Grid Width="531" Height="511" Margin="670,164,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" x:Name="Loading" Opacity="0.8" Visibility="Collapsed"  >
