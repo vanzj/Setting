@@ -5,6 +5,7 @@ using Setting.Model;
 using Setting.Model.CMDModel;
 using System;
 using System.Collections.Generic;
+using System.IO.Ports;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -73,19 +74,31 @@ namespace Setting.Helper
         private void OnDeviceRemoved(DeviceWatcher sender, DeviceInformationUpdate args) 
         {
             Messenger.Default.Send(new  DebugInfoEvent($"扫描：OnDeviceRemoved{args.Id}"));
+            if (!args.Id.Contains("VID_303A&PID_1001"))
+            {
+                return;
+            }
             var tempCominfo = SerialPortList.FirstOrDefault(c => c.Id == args.Id);
             if (tempCominfo != null)
             {
 
                 tempCominfo.DeviceRemoved();
-              //  SerialPortList.Remove(tempCominfo);
+              
                 Messenger.Default.Send(new LostScreenEvent() { DeviceInfos = new List<DeviceInfo>() { new DeviceInfo() { DevNo = tempCominfo.DevNo } } });
+                if (string.IsNullOrEmpty(tempCominfo.DevNo))
+                {
+                    SerialPortList.Remove(tempCominfo);
+                }
             }
         }
 
         private void OnDeviceAdded(DeviceWatcher sender, DeviceInformation args)
         {
             Messenger.Default.Send(new  DebugInfoEvent($"扫描：OnDeviceA   dded{args.Id}"));
+            if (!args.Id.Contains("VID_303A&PID_1001"))
+            {
+                return;
+            }
             if (SerialPortList.All(c => c.Id != args.Id))
             {
                 SerialPortList.Add(new ScanSerialPort(args.Id));
@@ -98,7 +111,7 @@ namespace Setting.Helper
                 SerialPort.Connected = true;
                 Messenger.Default.Send(new ConnectScreenEvent() { DeviceInfos = new List<DeviceInfo>() { new DeviceInfo() { DevNo = SerialPort.DevNo } } });
             }
-
+           
         }
 
 

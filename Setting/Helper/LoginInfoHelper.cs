@@ -27,12 +27,13 @@ namespace Setting.Helper
         {
             if (File.Exists(Getfilename()))
             {
-                using (StreamReader file = File.OpenText(Getfilename()))
+                try
+                {
+                    using (StreamReader file = File.OpenText(Getfilename()))
                 {
                     var json = File.ReadAllText(Getfilename());
 
-                    try
-                    {
+                   
                         var temp  = JsonConvert.DeserializeObject<LoginModel>(json);
                         if (temp.isRSA)
                         {
@@ -41,11 +42,12 @@ namespace Setting.Helper
                         }
                         return temp ;
                     }
-                    catch (Exception ex)
-                    {
-                        File.WriteAllText(Getfilename(), JsonConvert.SerializeObject(new LoginModel()), System.Text.Encoding.UTF8);//将内容写进jon文件中
-                        return new LoginModel();
-                    }
+                    
+                }
+                catch (Exception ex)
+                {
+                    File.WriteAllText(Getfilename(), JsonConvert.SerializeObject(new LoginModel()), System.Text.Encoding.UTF8);//将内容写进jon文件中
+                    return new LoginModel();
                 }
             }
             File.WriteAllText(Getfilename(), JsonConvert.SerializeObject(new LoginModel()), System.Text.Encoding.UTF8);//将内容写进jon文件中

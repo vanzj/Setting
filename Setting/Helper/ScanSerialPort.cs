@@ -1,4 +1,5 @@
-﻿using GalaSoft.MvvmLight.Messaging;
+﻿using DotNetty.Common.Utilities;
+using GalaSoft.MvvmLight.Messaging;
 using Newtonsoft.Json;
 using Setting.Event;
 using Setting.Model;
@@ -21,6 +22,7 @@ namespace Setting.Helper
 {
     public class ScanSerialPort
     {
+
         /// <summary>
         ///  屏幕mac地址
         /// </summary>
@@ -41,15 +43,21 @@ namespace Setting.Helper
 
         private SerialDevice SerialDevice { get; set; }
         Thread t;
-  
+        Thread timeOut;
         public ScanSerialPort(string id)
         {
             this.Id = id;
             InitCOM();
 
         }
+        int failcount = 0;
 
         private string ReadMsg { get; set; }
+        private void timeOutThread()
+        {
+            Thread.Sleep(60*1000);
+            DeviceRemoved();
+        }
         private void TimerRead()
         {
             do
@@ -113,6 +121,7 @@ namespace Setting.Helper
             SerialDevice = null;
             Connected = false;
             t?.Abort();
+            timeOut?.Abort();
             SerialPortSendMsgHelper.Instance.ClosePort(Id);
         }
 
@@ -137,7 +146,9 @@ namespace Setting.Helper
                     }
                     Messenger.Default.Send(new DebugInfoEvent($"扫描：串口扫描==> 打开{Id}成功"));
                     t = new Thread(TimerRead);
+                    timeOut = new Thread(timeOutThread);
                     t.Start();
+                    timeOut.Start();
                     SendgetMacSendMessage();
                 }
                 catch (Exception ex)
@@ -149,7 +160,7 @@ namespace Setting.Helper
             }
             catch (Exception ex)
             {
-                Messenger.Default.Send(new SendEndEvent());
+               // Messenger.Default.Send(new SendEndEvent());
                 Messenger.Default.Send(new DebugInfoEvent($"扫描：串口扫描==> 打开{Id}失败，失败原因：{ex.Message}"));
                 return false;
             }
@@ -219,6 +230,7 @@ namespace Setting.Helper
                     SerialDevice = null;
                 }
                 t.Abort();
+                timeOut.Abort();
 
             }
             catch (Exception ex)

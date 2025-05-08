@@ -26,6 +26,9 @@ using NLog;
 using Setting.Event;
 using Setting.Model.CMDModel;
 using AnimatedGif;
+using System.Windows.Interop;
+using Setting.Event.MsgSendEvent;
+using System.Windows.Markup;
 
 namespace Setting.ViewModel
 {
@@ -71,7 +74,24 @@ namespace Setting.ViewModel
         public string MsgText
         {
             get { return msgText; }
-            set { msgText = value; RaisePropertyChanged(); }
+            set
+            {
+                msgText = value;
+                RaisePropertyChanged();
+                MsgTextLength = msgText.Length;
+            }
+        }
+
+
+        private int msgTextLength;
+        /// <summary>
+        /// 文件名
+        /// </summary>
+        public int MsgTextLength
+
+        {
+            get { return msgTextLength; }
+            set { msgTextLength = value; RaisePropertyChanged(); }
         }
         private Visibility msgTextVisibility;
         /// <summary>
@@ -188,7 +208,7 @@ namespace Setting.ViewModel
         public int xIndex = 85;
         public int yIndex = 5;
         public bool IsSend = false;
-       private AllPonitListExInfo allPonitListExInfo { get;set; } = new AllPonitListExInfo();
+        private AllPonitListExInfo allPonitListExInfo { get; set; } = new AllPonitListExInfo();
 
         private static Logger logger = LogManager.GetCurrentClassLogger();
 
@@ -209,7 +229,7 @@ namespace Setting.ViewModel
             {
                 return new RelayCommand(() =>
                 {
-                    Messenger.Default.Send(new SendStartEvent());
+                    Messenger.Default.Send(new SendStartEvent(this.DevNo));
 
                     if (jsonFileInfo == null)
                     {
@@ -237,19 +257,18 @@ namespace Setting.ViewModel
                         var templist = new List<string>();
                         templist.Add(JsonConvert.SerializeObject(themeSend));
                         templist.Add(JsonConvert.SerializeObject(themeSendStartSend));
-                        SerialPortSendMsgHelper.Instance.SendThemeDynamicSendMessage(templist);
-
+                        Messenger.Default.Send(new SendThemeDynamicSendMessageEvent() { data = templist });
                         HardHelper.Instance.Start();
                         IsSend = true;
                     }
                     else
                     {
 
-                        var msg = MessageHelper.BuildOnePackage(allPonitListExInfo.AllPonitList, xIndex, yIndex, fileName, Luminance,allPonitListExInfo.FrameRate);
+                        var msg = MessageHelper.BuildOnePackage(allPonitListExInfo.AllPonitList, xIndex, yIndex, fileName, Luminance, allPonitListExInfo.FrameRate);
 
                         //Task.Run(() =>
                         //{
-                        SerialPortSendMsgHelper.Instance.SendThemeCirculateSendMessage(msg);
+                        Messenger.Default.Send(new SendThemeCirculateSendMessageEvent() { data = msg });
                         //}
                         //);
 
@@ -268,8 +287,8 @@ namespace Setting.ViewModel
                 return new RelayCommand(() =>
                 {
                     MsgText = "";
-                        MsgTextVisibility = Visibility.Visible;
-                    
+                    MsgTextVisibility = Visibility.Visible;
+
                 });
             }
         }
@@ -282,16 +301,18 @@ namespace Setting.ViewModel
                     var text = MsgText;
 
                     JdClient jdClient = new JdClient(HttpClientHelper.Instance.GetHttpClient());
-                    var temp = jdClient.TransferGifUsingGETAsync(16,14,text,16).GetAwaiter().GetResult();
+                    var temp = jdClient.TransferGifUsingGETAsync(16, 14, text, 16).GetAwaiter().GetResult();
                     if (temp.Code == 0)
-                {       int brightness = 255;
+                    {
+                        int brightness = 255;
                         int defaultFramerate = 6;
-                        var url =  temp.Data.ToString();
+                        var url = temp.Data.ToString();
                         InputGIF inputGIF = new InputGIF();
                         var ImgInfo = inputGIF.OPENGIFURL(url, 85, 5, "gifword", brightness, defaultFramerate);
-                        Messenger.Default.Send(new SendStartEvent());
+                        Messenger.Default.Send(new SendStartEvent(this.DevNo));
                         var data = MessageHelper.BuildOnePackageGIFURL(ImgInfo, 85, 5, "gifword", defaultFramerate);
-                        SerialPortSendMsgHelper.Instance.SendThemeCirculateSendMessage(data);
+                        Messenger.Default.Send(new SendThemeCirculateSendMessageEvent() { data = data });
+
                         MsgText = "";
                         MsgTextVisibility = Visibility.Collapsed;
                     }
@@ -332,7 +353,7 @@ namespace Setting.ViewModel
 
                         var GIFName = JsonFileInfo.Name;
 
-                        var templist = MessageHelper.Buildgif(allPonitListExInfo.AllPonitList, xIndex, yIndex, fileName,allPonitListExInfo.FrameRate);
+                        var templist = MessageHelper.Buildgif(allPonitListExInfo.AllPonitList, xIndex, yIndex, fileName, allPonitListExInfo.FrameRate);
 
                         OutPutGIF outPutGIF = new OutPutGIF();
 
@@ -380,7 +401,7 @@ namespace Setting.ViewModel
 
                 if (newJsonFileInfo == null)
                 {
-                    var ThemeName = "新建模板" +"-"+ ThemeCountHelper.GetNextCount();
+                    var ThemeName = "新建模板" + "-" + ThemeCountHelper.GetNextCount();
                     var guid = Guid.NewGuid().ToString("N");
                     newJsonFileInfo = new JsonFileInfo()
                     {
@@ -673,6 +694,10 @@ namespace Setting.ViewModel
             OnFrameAllPonitList.ForEach(c => c.X = c.X + xMove);
             var minx = OnFrameAllPonitList.Min(c => c.X);
             var maxX = OnFrameAllPonitList.Max(c => c.X);
+
+
+
+
             if (minx > 0)
             {
                 //左边 加
@@ -691,14 +716,35 @@ namespace Setting.ViewModel
             {//you边加
                 for (int x = maxX + 1; x < xIndex; x++)
                 {
-                    for (int y = miny; y < ylenght; y++) 
+                    for (int y = miny; y < ylenght; y++)
                     {
                         OnFrameAllPonitList.Add(new PointItem(x, y));
                     }
                 }
             }
+            minx = OnFrameAllPonitList.Min(c => c.X);
+            maxX = OnFrameAllPonitList.Max(c => c.X);
+
+            // 补缺
+            for (int x = minx; x < maxX + 1; x++)
+            {
+                for (int y = miny; y < maxy + 1; y++)
+                {
+                    if (!OnFrameAllPonitList.Any(c => c.X == x && c.Y == y))
+                    {
+                        OnFrameAllPonitList.Add(new PointItem(x, y));
+                    }
+                }
+            }
+
+
+
+
+
+
+
             OnFrameAllPonitList.Sort();
-          
+
         }
         private void YMoveCommand(List<PointItem> OnFrameAllPonitList, int yMove)
         {
@@ -715,7 +761,7 @@ namespace Setting.ViewModel
                 //上 加
                 for (int y = 0; y < miny; y++)
                 {
-                    for (int x =minx; x < xlenght; x++)
+                    for (int x = minx; x < xlenght; x++)
                     {
                         OnFrameAllPonitList.Add(new PointItem(x, y));
                     }
@@ -732,9 +778,24 @@ namespace Setting.ViewModel
                     }
                 }
             }
+            miny = OnFrameAllPonitList.Min(c => c.Y);
+            maxy = OnFrameAllPonitList.Max(c => c.Y);
+            // 补缺
+            for (int x = minx; x < maxX + 1; x++)
+            {
+                for (int y = miny; y < maxy + 1; y++)
+                {
+                    if (!OnFrameAllPonitList.Any(c => c.X == x && c.Y == y))
+                    {
+                        OnFrameAllPonitList.Add(new PointItem(x, y));
+                    }
+                }
+            }
+
+
             OnFrameAllPonitList.Sort();
 
-           
+
         }
         #endregion
 
@@ -965,7 +1026,7 @@ namespace Setting.ViewModel
             {
                 return;
             }
-           AllPonitListExInfo saveInfo = new AllPonitListExInfo();
+            AllPonitListExInfo saveInfo = new AllPonitListExInfo();
             foreach (var item in allPonitListExInfo.AllPonitList)
             {
                 var templist = item.Value.Where(c => c.X >= 0 && c.X < xIndex && c.Y >= 0 && c.Y < yIndex).ToList();
@@ -1141,8 +1202,7 @@ namespace Setting.ViewModel
             {
                 return new RelayCommand(() =>
                 {
-                    SerialPortSendMsgHelper.Instance.SendNetWork();
-
+                    Messenger.Default.Send(new SendNetWorkEvent() { });
                 }
                 );
             }
@@ -1153,7 +1213,7 @@ namespace Setting.ViewModel
             {
                 return new RelayCommand(() =>
                 {
-                    SerialPortSendMsgHelper.Instance.SendOpenSendMessage();
+                    Messenger.Default.Send(new SendOpenSendMessageEvent() { });
                     Close = Visibility.Visible;
                     Open = Visibility.Collapsed;
                 }
@@ -1166,7 +1226,8 @@ namespace Setting.ViewModel
             {
                 return new RelayCommand(() =>
                 {
-                    SerialPortSendMsgHelper.Instance.SendCloseSendMessage();
+
+                    Messenger.Default.Send(new SendCloseSendMessageEvent() { });
                     Open = Visibility.Visible;
                     Close = Visibility.Collapsed;
                 }
@@ -1179,8 +1240,7 @@ namespace Setting.ViewModel
             {
                 return new RelayCommand(() =>
                 {
-                    SerialPortSendMsgHelper.Instance.SendEnableRotateMessage();
-
+                    Messenger.Default.Send(new SendEnableRotateMessageEvent() { });
                     DisenableRotate = Visibility.Visible;
                     EnableRotate = Visibility.Collapsed;
                 }
@@ -1193,7 +1253,8 @@ namespace Setting.ViewModel
             {
                 return new RelayCommand(() =>
                 {
-                    SerialPortSendMsgHelper.Instance.SendDisenableRotateMessage();
+
+                    Messenger.Default.Send(new SendDisenableRotateMessageEvent() { });
                     EnableRotate = Visibility.Visible;
                     DisenableRotate = Visibility.Collapsed;
                 }
@@ -1206,7 +1267,7 @@ namespace Setting.ViewModel
             {
                 return new RelayCommand(() =>
                 {
-                    SerialPortSendMsgHelper.Instance.SendLuminanceSendMessage(Luminance);
+                    Messenger.Default.Send(new SendLuminanceSendMessageEvent() { Luminance = Luminance });
                 }
                 );
             }
@@ -1239,7 +1300,7 @@ namespace Setting.ViewModel
                 RaisePropertyChanged();
             }
         }
-
+        public string DevNo { get; set; }
 
 
         public PointListViewModel()
@@ -1247,7 +1308,7 @@ namespace Setting.ViewModel
             Messenger.Default.Register<InputThemeEvent>(this, HandlInputThemeEvent);
             Messenger.Default.Register<PonitClickedEvent>(this, HandlePonitClickedEvent);
             Messenger.Default.Register<HardInfoEvent>(this, HandleCpuInfoEvent);
-            Messenger.Default.Register<ScreenNameEvent>(this, HandleScreenNameEvent);
+            Messenger.Default.Register<ScreenNameAndDevNoEvent>(this, HandleScreenNameAndDevNoEvent);
             Messenger.Default.Register<AccountEvent>(this, HandleAccountEvent);
             Messenger.Default.Register<InitFromHistroyEvent>(this, HanderInitFromHistroyEvent);
             Messenger.Default.Register<ThemeItemClickedEvent>(this, HandleChangeTheMeEvent);
@@ -1255,7 +1316,7 @@ namespace Setting.ViewModel
             Messenger.Default.Register<DebugInfoEvent>(this, HandleDebugInfoEvent);
             Messenger.Default.Register<ScreenInfoEvent>(this, HandleScreenInfoEvent);
             Messenger.Default.Register<MsgSendCloseEvent>(this, HandleMsgSendCloseEvent);
-            
+
 
 
             Messenger.Default.Register<NextFrameEvent>(this, HandleNextFrameEvent);
@@ -1296,39 +1357,50 @@ namespace Setting.ViewModel
 
         private void HandleScreenInfoEvent(ScreenInfoEvent obj)
         {
-            Luminance = obj.lum;
-            if (obj.IsOpen)
+            if (obj.DevNo == this.DevNo)
             {
-                Close = Visibility.Visible;
-                Open = Visibility.Collapsed;
+                Luminance = obj.lum;
+                if (obj.IsOpen)
+                {
+                    Close = Visibility.Visible;
+                    Open = Visibility.Collapsed;
+                }
+                else
+                {
+                    Open = Visibility.Visible;
+                    Close = Visibility.Collapsed;
+                }
+                if (obj.IsRotate)
+                {
+                    EnableRotate = Visibility.Visible;
+                    DisenableRotate = Visibility.Collapsed;
+                }
+                else
+                {
+                    DisenableRotate = Visibility.Visible;
+                    EnableRotate = Visibility.Collapsed;
+                }
             }
-            else
-            {
-                Open = Visibility.Visible;
-                Close = Visibility.Collapsed;
-            }
-            if (obj.IsRotate)
-            {
-                EnableRotate = Visibility.Visible;
-                DisenableRotate = Visibility.Collapsed;
-            }
-            else
-            {
-                DisenableRotate = Visibility.Visible;
-                EnableRotate = Visibility.Collapsed;
-            }
+          
         }
 
         private void HandleReConnectScreenEvent(ConnectCurrentScreenEvent obj)
         {
-            Messenger.Default.Send(new MsgEvent("屏幕连接成功"));
-            SeedEnabled = true;
+            if (DevNo == obj.DevNo)
+            {
+                Messenger.Default.Send(new MsgEvent("屏幕连接成功"));
+                SeedEnabled = true;
+            }
         }
 
         private void HandleLostScreenEvent(LostCurrentScreenEvent obj)
         {
-            Messenger.Default.Send(new MsgEvent("屏幕断开连接"));
-            SeedEnabled = false;
+            if (DevNo == obj.DevNo)
+            {
+                Messenger.Default.Send(new MsgEvent("屏幕断开连接"));
+                SeedEnabled = false;
+            }
+
         }
 
         private void HandleAccountEvent(AccountEvent obj)
@@ -1336,8 +1408,25 @@ namespace Setting.ViewModel
             AccountName = obj.Name;
         }
 
-        private void HandleScreenNameEvent(ScreenNameEvent obj)
+        private void HandleScreenNameAndDevNoEvent(ScreenNameAndDevNoEvent obj)
         {
+            DevNo = obj.DevNo;
+           var temp = SerialPortScanHelper.Instance.SerialPortList.Where(c=>c.DevNo==obj.DevNo).FirstOrDefault();
+            if (temp is null)
+            {
+                SeedEnabled = false;
+            }
+            else
+            {
+                if (!temp.Connected)
+                {
+                    SeedEnabled = false;
+                }
+                else
+                {
+                    SeedEnabled = true;
+                }
+            } 
             ScreenName = obj.Name;
         }
 
@@ -1348,7 +1437,7 @@ namespace Setting.ViewModel
 
         private void HandleLumianceChangeEventt(LumianceChangeEvent obj)
         {
-            SerialPortSendMsgHelper.Instance.SendLuminanceSendMessage(Luminance);
+            Messenger.Default.Send(new SendLuminanceSendMessageEvent() { Luminance = Luminance });
         }
 
         public RelayCommand CleanDebugInfoCommand
@@ -1365,17 +1454,17 @@ namespace Setting.ViewModel
 
         private void HandleNextFrameEvent(NextFrameEvent obj)
         {
-           
-                if (!JsonFileInfo.IsDynamic)
+
+            if (!JsonFileInfo.IsDynamic)
+            {
+                CurrentFrame++;
+                if (CurrentFrame >= framesCount)
                 {
-                    CurrentFrame++;
-                    if (CurrentFrame >= framesCount)
-                    {
-                        CurrentFrame = 0;
-                    }
-                    BuildShowPreView(CurrentFrame);
+                    CurrentFrame = 0;
                 }
-        
+                BuildShowPreView(CurrentFrame);
+            }
+
         }
 
         private void HandleDebugInfoEvent(DebugInfoEvent obj)
@@ -1386,12 +1475,12 @@ namespace Setting.ViewModel
                 if (obj.Msg.Contains("发送消息"))
                 {
 
-                    DebugInfo +=$"{ DateTime.Now.ToString("O")}" +"发送消息 ==> themeSegment " + "\r\n";
+                    DebugInfo += $"{DateTime.Now.ToString("O")}" + "发送消息 ==> themeSegment " + "\r\n";
                 }
                 else if (obj.Msg.Contains("接收消息"))
                 {
 
-                    DebugInfo += $"{ DateTime.Now.ToString("O")}" + "接收消息<==  themeSegment " + "\r\n";
+                    DebugInfo += $"{DateTime.Now.ToString("O")}" + "接收消息<==  themeSegment " + "\r\n";
                 }
 
             }
@@ -1401,7 +1490,7 @@ namespace Setting.ViewModel
                 {
                     DebugInfo = DebugInfo.Substring(3000);
                 }
-                DebugInfo += $"{ DateTime.Now.ToString("O")}" + obj.Msg;
+                DebugInfo += $"{DateTime.Now.ToString("O")}" + obj.Msg;
             }
 
         }
@@ -1549,7 +1638,7 @@ namespace Setting.ViewModel
             else
             {
                 Outgif = false;
-                allPonitListExInfo= new AllPonitListExInfo();
+                allPonitListExInfo = new AllPonitListExInfo();
                 var OnFrameAllPonitList = new List<PointItem>();
                 for (int x = 0; x < xIndex; x++)
                 {
@@ -1649,9 +1738,9 @@ namespace Setting.ViewModel
                 if (IsSend)
                 {
                     var fileName = string.IsNullOrEmpty(JsonFileInfo.NewFileName) ? JsonFileInfo.FileName : JsonFileInfo.NewFileName;
-                    var msg = MessageHelper.BuildDynamic(allPonitListExInfo.AllPonitList, xIndex, yIndex, fileName, Luminance , allPonitListExInfo.FrameRate);
+                    var msg = MessageHelper.BuildDynamic(allPonitListExInfo.AllPonitList, xIndex, yIndex, fileName, Luminance, allPonitListExInfo.FrameRate);
 
-                    SerialPortSendMsgHelper.Instance.SendThemeSegmentSendMessage(msg);
+                    Messenger.Default.Send(new SendThemeSegmentSendMessageEvent() { Msg = msg });
                 }
             }
             if (JsonFileInfo.IsDynamic && jsonFileInfo.FileName == "gpu")
@@ -1725,7 +1814,7 @@ namespace Setting.ViewModel
                     var fileName = string.IsNullOrEmpty(JsonFileInfo.NewFileName) ? JsonFileInfo.FileName : JsonFileInfo.NewFileName;
                     var msg = MessageHelper.BuildDynamic(allPonitListExInfo.AllPonitList, xIndex, yIndex, fileName, Luminance);
 
-                    SerialPortSendMsgHelper.Instance.SendThemeSegmentSendMessage(msg);
+                    Messenger.Default.Send(new SendThemeSegmentSendMessageEvent() { Msg = msg });
                 }
             }
             if (JsonFileInfo.IsDynamic && jsonFileInfo.FileName == "wifi")
@@ -1811,7 +1900,9 @@ namespace Setting.ViewModel
                     var fileName = string.IsNullOrEmpty(JsonFileInfo.NewFileName) ? JsonFileInfo.FileName : JsonFileInfo.NewFileName;
                     var msg = MessageHelper.BuildDynamic(allPonitListExInfo.AllPonitList, xIndex, yIndex, fileName.Replace(".json", ""), Luminance);
 
-                    SerialPortSendMsgHelper.Instance.SendThemeSegmentSendMessage(msg);
+                    Messenger.Default.Send(new SendThemeSegmentSendMessageEvent() { Msg = msg });
+
+
                 }
             }
         }
@@ -1820,12 +1911,12 @@ namespace Setting.ViewModel
             if (CursorEnum == CursorEnum.Magic)
             {
                 var currentpoint = allPonitListExInfo.AllPonitList[CurrentFrame].Find(c => c.Y == item.Y && c.X == item.X);
-                    if (currentpoint.Fill!= changeColor)
+                if (currentpoint.Fill != changeColor)
                 {
                     currentpoint.Fill = ChangeColor;
                     BuildShow(CurrentFrame);
                 }
-             
+
             }
             else if (CursorEnum == CursorEnum.ERASE)
             {
@@ -1928,7 +2019,7 @@ namespace Setting.ViewModel
 
     public class AllPonitListExInfo
     {
-        public Dictionary<int, List<PointItem>>AllPonitList { get; set; }= new Dictionary<int, List<PointItem>>();
+        public Dictionary<int, List<PointItem>> AllPonitList { get; set; } = new Dictionary<int, List<PointItem>>();
         public int FrameRate { get; set; } = 20;
     }
 }

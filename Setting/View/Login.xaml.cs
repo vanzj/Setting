@@ -165,7 +165,7 @@ namespace Setting.View
             MsgImgUUId = Guid.NewGuid().ToString();
             BitmapImage bitImage = new BitmapImage();
             bitImage.BeginInit();
-            bitImage.UriSource = new Uri($"https://testsmart.9jodia.net/smart/api/dotpc/captcha?uuid={MsgImgUUId}", UriKind.Absolute);
+            bitImage.UriSource = new Uri($"https://smart.9jodia.net/smart/api/dotpc/captcha?uuid={MsgImgUUId}", UriKind.Absolute);
             bitImage.EndInit();
             return bitImage;
 
@@ -577,12 +577,12 @@ namespace Setting.View
             if (this.passwordTextBox.Visibility == Visibility.Visible)
             {
                 this.passwordTextBox.Visibility = Visibility.Collapsed;
-                brush.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Setting;component/img/预览-打开_preview-open.png"));
+                brush.ImageSource = new BitmapImage(new Uri("pack://application:,,,/ZZJDMD;component/img/预览-打开_preview-open.png"));
             }
             else
             {
                 this.passwordTextBox.Visibility = Visibility.Visible;
-                brush.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Setting;component/img/预览-关闭_preview-close.png"));
+                brush.ImageSource = new BitmapImage(new Uri("pack://application:,,,/ZZJDMD;component/img/预览-关闭_preview-close.png"));
             }
             this.passwordChart.Background = brush;
         }
@@ -594,12 +594,12 @@ namespace Setting.View
             if (this.RepasswordTextBox.Visibility == Visibility.Visible)
             {
                 this.RepasswordTextBox.Visibility = Visibility.Collapsed;
-                brush.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Setting;component/img/预览-打开_preview-open.png"));
+                brush.ImageSource = new BitmapImage(new Uri("pack://application:,,,/ZZJDMD;component/img/预览-打开_preview-open.png"));
             }
             else
             {
                 this.RepasswordTextBox.Visibility = Visibility.Visible;
-                brush.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Setting;component/img/预览-关闭_preview-close.png"));
+                brush.ImageSource = new BitmapImage(new Uri("pack://application:,,,/ZZJDMD;component/img/预览-关闭_preview-close.png"));
             }
             this.RepasswordChart.Background = brush;
         }
@@ -694,12 +694,12 @@ namespace Setting.View
             if (this.pwspasswordTextBox.Visibility == Visibility.Visible)
             {
                 this.pwspasswordTextBox.Visibility = Visibility.Collapsed;
-                brush.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Setting;component/img/预览-打开_preview-open.png"));
+                brush.ImageSource = new BitmapImage(new Uri("pack://application:,,,/ZZJDMD;component/img/预览-打开_preview-open.png"));
             }
             else
             {
                 this.pwspasswordTextBox.Visibility = Visibility.Visible;
-                brush.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Setting;component/img/预览-关闭_preview-close.png"));
+                brush.ImageSource = new BitmapImage(new Uri("pack://application:,,,/ZZJDMD;component/img/预览-关闭_preview-close.png"));
             }
             this.pwspasswordChart.Background = brush;
         }
@@ -786,6 +786,65 @@ namespace Setting.View
             this.pwspassworderror.Content = "";
 
             return true;
+        }
+
+        private void Guest_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+
+                LoginInfoHelper.Save(new LoginModel() { Password = "", UserName = "", isAutoLogin = false });
+                this.Visibility = Visibility.Hidden;
+                this.PWDGrid.Visibility = Visibility.Collapsed;
+                this.MsgCodeGrid.Visibility = Visibility.Collapsed;
+                this.Loading.Visibility = Visibility.Visible;
+                this.RegGird.Visibility = Visibility.Collapsed;
+                Task.Run(() =>
+                {
+                    //this.Dispatcher.Invoke(() =>
+                    //{
+                    //    this.LoadingInfo.Children.Add(new LoadingInfoItem("1、屏幕信息获取"));
+
+                    //});
+
+
+                    ////获取设备列表，
+                    //JdClient client = new JdClient(HttpClientHelper.Instance.GetHttpClient());
+                    //var devList = client.MacListUsingGETAsync().GetAwaiter().GetResult();
+                    //if (devList.Code == 0)
+                    //{
+                    //    Messenger.Default.Send(new FindScreenEvent { DeviceInfos = devList.Data.ToList() });
+                    //}
+
+                    Messenger.Default.Send(new FindScreenEvent { DeviceInfos = new List<DeviceInfo>() });
+
+                    var temp = SerialPortScanHelper.Instance;
+
+                    //this.Dispatcher.Invoke(() =>
+                    //{
+                    //    this.LoadingInfo.Children.Add(new LoadingInfoItem("2、屏幕资源获取"));
+
+                    //});
+
+                    LoadScreenTheme = true;
+                    Messenger.Default.Send(new CanChangeScreenEvent { });
+
+                    while (LoadScreenTheme)
+                    {
+                        Thread.Sleep(100);
+                    }
+
+                    //this.Dispatcher.Invoke(() =>
+                    //{
+                    //    this.LoadingInfo.Children.Add(new LoadingInfoItem("3、电脑硬件信息读取"));
+
+                    //});
+
+
+                    this.Dispatcher.Invoke(() =>
+                    {
+                        this.Visibility = Visibility.Collapsed;
+                    });
+                });
+            
         }
     }
 }

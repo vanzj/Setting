@@ -1,7 +1,9 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
+using HidSharp.Reports;
 using Setting.Event;
+using Setting.Event.MsgSendEvent;
 using Setting.Helper;
 using Setting.Model;
 using System;
@@ -13,12 +15,15 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Interop;
+using Windows.System;
 
 
 namespace Setting.ViewModel
 {
     public class ScreenInfoListViewModel : ViewModelBase
     {
+ 
 
         private void ReloadThisPageScreenList(ScreenDeviceInfoViewModel CurrentPage)
         {
@@ -188,14 +193,91 @@ namespace Setting.ViewModel
 
             Messenger.Default.Register<LostScreenEvent>(this, HandleLostScreenEvent);
             Messenger.Default.Register<ConnectScreenEvent>(this, HandleConnectScreenEvent);
+
+            #region 发送消息事件
+            Messenger.Default.Register<SendThemeSegmentSendMessageEvent>(this, HandleSendThemeSegmentSendMessageEvent);
+            Messenger.Default.Register<SendLuminanceSendMessageEvent>(this, HandleSendLuminanceSendMessageEvent);
+            Messenger.Default.Register<SendDisenableRotateMessageEvent>(this, HandleSendDisenableRotateMessageEvent);
+            Messenger.Default.Register<SendEnableRotateMessageEvent>(this, HandleSendEnableRotateMessageEvent);
+            Messenger.Default.Register<SendCloseSendMessageEvent>(this, HandleSendCloseSendMessageEvent);
+            Messenger.Default.Register<SendOpenSendMessageEvent>(this, HandleSendOpenSendMessageEvent);
+            Messenger.Default.Register<SendThemeCirculateSendMessageEvent>(this, HandleSendThemeCirculateSendMessageEvent);
+            Messenger.Default.Register<SendNetWorkEvent>(this, HandleSendNetWorkEvent);
+            Messenger.Default.Register<SendThemeDynamicSendMessageEvent>(this, HandleSendThemeDynamicSendMessageEvent);
+
+
+            #endregion
+            Messenger.Default.Register<SendStartEvent>(this, HandleSendStartEvent);
+            Messenger.Default.Register<SendEndEvent>(this, HandleSendEndEvent);
         }
 
+        private void HandleSendEndEvent(SendEndEvent @event)
+        {
+            if (@event.DevNo == CurrentDevInfo.DeviceInfo.DevNo)
+            {
+                Messenger.Default.Send(new SendEndStoryEvent());
+            }
+        }
+
+        private void HandleSendStartEvent(SendStartEvent @event)
+        {
+            if (@event.DevNo == CurrentDevInfo.DeviceInfo.DevNo)
+            {
+                Messenger.Default.Send(new SendStartStoryEvent());
+            }
+        }
+
+        private void HandleSendThemeDynamicSendMessageEvent(SendThemeDynamicSendMessageEvent @event)
+        {
+            SerialPortSendMsgHelper.Instance.SendThemeDynamicSendMessage(@event.data, CurrentDevInfo.DeviceInfo.DevNo);
+        }
+
+        private void HandleSendNetWorkEvent(SendNetWorkEvent @event)
+        {
+            SerialPortSendMsgHelper.Instance.SendNetWork(CurrentDevInfo.DeviceInfo.DevNo);
+        }
+
+        private void HandleSendThemeCirculateSendMessageEvent(SendThemeCirculateSendMessageEvent @event)
+        {
+            SerialPortSendMsgHelper.Instance.SendThemeCirculateSendMessage(@event.data, CurrentDevInfo.DeviceInfo.DevNo);
+        }
+
+        private void HandleSendOpenSendMessageEvent(SendOpenSendMessageEvent @event)
+        {
+            SerialPortSendMsgHelper.Instance.SendOpenSendMessage(CurrentDevInfo.DeviceInfo.DevNo);
+        }
+
+        private void HandleSendCloseSendMessageEvent(SendCloseSendMessageEvent @event)
+        {
+            SerialPortSendMsgHelper.Instance.SendCloseSendMessage(CurrentDevInfo.DeviceInfo.DevNo);
+        }
+
+        private void HandleSendEnableRotateMessageEvent(SendEnableRotateMessageEvent @event)
+        {
+            SerialPortSendMsgHelper.Instance.SendEnableRotateMessage(CurrentDevInfo.DeviceInfo.DevNo);
+        }
+        #region 发送消息事件
+        private void HandleSendDisenableRotateMessageEvent(SendDisenableRotateMessageEvent @event)
+        {
+            SerialPortSendMsgHelper.Instance.SendDisenableRotateMessage( CurrentDevInfo.DeviceInfo.DevNo);
+        }
+
+        private void HandleSendLuminanceSendMessageEvent(SendLuminanceSendMessageEvent @event)
+        {
+            SerialPortSendMsgHelper.Instance.SendLuminanceSendMessage(@event.Luminance, CurrentDevInfo.DeviceInfo.DevNo);
+        }
+
+        private void HandleSendThemeSegmentSendMessageEvent(SendThemeSegmentSendMessageEvent @event)
+        {
+            SerialPortSendMsgHelper.Instance.SendThemeSegmentSendMessage(@event.Msg,CurrentDevInfo.DeviceInfo.DevNo);
+
+        }
+        #endregion
         private void HandleConnectScreenEvent(ConnectScreenEvent obj)
         {
-
-                foreach (var item in AllScreen)
-                {
-                    var temp = SerialPortScanHelper.Instance.SerialPortList.FirstOrDefault(c => c.DevNo == item.DeviceInfo.DevNo&& c.Connected);
+            foreach (var item in AllScreen)
+            {
+                var temp = SerialPortScanHelper.Instance.SerialPortList.FirstOrDefault(c => c.DevNo == item.DeviceInfo.DevNo&& c.Connected);
                     if (temp!=null )
                     {
                         item.LinkUSB = Visibility.Visible;
@@ -419,7 +501,7 @@ namespace Setting.ViewModel
         private void ChangeScreen(ScreenDeviceInfoViewModel device)
         {
 
-            bool isReConnect = false;
+         
             string JsonDir = Environment.CurrentDirectory + "\\Json\\Theme\\";
             if (device == null)
             {//未指定屏幕
@@ -437,10 +519,7 @@ namespace Setting.ViewModel
             }
             else
             {//指定屏幕
-                if (CurrentDevInfo.DeviceInfo.DevNo == device.DeviceInfo.DevNo)
-                {//相同屏幕退出
-                    isReConnect = true;
-                }
+           
                 CurrentDevInfo = device;
             }
             JdClient client = new JdClient(HttpClientHelper.Instance.GetHttpClient());
@@ -483,7 +562,6 @@ namespace Setting.ViewModel
                 });
 
             }
-            TcpDefaultHelper.Instance.ChangeMac(CurrentDevInfo?.DeviceInfo.DevNo);
             SerialPortSendMsgHelper.Instance.InitCOM(CurrentDevInfo?.DeviceInfo.DevNo);
             foreach (var item in AllScreen)
             {
@@ -497,7 +575,7 @@ namespace Setting.ViewModel
                     item.Thickness = 2;
                 }
             }
-            Messenger.Default.Send(new ScreenNameEvent { Name = CurrentDevInfo?.DeviceInfoName });
+            Messenger.Default.Send(new ScreenNameAndDevNoEvent { Name = CurrentDevInfo?.DeviceInfoName  ,DevNo = CurrentDevInfo?.DeviceInfo.DevNo});
         }
 
         private List<JsonFileInfo> GetDefualt()
@@ -653,7 +731,7 @@ namespace Setting.ViewModel
                     {
                         DeviceInfo.Name = DeviceInfoName;
                         DeviceInfoOldName = DeviceInfoName;
-                        Messenger.Default.Send(new ScreenNameEvent { Name = this.DeviceInfoName });
+                        Messenger.Default.Send(new ScreenNameAndDevNoEvent { Name = this.DeviceInfoName, DevNo = this.DeviceInfo.DevNo });
                     }
                     // FileHelper.SaveThemeName(this.JsonFileInfo, deviceInfo?.DeviceInfo?.Id?.ToString());
                 });
@@ -693,7 +771,7 @@ namespace Setting.ViewModel
                     {
                         DeviceInfo.Name = DeviceInfoName;
                         DeviceInfoOldName = DeviceInfoName;
-                        Messenger.Default.Send(new ScreenNameEvent { Name = this.DeviceInfoName });
+                        Messenger.Default.Send(new ScreenNameAndDevNoEvent { Name = this.DeviceInfoName, DevNo = this.DeviceInfo.DevNo });
                     }
                     
 

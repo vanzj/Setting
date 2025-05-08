@@ -1,6 +1,8 @@
 ﻿using AutoUpdaterDotNET;
 using GalaSoft.MvvmLight.Messaging;
+using HidSharp;
 using Setting.Event;
+using Setting.Event.MsgSendEvent;
 using Setting.Helper;
 using Setting.Model;
 using System;
@@ -20,6 +22,8 @@ using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Windows.Media.Protection.PlayReady;
+using static DotNetty.Common.ThreadLocalPool;
 
 
 namespace Setting
@@ -35,8 +39,9 @@ namespace Setting
             InitializeComponent();
             this.Cursor = CursorHelper.MOVE();
             Messenger.Default.Register<CursorModelChangeEvent>(this, HandleCursorModelChangeEvent);
-            Messenger.Default.Register<SendStartEvent>(this, HandleSendStartEvent);
-            Messenger.Default.Register<SendEndEvent>(this, HandleSendEndEvent);
+            Messenger.Default.Register<SendStartStoryEvent>(this, HandleSendStartStoryEvent);
+            Messenger.Default.Register<SendEndStoryEvent>(this, HandleSendEndStoryEvent);
+            Messenger.Default.Register<SendNetWorkEvent>(this, HandleSendNetWorkEvent);
             RGBToBrightNessHelper.Instance.Init();
        
             this.Login.Visibility = Visibility.Visible;
@@ -44,7 +49,17 @@ namespace Setting
             isDebug   = !(isdebugConfig == "0");
         }
 
-        private void HandleSendEndEvent(SendEndEvent obj)
+        private void HandleSendNetWorkEvent(SendNetWorkEvent @event)
+        {
+            this.Dispatcher.Invoke(() =>
+            {
+                Storyboard sb = (Storyboard)this.FindResource("SendNetworkStory");
+                sb.Begin();
+
+            });
+        }
+
+        private void HandleSendEndStoryEvent(SendEndStoryEvent obj)
         {
             this.Dispatcher.Invoke(() =>
             {
@@ -54,7 +69,7 @@ namespace Setting
          
         }
 
-        private void HandleSendStartEvent(SendStartEvent obj)
+        private void HandleSendStartStoryEvent(SendStartStoryEvent obj)
         {
             this.Dispatcher.Invoke(() =>
             {
@@ -85,8 +100,8 @@ namespace Setting
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-         SerialPortScanHelper.Instance.ClosePort();
-            SerialPortSendMsgHelper.Instance.ClosePort();
+             SerialPortScanHelper.Instance.ClosePort();
+            SerialPortSendMsgHelper.Instance.CloseAllPort();
         }
 
 
@@ -177,7 +192,7 @@ namespace Setting
             JdClient jdClient = new JdClient(HttpClientHelper.Instance.GetHttpClient());
             try
             {
-                AutoUpdater.Start("https://testsmart.9jodia.net/holocubic/dot/1/updaterStart.xml");
+                AutoUpdater.Start("https://smart.9jodia.net/holocubic/dot/1/updaterStart.xml");
 
             }
             catch (Exception)
@@ -263,7 +278,7 @@ namespace Setting
             JdClient jdClient = new JdClient(HttpClientHelper.Instance.GetHttpClient());
             try
             {
-                AutoUpdater.Start("https://testsmart.9jodia.net/holocubic/dot/1/updaterStart.xml");
+                AutoUpdater.Start("https://smart.9jodia.net/holocubic/dot/1/updaterStart.xml");
                 if (isfirstCheckUpater )
                     {
                         isfirstCheckUpater = false;//防止重复绑定事件。
@@ -329,6 +344,8 @@ private void AutoUpdaterOnCheckForUpdateEvent(UpdateInfoEventArgs args)
             Messenger.Default.Send(new MsgSendCloseEvent ());
             
         }
+
+      
     }
 
 }

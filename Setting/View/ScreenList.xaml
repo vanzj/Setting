@@ -87,11 +87,11 @@
                     <Button Style="{DynamicResource ButtonStyle1}" Width="107"  Height="75"  Command="{Binding ChangeDeviceInfo}" CommandParameter="{Binding}" BorderThickness="{Binding Thickness}"   BorderBrush="White"
                           Visibility="{Binding Read}">
                         <Button.Background>
-                            <ImageBrush ImageSource="/Setting;component/img/Login/屏幕背景.png" Stretch="Uniform"/>
+                            <ImageBrush ImageSource="/ZZJDMD;component/img/Login/屏幕背景.png" Stretch="Uniform"/>
                         </Button.Background>
                         <Grid  Width="110"  Height="75" >
-                            <Image  Visibility="{Binding LinkUSB}" Source="/Setting;component/img/Linkusb.png" Width="30" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,0,10,0">  </Image>
-                            <Image Visibility="{Binding LinkBreak}" Source="/Setting;component/img/Linkbreak.png" Width="25" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,3,13,0"></Image>
+                            <Image  Visibility="{Binding LinkUSB}" Source="/ZZJDMD;component/img/Linkusb.png" Width="30" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,0,10,0">  </Image>
+                            <Image Visibility="{Binding LinkBreak}" Source="/ZZJDMD;component/img/Linkbreak.png" Width="25" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,3,13,0"></Image>
                             <Label   Content="{Binding DeviceInfoOldName }" FontSize="14" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,4" ></Label>
                         </Grid>
 
@@ -105,7 +105,7 @@
 
                         <StackPanel Orientation="Vertical"  Width="100" Height="89" >
                             <StackPanel.Background>
-                                <ImageBrush ImageSource="/Setting;component/img/Login/屏幕编辑背景.png"/>
+                                <ImageBrush ImageSource="/ZZJDMD;component/img/Login/屏幕编辑背景.png"/>
                             </StackPanel.Background>
 
                             <Button Width="40" Height="33" Command="{Binding ReMoveCommand}"  CommandParameter="{Binding}"     Style="{DynamicResource ButtonStyle1}">删除</Button>

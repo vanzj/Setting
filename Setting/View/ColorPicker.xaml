@@ -92,7 +92,7 @@
     </UserControl.Resources>
     <Grid Margin="0,0,-126,0">
 
-        <Image Width="1300" Height="750" Source="/Setting;component/img/UI/软件ui 3.png" Margin="-181,-481,-844,29.5" HorizontalAlignment="Left" VerticalAlignment="Top" Visibility="Collapsed"/>
+        <Image Width="1300" Height="750" Source="/ZZJDMD;component/img/UI/软件ui 3.png" Margin="-181,-481,-844,29.5" HorizontalAlignment="Left" VerticalAlignment="Top" Visibility="Collapsed"/>
         <Grid x:Name="btn"  Width="20" Height="20" Background="{Binding ChangeColor}" HorizontalAlignment="Left" VerticalAlignment="Top" 
               Margin="288,41,0,0" RenderTransformOrigin="1.526,1.3" >
 
